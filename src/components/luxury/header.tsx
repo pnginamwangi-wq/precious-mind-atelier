@@ -233,7 +233,10 @@ export function Header() {
                           ) : (
                             <a
                               href={item.href}
-                              onClick={() => setOpen(false)}
+                              onClick={(e) => {
+                                onHashNav(item.href, e);
+                                setOpen(false);
+                              }}
                               className={rowClasses}
                               aria-current={ariaCurrent}
                             >
