@@ -87,6 +87,10 @@ export function MobileTabs() {
             </span>
           );
 
+          const linkClasses =
+            "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
+
+
           if (t.href.startsWith("#")) {
             return (
               <li key={t.label} className="flex">
