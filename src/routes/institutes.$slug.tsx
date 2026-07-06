@@ -127,8 +127,7 @@ function NotFound() {
 const INSTITUTE_SECTIONS = [
   { id: "philosophy", label: "Philosophy" },
   { id: "curriculum", label: "Curriculum" },
-  { id: "faculty", label: "Faculty" },
-  { id: "outcomes", label: "Outcomes" },
+  { id: "faculty", label: "Faculty & Outcomes" },
   { id: "inquiry", label: "Admissions" },
 ] as const;
 
