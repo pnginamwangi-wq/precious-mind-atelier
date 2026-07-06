@@ -1,9 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, User, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Eyebrow, GoldMark, LuxButton, luxury } from "@/components/luxury";
 import { useAuth } from "@/hooks/use-auth";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
@@ -33,6 +34,8 @@ export function Header() {
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
   );
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
 
 
@@ -131,16 +134,44 @@ export function Header() {
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <button
+                ref={triggerRef}
                 aria-label="Open menu"
+                aria-haspopup="dialog"
+                aria-expanded={open}
+                aria-controls="mobile-menu"
                 className="flex h-11 w-11 shrink-0 items-center justify-center border border-white/10 text-ivory outline-none transition-colors hover:border-gold/60 hover:text-gold focus-visible:ring-1 focus-visible:ring-gold lg:hidden"
               >
                 <Menu className="h-4 w-4" />
               </button>
             </SheetTrigger>
             <SheetContent
+              id="mobile-menu"
               side="right"
+              aria-labelledby="mobile-menu-title"
+              aria-describedby="mobile-menu-description"
+              onOpenAutoFocus={(event) => {
+                // Move focus to the visible close button for a predictable entry point,
+                // instead of letting focus land on the sheet container.
+                event.preventDefault();
+                closeButtonRef.current?.focus();
+              }}
+              onCloseAutoFocus={(event) => {
+                // Restore focus to the trigger explicitly. Radix does this by default,
+                // but a navigation inside the sheet can unmount the trigger's parent
+                // and drop focus to <body>. Guarding it here keeps focus predictable.
+                event.preventDefault();
+                triggerRef.current?.focus();
+              }}
               className="w-full border-l border-white/10 bg-obsidian p-0 text-ivory sm:max-w-sm [&>button]:hidden"
             >
+              <VisuallyHidden asChild>
+                <SheetTitle id="mobile-menu-title">Primary navigation</SheetTitle>
+              </VisuallyHidden>
+              <VisuallyHidden asChild>
+                <SheetDescription id="mobile-menu-description">
+                  Navigate the Academy. Press Escape to close.
+                </SheetDescription>
+              </VisuallyHidden>
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-between border-b border-white/5 px-6 py-5">
                   <div className="flex items-center gap-3">
@@ -148,6 +179,7 @@ export function Header() {
                     <Eyebrow>Menu</Eyebrow>
                   </div>
                   <button
+                    ref={closeButtonRef}
                     aria-label="Close menu"
                     onClick={() => setOpen(false)}
                     className="flex h-11 w-11 items-center justify-center border border-white/10 text-ivory transition-colors hover:border-gold/60 hover:text-gold focus-visible:ring-1 focus-visible:ring-gold"
