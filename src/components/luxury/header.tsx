@@ -158,43 +158,52 @@ export function Header() {
 
                 <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-6 py-10">
                   <ul className="space-y-2">
-                    {NAV.map((item, i) => (
-                      <motion.li
-                        key={item.label}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.05 + i * 0.05, duration: 0.5, ease: luxury.ease }}
-                      >
-                        {item.internal ? (
-                          <Link
-                            to={item.href}
-                            onClick={() => setOpen(false)}
-                            className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
-                          >
-                            <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
-                              {item.label}
-                            </span>
-                            <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
-                              0{i + 1}
-                            </span>
-                          </Link>
-                        ) : (
-                          <a
-                            href={item.href}
-                            onClick={() => setOpen(false)}
-                            className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
-                          >
-                            <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
-                              {item.label}
-                            </span>
-                            <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
-                              0{i + 1}
-                            </span>
-                          </a>
-                        )}
-
-                      </motion.li>
-                    ))}
+                    {NAV.map((item, i) => {
+                      const active = isNavActive(item.href, navCtx);
+                      const rowClasses = cn(
+                        "group flex items-baseline justify-between border-b py-4 outline-none transition-colors duration-500 focus-visible:text-gold",
+                        active ? "border-gold/60" : "border-white/5",
+                      );
+                      const labelClasses = cn(
+                        "font-display text-3xl transition-colors duration-500 group-hover:text-gold",
+                        active ? "text-gold" : "text-ivory",
+                      );
+                      const indexClasses = cn(
+                        "font-numeric text-[10px] tracking-[0.28em] transition-colors duration-500",
+                        active ? "text-gold" : "text-platinum/40",
+                      );
+                      const ariaCurrent = active ? ("page" as const) : undefined;
+                      return (
+                        <motion.li
+                          key={item.label}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.05 + i * 0.05, duration: 0.5, ease: luxury.ease }}
+                        >
+                          {item.internal ? (
+                            <Link
+                              to={item.href}
+                              onClick={() => setOpen(false)}
+                              className={rowClasses}
+                              aria-current={ariaCurrent}
+                            >
+                              <span className={labelClasses}>{item.label}</span>
+                              <span className={indexClasses}>0{i + 1}</span>
+                            </Link>
+                          ) : (
+                            <a
+                              href={item.href}
+                              onClick={() => setOpen(false)}
+                              className={rowClasses}
+                              aria-current={ariaCurrent}
+                            >
+                              <span className={labelClasses}>{item.label}</span>
+                              <span className={indexClasses}>0{i + 1}</span>
+                            </a>
+                          )}
+                        </motion.li>
+                      );
+                    })}
                   </ul>
 
                   <div className="mt-10">
