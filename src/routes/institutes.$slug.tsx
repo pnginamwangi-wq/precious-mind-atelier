@@ -19,7 +19,7 @@ import {
   luxury,
 } from "@/components/luxury";
 import { InquiryForm } from "@/components/luxury/inquiry-form";
-import { INSTITUTES, getInstitute, type Institute } from "@/data/institutes";
+import { INSTITUTES, chapterSlug, getInstitute, type Institute } from "@/data/institutes";
 
 export const Route = createFileRoute("/institutes/$slug")({
   loader: ({ params }) => {
