@@ -8,18 +8,25 @@ import heroDiamond from "@/assets/hero-diamond.jpg";
 import heroWatch from "@/assets/hero-watch.jpg";
 import heroPearl from "@/assets/hero-pearl.jpg";
 
+import {
+  ArrowLink,
+  Container,
+  Eyebrow,
+  GoldMark,
+  Hairline,
+  LuxButton,
+  Reveal,
+  Section,
+  SectionHeader,
+  fadeUp,
+  luxury,
+} from "@/components/luxury";
+
 export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const NAV = [
-  "Academy",
-  "Institutes",
-  "Masterclasses",
-  "AI Mentor",
-  "Library",
-  "Journal",
-];
+const NAV = ["Academy", "Institutes", "Masterclasses", "AI Mentor", "Library", "Journal"];
 
 const INSTITUTES = [
   { n: "01", name: "Precious Metals", tag: "Gold. Silver. Platinum." },
@@ -64,9 +71,7 @@ function Nav() {
             <span className="font-display text-[15px] tracking-wide text-ivory">
               The Precious Intelligence Academy
             </span>
-            <span className="mt-1 font-numeric text-[10px] uppercase tracking-[0.28em] text-gold">
-              Est. MMXXVI
-            </span>
+            <Eyebrow className="mt-1">Est. MMXXVI</Eyebrow>
           </div>
         </a>
         <nav className="hidden items-center gap-8 lg:flex">
@@ -81,23 +86,11 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <button className="rounded-none border border-gold/40 px-5 py-2 text-[11px] font-light uppercase tracking-[0.24em] text-gold transition-all hover:bg-gold hover:text-obsidian">
+        <LuxButton variant="outline" size="sm">
           Enrol
-        </button>
+        </LuxButton>
       </div>
     </header>
-  );
-}
-
-function GoldMark() {
-  return (
-    <div className="relative h-9 w-9">
-      <div className="absolute inset-0 rotate-45 border border-gold/60" />
-      <div className="absolute inset-[6px] rotate-45 bg-gradient-to-br from-champagne via-gold to-gold-soft" />
-      <div className="absolute inset-0 flex items-center justify-center font-display text-[13px] text-obsidian">
-        P
-      </div>
-    </div>
   );
 }
 
@@ -109,9 +102,15 @@ function Hero() {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
-    <section ref={ref} className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pt-32">
-      <motion.div style={{ y, scale, opacity }} className="absolute inset-0 flex items-center justify-center">
-        <div className="relative h-[80vh] w-[80vh] max-w-[720px] max-h-[720px]">
+    <section
+      ref={ref}
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pt-32"
+    >
+      <motion.div
+        style={{ y, scale, opacity }}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <div className="relative h-[80vh] w-[80vh] max-h-[720px] max-w-[720px]">
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-gold/20 via-transparent to-transparent blur-3xl" />
           <img
             src={heroOpal}
@@ -127,25 +126,26 @@ function Hero() {
 
       <motion.div
         style={{ opacity }}
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.18, delayChildren: 0.2 } },
+        }}
         className="relative z-10 mx-auto max-w-[1400px] px-6 text-center md:px-10"
       >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.2 }}
+          variants={fadeUp}
           className="mb-8 flex items-center justify-center gap-4"
         >
           <span className="h-px w-12 bg-gold/60" />
-          <span className="font-numeric text-[11px] uppercase tracking-[0.32em] text-gold">
-            The Precious Intelligence Academy
-          </span>
+          <Eyebrow>The Precious Intelligence Academy</Eyebrow>
           <span className="h-px w-12 bg-gold/60" />
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, delay: 0.4, ease: [0.19, 1, 0.22, 1] }}
+          variants={fadeUp}
+          transition={{ duration: 1.4, ease: luxury.ease }}
           className="font-display text-[13vw] leading-[0.95] text-ivory md:text-[112px] lg:text-[136px]"
         >
           Master the
@@ -154,10 +154,8 @@ function Hero() {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 1 }}
-          className="mx-auto mt-10 max-w-xl text-[15px] font-light leading-relaxed text-platinum/80"
+          variants={fadeUp}
+          className={`mx-auto mt-10 max-w-xl ${luxury.bodyMuted}`}
         >
           An immersive learning institution where precious metals, jewellery,
           gemstones, luxury retail, and artificial intelligence converge to
@@ -165,22 +163,20 @@ function Hero() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 1.2 }}
+          variants={fadeUp}
           className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <button className="group relative overflow-hidden bg-gold px-10 py-4 text-[11px] font-medium uppercase tracking-[0.28em] text-obsidian transition-all hover:bg-champagne">
-            <span className="relative z-10">Explore the Academy</span>
-          </button>
-          <button className="group flex items-center gap-3 px-6 py-4 text-[11px] font-light uppercase tracking-[0.28em] text-ivory transition-colors hover:text-gold">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/40 transition-colors group-hover:border-gold group-hover:bg-gold/10">
+          <LuxButton>Explore the Academy</LuxButton>
+          <LuxButton
+            variant="ghost"
+            icon={
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                 <path d="M0 0L10 5L0 10V0Z" fill="currentColor" />
               </svg>
-            </span>
+            }
+          >
             Meet the AI Mentor
-          </button>
+          </LuxButton>
         </motion.div>
       </motion.div>
 
@@ -192,9 +188,7 @@ function Hero() {
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center"
       >
         <div className="mx-auto mb-3 h-10 w-px bg-gradient-to-b from-transparent to-gold" />
-        <span className="font-numeric text-[10px] uppercase tracking-[0.32em] text-platinum/60">
-          Scroll
-        </span>
+        <Eyebrow muted>Scroll</Eyebrow>
       </motion.div>
     </section>
   );
@@ -202,62 +196,49 @@ function Hero() {
 
 function Manifesto() {
   return (
-    <section className="relative border-y border-white/5 bg-charcoal/40 py-32 md:py-48">
-      <div className="mx-auto max-w-[1100px] px-6 md:px-10">
+    <Section bordered tinted>
+      <Container narrow>
         <div className="grid gap-16 md:grid-cols-12">
-          <div className="md:col-span-4">
-            <span className="font-numeric text-[10px] uppercase tracking-[0.32em] text-gold">
-              I. Manifesto
-            </span>
-            <div className="mt-6 hairline w-16" />
-          </div>
+          <Reveal className="md:col-span-4">
+            <Eyebrow>I. Manifesto</Eyebrow>
+            <Hairline className="mt-6 w-16" />
+          </Reveal>
           <div className="md:col-span-8">
-            <p className="font-display text-3xl leading-[1.25] text-ivory md:text-[42px] md:leading-[1.2]">
-              This is not a course website. It is a digital institution built
-              for those who traffic in the rarest materials on earth, and for
-              the intelligence that will shape their next century.
-            </p>
+            <Reveal>
+              <p className="font-display text-3xl leading-[1.25] text-ivory md:text-[42px] md:leading-[1.2]">
+                This is not a course website. It is a digital institution built
+                for those who traffic in the rarest materials on earth, and for
+                the intelligence that will shape their next century.
+              </p>
+            </Reveal>
             <div className="mt-16 grid gap-10 sm:grid-cols-3">
               {[
                 { k: "8", v: "Institutes" },
                 { k: "240+", v: "Masterclasses" },
                 { k: "1", v: "AI Mentor, always in session" },
               ].map((item) => (
-                <div key={item.v}>
-                  <div className="font-numeric text-4xl text-gold md:text-5xl">
-                    {item.k}
-                  </div>
-                  <div className="mt-3 text-[13px] font-light tracking-wide text-platinum/70">
-                    {item.v}
-                  </div>
-                </div>
+                <Reveal key={item.v}>
+                  <div className="font-numeric text-4xl text-gold md:text-5xl">{item.k}</div>
+                  <div className={`mt-3 ${luxury.bodySmall}`}>{item.v}</div>
+                </Reveal>
               ))}
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }
 
 function ScrollGallery() {
   return (
-    <section className="py-32 md:py-48">
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <div className="mb-20 flex items-end justify-between">
-          <div>
-            <span className="font-numeric text-[10px] uppercase tracking-[0.32em] text-gold">
-              II. The Vitrine
-            </span>
-            <h2 className="mt-6 font-display text-5xl leading-tight md:text-7xl">
-              Objects of study.
-            </h2>
-          </div>
-          <span className="hidden font-numeric text-[11px] uppercase tracking-[0.28em] text-platinum/50 md:block">
-            0{SCROLL_OBJECTS.length} pieces
-          </span>
-        </div>
-
+    <Section>
+      <Container>
+        <SectionHeader
+          index="II"
+          eyebrow="The Vitrine"
+          title="Objects of study."
+        />
         <div className="grid gap-16 md:gap-24">
           {SCROLL_OBJECTS.map((obj, i) => (
             <motion.article
@@ -265,7 +246,7 @@ function ScrollGallery() {
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
+              transition={{ duration: 1, ease: luxury.ease }}
               className={`grid items-center gap-10 md:grid-cols-12 md:gap-16 ${
                 i % 2 ? "md:[&>*:first-child]:order-2" : ""
               }`}
@@ -284,50 +265,34 @@ function ScrollGallery() {
                 </div>
               </div>
               <div className="md:col-span-5">
-                <span className="font-numeric text-[11px] uppercase tracking-[0.32em] text-gold">
-                  N° 0{i + 1}
-                </span>
+                <Eyebrow>N° 0{i + 1}</Eyebrow>
                 <h3 className="mt-5 font-display text-4xl leading-tight md:text-5xl">
                   {obj.name}
                 </h3>
-                <p className="mt-4 text-[13px] font-light tracking-wide text-platinum/70">
-                  {obj.origin}
-                </p>
-                <div className="mt-8 hairline w-24" />
-                <a
-                  href="#"
-                  className="mt-8 inline-flex items-center gap-3 text-[11px] font-light uppercase tracking-[0.28em] text-ivory transition-colors hover:text-gold"
-                >
-                  Study the object
-                  <span aria-hidden>→</span>
-                </a>
+                <p className={`mt-4 ${luxury.bodySmall}`}>{obj.origin}</p>
+                <Hairline className="mt-8 w-24" />
+                <div className="mt-8">
+                  <ArrowLink>Study the object</ArrowLink>
+                </div>
               </div>
             </motion.article>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }
 
 function Institutes() {
   return (
-    <section className="relative border-t border-white/5 bg-charcoal/40 py-32 md:py-48">
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <div className="mb-20 max-w-2xl">
-          <span className="font-numeric text-[10px] uppercase tracking-[0.32em] text-gold">
-            III. The Institutes
-          </span>
-          <h2 className="mt-6 font-display text-5xl leading-tight md:text-7xl">
-            Eight disciplines. One faculty.
-          </h2>
-          <p className="mt-6 text-[15px] font-light leading-relaxed text-platinum/70">
-            Each Institute is a self contained programme, developed with
-            master jewellers, refiners, gemmologists, horologists, and
-            luxury retail directors.
-          </p>
-        </div>
-
+    <Section bordered tinted>
+      <Container>
+        <SectionHeader
+          index="III"
+          eyebrow="The Institutes"
+          title="Eight disciplines. One faculty."
+          intro="Each Institute is a self contained programme, developed with master jewellers, refiners, gemmologists, horologists, and luxury retail directors."
+        />
         <div className="grid gap-px bg-white/5 md:grid-cols-2 lg:grid-cols-4">
           {INSTITUTES.map((it) => (
             <a
@@ -336,17 +301,13 @@ function Institutes() {
               className="group relative flex flex-col justify-between bg-obsidian p-8 transition-colors duration-500 hover:bg-charcoal md:min-h-[280px] md:p-10"
             >
               <div className="flex items-start justify-between">
-                <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">
-                  {it.n}
-                </span>
+                <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">{it.n}</span>
                 <span className="text-platinum/40 transition-all duration-500 group-hover:translate-x-1 group-hover:text-gold">
                   →
                 </span>
               </div>
               <div>
-                <h3 className="font-display text-3xl leading-tight text-ivory">
-                  {it.name}
-                </h3>
+                <h3 className="font-display text-3xl leading-tight text-ivory">{it.name}</h3>
                 <p className="mt-3 text-[12px] font-light tracking-wide text-platinum/60">
                   {it.tag}
                 </p>
@@ -355,109 +316,121 @@ function Institutes() {
             </a>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }
 
 function AIMentor() {
   return (
-    <section className="relative overflow-hidden py-32 md:py-48">
+    <Section className="overflow-hidden">
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[140px]" />
-      <div className="mx-auto grid max-w-[1400px] gap-16 px-6 md:grid-cols-12 md:gap-24 md:px-10">
-        <div className="md:col-span-5">
-          <span className="font-numeric text-[10px] uppercase tracking-[0.32em] text-gold">
-            IV. The AI Mentor
-          </span>
-          <h2 className="mt-6 font-display text-5xl leading-tight md:text-7xl">
-            A private tutor, forged in gold.
-          </h2>
-          <p className="mt-8 text-[15px] font-light leading-relaxed text-platinum/70">
-            Identify a gemstone from a photograph. Rehearse a high value sale.
-            Compare a proof coin to its bullion counterpart. The Mentor listens,
-            explains, and remembers, in every language your clientele speaks.
-          </p>
-          <ul className="mt-10 space-y-4">
-            {[
-              "Voice conversations, calmly paced",
-              "Image and gemstone identification",
-              "Luxury sales roleplay simulations",
-              "Personal glossary and citations",
-            ].map((f) => (
-              <li key={f} className="flex items-center gap-4 text-[14px] font-light text-ivory/90">
-                <span className="h-px w-6 bg-gold" />
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <Container>
+        <div className="grid gap-16 md:grid-cols-12 md:gap-24">
+          <div className="md:col-span-5">
+            <Reveal>
+              <Eyebrow>IV. The AI Mentor</Eyebrow>
+            </Reveal>
+            <Reveal>
+              <h2 className="mt-6 font-display text-5xl leading-tight md:text-7xl">
+                A private tutor, forged in gold.
+              </h2>
+            </Reveal>
+            <Reveal>
+              <p className={`mt-8 ${luxury.bodyMuted}`}>
+                Identify a gemstone from a photograph. Rehearse a high value sale.
+                Compare a proof coin to its bullion counterpart. The Mentor listens,
+                explains, and remembers, in every language your clientele speaks.
+              </p>
+            </Reveal>
+            <ul className="mt-10 space-y-4">
+              {[
+                "Voice conversations, calmly paced",
+                "Image and gemstone identification",
+                "Luxury sales roleplay simulations",
+                "Personal glossary and citations",
+              ].map((f) => (
+                <motion.li
+                  key={f}
+                  variants={fadeUp}
+                  className="flex items-center gap-4 text-[14px] font-light text-ivory/90"
+                >
+                  <span className="h-px w-6 bg-gold" />
+                  {f}
+                </motion.li>
+              ))}
+            </ul>
+          </div>
 
-        <div className="md:col-span-7">
-          <div className="relative rounded-sm border border-gold/20 bg-charcoal/60 p-8 backdrop-blur-2xl md:p-10">
-            <div className="absolute inset-0 rounded-sm bg-gradient-to-br from-gold/5 via-transparent to-transparent" />
-            <div className="relative">
-              <div className="flex items-center justify-between border-b border-white/5 pb-5">
-                <div className="flex items-center gap-3">
-                  <span className="h-2 w-2 rounded-full bg-gold shimmer" />
-                  <span className="font-numeric text-[11px] uppercase tracking-[0.28em] text-platinum/80">
-                    Mentor · Live
+          <Reveal className="md:col-span-7">
+            <div className="relative rounded-sm border border-gold/20 bg-charcoal/60 p-8 backdrop-blur-2xl md:p-10">
+              <div className="absolute inset-0 rounded-sm bg-gradient-to-br from-gold/5 via-transparent to-transparent" />
+              <div className="relative">
+                <div className="flex items-center justify-between border-b border-white/5 pb-5">
+                  <div className="flex items-center gap-3">
+                    <span className="shimmer h-2 w-2 rounded-full bg-gold" />
+                    <span className="font-numeric text-[11px] uppercase tracking-[0.28em] text-platinum/80">
+                      Mentor · Live
+                    </span>
+                  </div>
+                  <span className="font-numeric text-[10px] uppercase tracking-[0.24em] text-platinum/40">
+                    Session 04
                   </span>
                 </div>
-                <span className="font-numeric text-[10px] uppercase tracking-[0.24em] text-platinum/40">
-                  Session 04
-                </span>
-              </div>
 
-              <div className="mt-8 space-y-6">
-                <div>
-                  <span className="font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/50">
-                    You
-                  </span>
-                  <p className="mt-2 font-display text-2xl leading-snug text-ivory md:text-3xl">
-                    A client is comparing a 1kg cast bar to a minted bar. How
-                    do I position the premium?
-                  </p>
+                <div className="mt-8 space-y-6">
+                  <div>
+                    <span className="font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/50">
+                      You
+                    </span>
+                    <p className="mt-2 font-display text-2xl leading-snug text-ivory md:text-3xl">
+                      A client is comparing a 1kg cast bar to a minted bar. How
+                      do I position the premium?
+                    </p>
+                  </div>
+
+                  <Hairline />
+
+                  <div>
+                    <Eyebrow>Mentor</Eyebrow>
+                    <p className="mt-2 text-[15px] font-light leading-relaxed text-platinum/90">
+                      Begin with the metal, not the price. A cast bar rewards
+                      the investor who values weight and liquidity. A minted bar
+                      rewards the collector who values finish, packaging, and
+                      provenance. Ask your client which of those two stories
+                      they will tell in ten years, then let the premium answer
+                      itself.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="hairline" />
-
-                <div>
-                  <span className="font-numeric text-[10px] uppercase tracking-[0.28em] text-gold">
-                    Mentor
-                  </span>
-                  <p className="mt-2 text-[15px] font-light leading-relaxed text-platinum/90">
-                    Begin with the metal, not the price. A cast bar rewards
-                    the investor who values weight and liquidity. A minted bar
-                    rewards the collector who values finish, packaging, and
-                    provenance. Ask your client which of those two stories
-                    they will tell in ten years, then let the premium answer
-                    itself.
-                  </p>
+                <div className="mt-10 flex items-center gap-3 border-t border-white/5 pt-6">
+                  <div className="flex-1 rounded-sm bg-obsidian/60 px-4 py-3 text-[13px] font-light text-platinum/60">
+                    Ask the Mentor anything…
+                  </div>
+                  <button className="flex h-11 w-11 items-center justify-center bg-gold text-obsidian transition-colors hover:bg-champagne">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path
+                        d="M1 7H13M13 7L7 1M13 7L7 13"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                      />
+                    </svg>
+                  </button>
                 </div>
-              </div>
-
-              <div className="mt-10 flex items-center gap-3 border-t border-white/5 pt-6">
-                <div className="flex-1 rounded-sm bg-obsidian/60 px-4 py-3 text-[13px] font-light text-platinum/60">
-                  Ask the Mentor anything…
-                </div>
-                <button className="flex h-11 w-11 items-center justify-center bg-gold text-obsidian transition-colors hover:bg-champagne">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" strokeWidth="1.4" />
-                  </svg>
-                </button>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }
 
 function Footer() {
   return (
     <footer className="border-t border-white/5 bg-obsidian pb-10 pt-24">
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+      <Container>
         <div className="grid gap-16 md:grid-cols-12">
           <div className="md:col-span-5">
             <div className="flex items-center gap-3">
@@ -473,14 +446,21 @@ function Footer() {
 
           <div className="grid gap-10 md:col-span-7 md:grid-cols-3">
             {[
-              { title: "Academy", items: ["Institutes", "Masterclasses", "Certifications", "AI Mentor"] },
-              { title: "Library", items: ["Journal", "Product Library", "Glossary", "Downloads"] },
-              { title: "Institution", items: ["About", "Faculty", "Careers", "Contact"] },
+              {
+                title: "Academy",
+                items: ["Institutes", "Masterclasses", "Certifications", "AI Mentor"],
+              },
+              {
+                title: "Library",
+                items: ["Journal", "Product Library", "Glossary", "Downloads"],
+              },
+              {
+                title: "Institution",
+                items: ["About", "Faculty", "Careers", "Contact"],
+              },
             ].map((col) => (
               <div key={col.title}>
-                <span className="font-numeric text-[10px] uppercase tracking-[0.32em] text-gold">
-                  {col.title}
-                </span>
+                <Eyebrow>{col.title}</Eyebrow>
                 <ul className="mt-6 space-y-3">
                   {col.items.map((i) => (
                     <li key={i}>
@@ -499,14 +479,10 @@ function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-8 md:flex-row md:items-center">
-          <span className="font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/50">
-            © MMXXVI · The Precious Intelligence Academy
-          </span>
-          <span className="font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/50">
-            Crafted with precision
-          </span>
+          <Eyebrow muted>© MMXXVI · The Precious Intelligence Academy</Eyebrow>
+          <Eyebrow muted>Crafted with precision</Eyebrow>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }
