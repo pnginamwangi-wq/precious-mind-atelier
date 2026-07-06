@@ -5,46 +5,99 @@ import heroDiamond from "@/assets/hero-diamond.jpg";
 import heroOpal from "@/assets/hero-opal.jpg";
 import heroPearl from "@/assets/hero-pearl.jpg";
 
+/**
+ * Every story below exposes controls in the Storybook Controls panel so you
+ * can tweak each prop live. Use the composed stories at the bottom for
+ * layout tuning.
+ */
+
+const imageOptions = {
+  "Black Opal": heroOpal,
+  "Round Brilliant": heroDiamond,
+  "South Sea Pearl": heroPearl,
+};
+
 const meta: Meta = {
   title: "Luxury/Editorial",
   parameters: { layout: "fullscreen" },
 };
 export default meta;
-type Story = StoryObj;
 
-export const CaptionStory: Story = {
+/* ------------------------------------------------------------------ */
+/*  Caption                                                            */
+/* ------------------------------------------------------------------ */
+
+type CaptionArgs = {
+  index?: string;
+  title: string;
+  origin?: string;
+  note?: string;
+  href?: string;
+  cta?: string;
+  align: "left" | "right";
+};
+
+export const CaptionStory: StoryObj<CaptionArgs> = {
   name: "Caption",
-  render: () => (
+  argTypes: {
+    index: { control: "text", description: "Numeric or roman label rendered as N° {index}." },
+    title: { control: "text" },
+    origin: { control: "text" },
+    note: { control: "text" },
+    href: { control: "text", description: "Omit to hide the arrow link." },
+    cta: { control: "text" },
+    align: { control: "inline-radio", options: ["left", "right"] },
+  },
+  args: {
+    index: "01",
+    title: "Black Opal",
+    origin: "Lightning Ridge, Australia",
+    note: "A stone of shifting fire, prized for its play of colour against a dark host.",
+    href: "#",
+    cta: "Study the object",
+    align: "left",
+  },
+  render: (args) => (
     <div className="p-16">
-      <Caption
-        index="01"
-        title="Black Opal"
-        origin="Lightning Ridge, Australia"
-        note="A stone of shifting fire, prized for its play of colour against a dark host."
-        href="#"
-      />
+      <Caption {...args} />
     </div>
   ),
 };
 
-export const CaptionRight: Story = {
-  name: "Caption, right aligned",
-  render: () => (
-    <div className="p-16">
-      <Caption
-        align="right"
-        index="02"
-        title="Round Brilliant"
-        origin="D flawless, 3.02 ct"
-        note="Fifty seven facets, cut to release the maximum return of light."
-        href="#"
-      />
+/* ------------------------------------------------------------------ */
+/*  Figure                                                             */
+/* ------------------------------------------------------------------ */
+
+type FigureArgs = {
+  src: string;
+  alt: string;
+  aspect: "square" | "portrait" | "landscape" | "wide";
+  caption?: string;
+};
+
+export const FigureStory: StoryObj<FigureArgs> = {
+  name: "Figure",
+  argTypes: {
+    src: { control: "select", options: imageOptions },
+    alt: { control: "text" },
+    aspect: { control: "inline-radio", options: ["square", "portrait", "landscape", "wide"] },
+    caption: { control: "text" },
+  },
+  args: {
+    src: heroOpal,
+    alt: "Black opal",
+    aspect: "square",
+    caption: "N° 01, Black Opal",
+  },
+  render: (args) => (
+    <div className="mx-auto max-w-xl p-16">
+      <Figure {...args} />
     </div>
   ),
 };
 
-export const FigureStory: Story = {
-  name: "Figure, aspects",
+export const FigureAspects: StoryObj = {
+  name: "Figure, all aspects",
   render: () => (
     <div className="grid grid-cols-2 gap-6 p-16 md:grid-cols-4">
       <Figure src={heroOpal} alt="Opal" aspect="square" caption="Square, N° 01" />
@@ -55,8 +108,60 @@ export const FigureStory: Story = {
   ),
 };
 
-export const VignetteStory: Story = {
+/* ------------------------------------------------------------------ */
+/*  Vignette                                                           */
+/* ------------------------------------------------------------------ */
+
+type VignetteArgs = {
+  index?: string;
+  image: string;
+  alt: string;
+  title: string;
+  origin?: string;
+  note?: string;
+  href?: string;
+  cta?: string;
+  reverse: boolean;
+  aspect: "square" | "portrait" | "landscape" | "wide";
+};
+
+export const VignetteStory: StoryObj<VignetteArgs> = {
   name: "Vignette",
+  argTypes: {
+    index: { control: "text" },
+    image: { control: "select", options: imageOptions },
+    alt: { control: "text" },
+    title: { control: "text" },
+    origin: { control: "text" },
+    note: { control: "text" },
+    href: { control: "text" },
+    cta: { control: "text" },
+    reverse: { control: "boolean", description: "Flip image and caption columns." },
+    aspect: { control: "inline-radio", options: ["square", "portrait", "landscape", "wide"] },
+  },
+  args: {
+    index: "01",
+    image: heroOpal,
+    alt: "Black opal",
+    title: "Black Opal",
+    origin: "Lightning Ridge, Australia",
+    note: "A stone of shifting fire, prized for its play of colour against a dark host.",
+    href: "#",
+    cta: "Study the object",
+    reverse: false,
+    aspect: "square",
+  },
+  render: (args) => (
+    <Section>
+      <Container>
+        <Vignette {...args} />
+      </Container>
+    </Section>
+  ),
+};
+
+export const VignetteAlternating: StoryObj = {
+  name: "Vignette, alternating spread",
   render: () => (
     <Section>
       <Container>
@@ -86,39 +191,74 @@ export const VignetteStory: Story = {
   ),
 };
 
-export const PullQuoteStory: Story = {
+/* ------------------------------------------------------------------ */
+/*  PullQuote                                                          */
+/* ------------------------------------------------------------------ */
+
+type PullQuoteArgs = {
+  quote: string;
+  attribution?: string;
+  role?: string;
+  align: "left" | "center";
+  tinted: boolean;
+};
+
+export const PullQuoteStory: StoryObj<PullQuoteArgs> = {
   name: "PullQuote",
-  render: () => (
-    <Section>
+  argTypes: {
+    quote: { control: "text" },
+    attribution: { control: "text" },
+    role: { control: "text" },
+    align: { control: "inline-radio", options: ["left", "center"] },
+    tinted: { control: "boolean", description: "Render inside a tinted Section." },
+  },
+  args: {
+    quote: "Rarity is not a price. It is a story told in the presence of time.",
+    attribution: "Elena Marchetti",
+    role: "Master gemmologist, Geneva",
+    align: "left",
+    tinted: false,
+  },
+  render: ({ tinted, ...args }) => (
+    <Section tinted={tinted}>
       <Container narrow>
-        <PullQuote
-          quote={<>Rarity is not a price. It is a story told in the presence of time.</>}
-          attribution="Elena Marchetti"
-          role="Master gemmologist, Geneva"
-        />
+        <PullQuote {...args} />
       </Container>
     </Section>
   ),
 };
 
-export const PullQuoteCentered: Story = {
-  name: "PullQuote, centered",
-  render: () => (
-    <Section tinted>
-      <Container narrow>
-        <PullQuote
-          align="center"
-          quote={<>The metal knows the market long before the market knows itself.</>}
-          attribution="Isaac Rehn"
-          role="LBMA refiner"
-        />
-      </Container>
-    </Section>
-  ),
+/* ------------------------------------------------------------------ */
+/*  ChapterMark                                                        */
+/* ------------------------------------------------------------------ */
+
+type ChapterMarkArgs = {
+  index: string;
+  eyebrow: string;
+  title?: string;
 };
 
-export const ChapterMarkStory: Story = {
+export const ChapterMarkStory: StoryObj<ChapterMarkArgs> = {
   name: "ChapterMark",
+  argTypes: {
+    index: { control: "text" },
+    eyebrow: { control: "text" },
+    title: { control: "text", description: "Optional second line." },
+  },
+  args: {
+    index: "II",
+    eyebrow: "Craft",
+    title: "A hand and a loupe.",
+  },
+  render: (args) => (
+    <div className="p-16">
+      <ChapterMark {...args} />
+    </div>
+  ),
+};
+
+export const ChapterMarkStack: StoryObj = {
+  name: "ChapterMark, stack",
   render: () => (
     <div className="space-y-8 p-16">
       <ChapterMark index="I" eyebrow="Provenance" />
@@ -128,20 +268,37 @@ export const ChapterMarkStory: Story = {
   ),
 };
 
-export const AsideStory: Story = {
+/* ------------------------------------------------------------------ */
+/*  Aside                                                              */
+/* ------------------------------------------------------------------ */
+
+type AsideArgs = {
+  eyebrow?: string;
+  body: string;
+};
+
+export const AsideStory: StoryObj<AsideArgs> = {
   name: "Aside",
-  render: () => (
+  argTypes: {
+    eyebrow: { control: "text" },
+    body: { control: "text" },
+  },
+  args: {
+    eyebrow: "Glossary",
+    body: "Doublet. A composite stone assembled from two layers, one precious, one host. Encountered in opals, garnets, and, historically, in jewellery of restrained means.",
+  },
+  render: ({ eyebrow, body }) => (
     <div className="max-w-xl p-16">
-      <Aside eyebrow="Glossary">
-        <strong className="text-ivory">Doublet.</strong> A composite stone
-        assembled from two layers, one precious, one host. Encountered in
-        opals, garnets, and, historically, in jewellery of restrained means.
-      </Aside>
+      <Aside eyebrow={eyebrow}>{body}</Aside>
     </div>
   ),
 };
 
-export const ComposedPage: Story = {
+/* ------------------------------------------------------------------ */
+/*  Composed page                                                      */
+/* ------------------------------------------------------------------ */
+
+export const ComposedPage: StoryObj = {
   name: "Composed page",
   render: () => (
     <>
