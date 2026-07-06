@@ -55,7 +55,7 @@ export function SaveInstituteButton({ slug, name }: Props) {
 
   if (!userId) {
     return (
-      <Link to="/auth" search={{ redirect: `/institutes/${slug}` }}>
+      <Link to="/auth">
         <LuxButton variant="ghost" icon={<Bookmark className="h-3.5 w-3.5" />}>
           Sign in to save
         </LuxButton>
