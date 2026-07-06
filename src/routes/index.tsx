@@ -446,7 +446,11 @@ function AIMentor() {
           </Reveal>
         </div>
       </Container>
+      <div className="mt-20">
+        <EducationDisclaimer kinds={["ai"]} />
+      </div>
     </Section>
+
   );
 }
 
