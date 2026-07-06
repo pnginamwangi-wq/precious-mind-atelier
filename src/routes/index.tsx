@@ -169,7 +169,7 @@ function Hero() {
 
 function Manifesto() {
   return (
-    <Section bordered tinted>
+    <Section id="academy" bordered tinted>
       <Container narrow>
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-4">
