@@ -26,6 +26,11 @@ export function MobileTabs() {
   const activeSection = useActiveSection(SECTION_IDS);
   const onHashNav = useSmoothHashNav();
   const navigate = useNavigate();
+  // When the user prefers reduced motion, snap active-state visuals
+  // (color, gold underline slide) to their final value instead of
+  // easing across 500ms / a spring.
+  const reduceMotion = useReducedMotion();
+  const colorDur = reduceMotion ? "duration-0" : "duration-500";
   const navCtx = useMemo(
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
