@@ -127,7 +127,7 @@ function ChapterHero({
   module: CurriculumModule;
 }) {
   return (
-    <section className="relative overflow-hidden pt-40 pb-24">
+    <section id="overview" className="relative overflow-hidden pt-40 pb-24 scroll-mt-24">
       <div
         aria-hidden
         className="absolute inset-0 bg-cover bg-center opacity-25"
