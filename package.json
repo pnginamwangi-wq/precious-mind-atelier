@@ -11,7 +11,10 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "a11y:tokens": "bun scripts/a11y-tokens.ts",
+    "a11y:runtime": "bun scripts/a11y-runtime.ts",
+    "a11y": "bun scripts/a11y-tokens.ts && bun scripts/a11y-runtime.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -71,6 +74,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@eslint/js": "^9.32.0",
     "@lovable.dev/vite-tanstack-config": "2.7.0",
     "@storybook/addon-a11y": "^10.4.6",
@@ -80,6 +84,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.2.0",
+    "culori": "^4.0.2",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.6",
@@ -87,6 +92,7 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
     "nitro": "3.0.260603-beta",
+    "playwright": "^1.61.1",
     "prettier": "^3.7.3",
     "storybook": "^10.4.6",
     "typescript": "^5.8.3",

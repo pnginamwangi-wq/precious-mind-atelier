@@ -53,14 +53,13 @@ export function MobileTabs() {
             </span>
           );
 
+          const linkClasses =
+            "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
+
           if (t.href.startsWith("#")) {
             return (
               <li key={t.label} className="flex">
-                <a
-                  href={t.href}
-                  aria-label={t.label}
-                  className="group flex-1 outline-none focus-visible:bg-white/5"
-                >
+                <a href={t.href} aria-label={t.label} className={linkClasses}>
                   {inner}
                 </a>
               </li>
@@ -73,7 +72,7 @@ export function MobileTabs() {
                 to={t.href}
                 aria-label={t.label}
                 aria-current={isActive ? "page" : undefined}
-                className="group flex-1 outline-none focus-visible:bg-white/5"
+                className={linkClasses}
               >
                 {inner}
               </Link>
