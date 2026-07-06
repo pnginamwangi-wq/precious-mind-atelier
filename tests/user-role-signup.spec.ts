@@ -19,7 +19,7 @@ test("signup creates a student user_roles row that /profile displays", async ({ 
   await page.goto(APP_URL, { waitUntil: "domcontentloaded" });
 
   const email = `pia-test-${Date.now()}-${Math.random().toString(36).slice(2, 8)}@example.com`;
-  const password = "Passw0rd!Passw0rd!";
+  const password = "Zx9!qN7#vP2@wL5%mK8";
   const displayName = "Role Test User";
 
   const signup = await page.evaluate(
