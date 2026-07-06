@@ -80,23 +80,33 @@ export function Header() {
           className="hidden items-center gap-8 lg:flex"
         >
           {NAV.map((item) => {
-            const classes =
-              "group relative rounded-sm text-[13px] font-light tracking-wide text-platinum/80 outline-none transition-colors hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian";
-            const underline = (
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full group-focus-visible:w-full" />
+            const active = isNavActive(item.href, navCtx);
+            const classes = cn(
+              "group relative rounded-sm text-[13px] font-light tracking-wide outline-none transition-colors duration-500 hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
+              active ? "text-gold" : "text-platinum/80",
             );
+            const underline = (
+              <span
+                className={cn(
+                  "absolute -bottom-1 left-0 h-px bg-gold transition-all duration-500 ease-out group-hover:w-full group-focus-visible:w-full",
+                  active ? "w-full" : "w-0",
+                )}
+              />
+            );
+            const ariaCurrent = active ? ("page" as const) : undefined;
             return item.internal ? (
-              <Link key={item.label} to={item.href} className={classes}>
+              <Link key={item.label} to={item.href} className={classes} aria-current={ariaCurrent}>
                 {item.label}
                 {underline}
               </Link>
             ) : (
-              <a key={item.label} href={item.href} className={classes}>
+              <a key={item.label} href={item.href} className={classes} aria-current={ariaCurrent}>
                 {item.label}
                 {underline}
               </a>
             );
           })}
+
 
         </nav>
 
