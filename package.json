@@ -16,7 +16,9 @@
     "chromatic:ci": "chromatic --exit-once-uploaded",
     "a11y:tokens": "bun scripts/a11y-tokens.ts",
     "a11y:runtime": "bun scripts/a11y-runtime.ts",
-    "a11y": "bun scripts/a11y-tokens.ts && bun scripts/a11y-runtime.ts"
+    "a11y": "bun scripts/a11y-tokens.ts && bun scripts/a11y-runtime.ts",
+    "test:visual": "playwright test tests/editorial-visual.spec.ts",
+    "test:visual:update": "playwright test tests/editorial-visual.spec.ts --update-snapshots"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
