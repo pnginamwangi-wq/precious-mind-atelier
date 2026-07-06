@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
 import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const TABS = [
   { label: "Home", href: "/", icon: Home },
