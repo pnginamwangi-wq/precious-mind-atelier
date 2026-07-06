@@ -300,7 +300,7 @@ function Institutes() {
               aria-label={`Enter the ${it.name} Institute`}
             >
               <div className="flex items-start justify-between">
-                <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">{it.n}</span>
+                <Eyebrow>{it.n}</Eyebrow>
                 <span className="text-platinum/40 transition-all duration-500 group-hover:translate-x-1 group-hover:text-gold">
                   →
                 </span>
@@ -374,20 +374,14 @@ function AIMentor() {
                 <div className="flex items-center justify-between border-b border-white/5 pb-5">
                   <div className="flex items-center gap-3">
                     <span className="shimmer h-2 w-2 rounded-full bg-gold" />
-                    <span className="font-numeric text-[11px] uppercase tracking-[0.28em] text-platinum/80">
-                      Mentor · Live
-                    </span>
+                    <Eyebrow muted>Mentor · Live</Eyebrow>
                   </div>
-                  <span className="font-numeric text-[10px] uppercase tracking-[0.24em] text-platinum/70">
-                    Session 04
-                  </span>
+                  <Eyebrow muted>Session 04</Eyebrow>
                 </div>
 
                 <div className="mt-8 space-y-6">
                   <div>
-                    <span className="font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/50">
-                      You
-                    </span>
+                    <Eyebrow muted>You</Eyebrow>
                     <p className="mt-2 font-display text-2xl leading-snug text-ivory md:text-3xl">
                       A client is comparing a 1kg cast bar to a minted bar. How
                       do I position the premium?
