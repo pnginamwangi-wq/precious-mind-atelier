@@ -1,0 +1,25 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Luxury/Overview" />
+
+# Luxury Design System
+
+Cinematic editorial system for **The Precious Intelligence Academy**.
+
+## Tokens
+
+- **Colors**: obsidian, charcoal, gold, gold-soft, champagne, ivory, platinum
+- **Type**: Cormorant Garamond (display), Inter (sans), numeric eyebrow
+- **Spacing**: `py-32 md:py-48` section rhythm, `max-w-[1400px]` container
+- **Motion**: custom ease `[0.19, 1, 0.22, 1]`, in-view fade and stagger
+
+## Components
+
+- `LuxButton` variants: **gold**, **outline**, **ghost** (sm / md / lg)
+- `ArrowLink` for editorial inline calls to action
+- `Container`, `Eyebrow`, `Hairline`, `GoldMark` primitives
+- `Section`, `Reveal`, `SectionHeader` for scroll-driven layouts
+
+Complex composites (`Header`, `Footer`, `MobileTabs`, `PageTransition`) depend
+on the TanStack Router context and Supabase auth, so browse them in the live
+preview at `/`.
