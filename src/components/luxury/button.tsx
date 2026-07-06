@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
  * Luxury button. Editorial, all caps, wide tracking. Never rounded.
  */
 const buttonStyles = cva(
-  "group inline-flex items-center justify-center gap-3 whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.28em] transition-all duration-500 cursor-pointer disabled:opacity-40 disabled:pointer-events-none",
+  "group inline-flex items-center justify-center gap-3 whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.28em] transition-all duration-500 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian disabled:opacity-40 disabled:pointer-events-none",
   {
     variants: {
       variant: {
