@@ -427,15 +427,12 @@ test.describe("aria-current tracking", () => {
         });
         await expect(page).toHaveURL(/\/$/);
 
-        // Header exposes Home as a route link, so once the hash is gone
-        // and no section is observed, Home should be the sole active item.
-        // Footer has no Home link, so it should report no active item.
-        await expectActive(
-          page,
-          'header nav[aria-label="Primary"]',
-          /Home/i,
-        );
+        // Neither Header nor Footer expose a "Home" link, so with no
+        // hash and no observed section every hash item should drop
+        // aria-current entirely.
+        await expectNoActive(page, 'header nav[aria-label="Primary"]');
         await expectNoActive(page, 'nav[aria-label="Footer"]');
+
 
       });
     });
