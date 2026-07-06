@@ -79,19 +79,28 @@ test.describe("prefers-reduced-motion", () => {
     await page.goto("/institutes");
     await page.getByRole("link", { name: /enter the .+ institute/i }).first().click();
     await page.waitForURL(/\/institutes\/[^/]+$/);
-    // Re-assert the media query after navigation and give framer's
-    // useReducedMotion one commit to resolve from null to true.
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.waitForFunction(
-      () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    );
 
     const parallax = page.getByTestId("hero-parallax");
     const overlay = page.getByTestId("hero-overlay");
     await expect(parallax).toBeVisible();
 
+    // Wait for the hero's reduced-motion effect to commit before reading
+    // the resting transform. Without this the initial render can still
+    // hold framer's default scale(1.05) inline style for a frame or two.
+    await expect(page.getByTestId("institute-hero")).toHaveAttribute(
+      "data-reduce",
+      "true",
+    );
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('[data-testid="hero-parallax"]');
+        return el ? getComputedStyle(el).transform === "none" : false;
+      },
+      undefined,
+      { timeout: 2000 },
+    );
+
     // Baseline transform at scroll position 0.
-    await page.waitForTimeout(200);
     const before = await transformOf(page, '[data-testid="hero-parallax"]');
     expect(isIdentityTransform(before), `parallax start transform ${before}`).toBe(true);
 
