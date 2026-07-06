@@ -26,6 +26,15 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
+  const activeSection = useActiveSection(SECTION_IDS);
+  const navCtx = useMemo(
+    () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
+    [pathname, hash, activeSection],
+  );
+
+
 
 
   useEffect(() => {
