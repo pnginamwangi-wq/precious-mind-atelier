@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
+import { Route as VisualEditorialBlocksRouteImport } from './routes/visual/editorial-blocks'
 import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/institutes.$slug.chapters.$chapter'
@@ -42,6 +43,11 @@ const InstitutesIndexRoute = InstitutesIndexRouteImport.update({
   path: '/institutes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VisualEditorialBlocksRoute = VisualEditorialBlocksRouteImport.update({
+  id: '/visual/editorial-blocks',
+  path: '/visual/editorial-blocks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstitutesSlugRoute = InstitutesSlugRouteImport.update({
   id: '/institutes/$slug',
   path: '/institutes/$slug',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/editorial-example': typeof EditorialExampleRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
+  '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/editorial-example': typeof EditorialExampleRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
+  '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes': typeof InstitutesIndexRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/editorial-example': typeof EditorialExampleRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
+  '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/profile'
     | '/institutes/$slug'
+    | '/visual/editorial-blocks'
     | '/institutes/'
     | '/institutes/$slug/chapters/$chapter'
   fileRoutesByTo: FileRoutesByTo
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/profile'
     | '/institutes/$slug'
+    | '/visual/editorial-blocks'
     | '/institutes'
     | '/institutes/$slug/chapters/$chapter'
   id:
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/_authenticated/profile'
     | '/institutes/$slug'
+    | '/visual/editorial-blocks'
     | '/institutes/'
     | '/institutes/$slug/chapters/$chapter'
   fileRoutesById: FileRoutesById
@@ -125,6 +137,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   EditorialExampleRoute: typeof EditorialExampleRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
+  VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
 }
 
@@ -163,6 +176,13 @@ declare module '@tanstack/react-router' {
       path: '/institutes'
       fullPath: '/institutes/'
       preLoaderRoute: typeof InstitutesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visual/editorial-blocks': {
+      id: '/visual/editorial-blocks'
+      path: '/visual/editorial-blocks'
+      fullPath: '/visual/editorial-blocks'
+      preLoaderRoute: typeof VisualEditorialBlocksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/institutes/$slug': {
@@ -218,8 +238,19 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   EditorialExampleRoute: EditorialExampleRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
+  VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
