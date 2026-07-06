@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
+import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { motion } from "framer-motion";
 
 const TABS = [
