@@ -27,7 +27,7 @@ export const Route = createFileRoute("/institutes/$slug")({
     if (!institute) throw notFound();
     return { institute };
   },
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     if (!loaderData) {
       return {
         meta: [
@@ -38,15 +38,60 @@ export const Route = createFileRoute("/institutes/$slug")({
     }
     const { institute } = loaderData;
     const title = `${institute.name}, ${institute.overline}`;
+    const description = institute.intro;
+    const url = `/institutes/${params.slug}`;
+    const imageAlt = `${institute.name}, a chapter of The Precious Intelligence Academy`;
+    const keywords = [
+      institute.name,
+      institute.overline,
+      "Precious Intelligence Academy",
+      ...institute.curriculum.map((c: { title: string; summary: string }) => c.title),
+    ].join(", ");
     return {
       meta: [
         { title },
-        { name: "description", content: institute.intro },
+        { name: "description", content: description },
+        { name: "keywords", content: keywords },
         { property: "og:title", content: title },
-        { property: "og:description", content: institute.intro },
+        { property: "og:description", content: description },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { property: "og:image", content: institute.hero },
-        { property: "twitter:image", content: institute.hero },
+        { property: "og:image:alt", content: imageAlt },
+        { property: "og:site_name", content: "The Precious Intelligence Academy" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: institute.hero },
+        { name: "twitter:image:alt", content: imageAlt },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            name: institute.name,
+            alternateName: institute.overline,
+            description,
+            url,
+            image: institute.hero,
+            parentOrganization: {
+              "@type": "EducationalOrganization",
+              name: "The Precious Intelligence Academy",
+            },
+            hasCourse: institute.curriculum.map((c: { title: string; summary: string }) => ({
+              "@type": "Course",
+              name: c.title,
+              description: c.summary ?? c.title,
+              provider: {
+                "@type": "EducationalOrganization",
+                name: institute.name,
+              },
+            })),
+          }),
+        },
       ],
     };
   },
