@@ -9,14 +9,15 @@ import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 
-const NAV = [
+const NAV: { label: string; href: string; internal?: boolean }[] = [
   { label: "Academy", href: "#academy" },
-  { label: "Institutes", href: "#institutes" },
+  { label: "Institutes", href: "/institutes", internal: true },
   { label: "Masterclasses", href: "#masterclasses" },
   { label: "AI Mentor", href: "#mentor" },
   { label: "Library", href: "#library" },
   { label: "Journal", href: "#journal" },
 ];
+
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
