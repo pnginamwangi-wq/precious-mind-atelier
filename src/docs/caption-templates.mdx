@@ -1,0 +1,154 @@
+import { Meta, Source } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Templates/Caption Layouts" />
+
+# Caption Layouts
+
+Copy-paste MDX templates for composing standalone `Caption` blocks around
+figures, media, and quiet moments. Captions carry the editorial voice when
+a full `Vignette` would feel heavy.
+
+Every template assumes:
+
+<Source language="tsx" code={`import { Section, Container } from "@/components/luxury";
+import { Caption, Figure, Hairline } from "@/components/luxury";`} />
+
+---
+
+## 01. Caption beside a figure
+
+Manual 12-col split. Use when you need finer control than `Vignette` allows
+(different aspect, custom media, video, embed).
+
+<Source language="tsx" code={`<Section>
+  <Container>
+    <div className="grid items-center gap-10 md:grid-cols-12 md:gap-16">
+      <div className="md:col-span-7">
+        <Figure
+          src="/images/portrait-01.jpg"
+          alt="Portrait of the master"
+          aspect="portrait"
+        />
+      </div>
+      <div className="md:col-span-5">
+        <Caption
+          index="01"
+          title="A hand that remembers"
+          origin="Kyoto, 2023"
+          note="Forty years of lacquer, taught in silence, one apprentice at a time."
+          href="/faculty/kyoto-lacquer"
+          cta="Read the profile"
+        />
+      </div>
+    </div>
+  </Container>
+</Section>`} />
+
+## 02. Caption over a full-bleed image
+
+Absolutely positioned caption on a hero-scale figure. Use for a chapter cover
+or a landing moment.
+
+<Source language="tsx" code={`<Section className="!py-0">
+  <div className="relative h-[80vh] w-full overflow-hidden bg-charcoal">
+    <img
+      src="/images/hero-cover.jpg"
+      alt="Interior, dawn"
+      className="h-full w-full object-cover"
+    />
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent" />
+    <Container className="absolute inset-x-0 bottom-0 pb-16 md:pb-24">
+      <div className="max-w-xl">
+        <Caption
+          index="I"
+          title="The room before the lesson"
+          origin="Villa Adriana"
+        />
+      </div>
+    </Container>
+  </div>
+</Section>`} />
+
+## 03. Caption pair (dialogue)
+
+Two captions side by side, one left-aligned, one right-aligned. Use to set
+two objects, two artists, or two ideas in conversation.
+
+<Source language="tsx" code={`<Section>
+  <Container>
+    <div className="grid gap-16 md:grid-cols-2 md:gap-24">
+      <Caption
+        index="A"
+        title="The maker"
+        origin="Milan, 1962"
+        note="Trained in the workshop of his father. Never signed his own name."
+        align="left"
+      />
+      <Caption
+        index="B"
+        title="The keeper"
+        origin="Paris, 2019"
+        note="Acquired the archive in 2019. First public showing here."
+        align="right"
+      />
+    </div>
+  </Container>
+</Section>`} />
+
+## 04. Caption stack (list of works)
+
+A vertical list of captions separated by hairlines. Use for a catalogue,
+programme notes, or a reading list.
+
+<Source language="tsx" code={`<Section>
+  <Container narrow>
+    <ul className="divide-y divide-platinum/10">
+      {[
+        { index: "01", title: "On restraint", origin: "Essay, 2024", href: "/journal/on-restraint" },
+        { index: "02", title: "Fragment as first draft", origin: "Essay, 2024", href: "/journal/fragment" },
+        { index: "03", title: "The discipline of looking", origin: "Lecture, 2023", href: "/journal/looking" },
+      ].map((item) => (
+        <li key={item.index} className="py-10 first:pt-0 last:pb-0">
+          <Caption
+            index={item.index}
+            title={item.title}
+            origin={item.origin}
+            href={item.href}
+            cta="Read"
+          />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</Section>`} />
+
+## 05. Caption without a figure (colophon)
+
+Caption used as a standalone editorial mark to close a chapter, credit a
+photographer, or open a footer.
+
+<Source language="tsx" code={`<Section>
+  <Container narrow>
+    <Caption
+      index="Colophon"
+      title="On this edition"
+      origin="Set in Söhne Buch and Canela Deck"
+      note="Photography by Anna Rausch. Printed in Verona on Munken Pure 120gsm."
+      align="left"
+    />
+  </Container>
+</Section>`} />
+
+---
+
+## Do
+
+- Keep captions under four lines. If more is needed, promote to a `Vignette` or prose block.
+- Match `align="right"` when the caption sits to the right of media, so the hairline anchors the eye.
+- Use the `index` slot consistently across a page (all numeric, all roman, or all letters, never mixed).
+
+## Don't
+
+- Use `Caption` for body prose. It has its own rhythm and will fight paragraphs.
+- Include more than one `href` per caption. The arrow link is a single, deliberate exit.
+- Pair a caption with a decorative image. If the image doesn't earn a title, drop the caption.
