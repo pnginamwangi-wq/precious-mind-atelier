@@ -146,13 +146,11 @@ function ProfilePage() {
         display_name: displayNameSchema,
         headline: headlineSchema,
         bio: bioSchema,
-        avatar_url: avatarSchema,
       })
       .safeParse({
         display_name: profile.display_name ?? "",
         headline: profile.headline ?? "",
         bio: profile.bio ?? "",
-        avatar_url: profile.avatar_url ?? "",
       });
     if (!parsed.success) return toast.error(parsed.error.issues[0].message);
 
@@ -163,9 +161,8 @@ function ProfilePage() {
         {
           id: user.id,
           display_name: parsed.data.display_name,
-          headline: parsed.data.headline || null,
-          bio: parsed.data.bio || null,
-          avatar_url: parsed.data.avatar_url || null,
+          headline: (parsed.data.headline as string | undefined) || null,
+          bio: (parsed.data.bio as string | undefined) || null,
         },
         { onConflict: "id" },
       );
@@ -173,6 +170,7 @@ function ProfilePage() {
     if (error) return toast.error("Could not save", { description: error.message });
     toast.success("Profile updated");
   };
+
 
   const handleSignOut = async () => {
     await signOut();
