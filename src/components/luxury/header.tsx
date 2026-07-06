@@ -90,13 +90,15 @@ export function Header() {
           {NAV.map((item) => {
             const active = isNavActive(item.href, navCtx);
             const classes = cn(
-              "group relative rounded-sm text-[13px] font-light tracking-wide outline-none transition-colors duration-500 hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
+              "group relative rounded-sm text-[13px] font-light tracking-wide outline-none transition-colors hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
+              motionDur,
               active ? "text-gold" : "text-platinum/80",
             );
             const underline = (
               <span
                 className={cn(
-                  "absolute -bottom-1 left-0 h-px bg-gold transition-all duration-500 ease-out group-hover:w-full group-focus-visible:w-full",
+                  "absolute -bottom-1 left-0 h-px bg-gold transition-all ease-out group-hover:w-full group-focus-visible:w-full",
+                  motionDur,
                   active ? "w-full" : "w-0",
                 )}
               />
