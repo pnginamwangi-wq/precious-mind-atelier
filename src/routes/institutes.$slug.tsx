@@ -161,7 +161,7 @@ function InstitutePage() {
   );
 }
 
-function useSyncReducedMotion(): boolean {
+function syncReducedMotion(): boolean {
   // Framer's useReducedMotion returns null on the first client render, then
   // resolves on effect. That one-frame gap is enough for the hero parallax
   // to commit its initial scale value before the guard kicks in. Read
@@ -173,7 +173,7 @@ function useSyncReducedMotion(): boolean {
 function InstituteHero({ institute }: { institute: Institute }) {
   const ref = useRef<HTMLDivElement>(null);
   const framerReduce = useReducedMotion();
-  const reduce = framerReduce ?? useSyncReducedMotion();
+  const reduce = framerReduce ?? syncReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   // When reduced motion is preferred, freeze all parallax MotionValues so the
   // hero image and content render without transform or opacity animation.
