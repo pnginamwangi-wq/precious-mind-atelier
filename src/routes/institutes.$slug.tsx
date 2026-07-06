@@ -141,9 +141,11 @@ function InstituteHero({ institute }: { institute: Institute }) {
             </Reveal>
             <Reveal>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                  Enrol in this Institute
-                </LuxButton>
+                <a href="#inquiry">
+                  <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
+                    Enrol in this Institute
+                  </LuxButton>
+                </a>
                 <Link to="/institutes">
                   <LuxButton variant="ghost">All eight Institutes</LuxButton>
                 </Link>
