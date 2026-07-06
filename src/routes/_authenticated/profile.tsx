@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Award, BookOpen, GraduationCap, Loader2, LogOut } from "lucide-react";
+import { Award, BookOpen, GraduationCap, Loader2, LogOut, Upload } from "lucide-react";
+
 
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -42,7 +43,7 @@ type Profile = {
 const displayNameSchema = z.string().trim().min(1, "Name is required").max(80);
 const headlineSchema = z.string().trim().max(120).optional().or(z.literal(""));
 const bioSchema = z.string().trim().max(600).optional().or(z.literal(""));
-const avatarSchema = z.string().trim().url("Enter a valid URL").max(500).optional().or(z.literal(""));
+
 
 function ProfilePage() {
   const { user, signOut } = useAuth();
@@ -51,6 +52,25 @@ function ProfilePage() {
   const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Resolve a stored avatar_url into a viewable URL. Full https URLs are used
+  // directly; storage paths (e.g. "<uid>/avatar-123.png") are exchanged for a
+  // short-lived signed URL against the private `avatars` bucket.
+  const resolveAvatarUrl = async (value: string | null): Promise<string | null> => {
+    if (!value) return null;
+    if (/^https?:\/\//i.test(value)) return value;
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .createSignedUrl(value, 60 * 60);
+    if (error) {
+      toast.error("Could not load avatar", { description: error.message });
+      return null;
+    }
+    return data?.signedUrl ?? null;
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -73,14 +93,50 @@ function ProfilePage() {
       .select("id, display_name, avatar_url, headline, bio")
       .eq("id", user.id)
       .maybeSingle()
-      .then(({ data, error }) => {
+      .then(async ({ data, error }) => {
         if (error) toast.error("Could not load profile", { description: error.message });
-        setProfile(
-          data ?? { id: user.id, display_name: null, avatar_url: null, headline: null, bio: null },
-        );
+        const next: Profile =
+          data ?? { id: user.id, display_name: null, avatar_url: null, headline: null, bio: null };
+        setProfile(next);
+        setAvatarPreview(await resolveAvatarUrl(next.avatar_url));
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  const onAvatarFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !user) return;
+    if (!file.type.startsWith("image/")) {
+      return toast.error("Please choose an image file");
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      return toast.error("Image must be under 5MB");
+    }
+    setUploading(true);
+    const ext = file.name.split(".").pop()?.toLowerCase() || "png";
+    const path = `${user.id}/avatar-${Date.now()}.${ext}`;
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+    if (uploadError) {
+      setUploading(false);
+      return toast.error("Upload failed", { description: uploadError.message });
+    }
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .upsert({ id: user.id, avatar_url: path }, { onConflict: "id" });
+    if (updateError) {
+      setUploading(false);
+      return toast.error("Could not save avatar", { description: updateError.message });
+    }
+    setProfile((p) => (p ? { ...p, avatar_url: path } : p));
+    setAvatarPreview(await resolveAvatarUrl(path));
+    setUploading(false);
+    toast.success("Avatar updated");
+  };
+
 
   const onSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,13 +146,11 @@ function ProfilePage() {
         display_name: displayNameSchema,
         headline: headlineSchema,
         bio: bioSchema,
-        avatar_url: avatarSchema,
       })
       .safeParse({
         display_name: profile.display_name ?? "",
         headline: profile.headline ?? "",
         bio: profile.bio ?? "",
-        avatar_url: profile.avatar_url ?? "",
       });
     if (!parsed.success) return toast.error(parsed.error.issues[0].message);
 
@@ -107,9 +161,8 @@ function ProfilePage() {
         {
           id: user.id,
           display_name: parsed.data.display_name,
-          headline: parsed.data.headline || null,
-          bio: parsed.data.bio || null,
-          avatar_url: parsed.data.avatar_url || null,
+          headline: (parsed.data.headline as string | undefined) || null,
+          bio: (parsed.data.bio as string | undefined) || null,
         },
         { onConflict: "id" },
       );
@@ -117,6 +170,7 @@ function ProfilePage() {
     if (error) return toast.error("Could not save", { description: error.message });
     toast.success("Profile updated");
   };
+
 
   const handleSignOut = async () => {
     await signOut();
@@ -137,11 +191,33 @@ function ProfilePage() {
           <Container className="mt-14 grid gap-10 lg:grid-cols-[1fr_1.6fr]">
             <aside className="space-y-8">
               <div className="border border-white/10 bg-black/30 p-8 backdrop-blur-sm">
-                <Eyebrow>Signed in as</Eyebrow>
-                <p className="mt-3 truncate font-display text-2xl text-ivory">
-                  {profile?.display_name || user?.email}
-                </p>
-                <p className="mt-1 truncate text-xs text-platinum/60">{user?.email}</p>
+                <div className="flex items-center gap-4">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-gold/40 bg-obsidian">
+                    {avatarPreview ? (
+                      <img
+                        src={avatarPreview}
+                        alt="Your avatar"
+                        data-testid="avatar-preview"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center font-display text-xl text-gold">
+                        {(profile?.display_name || user?.email || "?")
+                          .trim()
+                          .charAt(0)
+                          .toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <Eyebrow>Signed in as</Eyebrow>
+                    <p className="mt-1 truncate font-display text-xl text-ivory">
+                      {profile?.display_name || user?.email}
+                    </p>
+                    <p className="mt-0.5 truncate text-xs text-platinum/60">{user?.email}</p>
+                  </div>
+                </div>
+
                 {role ? (
                   <p
                     data-testid="user-role"
@@ -191,14 +267,47 @@ function ProfilePage() {
                       className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
                     />
                   </Field>
-                  <Field label="Avatar URL">
-                    <Input
-                      value={profile?.avatar_url ?? ""}
-                      onChange={(e) => setProfile((p) => (p ? { ...p, avatar_url: e.target.value } : p))}
-                      placeholder="https://"
-                      className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-                    />
+                  <Field label="Avatar" hint="PNG, JPG, or WEBP. Up to 5MB.">
+                    <div className="flex items-center gap-4">
+                      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-white/15 bg-obsidian">
+                        {avatarPreview ? (
+                          <img
+                            src={avatarPreview}
+                            alt="Current avatar"
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-xs text-platinum/50">
+                            None
+                          </div>
+                        )}
+                        {uploading ? (
+                          <div className="absolute inset-0 flex items-center justify-center bg-obsidian/70">
+                            <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                          </div>
+                        ) : null}
+                      </div>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="sr-only"
+                        onChange={onAvatarFileChange}
+                        aria-label="Upload avatar"
+                      />
+                      <LuxButton
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={uploading}
+                        onClick={() => fileInputRef.current?.click()}
+                        icon={<Upload className="h-3.5 w-3.5" />}
+                      >
+                        {uploading ? "Uploading" : avatarPreview ? "Replace" : "Upload"}
+                      </LuxButton>
+                    </div>
                   </Field>
+
                   <Field label="About" hint="A few sentences on your craft and ambitions.">
                     <Textarea
                       value={profile?.bio ?? ""}
