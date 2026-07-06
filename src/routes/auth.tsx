@@ -19,7 +19,7 @@ export const Route = createFileRoute("/auth")({
       { title: "Sign in, The Precious Intelligence Academy" },
       {
         name: "description",
-        content: "Access your Academy account, resume masterclasses, and continue your journey toward mastery.",
+        content: "Sign in to the Academy to resume your studies.",
       },
     ],
   }),
@@ -72,8 +72,8 @@ function AuthPage() {
             </h1>
             <p className="mt-3 text-sm text-platinum/70">
               {mode === "signin"
-                ? "Continue your pursuit of the extraordinary."
-                : "Begin your journey with the world's first AI powered luxury academy."}
+                ? "Return to your studies."
+                : "A small community of professionals, studying the disciplines of luxury."}
             </p>
           </div>
 

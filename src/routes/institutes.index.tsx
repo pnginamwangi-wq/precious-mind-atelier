@@ -21,12 +21,12 @@ export const Route = createFileRoute("/institutes/")({
       {
         name: "description",
         content:
-          "Eight disciplines. One faculty. Explore the Institutes of Precious Metals, Bullion, Numismatics, Gemstones, Jewellery, Horology, Luxury Retail, and Artificial Intelligence.",
+          "Eight disciplines. One faculty. The Institutes of Precious Metals, Bullion, Numismatics, Gemstones, Jewellery, Horology, Luxury Retail, and Applied Intelligence.",
       },
       { property: "og:title", content: "The Institutes, The Precious Intelligence Academy" },
       {
         property: "og:description",
-        content: "Eight self contained programmes for the world's finest maisons.",
+        content: "Eight self contained programmes, taught by the practitioners who set the standard.",
       },
     ],
   }),

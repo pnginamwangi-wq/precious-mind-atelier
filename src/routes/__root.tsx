@@ -86,14 +86,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "A luxury digital institution for precious metals, jewellery, gemstones, luxury retail, and artificial intelligence. Master the Extraordinary.",
+          "A digital institution for the disciplines of luxury. Precious metals, bullion, numismatics, gemstones, jewellery, horology, luxury retail, and applied intelligence.",
       },
       { name: "author", content: "The Precious Intelligence Academy" },
       { property: "og:title", content: "The Precious Intelligence Academy" },
       {
         property: "og:description",
         content:
-          "Where luxury, precious materials, and intelligence meet. The world's first AI powered luxury learning platform.",
+          "A place for professionals who believe knowledge is as valuable as the materials they represent. Master the Extraordinary.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
