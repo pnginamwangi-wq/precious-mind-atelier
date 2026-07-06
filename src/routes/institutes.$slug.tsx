@@ -19,6 +19,7 @@ import {
   luxury,
 } from "@/components/luxury";
 import { InquiryForm } from "@/components/luxury/inquiry-form";
+import { SaveInstituteButton } from "@/components/luxury/save-institute-button";
 import { INSTITUTES, chapterSlug, getInstitute, type Institute } from "@/data/institutes";
 
 export const Route = createFileRoute("/institutes/$slug")({
