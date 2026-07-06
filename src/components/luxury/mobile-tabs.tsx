@@ -50,7 +50,8 @@ export function MobileTabs() {
           const inner = (
             <span
               className={cn(
-                "relative flex flex-col items-center gap-1.5 py-3 text-[9px] font-medium uppercase tracking-[0.2em] transition-colors duration-500",
+                "relative flex flex-col items-center gap-1.5 py-3 text-[9px] font-medium uppercase tracking-[0.2em] transition-colors",
+                colorDur,
                 t.primary
                   ? "text-obsidian"
                   : isActive
@@ -65,7 +66,8 @@ export function MobileTabs() {
               ) : (
                 <Icon
                   className={cn(
-                    "h-5 w-5 transition-colors duration-500",
+                    "h-5 w-5 transition-colors",
+                    colorDur,
                     isActive && "text-gold",
                   )}
                 />
@@ -74,15 +76,16 @@ export function MobileTabs() {
               {isActive && !t.primary ? (
                 <motion.span
                   layoutId="mobile-tab-active"
-                  transition={{ type: "spring", stiffness: 350, damping: 32 }}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 350, damping: 32 }
+                  }
                   className="absolute -top-px left-1/2 h-px w-8 -translate-x-1/2 bg-gold"
                 />
               ) : null}
             </span>
           );
-
-          const linkClasses =
-            "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
 
           if (t.href.startsWith("#")) {
             return (
