@@ -77,11 +77,14 @@ export function MobileTabs() {
 
           const linkClasses =
             "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
-          // Pass `false` (not undefined) so React emits aria-current="false"
-          // and overrides TanStack Router Link's built-in aria-current="page"
-          // default for the "/" tab. Without this, both Home and the
-          // scrolled-into-view section tab claim aria-current at once.
-          const ariaCurrent: "page" | false = isActive ? "page" : false;
+          // TanStack Router's <Link> defaults to aria-current="page"
+          // whenever the route matches, which would double-mark the Home
+          // tab active alongside the observed section tab. Drive
+          // aria-current purely from our own isNavActive result by passing
+          // it through both activeProps and inactiveProps.
+          const currentProps = {
+            "aria-current": isActive ? ("page" as const) : undefined,
+          };
 
           if (t.href.startsWith("#")) {
             return (
@@ -89,7 +92,7 @@ export function MobileTabs() {
                 <a
                   href={t.href}
                   aria-label={t.label}
-                  aria-current={ariaCurrent}
+                  aria-current={isActive ? "page" : undefined}
                   className={linkClasses}
                   onClick={(e) => onHashNav(t.href, e)}
                 >
@@ -104,7 +107,8 @@ export function MobileTabs() {
               <Link
                 to={t.href}
                 aria-label={t.label}
-                aria-current={ariaCurrent}
+                activeProps={currentProps}
+                inactiveProps={currentProps}
                 className={linkClasses}
               >
                 {inner}
