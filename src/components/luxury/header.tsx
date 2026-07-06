@@ -1,11 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Eyebrow, GoldMark, LuxButton, luxury } from "@/components/luxury";
+import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
+
 
 const NAV = [
   { label: "Academy", href: "#academy" },
@@ -19,6 +21,8 @@ const NAV = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -76,10 +80,21 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <div className="hidden lg:block">
-            <LuxButton variant="outline" size="sm" aria-label="Enrol in the Academy">
-              Enrol
-            </LuxButton>
+            {user ? (
+              <Link to="/profile" aria-label="Your profile">
+                <LuxButton variant="outline" size="sm" icon={<User className="h-3.5 w-3.5" />}>
+                  Profile
+                </LuxButton>
+              </Link>
+            ) : (
+              <Link to="/auth" aria-label="Sign in to the Academy">
+                <LuxButton variant="outline" size="sm">
+                  Sign in
+                </LuxButton>
+              </Link>
+            )}
           </div>
+
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -135,10 +150,13 @@ export function Header() {
                   </ul>
 
                   <div className="mt-10">
-                    <LuxButton className="w-full" onClick={() => setOpen(false)}>
-                      Enrol in the Academy
-                    </LuxButton>
+                    <Link to={user ? "/profile" : "/auth"} onClick={() => setOpen(false)}>
+                      <LuxButton className="w-full">
+                        {user ? "Your profile" : "Sign in or create account"}
+                      </LuxButton>
+                    </Link>
                   </div>
+
                 </nav>
 
                 <div className="border-t border-white/5 px-6 py-5">
