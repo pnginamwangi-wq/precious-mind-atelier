@@ -8,7 +8,7 @@ import type { HTMLAttributes, ReactNode } from "react";
 export const luxury = {
   container: "mx-auto max-w-[1400px] px-6 md:px-10",
   containerNarrow: "mx-auto max-w-[1100px] px-6 md:px-10",
-  sectionY: "py-32 md:py-48",
+  sectionY: "py-32 md:py-48 lg:py-56",
   eyebrow: "font-numeric text-[10px] uppercase tracking-[0.32em] text-gold",
   eyebrowMuted: "font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/70",
   bodyMuted: "text-[15px] font-light leading-relaxed text-platinum/70",
