@@ -12,9 +12,9 @@ import AxeBuilder from "@axe-core/playwright";
 
 const ROUTES = ["/", "/institutes", "/institutes/gemstones", "/auth"];
 
+// WCAG 2.1 AA rules only. color-contrast-enhanced is AAA and intentionally excluded.
 const RULES = [
   "color-contrast",
-  "color-contrast-enhanced",
   "button-name",
   "link-name",
   "aria-hidden-focus",

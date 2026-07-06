@@ -389,7 +389,11 @@ function AIMentor() {
                   <div className="flex-1 rounded-sm bg-obsidian/60 px-4 py-3 text-[13px] font-light text-platinum/60">
                     Ask the Mentor anything…
                   </div>
-                  <button className="flex h-11 w-11 items-center justify-center bg-gold text-obsidian transition-colors hover:bg-champagne">
+                  <button
+                    type="button"
+                    aria-label="Send message to Mentor"
+                    className="flex h-11 w-11 items-center justify-center bg-gold text-obsidian outline-none transition-colors hover:bg-champagne focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
+                  >
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <path
                         d="M1 7H13M13 7L7 1M13 7L7 13"
