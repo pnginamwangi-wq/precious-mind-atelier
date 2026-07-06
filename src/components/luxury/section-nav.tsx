@@ -99,7 +99,7 @@ export function SectionNavBar({
     <nav
       aria-label={label}
       className={cn(
-        "sticky top-20 z-30 -mx-6 border-y border-white/5 bg-obsidian/85 px-6 backdrop-blur",
+        "sticky top-20 z-30 border-y border-white/5 bg-obsidian/85 px-6 backdrop-blur md:px-10",
         "md:top-24 lg:hidden",
         className,
       )}
