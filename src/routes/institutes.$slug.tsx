@@ -313,7 +313,7 @@ function Curriculum({ institute }: { institute: Institute }) {
 
 function FacultyOutcomes({ institute }: { institute: Institute }) {
   return (
-    <Section bordered>
+    <Section id="faculty" bordered className="scroll-mt-24">
       <Container>
         <div className="grid gap-16 md:grid-cols-12 md:gap-20">
           <div className="md:col-span-6">
