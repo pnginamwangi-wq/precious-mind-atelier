@@ -210,4 +210,103 @@ function TermsPage() {
             eyebrow="Terms of Use"
             title={
               <>
-                The rules of the{
+                The rules of the{" "}
+                <em className="gold-gradient-text not-italic">Academy</em>, written plainly.
+              </>
+            }
+            intro="Consumer transparency, prohibited content and conduct, intellectual property ownership, and limitation of liability. These terms are designed to be readable, fair, and clear about what you can expect and what is expected of you."
+          />
+
+          <Container narrow>
+            <Reveal>
+              <div className={cn(luxury.bodyMuted, "border-l border-gold/40 pl-6 italic")}>
+                Last updated {OPERATOR.lastUpdated}. This page is maintained directly by the Academy
+                and is subject to revision as the service evolves.
+              </div>
+            </Reveal>
+          </Container>
+        </Section>
+
+        <Section className="pt-0">
+          <Container narrow>
+            <div className="space-y-24 md:space-y-32">
+              {ARTICLES.map((article) => (
+                <article key={article.index} className="grid gap-8 md:grid-cols-12">
+                  <header className="md:col-span-4">
+                    <Reveal>
+                      <div className="font-numeric text-[11px] tracking-[0.32em] text-gold">
+                        Article {article.index}
+                      </div>
+                    </Reveal>
+                    <Reveal>
+                      <Eyebrow muted className="mt-3 block">
+                        {article.eyebrow}
+                      </Eyebrow>
+                    </Reveal>
+                    <Reveal>
+                      <h2 className="mt-5 font-display text-3xl leading-tight text-ivory md:text-4xl">
+                        {article.title}
+                      </h2>
+                    </Reveal>
+                  </header>
+
+                  <div className="space-y-6 md:col-span-8">
+                    {article.intro ? (
+                      <Reveal>
+                        <p className="text-[17px] font-light leading-relaxed text-ivory/90">
+                          {article.intro}
+                        </p>
+                      </Reveal>
+                    ) : null}
+
+                    {article.body?.map((para, i) => (
+                      <Reveal key={i}>
+                        <p className={luxury.bodyMuted}>{para}</p>
+                      </Reveal>
+                    ))}
+
+                    {article.list ? (
+                      <Reveal>
+                        <div className="border-t border-white/5 pt-6">
+                          {article.list.label ? (
+                            <div className="mb-4 font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/60">
+                              {article.list.label}
+                            </div>
+                          ) : null}
+                          <ul className="space-y-2.5">
+                            {article.list.items.map((item) => (
+                              <li
+                                key={item}
+                                className="flex gap-3 text-[15px] font-light leading-relaxed text-platinum/80"
+                              >
+                                <span
+                                  aria-hidden
+                                  className="mt-2 h-px w-4 flex-none bg-gold/60"
+                                />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </Reveal>
+                    ) : null}
+
+                    {article.note ? (
+                      <Reveal>
+                        <p className={cn(luxury.bodySmall, "italic text-platinum/60")}>
+                          {article.note}
+                        </p>
+                      </Reveal>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-24 md:mt-32">
+              <Hairline />
+              <Reveal>
+                <div className="mt-16 text-center">
+                  <Eyebrow>Final Principle</Eyebrow>
+                  <p className="mx-auto mt-8 max-w-2xl font-display text-3xl leading-tight text-ivory md:text-4xl">
+                    Clarity, respect, and{
