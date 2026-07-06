@@ -24,7 +24,10 @@ const RULES = [
 ];
 
 async function main() {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: "/chromium_headless_shell-1194/chrome-linux/headless_shell",
+  });
   let total = 0;
   try {
     for (const route of ROUTES) {
