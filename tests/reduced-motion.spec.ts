@@ -35,6 +35,13 @@ function isIdentityTransform(value: string): boolean {
 test.describe("prefers-reduced-motion", () => {
   test("PageTransition veil is suppressed on navigation", async ({ page }) => {
     await page.goto("/");
+    // useReducedMotion resolves on the client after hydration; give React
+    // one commit to re-render PageTransition into its children-only branch.
+    await page.waitForFunction(
+      () => document.querySelector('[data-testid="page-veil"]') === null,
+      undefined,
+      { timeout: 5000 },
+    );
     await expect(page.getByTestId("page-veil")).toHaveCount(0);
 
     await page.goto("/institutes");
