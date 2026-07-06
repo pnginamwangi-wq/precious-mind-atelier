@@ -59,7 +59,7 @@ export function SectionNav({
               <a
                 href={`#${item.id}`}
                 onClick={(e) => onHashNav(`#${item.id}`, e)}
-                aria-current={active ? "true" : undefined}
+                aria-current={active ? "location" : undefined}
                 className={cn(
                   "group inline-flex rounded-sm font-numeric text-[10px] tracking-[0.32em] uppercase outline-none transition-colors focus-visible:text-gold focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
                   motionDur,
@@ -112,7 +112,7 @@ export function SectionNavBar({
               <a
                 href={`#${item.id}`}
                 onClick={(e) => onHashNav(`#${item.id}`, e)}
-                aria-current={active ? "true" : undefined}
+                aria-current={active ? "location" : undefined}
                 className={cn(
                   "relative inline-flex whitespace-nowrap rounded-sm font-numeric text-[10px] tracking-[0.32em] uppercase outline-none transition-colors focus-visible:text-gold focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
                   motionDur,
