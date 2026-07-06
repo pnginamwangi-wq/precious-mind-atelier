@@ -108,7 +108,7 @@ function ProfilePage() {
   return (
     <>
       <Header />
-      <main id="main" className="bg-obsidian text-ivory">
+      <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <Section className="pt-40">
           <SectionHeader
             eyebrow="Your Study"

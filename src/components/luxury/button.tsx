@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
  * Luxury button. Editorial, all caps, wide tracking. Never rounded.
  */
 const buttonStyles = cva(
-  "group inline-flex items-center justify-center gap-3 whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.28em] transition-all duration-500 cursor-pointer disabled:opacity-40 disabled:pointer-events-none",
+  "group inline-flex items-center justify-center gap-3 whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.28em] transition-all duration-500 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian disabled:opacity-40 disabled:pointer-events-none",
   {
     variants: {
       variant: {
@@ -62,7 +62,7 @@ export function ArrowLink({
     <a
       href={href}
       className={cn(
-        "group inline-flex items-center gap-3 text-[11px] font-light uppercase tracking-[0.28em] text-ivory transition-colors hover:text-gold",
+        "group inline-flex items-center gap-3 rounded-sm text-[11px] font-light uppercase tracking-[0.28em] text-ivory outline-none transition-colors hover:text-gold focus-visible:text-gold focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
         className,
       )}
     >
