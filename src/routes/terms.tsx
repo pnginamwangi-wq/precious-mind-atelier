@@ -309,4 +309,23 @@ function TermsPage() {
                 <div className="mt-16 text-center">
                   <Eyebrow>Final Principle</Eyebrow>
                   <p className="mx-auto mt-8 max-w-2xl font-display text-3xl leading-tight text-ivory md:text-4xl">
-                    Clarity, respect, and{
+                    Clarity, respect, and{" "}
+                    <em className="gold-gradient-text not-italic">fair dealing</em> govern every
+                    interaction here.
+                  </p>
+                  <p className={cn(luxury.bodyMuted, "mx-auto mt-6 max-w-xl")}>
+                    These terms exist to protect the integrity of the Academy and the trust of every
+                    person who uses it.
+                  </p>
+                </div>
+              </Reveal>
+            </div>
+          </Container>
+        </Section>
+
+        <Footer />
+      </main>
+      <MobileTabs />
+    </>
+  );
+}
