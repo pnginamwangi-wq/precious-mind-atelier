@@ -19,6 +19,7 @@ import {
   luxury,
 } from "@/components/luxury";
 import { InquiryForm } from "@/components/luxury/inquiry-form";
+import { SaveInstituteButton } from "@/components/luxury/save-institute-button";
 import { INSTITUTES, chapterSlug, getInstitute, type Institute } from "@/data/institutes";
 
 export const Route = createFileRoute("/institutes/$slug")({
@@ -194,6 +195,7 @@ function InstituteHero({ institute }: { institute: Institute }) {
                 <Link to="/institutes">
                   <LuxButton variant="ghost">All eight Institutes</LuxButton>
                 </Link>
+                <SaveInstituteButton slug={institute.slug} name={institute.name} />
               </div>
             </Reveal>
           </div>
