@@ -59,7 +59,7 @@ type RevealProps = HTMLMotionProps<"div"> & { children: ReactNode };
 
 export function Reveal({ className, children, ...rest }: RevealProps) {
   return (
-    <motion.div variants={fadeUp} className={className} {...rest}>
+    <motion.div data-testid="reveal" variants={fadeUp} className={className} {...rest}>
       {children}
     </motion.div>
   );

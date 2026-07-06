@@ -44,6 +44,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       <AnimatePresence initial={false}>
         <motion.div
           key={`${pathname}::veil`}
+          data-testid="page-veil"
           aria-hidden
           className="pointer-events-none fixed inset-x-0 top-0 z-[70] h-dvh"
           initial={{ y: "-101%" }}

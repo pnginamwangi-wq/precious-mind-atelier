@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { Header } from "@/components/luxury/header";
@@ -161,16 +161,40 @@ function InstitutePage() {
   );
 }
 
+function usePrefersReducedMotion(): boolean {
+  const framer = useReducedMotion();
+  const [reduce, setReduce] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduce(mq.matches);
+    const handler = () => setReduce(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return reduce || framer === true;
+}
+
 function InstituteHero({ institute }: { institute: Institute }) {
   const ref = useRef<HTMLDivElement>(null);
+  const reduce = usePrefersReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.2]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.15]);
+  // When reduced motion is preferred, freeze all parallax MotionValues so the
+  // hero image and content render without transform or opacity animation.
+  const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "18%"]);
+  const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1.05, 1.2]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], reduce ? [1, 1] : [1, 0.15]);
+
+  const parallaxStyle = reduce ? undefined : ({ y, scale } as { y: MotionValue<string>; scale: MotionValue<number> });
+  const overlayStyle = reduce ? undefined : ({ opacity } as { opacity: MotionValue<number> });
+  const reduceAttr = String(reduce);
 
   return (
-    <section ref={ref} className="relative h-[100svh] min-h-[640px] overflow-hidden">
-      <motion.div style={{ y, scale }} className="absolute inset-0">
+    <section ref={ref} data-testid="institute-hero" data-reduce={reduceAttr} className="relative h-[100svh] min-h-[640px] overflow-hidden">
+      <motion.div data-testid="hero-parallax" style={parallaxStyle} className="absolute inset-0">
         <img
           src={institute.hero}
           alt=""
@@ -183,7 +207,8 @@ function InstituteHero({ institute }: { institute: Institute }) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(11,11,11,0.9)_90%)]" />
 
       <motion.div
-        style={{ opacity }}
+        data-testid="hero-overlay"
+        style={overlayStyle}
         className="relative z-10 flex h-full flex-col justify-end pb-24 md:pb-32"
       >
         <Container>
