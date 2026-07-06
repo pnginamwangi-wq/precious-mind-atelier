@@ -77,7 +77,11 @@ export function MobileTabs() {
 
           const linkClasses =
             "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
-          const ariaCurrent = isActive ? ("page" as const) : undefined;
+          // Pass `false` (not undefined) so React emits aria-current="false"
+          // and overrides TanStack Router Link's built-in aria-current="page"
+          // default for the "/" tab. Without this, both Home and the
+          // scrolled-into-view section tab claim aria-current at once.
+          const ariaCurrent: "page" | false = isActive ? "page" : false;
 
           if (t.href.startsWith("#")) {
             return (
@@ -87,6 +91,7 @@ export function MobileTabs() {
                   aria-label={t.label}
                   aria-current={ariaCurrent}
                   className={linkClasses}
+                  onClick={(e) => onHashNav(t.href, e)}
                 >
                   {inner}
                 </a>
