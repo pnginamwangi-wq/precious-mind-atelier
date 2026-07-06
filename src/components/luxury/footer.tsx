@@ -33,7 +33,7 @@ const COLS: { title: string; items: FooterLink[] }[] = [
     items: [
       { label: "About", href: "#about" },
       { label: "Faculty", href: "#faculty" },
-      { label: "Careers", href: "#careers" },
+      { label: "Governance", href: "/governance", internal: true },
       { label: "Contact", href: "#contact" },
     ],
   },
