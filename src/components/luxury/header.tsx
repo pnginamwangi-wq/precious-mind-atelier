@@ -8,6 +8,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Eyebrow, GoldMark, LuxButton, luxury } from "@/components/luxury";
 import { useAuth } from "@/hooks/use-auth";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
+import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { cn } from "@/lib/utils";
 
 
