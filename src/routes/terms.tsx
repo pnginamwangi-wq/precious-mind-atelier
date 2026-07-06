@@ -63,7 +63,7 @@ const ARTICLES: Article[] = [
     eyebrow: "Agreement",
     title: "Accepting these terms.",
     body: [
-      `By accessing or using the ${OPERATOR.name} website, you agree to be bound by these Terms of Use. If you do not agree, you should not use the site.`,
+      `By accessing or using ${OPERATOR.name}'s website, you agree to be bound by these Terms of Use. If you do not agree, you should not use the site.`,
       "These terms are written in plain language so that the rules, the rights, and the limits are easy to understand. They are designed to be transparent, not to hide obligations in fine print.",
     ],
   },
