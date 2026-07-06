@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as EditorialExampleRouteImport } from './routes/editorial-example'
@@ -21,6 +22,11 @@ import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/institutes.$slug.chapters.$chapter'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
   '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
   '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
   '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/governance'
     | '/privacy'
+    | '/terms'
     | '/profile'
     | '/institutes/$slug'
     | '/visual/editorial-blocks'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/governance'
     | '/privacy'
+    | '/terms'
     | '/profile'
     | '/institutes/$slug'
     | '/visual/editorial-blocks'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/governance'
     | '/privacy'
+    | '/terms'
     | '/_authenticated/profile'
     | '/institutes/$slug'
     | '/visual/editorial-blocks'
@@ -162,6 +174,7 @@ export interface RootRouteChildren {
   EditorialExampleRoute: typeof EditorialExampleRoute
   GovernanceRoute: typeof GovernanceRoute
   PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
@@ -169,6 +182,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -279,6 +299,7 @@ const rootRouteChildren: RootRouteChildren = {
   EditorialExampleRoute: EditorialExampleRoute,
   GovernanceRoute: GovernanceRoute,
   PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,
