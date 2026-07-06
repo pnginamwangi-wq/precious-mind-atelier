@@ -191,11 +191,33 @@ function ProfilePage() {
           <Container className="mt-14 grid gap-10 lg:grid-cols-[1fr_1.6fr]">
             <aside className="space-y-8">
               <div className="border border-white/10 bg-black/30 p-8 backdrop-blur-sm">
-                <Eyebrow>Signed in as</Eyebrow>
-                <p className="mt-3 truncate font-display text-2xl text-ivory">
-                  {profile?.display_name || user?.email}
-                </p>
-                <p className="mt-1 truncate text-xs text-platinum/60">{user?.email}</p>
+                <div className="flex items-center gap-4">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-gold/40 bg-obsidian">
+                    {avatarPreview ? (
+                      <img
+                        src={avatarPreview}
+                        alt="Your avatar"
+                        data-testid="avatar-preview"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center font-display text-xl text-gold">
+                        {(profile?.display_name || user?.email || "?")
+                          .trim()
+                          .charAt(0)
+                          .toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <Eyebrow>Signed in as</Eyebrow>
+                    <p className="mt-1 truncate font-display text-xl text-ivory">
+                      {profile?.display_name || user?.email}
+                    </p>
+                    <p className="mt-0.5 truncate text-xs text-platinum/60">{user?.email}</p>
+                  </div>
+                </div>
+
                 {role ? (
                   <p
                     data-testid="user-role"
