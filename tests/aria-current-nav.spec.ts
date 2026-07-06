@@ -603,8 +603,9 @@ test.describe("aria-current tracking", () => {
             await page.locator("#mentor").scrollIntoViewIfNeeded();
           },
           async () => {
-            await page.locator("#library").scrollIntoViewIfNeeded();
+            await page.evaluate(() => window.scrollTo(0, 0));
           },
+
           async () => {
             await page.evaluate(() => {
               window.scrollTo(0, 0);
