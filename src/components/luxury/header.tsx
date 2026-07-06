@@ -143,18 +143,34 @@ export function Header() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.05 + i * 0.05, duration: 0.5, ease: luxury.ease }}
                       >
-                        <a
-                          href={item.href}
-                          onClick={() => setOpen(false)}
-                          className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
-                        >
-                          <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
-                            {item.label}
-                          </span>
-                          <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
-                            0{i + 1}
-                          </span>
-                        </a>
+                        {item.internal ? (
+                          <Link
+                            to={item.href}
+                            onClick={() => setOpen(false)}
+                            className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
+                          >
+                            <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
+                              {item.label}
+                            </span>
+                            <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
+                              0{i + 1}
+                            </span>
+                          </Link>
+                        ) : (
+                          <a
+                            href={item.href}
+                            onClick={() => setOpen(false)}
+                            className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
+                          >
+                            <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
+                              {item.label}
+                            </span>
+                            <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
+                              0{i + 1}
+                            </span>
+                          </a>
+                        )}
+
                       </motion.li>
                     ))}
                   </ul>
