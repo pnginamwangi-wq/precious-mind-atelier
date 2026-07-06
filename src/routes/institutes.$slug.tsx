@@ -80,7 +80,7 @@ function InstitutePage() {
   return (
     <>
       <Header />
-      <main id="main" className="bg-obsidian text-ivory">
+      <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <InstituteHero institute={institute} />
         <Philosophy institute={institute} />
         <Curriculum institute={institute} />

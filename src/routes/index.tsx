@@ -53,7 +53,7 @@ function Home() {
   return (
     <div className="min-h-dvh bg-obsidian text-ivory">
       <Header />
-      <main id="main">
+      <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
         <Manifesto />
         <ScrollGallery />
