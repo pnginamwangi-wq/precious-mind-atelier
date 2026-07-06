@@ -3,6 +3,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Container, Eyebrow, GoldMark } from "@/components/luxury";
+import { CookieSettingsLink } from "@/components/luxury/cookie-notice";
+
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
 import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { cn } from "@/lib/utils";
