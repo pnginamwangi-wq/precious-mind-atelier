@@ -3,6 +3,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Container, Eyebrow, GoldMark } from "@/components/luxury";
+import { CookieSettingsLink } from "@/components/luxury/cookie-notice";
+
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
 import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { cn } from "@/lib/utils";
@@ -149,8 +151,12 @@ export function Footer() {
 
         <div className="mt-20 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-8 md:flex-row md:items-center">
           <Eyebrow muted>© MMXXVI · The Precious Intelligence Academy</Eyebrow>
-          <Eyebrow muted>Crafted with precision</Eyebrow>
+          <div className="flex items-center gap-6">
+            <CookieSettingsLink />
+            <Eyebrow muted>Crafted with precision</Eyebrow>
+          </div>
         </div>
+
       </Container>
     </footer>
   );

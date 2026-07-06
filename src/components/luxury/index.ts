@@ -7,5 +7,7 @@ export * from "./footer";
 export * from "./mobile-tabs";
 export * from "./page-transition";
 export * from "./section-nav";
+export * from "./cookie-notice";
+
 
 
