@@ -171,7 +171,7 @@ function Philosophy({ institute }: { institute: Institute }) {
           </div>
           <div className="md:col-span-7 md:col-start-6">
             <Reveal>
-              <p className={`${luxury.body}`}>{institute.philosophy}</p>
+              <p className={`text-[17px] font-light leading-[1.7] text-ivory/85 md:text-lg`}>{institute.philosophy}</p>
             </Reveal>
             <Hairline className="mt-10 w-32" />
             <dl className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
