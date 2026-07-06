@@ -334,26 +334,26 @@ function AIMentor() {
         <div className="grid gap-16 md:grid-cols-12 md:gap-24">
           <div className="md:col-span-5">
             <Reveal>
-              <Eyebrow>IV. The AI Mentor</Eyebrow>
+              <Eyebrow>IV. The Mentor</Eyebrow>
             </Reveal>
             <Reveal>
               <h2 className="mt-6 font-display text-5xl leading-tight md:text-7xl">
-                A private tutor, forged in gold.
+                A tutor, in private session.
               </h2>
             </Reveal>
             <Reveal>
               <p className={`mt-8 ${luxury.bodyMuted}`}>
-                Identify a gemstone from a photograph. Rehearse a high value sale.
-                Compare a proof coin to its bullion counterpart. The Mentor listens,
-                explains, and remembers, in every language your clientele speaks.
+                Ask about a stone, a hallmark, or a conversation you are about
+                to have with a client. The Mentor listens, explains, and
+                remembers, in the languages your clientele speaks.
               </p>
             </Reveal>
             <ul className="mt-10 space-y-4">
               {[
                 "Voice conversations, calmly paced",
                 "Image and gemstone identification",
-                "Luxury sales roleplay simulations",
-                "Personal glossary and citations",
+                "Roleplay for the high value sale",
+                "A personal glossary, with citations",
               ].map((f) => (
                 <motion.li
                   key={f}
