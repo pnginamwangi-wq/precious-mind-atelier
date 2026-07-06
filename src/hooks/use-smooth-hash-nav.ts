@@ -40,16 +40,28 @@ export function useSmoothHashNav(): (
         });
       };
 
+      // If the target section exists on the current route (e.g. a
+      // secondary in-page nav on /institutes/$slug), stay on this
+      // route and just update the hash so aria-current flips now.
+      const inCurrentRoute =
+        typeof document !== "undefined" && document.getElementById(id) !== null;
+
       if (pathname === "/") {
         // Update the router hash first so `isNavActive` flips the tapped
         // item to aria-current="page" this render, then scroll.
         void navigate({ to: "/", hash: id, replace: true });
         scrollToTarget();
+      } else if (inCurrentRoute) {
+        // Secondary in-page nav on a non-root route (e.g. institute
+        // detail). Update the URL hash without a router navigation so
+        // we do not trigger a route change or loader re-run.
+        if (typeof window !== "undefined") {
+          window.history.replaceState(null, "", `#${id}`);
+        }
+        scrollToTarget();
       } else {
         // Cross-route jump: land on "/" then scroll once the section mounts.
         void navigate({ to: "/", hash: id }).then(() => {
-          // requestAnimationFrame gives the DOM one paint to place the
-          // section before we measure its scroll position.
           requestAnimationFrame(scrollToTarget);
         });
       }

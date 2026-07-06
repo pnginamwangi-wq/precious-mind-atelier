@@ -15,6 +15,8 @@ import {
   Reveal,
   Section,
   SectionHeader,
+  SectionNav,
+  SectionNavBar,
   fadeUp,
   luxury,
 } from "@/components/luxury";
@@ -122,6 +124,13 @@ function NotFound() {
   );
 }
 
+const INSTITUTE_SECTIONS = [
+  { id: "philosophy", label: "Philosophy" },
+  { id: "curriculum", label: "Curriculum" },
+  { id: "faculty", label: "Faculty & Outcomes" },
+  { id: "inquiry", label: "Admissions" },
+] as const;
+
 function InstitutePage() {
   const { institute } = Route.useLoaderData();
   return (
@@ -129,11 +138,22 @@ function InstitutePage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <InstituteHero institute={institute} />
-        <Philosophy institute={institute} />
-        <Curriculum institute={institute} />
-        <FacultyOutcomes institute={institute} />
-        <Inquiry institute={institute} />
-        <NextPrev current={institute} />
+        <SectionNavBar items={INSTITUTE_SECTIONS} label={`${institute.name} sections`} />
+        <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
+          <aside className="hidden lg:block lg:pt-32">
+            <SectionNav
+              items={INSTITUTE_SECTIONS}
+              label={`In the ${institute.name} Institute`}
+            />
+          </aside>
+          <div className="min-w-0">
+            <Philosophy institute={institute} />
+            <Curriculum institute={institute} />
+            <FacultyOutcomes institute={institute} />
+            <Inquiry institute={institute} />
+            <NextPrev current={institute} />
+          </div>
+        </div>
       </main>
       <Footer />
       <MobileTabs />
@@ -207,7 +227,7 @@ function InstituteHero({ institute }: { institute: Institute }) {
 
 function Philosophy({ institute }: { institute: Institute }) {
   return (
-    <Section bordered>
+    <Section id="philosophy" bordered className="scroll-mt-24">
       <Container>
         <div className="grid gap-16 md:grid-cols-12 md:gap-24">
           <div className="md:col-span-4">
@@ -244,7 +264,7 @@ function Philosophy({ institute }: { institute: Institute }) {
 
 function Curriculum({ institute }: { institute: Institute }) {
   return (
-    <Section bordered tinted>
+    <Section id="curriculum" bordered tinted className="scroll-mt-24">
       <Container>
         <SectionHeader
           index="II"
@@ -293,7 +313,7 @@ function Curriculum({ institute }: { institute: Institute }) {
 
 function FacultyOutcomes({ institute }: { institute: Institute }) {
   return (
-    <Section bordered>
+    <Section id="faculty" bordered className="scroll-mt-24">
       <Container>
         <div className="grid gap-16 md:grid-cols-12 md:gap-20">
           <div className="md:col-span-6">
@@ -358,7 +378,7 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
 
 function Inquiry({ institute }: { institute: Institute }) {
   return (
-    <Section id="inquiry" bordered tinted>
+    <Section id="inquiry" bordered tinted className="scroll-mt-24">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
           <div>

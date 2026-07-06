@@ -14,6 +14,8 @@ import {
   Reveal,
   Section,
   SectionHeader,
+  SectionNav,
+  SectionNavBar,
   fadeUp,
   luxury,
 } from "@/components/luxury";
@@ -83,6 +85,12 @@ function ChapterNotFound() {
   );
 }
 
+const CHAPTER_SECTIONS = [
+  { id: "overview", label: "Overview" },
+  { id: "study", label: "Study" },
+  { id: "next", label: "Continue" },
+] as const;
+
 function ChapterPage() {
   const { institute, module, index } = Route.useLoaderData();
   const total = institute.curriculum.length;
@@ -94,8 +102,16 @@ function ChapterPage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <ChapterHero institute={institute} module={module} />
-        <ChapterStudy institute={institute} module={module} />
-        <ChapterNav institute={institute} prev={prev} next={next} />
+        <SectionNavBar items={CHAPTER_SECTIONS} label="Chapter sections" />
+        <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
+          <aside className="hidden lg:block lg:pt-32">
+            <SectionNav items={CHAPTER_SECTIONS} label="In this chapter" />
+          </aside>
+          <div className="min-w-0">
+            <ChapterStudy institute={institute} module={module} />
+            <ChapterNav institute={institute} prev={prev} next={next} />
+          </div>
+        </div>
       </main>
       <Footer />
       <MobileTabs />
@@ -111,7 +127,7 @@ function ChapterHero({
   module: CurriculumModule;
 }) {
   return (
-    <section className="relative overflow-hidden pt-40 pb-24">
+    <section id="overview" className="relative overflow-hidden pt-40 pb-24 scroll-mt-24">
       <div
         aria-hidden
         className="absolute inset-0 bg-cover bg-center opacity-25"
@@ -157,7 +173,7 @@ function ChapterStudy({
   module: CurriculumModule;
 }) {
   return (
-    <Section bordered>
+    <Section id="study" bordered className="scroll-mt-24">
       <Container>
         <SectionHeader
           index={module.chapter}
@@ -237,7 +253,7 @@ function ChapterNav({
   next: CurriculumModule;
 }) {
   return (
-    <Section bordered tinted>
+    <Section id="next" bordered tinted className="scroll-mt-24">
       <Container>
         <div className="grid gap-px bg-white/5 md:grid-cols-2">
           <ChapterNavCard
