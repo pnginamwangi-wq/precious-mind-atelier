@@ -48,8 +48,23 @@ function ProfilePage() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.role) setRole(data.role);
+      });
+  }, [user]);
 
   useEffect(() => {
     if (!user) return;
@@ -127,6 +142,14 @@ function ProfilePage() {
                   {profile?.display_name || user?.email}
                 </p>
                 <p className="mt-1 truncate text-xs text-platinum/60">{user?.email}</p>
+                {role ? (
+                  <p
+                    data-testid="user-role"
+                    className="mt-4 inline-block border border-gold/40 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-gold"
+                  >
+                    {role}
+                  </p>
+                ) : null}
                 <Hairline className="my-6" />
                 <LuxButton
                   variant="outline"
