@@ -19,7 +19,7 @@ import {
   luxury,
 } from "@/components/luxury";
 import { InquiryForm } from "@/components/luxury/inquiry-form";
-import { INSTITUTES, getInstitute, type Institute } from "@/data/institutes";
+import { INSTITUTES, chapterSlug, getInstitute, type Institute } from "@/data/institutes";
 
 export const Route = createFileRoute("/institutes/$slug")({
   loader: ({ params }) => {
@@ -210,20 +210,32 @@ function Curriculum({ institute }: { institute: Institute }) {
             <motion.article
               key={m.chapter}
               variants={fadeUp}
-              className="group flex flex-col justify-between bg-obsidian p-8 transition-colors duration-500 hover:bg-charcoal md:min-h-[240px] md:p-10"
+              className="group bg-obsidian transition-colors duration-500 hover:bg-charcoal"
             >
-              <div className="flex items-start justify-between">
-                <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">
-                  Chapter {m.chapter}
-                </span>
-                <span className="text-platinum/40 transition-all duration-500 group-hover:translate-x-1 group-hover:text-gold">
-                  →
-                </span>
-              </div>
-              <div className="mt-10">
-                <h3 className="font-display text-3xl leading-tight text-ivory">{m.title}</h3>
-                <p className={`mt-4 ${luxury.bodySmall}`}>{m.summary}</p>
-              </div>
+              <Link
+                to="/institutes/$slug/chapters/$chapter"
+                params={{ slug: institute.slug, chapter: chapterSlug(m.chapter) }}
+                className="flex h-full flex-col justify-between p-8 md:min-h-[240px] md:p-10"
+                aria-label={`Chapter ${m.chapter}, ${m.title}`}
+              >
+                <div className="flex items-start justify-between">
+                  <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">
+                    Chapter {m.chapter}
+                  </span>
+                  <span className="text-platinum/40 transition-all duration-500 group-hover:translate-x-1 group-hover:text-gold">
+                    →
+                  </span>
+                </div>
+                <div className="mt-10">
+                  <h3 className="font-display text-3xl leading-tight text-ivory transition-colors group-hover:text-gold">
+                    {m.title}
+                  </h3>
+                  <p className={`mt-4 ${luxury.bodySmall}`}>{m.summary}</p>
+                  <div className="mt-6">
+                    <ArrowLink>Enter the chapter</ArrowLink>
+                  </div>
+                </div>
+              </Link>
             </motion.article>
           ))}
         </div>
