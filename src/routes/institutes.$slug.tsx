@@ -227,7 +227,7 @@ function InstituteHero({ institute }: { institute: Institute }) {
 
 function Philosophy({ institute }: { institute: Institute }) {
   return (
-    <Section bordered>
+    <Section id="philosophy" bordered className="scroll-mt-24">
       <Container>
         <div className="grid gap-16 md:grid-cols-12 md:gap-24">
           <div className="md:col-span-4">
