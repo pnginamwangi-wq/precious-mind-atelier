@@ -230,4 +230,137 @@ test.describe("aria-current tracking", () => {
       await expect(page).toHaveURL(/#masterclasses$/);
     });
   });
+
+  test.describe("keyboard navigation flips aria-current", () => {
+    /**
+     * Focuses the given link inside `navSelector` by Tabbing from the top
+     * of the document. Uses a bounded loop so a stray focus trap fails the
+     * test loudly instead of hanging.
+     */
+    async function tabToLink(
+      page: Page,
+      navSelector: string,
+      name: RegExp,
+      maxTabs = 60,
+    ) {
+      const target = page.locator(navSelector).getByRole("link", { name });
+      await target.waitFor({ state: "visible" });
+      // Reset focus to the document start so Tab order is deterministic.
+      await page.evaluate(() => {
+        (document.activeElement as HTMLElement | null)?.blur?.();
+        window.scrollTo(0, 0);
+      });
+      for (let i = 0; i < maxTabs; i++) {
+        await page.keyboard.press("Tab");
+        const focused = await target.evaluate(
+          (el) => el === document.activeElement,
+        );
+        if (focused) return;
+      }
+      throw new Error(
+        `Could not reach link "${name}" inside ${navSelector} within ${maxTabs} Tab presses`,
+      );
+    }
+
+    test.describe("desktop Header + Footer", () => {
+      test.use({ viewport: DESKTOP });
+
+      test("Enter on Header hash link sets aria-current on Header and Footer", async ({
+        page,
+      }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+
+        await tabToLink(
+          page,
+          'header nav[aria-label="Primary"]',
+          /Masterclasses/i,
+        );
+        await page.keyboard.press("Enter");
+
+        await expectActive(
+          page,
+          'header nav[aria-label="Primary"]',
+          /Masterclasses/i,
+        );
+        await expectActive(
+          page,
+          'nav[aria-label="Footer"]',
+          /Masterclasses/i,
+        );
+        await expect(page).toHaveURL(/#masterclasses$/);
+      });
+
+      test("Enter on Footer route link marks Institutes active on Header and Footer", async ({
+        page,
+      }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+
+        // Footer sits far down; scroll it into view first so its links
+        // are focusable and reachable via Tab.
+        await page.locator('nav[aria-label="Footer"]').scrollIntoViewIfNeeded();
+        await tabToLink(
+          page,
+          'nav[aria-label="Footer"]',
+          /Institutes/i,
+        );
+        await page.keyboard.press("Enter");
+        await page.waitForURL(/\/institutes$/);
+
+        await expectActive(
+          page,
+          'header nav[aria-label="Primary"]',
+          /Institutes/i,
+        );
+        await expectActive(
+          page,
+          'nav[aria-label="Footer"]',
+          /Institutes/i,
+        );
+      });
+    });
+
+    test.describe("MobileTabs", () => {
+      test.use({ viewport: MOBILE });
+
+      test("Enter on MobileTabs hash link flips aria-current", async ({
+        page,
+      }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+
+        const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
+        await tabToLink(page, 'nav[aria-label="Mobile navigation"]', /Classes/i);
+        await page.keyboard.press("Enter");
+
+        await expect(
+          mobileNav.locator('[aria-current="page"]'),
+        ).toHaveAccessibleName(/Classes/i);
+        await expect(page).toHaveURL(/#masterclasses$/);
+      });
+
+      test("Enter on MobileTabs route link activates Institutes tab", async ({
+        page,
+      }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+
+        await tabToLink(
+          page,
+          'nav[aria-label="Mobile navigation"]',
+          /Institutes/i,
+        );
+        await page.keyboard.press("Enter");
+        await page.waitForURL(/\/institutes$/);
+
+        await expectActive(
+          page,
+          'nav[aria-label="Mobile navigation"]',
+          /Institutes/i,
+        );
+      });
+    });
+  });
 });
+
