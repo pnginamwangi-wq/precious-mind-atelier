@@ -24,6 +24,9 @@ import {
   fadeUp,
   luxury,
 } from "@/components/luxury";
+import { EducationDisclaimer } from "@/components/luxury/education-disclaimer";
+import { Info } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   component: Home,
