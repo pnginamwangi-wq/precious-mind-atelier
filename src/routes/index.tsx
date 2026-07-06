@@ -304,7 +304,7 @@ function Institutes() {
 
 function AIMentor() {
   return (
-    <Section className="overflow-hidden">
+    <Section id="mentor" className="overflow-hidden">
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[140px]" />
       <Container>
         <div className="grid gap-16 md:grid-cols-12 md:gap-24">
