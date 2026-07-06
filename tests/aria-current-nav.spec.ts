@@ -360,7 +360,10 @@ test.describe("aria-current tracking", () => {
           /Institutes/i,
         );
       });
+    });
   });
+
+
 
   test.describe("hash-only URL changes keep aria-current consistent", () => {
     /**
