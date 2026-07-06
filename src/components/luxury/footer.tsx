@@ -124,6 +124,7 @@ export function Footer() {
                             href={item.href}
                             className={linkClasses}
                             aria-current={ariaCurrent}
+                            onClick={(e) => onHashNav(item.href, e)}
                           >
                             {item.label}
                             {underline}
