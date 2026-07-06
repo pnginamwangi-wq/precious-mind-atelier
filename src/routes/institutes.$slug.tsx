@@ -173,7 +173,9 @@ function syncReducedMotion(): boolean {
 function InstituteHero({ institute }: { institute: Institute }) {
   const ref = useRef<HTMLDivElement>(null);
   const framerReduce = useReducedMotion();
-  const reduce = framerReduce ?? syncReducedMotion();
+  // Prefer the synchronous matchMedia read so we know at first render;
+  // fall back to framer's hook value when neither source has resolved.
+  const reduce = syncReducedMotion() || framerReduce === true;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   // When reduced motion is preferred, freeze all parallax MotionValues so the
   // hero image and content render without transform or opacity animation.
