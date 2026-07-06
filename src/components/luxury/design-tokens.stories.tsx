@@ -20,20 +20,8 @@ type TokenArgs = {
   goldGlow: number;
 };
 
-function hexToOklchString(hex: string): string {
-  // Convert #rrggbb to an oklch() approximation for the token slot.
-  const clean = hex.replace("#", "");
-  const r = parseInt(clean.slice(0, 2), 16) / 255;
-  const g = parseInt(clean.slice(2, 4), 16) / 255;
-  const b = parseInt(clean.slice(4, 6), 16) / 255;
-  // Rough sRGB -> luminance for L, keep chroma/hue empty (browsers accept oklch from rgb via color-mix fallback).
-  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  const l = Math.pow(lum, 1 / 2.2).toFixed(3);
-  return `oklch(${l} 0 0 / 1)`;
-}
-
-// Simpler: just pass the hex through as a color value, browsers accept it wherever oklch() would go.
 function toColor(hex: string): string {
+  // Browsers accept hex wherever the CSS variable is used, including via oklch() slots.
   return hex;
 }
 
