@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { Container, Eyebrow, GoldMark } from "@/components/luxury";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
+import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { cn } from "@/lib/utils";
 
 type FooterLink = { label: string; href: string; internal?: boolean };
