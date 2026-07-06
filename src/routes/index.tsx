@@ -178,7 +178,7 @@ function Manifesto() {
           </Reveal>
           <div className="md:col-span-8 space-y-8">
             <Reveal>
-              <p className="font-display text-3xl leading-[1.25] text-ivory md:text-[42px] md:leading-[1.2]">
+              <p className="font-display text-3xl leading-[1.25] text-ivory md:text-[42px] md:leading-[1.2] lg:text-5xl lg:leading-[1.2]">
                 This isn't another learning platform.
               </p>
             </Reveal>
