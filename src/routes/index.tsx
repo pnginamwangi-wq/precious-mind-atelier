@@ -382,7 +382,24 @@ function AIMentor() {
                   <Eyebrow muted>Session 04</Eyebrow>
                 </div>
 
+                <div
+                  role="note"
+                  aria-label="AI transparency notice"
+                  className="mt-6 flex items-start gap-3 border border-gold/25 bg-gold/[0.04] px-4 py-3 text-[11.5px] font-light leading-relaxed text-platinum/80"
+                >
+                  <Info aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+                  <span>
+                    <span className="font-medium uppercase tracking-[0.16em] text-gold">
+                      AI, educational only.
+                    </span>{" "}
+                    The Mentor is an AI assistant. Responses may be inaccurate and are not a
+                    substitute for a qualified jeweller, gemologist, appraiser, or financial
+                    adviser. Confirm any material decision with a licensed professional.
+                  </span>
+                </div>
+
                 <div className="mt-8 space-y-6">
+
                   <div>
                     <Eyebrow muted>You</Eyebrow>
                     <p className="mt-2 font-display text-2xl leading-snug text-ivory md:text-3xl">
