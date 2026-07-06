@@ -78,12 +78,13 @@ export function MobileTabs() {
           const linkClasses =
             "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
           // TanStack Router's <Link> defaults to aria-current="page"
-          // whenever the route matches, which would double-mark the Home
-          // tab active alongside the observed section tab. Drive
-          // aria-current purely from our own isNavActive result by passing
-          // it through both activeProps and inactiveProps.
+          // whenever the route matches. Passing `undefined` doesn't
+          // suppress it (TanStack falls back to its own default), so we
+          // emit the literal string "false" whenever our own isNavActive
+          // says the tab is not current. That both defeats TanStack's
+          // default and remains a valid ARIA value.
           const currentProps = {
-            "aria-current": isActive ? ("page" as const) : undefined,
+            "aria-current": (isActive ? "page" : "false") as "page" | "false",
           };
 
           if (t.href.startsWith("#")) {
