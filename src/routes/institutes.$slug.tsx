@@ -378,7 +378,7 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
 
 function Inquiry({ institute }: { institute: Institute }) {
   return (
-    <Section id="inquiry" bordered tinted>
+    <Section id="inquiry" bordered tinted className="scroll-mt-24">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
           <div>
