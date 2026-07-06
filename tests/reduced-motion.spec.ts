@@ -73,7 +73,7 @@ test.describe("prefers-reduced-motion", () => {
   test("InstituteHero parallax freezes on scroll", async ({ page }) => {
     // Any institute detail route mounts the parallax hero.
     await page.goto("/institutes");
-    await page.getByRole("link", { name: /enter the institute/i }).first().click();
+    await page.getByRole("link", { name: /enter the .+ institute/i }).first().click();
     await page.waitForURL(/\/institutes\/[^/]+$/);
 
     const parallax = page.getByTestId("hero-parallax");
