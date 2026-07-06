@@ -185,6 +185,7 @@ function InstituteHero({ institute }: { institute: Institute }) {
 
   const parallaxStyle = reduce ? undefined : ({ y, scale } as { y: MotionValue<string>; scale: MotionValue<number> });
   const overlayStyle = reduce ? undefined : ({ opacity } as { opacity: MotionValue<number> });
+  const reduceAttr = String(reduce);
 
   return (
     <section ref={ref} data-testid="institute-hero" className="relative h-[100svh] min-h-[640px] overflow-hidden">
