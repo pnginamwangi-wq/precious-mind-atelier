@@ -264,7 +264,7 @@ function Philosophy({ institute }: { institute: Institute }) {
 
 function Curriculum({ institute }: { institute: Institute }) {
   return (
-    <Section bordered tinted>
+    <Section id="curriculum" bordered tinted className="scroll-mt-24">
       <Container>
         <SectionHeader
           index="II"
