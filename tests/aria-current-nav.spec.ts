@@ -500,6 +500,130 @@ test.describe("aria-current tracking", () => {
       });
     });
   });
+
+  test.describe("at most one aria-current per nav surface", () => {
+
+    /**
+     * Asserts that `navSelector` contains 0 or 1 links with
+     * aria-current="page". More than one active item would mean
+     * assistive tech reports the user is on multiple pages at once,
+     * which is invalid ARIA and confuses screen reader landmarks.
+     */
+    async function expectAtMostOneActive(page: Page, navSelector: string) {
+      const count = await page
+        .locator(`${navSelector} [aria-current="page"]`)
+        .count();
+      expect(
+        count,
+        `expected at most one aria-current="page" inside ${navSelector}, got ${count}`,
+      ).toBeLessThanOrEqual(1);
+    }
+
+    async function sweepStates(
+      page: Page,
+      navSelectors: string[],
+      states: Array<() => Promise<void>>,
+    ) {
+      for (const enter of states) {
+        await enter();
+        for (const sel of navSelectors) {
+          await expectAtMostOneActive(page, sel);
+        }
+      }
+    }
+
+    test.describe("desktop Header + Footer", () => {
+      test.use({ viewport: DESKTOP });
+
+      test("stays at <=1 active across scroll, hash, and route transitions", async ({
+        page,
+      }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+
+        const surfaces = [
+          'header nav[aria-label="Primary"]',
+          'nav[aria-label="Footer"]',
+        ];
+
+        await sweepStates(page, surfaces, [
+          // Top of home, no hash, no observed section.
+          async () => {
+            await page.evaluate(() => window.scrollTo(0, 0));
+          },
+          // Scroll through each observable section.
+          async () => {
+            await page.locator("#academy").scrollIntoViewIfNeeded();
+          },
+          async () => {
+            await page.locator("#masterclasses").scrollIntoViewIfNeeded();
+          },
+          async () => {
+            await page.locator("#mentor").scrollIntoViewIfNeeded();
+          },
+          // Hash-only update, no scroll.
+          async () => {
+            await page.evaluate(() => {
+              window.scrollTo(0, 0);
+              window.history.replaceState(null, "", "#library");
+              window.dispatchEvent(new HashChangeEvent("hashchange"));
+            });
+          },
+          // Route change to a separate top-level page.
+          async () => {
+            await page.goto("/institutes", { waitUntil: "networkidle" });
+          },
+          // Route change to an unrelated page with no matching nav item.
+          async () => {
+            await page.goto("/governance", { waitUntil: "networkidle" });
+          },
+        ]);
+      });
+    });
+
+    test.describe("MobileTabs", () => {
+      test.use({ viewport: MOBILE });
+
+      test("stays at <=1 active across scroll, hash, and route transitions", async ({
+        page,
+      }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+
+        const surfaces = ['nav[aria-label="Mobile navigation"]'];
+
+        await sweepStates(page, surfaces, [
+          async () => {
+            await page.evaluate(() => window.scrollTo(0, 0));
+          },
+          async () => {
+            await page.locator("#masterclasses").scrollIntoViewIfNeeded();
+          },
+          async () => {
+            await page.locator("#mentor").scrollIntoViewIfNeeded();
+          },
+          async () => {
+            await page.evaluate(() => window.scrollTo(0, 0));
+          },
+
+          async () => {
+            await page.evaluate(() => {
+              window.scrollTo(0, 0);
+              window.history.replaceState(null, "", "#masterclasses");
+              window.dispatchEvent(new HashChangeEvent("hashchange"));
+            });
+          },
+          async () => {
+            await page.goto("/institutes", { waitUntil: "networkidle" });
+          },
+          async () => {
+            await page.goto("/governance", { waitUntil: "networkidle" });
+          },
+        ]);
+      });
+    });
+  });
 });
+
 
 
