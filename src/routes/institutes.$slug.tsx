@@ -45,7 +45,7 @@ export const Route = createFileRoute("/institutes/$slug")({
       institute.name,
       institute.overline,
       "Precious Intelligence Academy",
-      ...institute.chapters.map((c) => c.title),
+      ...institute.curriculum.map((c: { title: string; summary: string }) => c.title),
     ].join(", ");
     return {
       meta: [
@@ -81,7 +81,7 @@ export const Route = createFileRoute("/institutes/$slug")({
               "@type": "EducationalOrganization",
               name: "The Precious Intelligence Academy",
             },
-            hasCourse: institute.chapters.map((c) => ({
+            hasCourse: institute.curriculum.map((c: { title: string; summary: string }) => ({
               "@type": "Course",
               name: c.title,
               description: c.summary ?? c.title,
