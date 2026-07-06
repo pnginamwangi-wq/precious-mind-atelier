@@ -307,3 +307,22 @@ export const INSTITUTES: Institute[] = [
 export function getInstitute(slug: string): Institute | undefined {
   return INSTITUTES.find((i) => i.slug === slug);
 }
+
+/** Turns a chapter's roman numeral (e.g. "IV") into a URL-safe slug ("iv"). */
+export function chapterSlug(chapter: string): string {
+  return chapter.trim().toLowerCase();
+}
+
+export function getChapter(
+  instituteSlug: string,
+  chapter: string,
+): { institute: Institute; module: CurriculumModule; index: number } | undefined {
+  const institute = getInstitute(instituteSlug);
+  if (!institute) return undefined;
+  const index = institute.curriculum.findIndex(
+    (m) => chapterSlug(m.chapter) === chapter.toLowerCase(),
+  );
+  if (index === -1) return undefined;
+  return { institute, module: institute.curriculum[index], index };
+}
+
