@@ -1,0 +1,153 @@
+import { Meta, Source } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Templates/Vignette Layouts" />
+
+# Vignette Layouts
+
+Copy-paste MDX templates for composing full editorial vignettes with the
+`Vignette`, `Figure`, `Caption`, `PullQuote`, `ChapterMark`, and `Aside`
+blocks from `@/components/luxury`.
+
+Every template assumes a page wrapper:
+
+<Source language="tsx" code={`import { Section, Container } from "@/components/luxury";
+import {
+  Vignette,
+  Figure,
+  Caption,
+  PullQuote,
+  ChapterMark,
+  Aside,
+} from "@/components/luxury";`} />
+
+---
+
+## 01. Single vignette (workhorse)
+
+A 12-col split, image left, caption right. Use for object studies, faculty
+profiles, institute highlights.
+
+<Source language="tsx" code={`<Section>
+  <Container>
+    <Vignette
+      index="01"
+      image="/images/object-01.jpg"
+      alt="Bronze study, Rome, 1971"
+      title="A bronze study in restraint"
+      origin="Rome, 1971"
+      note="One of six castings held privately. The patina is deliberately unlacquered."
+      href="/objects/bronze-01"
+    />
+  </Container>
+</Section>`} />
+
+## 02. Alternating spread
+
+Two vignettes with the second reversed. Establishes rhythm without a header
+between them.
+
+<Source language="tsx" code={`<Section>
+  <Container className="space-y-32 md:space-y-48">
+    <Vignette
+      index="01"
+      image="/images/study-a.jpg"
+      alt="Manuscript detail"
+      title="A grammar of ornament"
+      origin="Florence, 1489"
+      note="From the Laurenziana archive, digitised in partnership with the Institute."
+      href="/journal/grammar-of-ornament"
+    />
+    <Vignette
+      reverse
+      index="02"
+      image="/images/study-b.jpg"
+      alt="Marble fragment"
+      title="Fragment as first draft"
+      origin="Attica, 4th c. BCE"
+      note="Held at the Institute's Athens residency, viewable by appointment."
+      href="/journal/fragment-first-draft"
+    />
+  </Container>
+</Section>`} />
+
+## 03. Chapter opener
+
+Chapter mark, pull quote, then the vignette. Use to open a long-form entry.
+
+<Source language="tsx" code={`<Section>
+  <Container narrow className="space-y-20 md:space-y-28">
+    <ChapterMark index="III" eyebrow="Chapter" title="On the discipline of looking" />
+    <PullQuote
+      quote="Attention, sustained past the point of comfort, is the whole of the method."
+      attribution="Elena Marchetti"
+      role="Director, Institute of Precious Intelligence"
+    />
+  </Container>
+  <Container className="mt-32">
+    <Vignette
+      index="01"
+      image="/images/lecture-hall.jpg"
+      alt="Empty lecture hall at dawn"
+      title="The first hour"
+      origin="Villa Adriana, 06:12"
+      note="Before students arrive, the room is set: one object, one lamp, one chair."
+    />
+  </Container>
+</Section>`} />
+
+## 04. Vignette with aside
+
+Pair a vignette with a bordered `Aside` for context, glossary, or footnote.
+
+<Source language="tsx" code={`<Section>
+  <Container>
+    <div className="grid gap-16 md:grid-cols-12">
+      <div className="md:col-span-8">
+        <Vignette
+          index="04"
+          image="/images/atelier.jpg"
+          alt="Atelier interior"
+          title="The atelier as instrument"
+          origin="Milan, 2024"
+          note="Six-month residency, three students per cohort, one master."
+          href="/programmes/atelier"
+        />
+      </div>
+      <div className="md:col-span-4 md:pt-24">
+        <Aside eyebrow="Glossary">
+          <strong className="text-ivory">Atelier.</strong> A working studio in
+          which mastery is transmitted by proximity rather than instruction.
+        </Aside>
+      </div>
+    </div>
+  </Container>
+</Section>`} />
+
+## 05. Triptych
+
+Three figures in a row for a gallery moment. Use when the images together
+form the argument, and no single caption dominates.
+
+<Source language="tsx" code={`<Section>
+  <Container>
+    <div className="grid gap-6 md:grid-cols-3 md:gap-8">
+      <Figure src="/images/triptych-a.jpg" alt="Study I" aspect="portrait" caption="I. Approach" />
+      <Figure src="/images/triptych-b.jpg" alt="Study II" aspect="portrait" caption="II. Encounter" />
+      <Figure src="/images/triptych-c.jpg" alt="Study III" aspect="portrait" caption="III. Return" />
+    </div>
+  </Container>
+</Section>`} />
+
+---
+
+## Do
+
+- Keep one vignette per screenful. Rhythm comes from air, not density.
+- Alternate `reverse` in long lists so the eye traces a Z, not a column.
+- Use `ChapterMark` between vignettes when the subject shifts.
+
+## Don't
+
+- Stack more than three vignettes without a `PullQuote` or `ChapterMark` break.
+- Mix `aspect` ratios inside a triptych. Consistency is the composition.
+- Add a `href` on every vignette. Reserve the arrow link for the one you want clicked.
