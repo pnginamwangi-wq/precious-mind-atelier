@@ -86,6 +86,7 @@ function InstitutePage() {
         <Philosophy institute={institute} />
         <Curriculum institute={institute} />
         <FacultyOutcomes institute={institute} />
+        <Inquiry institute={institute} />
         <NextPrev current={institute} />
       </main>
       <Footer />
