@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, User, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -32,6 +32,9 @@ export function Header() {
   const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
   const activeSection = useActiveSection(SECTION_IDS);
   const onHashNav = useSmoothHashNav();
+  // Snap active-state color + underline transitions when reduced motion is on.
+  const reduceMotion = useReducedMotion();
+  const motionDur = reduceMotion ? "duration-0" : "duration-500";
   const navCtx = useMemo(
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
@@ -87,13 +90,15 @@ export function Header() {
           {NAV.map((item) => {
             const active = isNavActive(item.href, navCtx);
             const classes = cn(
-              "group relative rounded-sm text-[13px] font-light tracking-wide outline-none transition-colors duration-500 hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
+              "group relative rounded-sm text-[13px] font-light tracking-wide outline-none transition-colors hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
+              motionDur,
               active ? "text-gold" : "text-platinum/80",
             );
             const underline = (
               <span
                 className={cn(
-                  "absolute -bottom-1 left-0 h-px bg-gold transition-all duration-500 ease-out group-hover:w-full group-focus-visible:w-full",
+                  "absolute -bottom-1 left-0 h-px bg-gold transition-all ease-out group-hover:w-full group-focus-visible:w-full",
+                  motionDur,
                   active ? "w-full" : "w-0",
                 )}
               />
@@ -201,15 +206,18 @@ export function Header() {
                     {NAV.map((item, i) => {
                       const active = isNavActive(item.href, navCtx);
                       const rowClasses = cn(
-                        "group flex items-baseline justify-between border-b py-4 outline-none transition-colors duration-500 focus-visible:text-gold",
+                        "group flex items-baseline justify-between border-b py-4 outline-none transition-colors focus-visible:text-gold",
+                        motionDur,
                         active ? "border-gold/60" : "border-white/5",
                       );
                       const labelClasses = cn(
-                        "font-display text-3xl transition-colors duration-500 group-hover:text-gold",
+                        "font-display text-3xl transition-colors group-hover:text-gold",
+                        motionDur,
                         active ? "text-gold" : "text-ivory",
                       );
                       const indexClasses = cn(
-                        "font-numeric text-[10px] tracking-[0.28em] transition-colors duration-500",
+                        "font-numeric text-[10px] tracking-[0.28em] transition-colors",
+                        motionDur,
                         active ? "text-gold" : "text-platinum/40",
                       );
                       const ariaCurrent = active ? ("page" as const) : undefined;

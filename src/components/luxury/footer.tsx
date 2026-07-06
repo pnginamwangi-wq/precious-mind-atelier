@@ -1,6 +1,7 @@
 import { Instagram, Linkedin, Youtube } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { useReducedMotion } from "framer-motion";
 import { Container, Eyebrow, GoldMark } from "@/components/luxury";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
 import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
@@ -51,6 +52,9 @@ export function Footer() {
   const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
   const activeSection = useActiveSection(SECTION_IDS);
   const onHashNav = useSmoothHashNav();
+  // Snap footer link color + underline when reduced motion is on.
+  const reduceMotion = useReducedMotion();
+  const motionDur = reduceMotion ? "duration-0" : "duration-500";
   const navCtx = useMemo(
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
@@ -96,13 +100,15 @@ export function Footer() {
                   {col.items.map((item) => {
                     const active = isNavActive(item.href, navCtx);
                     const linkClasses = cn(
-                      "group relative inline-flex rounded-sm text-[13px] font-light outline-none transition-colors duration-500 hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
+                      "group relative inline-flex rounded-sm text-[13px] font-light outline-none transition-colors hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian",
+                      motionDur,
                       active ? "text-gold" : "text-platinum/70",
                     );
                     const underline = (
                       <span
                         className={cn(
-                          "absolute -bottom-0.5 left-0 h-px bg-gold transition-all duration-500 ease-out group-hover:w-full group-focus-visible:w-full",
+                          "absolute -bottom-0.5 left-0 h-px bg-gold transition-all ease-out group-hover:w-full group-focus-visible:w-full",
+                          motionDur,
                           active ? "w-full" : "w-0",
                         )}
                       />
