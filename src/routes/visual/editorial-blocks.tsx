@@ -99,7 +99,6 @@ function EditorialBlocksHarness() {
           attribution="M. Aubert"
           role="Curator, Salle des Objets"
           align="center"
-          tinted
         />
       </Slot>
 
