@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
 import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/institutes.$slug.chapters.$chapter'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -45,20 +46,28 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const InstitutesSlugChaptersChapterRoute =
+  InstitutesSlugChaptersChapterRouteImport.update({
+    id: '/chapters/$chapter',
+    path: '/chapters/$chapter',
+    getParentRoute: () => InstitutesSlugRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/profile': typeof AuthenticatedProfileRoute
-  '/institutes/$slug': typeof InstitutesSlugRoute
+  '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/institutes/': typeof InstitutesIndexRoute
+  '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/profile': typeof AuthenticatedProfileRoute
-  '/institutes/$slug': typeof InstitutesSlugRoute
+  '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/institutes': typeof InstitutesIndexRoute
+  '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -66,14 +75,27 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
-  '/institutes/$slug': typeof InstitutesSlugRoute
+  '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/institutes/': typeof InstitutesIndexRoute
+  '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/profile' | '/institutes/$slug' | '/institutes/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/profile'
+    | '/institutes/$slug'
+    | '/institutes/'
+    | '/institutes/$slug/chapters/$chapter'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/profile' | '/institutes/$slug' | '/institutes'
+  to:
+    | '/'
+    | '/auth'
+    | '/profile'
+    | '/institutes/$slug'
+    | '/institutes'
+    | '/institutes/$slug/chapters/$chapter'
   id:
     | '__root__'
     | '/'
@@ -82,13 +104,14 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/institutes/$slug'
     | '/institutes/'
+    | '/institutes/$slug/chapters/$chapter'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  InstitutesSlugRoute: typeof InstitutesSlugRoute
+  InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   InstitutesIndexRoute: typeof InstitutesIndexRoute
 }
 
@@ -136,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/institutes/$slug/chapters/$chapter': {
+      id: '/institutes/$slug/chapters/$chapter'
+      path: '/chapters/$chapter'
+      fullPath: '/institutes/$slug/chapters/$chapter'
+      preLoaderRoute: typeof InstitutesSlugChaptersChapterRouteImport
+      parentRoute: typeof InstitutesSlugRoute
+    }
   }
 }
 
@@ -150,11 +180,23 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface InstitutesSlugRouteChildren {
+  InstitutesSlugChaptersChapterRoute: typeof InstitutesSlugChaptersChapterRoute
+}
+
+const InstitutesSlugRouteChildren: InstitutesSlugRouteChildren = {
+  InstitutesSlugChaptersChapterRoute: InstitutesSlugChaptersChapterRoute,
+}
+
+const InstitutesSlugRouteWithChildren = InstitutesSlugRoute._addFileChildren(
+  InstitutesSlugRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
-  InstitutesSlugRoute: InstitutesSlugRoute,
+  InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   InstitutesIndexRoute: InstitutesIndexRoute,
 }
 export const routeTree = rootRouteImport
