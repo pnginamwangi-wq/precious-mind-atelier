@@ -173,7 +173,7 @@ function ChapterStudy({
   module: CurriculumModule;
 }) {
   return (
-    <Section bordered>
+    <Section id="study" bordered className="scroll-mt-24">
       <Container>
         <SectionHeader
           index={module.chapter}
