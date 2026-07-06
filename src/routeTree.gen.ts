@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as EditorialExampleRouteImport } from './routes/editorial-example'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/institutes.$slug.chapters.$chapter'
 
+const EditorialExampleRoute = EditorialExampleRouteImport.update({
+  id: '/editorial-example',
+  path: '/editorial-example',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -56,6 +62,7 @@ const InstitutesSlugChaptersChapterRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/editorial-example': typeof EditorialExampleRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/institutes/': typeof InstitutesIndexRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/editorial-example': typeof EditorialExampleRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/institutes': typeof InstitutesIndexRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/editorial-example': typeof EditorialExampleRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/institutes/': typeof InstitutesIndexRoute
@@ -84,6 +93,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/editorial-example'
     | '/profile'
     | '/institutes/$slug'
     | '/institutes/'
@@ -92,6 +102,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/editorial-example'
     | '/profile'
     | '/institutes/$slug'
     | '/institutes'
@@ -101,6 +112,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/editorial-example'
     | '/_authenticated/profile'
     | '/institutes/$slug'
     | '/institutes/'
@@ -111,12 +123,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  EditorialExampleRoute: typeof EditorialExampleRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   InstitutesIndexRoute: typeof InstitutesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/editorial-example': {
+      id: '/editorial-example'
+      path: '/editorial-example'
+      fullPath: '/editorial-example'
+      preLoaderRoute: typeof EditorialExampleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -196,6 +216,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  EditorialExampleRoute: EditorialExampleRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   InstitutesIndexRoute: InstitutesIndexRoute,
 }
