@@ -168,6 +168,65 @@ test.describe("aria-current tracking", () => {
         'nav[aria-label="Mobile navigation"]',
         /Institutes/i,
       );
+  });
+
+  test.describe("smooth scroll click updates active state immediately", () => {
+    test.use({ viewport: DESKTOP });
+
+    test("Header hash click flips aria-current before scroll settles", async ({
+      page,
+    }) => {
+      await page.goto("/", { waitUntil: "networkidle" });
+
+      // Freeze smooth scrolling so we can assert the aria-current update
+      // is driven by the router hash write, not by the scroll animation.
+      await page.emulateMedia({ reducedMotion: "reduce" });
+
+      const headerNav = page.locator('header nav[aria-label="Primary"]');
+      await headerNav.getByRole("link", { name: /Masterclasses/i }).click();
+
+      await expect(
+        headerNav.locator('[aria-current="page"]'),
+      ).toHaveAccessibleName(/Masterclasses/i);
+      await expect(page).toHaveURL(/#masterclasses$/);
+    });
+
+    test("Footer hash click updates Footer and Header together", async ({
+      page,
+    }) => {
+      await page.goto("/", { waitUntil: "networkidle" });
+      await page.emulateMedia({ reducedMotion: "reduce" });
+
+      const footerNav = page.locator('nav[aria-label="Footer"]');
+      await footerNav.getByRole("link", { name: /Masterclasses/i }).click();
+
+      await expect(
+        footerNav.locator('[aria-current="page"]'),
+      ).toHaveAccessibleName(/Masterclasses/i);
+      await expect(
+        page
+          .locator('header nav[aria-label="Primary"]')
+          .locator('[aria-current="page"]'),
+      ).toHaveAccessibleName(/Masterclasses/i);
+    });
+  });
+
+  test.describe("smooth scroll click on mobile", () => {
+    test.use({ viewport: MOBILE });
+
+    test("MobileTabs hash tap flips aria-current immediately", async ({
+      page,
+    }) => {
+      await page.goto("/", { waitUntil: "networkidle" });
+      await page.emulateMedia({ reducedMotion: "reduce" });
+
+      const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
+      await mobileNav.getByRole("link", { name: /Classes/i }).click();
+
+      await expect(
+        mobileNav.locator('[aria-current="page"]'),
+      ).toHaveAccessibleName(/Classes/i);
+      await expect(page).toHaveURL(/#masterclasses$/);
     });
   });
 });
