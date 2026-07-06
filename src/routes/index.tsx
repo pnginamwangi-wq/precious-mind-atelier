@@ -205,7 +205,7 @@ function Manifesto() {
 
 function ScrollGallery() {
   return (
-    <Section>
+    <Section id="masterclasses">
       <Container>
         <SectionHeader
           index="II"
