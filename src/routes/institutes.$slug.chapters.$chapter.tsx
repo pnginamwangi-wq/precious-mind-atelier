@@ -253,7 +253,7 @@ function ChapterNav({
   next: CurriculumModule;
 }) {
   return (
-    <Section bordered tinted>
+    <Section id="next" bordered tinted className="scroll-mt-24">
       <Container>
         <div className="grid gap-px bg-white/5 md:grid-cols-2">
           <ChapterNavCard
