@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
+import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 
 const AuthRoute = AuthRouteImport.update({
@@ -28,6 +30,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InstitutesIndexRoute = InstitutesIndexRouteImport.update({
+  id: '/institutes/',
+  path: '/institutes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstitutesSlugRoute = InstitutesSlugRouteImport.update({
+  id: '/institutes/$slug',
+  path: '/institutes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -38,11 +50,15 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/institutes/$slug': typeof InstitutesSlugRoute
+  '/institutes/': typeof InstitutesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/institutes/$slug': typeof InstitutesSlugRoute
+  '/institutes': typeof InstitutesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,19 +66,30 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/institutes/$slug': typeof InstitutesSlugRoute
+  '/institutes/': typeof InstitutesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/profile'
+  fullPaths: '/' | '/auth' | '/profile' | '/institutes/$slug' | '/institutes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/profile'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/profile'
+  to: '/' | '/auth' | '/profile' | '/institutes/$slug' | '/institutes'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/profile'
+    | '/institutes/$slug'
+    | '/institutes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  InstitutesSlugRoute: typeof InstitutesSlugRoute
+  InstitutesIndexRoute: typeof InstitutesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -86,6 +113,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/institutes/': {
+      id: '/institutes/'
+      path: '/institutes'
+      fullPath: '/institutes/'
+      preLoaderRoute: typeof InstitutesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/institutes/$slug': {
+      id: '/institutes/$slug'
+      path: '/institutes/$slug'
+      fullPath: '/institutes/$slug'
+      preLoaderRoute: typeof InstitutesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/profile': {
@@ -113,6 +154,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  InstitutesSlugRoute: InstitutesSlugRoute,
+  InstitutesIndexRoute: InstitutesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
