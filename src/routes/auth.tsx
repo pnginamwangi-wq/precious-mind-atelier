@@ -19,7 +19,7 @@ export const Route = createFileRoute("/auth")({
       { title: "Sign in, The Precious Intelligence Academy" },
       {
         name: "description",
-        content: "Access your Academy account, resume masterclasses, and continue your journey toward mastery.",
+        content: "Sign in to the Academy to resume your studies.",
       },
     ],
   }),
