@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, Outlet, useChildMatches } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
