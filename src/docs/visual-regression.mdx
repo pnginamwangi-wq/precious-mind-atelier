@@ -1,0 +1,49 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Visual Regression" />
+
+# Visual Regression (Chromatic)
+
+Every luxury component and token story is protected by [Chromatic](https://www.chromatic.com/), which snapshots the Storybook on every push and highlights any pixel difference for review.
+
+## What gets tested
+
+Chromatic snapshots **every story** it finds in Storybook, including:
+
+- Every variant and size in _Luxury / Button, Badge, Card, Input, Select, Modal, Sheet_.
+- Every token story in _Luxury / Tokens_ (Colors, Typography, Eyebrow, Hairline, GoldMark, Container).
+- The three _Design System / Token Playground_ presets (Playground, HighContrast, WarmEditorial).
+
+No test authoring is required: adding a new `*.stories.tsx` file automatically extends coverage.
+
+## Local run
+
+```bash
+bun run chromatic
+```
+
+Requires `CHROMATIC_PROJECT_TOKEN` in your shell env. The command builds Storybook, uploads it, and returns a review URL.
+
+## CI
+
+`.github/workflows/chromatic.yml` runs on every push to `main` and every pull request:
+
+1. Installs deps with Bun.
+2. Runs `bun run build-storybook`.
+3. Publishes to Chromatic via `chromaui/action@latest`.
+4. Comments the review URL on the PR.
+
+`autoAcceptChanges: main` means direct pushes to `main` update the baseline automatically; only PRs require a human to approve visual diffs.
+
+## Workflow when a diff appears
+
+1. Open the review URL from the PR check.
+2. For each changed story, inspect the side-by-side diff.
+3. **Accept** if the change is intentional (new design token, refined spacing).
+4. **Deny** if it is a regression and fix the underlying component.
+
+## Configuration
+
+- `chromatic.config.json` at the project root controls default flags (`onlyChanged`, `exitZeroOnChanges`, `autoAcceptChanges`).
+- To exclude a story from snapshots, add `parameters: { chromatic: { disableSnapshot: true } }` to that story.
+- To capture multiple viewports for a story: `parameters: { chromatic: { viewports: [375, 1280] } }`.
