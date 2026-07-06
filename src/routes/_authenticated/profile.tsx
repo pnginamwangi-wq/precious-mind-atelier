@@ -43,7 +43,7 @@ type Profile = {
 const displayNameSchema = z.string().trim().min(1, "Name is required").max(80);
 const headlineSchema = z.string().trim().max(120).optional().or(z.literal(""));
 const bioSchema = z.string().trim().max(600).optional().or(z.literal(""));
-const avatarSchema = z.string().trim().url("Enter a valid URL").max(500).optional().or(z.literal(""));
+
 
 function ProfilePage() {
   const { user, signOut } = useAuth();
