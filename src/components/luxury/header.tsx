@@ -206,15 +206,18 @@ export function Header() {
                     {NAV.map((item, i) => {
                       const active = isNavActive(item.href, navCtx);
                       const rowClasses = cn(
-                        "group flex items-baseline justify-between border-b py-4 outline-none transition-colors duration-500 focus-visible:text-gold",
+                        "group flex items-baseline justify-between border-b py-4 outline-none transition-colors focus-visible:text-gold",
+                        motionDur,
                         active ? "border-gold/60" : "border-white/5",
                       );
                       const labelClasses = cn(
-                        "font-display text-3xl transition-colors duration-500 group-hover:text-gold",
+                        "font-display text-3xl transition-colors group-hover:text-gold",
+                        motionDur,
                         active ? "text-gold" : "text-ivory",
                       );
                       const indexClasses = cn(
-                        "font-numeric text-[10px] tracking-[0.28em] transition-colors duration-500",
+                        "font-numeric text-[10px] tracking-[0.28em] transition-colors",
+                        motionDur,
                         active ? "text-gold" : "text-platinum/40",
                       );
                       const ariaCurrent = active ? ("page" as const) : undefined;
