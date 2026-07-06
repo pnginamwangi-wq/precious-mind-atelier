@@ -107,7 +107,9 @@ function ChapterPage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <ChapterHero institute={institute} module={module} />
+        <EducationDisclaimer kinds={disclaimersForSlug(institute.slug)} />
         <SectionNavBar items={CHAPTER_SECTIONS} label="Chapter sections" />
+
         <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
           <aside className="hidden lg:block lg:pt-32">
             <SectionNav items={CHAPTER_SECTIONS} label="In this chapter" />
