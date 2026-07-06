@@ -79,12 +79,19 @@ test.describe("prefers-reduced-motion", () => {
     await page.goto("/institutes");
     await page.getByRole("link", { name: /enter the .+ institute/i }).first().click();
     await page.waitForURL(/\/institutes\/[^/]+$/);
+    // Re-assert the media query after navigation and give framer's
+    // useReducedMotion one commit to resolve from null to true.
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.waitForFunction(
+      () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    );
 
     const parallax = page.getByTestId("hero-parallax");
     const overlay = page.getByTestId("hero-overlay");
     await expect(parallax).toBeVisible();
 
     // Baseline transform at scroll position 0.
+    await page.waitForTimeout(200);
     const before = await transformOf(page, '[data-testid="hero-parallax"]');
     expect(isIdentityTransform(before), `parallax start transform ${before}`).toBe(true);
 
