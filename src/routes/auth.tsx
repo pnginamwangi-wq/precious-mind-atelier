@@ -72,8 +72,8 @@ function AuthPage() {
             </h1>
             <p className="mt-3 text-sm text-platinum/70">
               {mode === "signin"
-                ? "Continue your pursuit of the extraordinary."
-                : "Begin your journey with the world's first AI powered luxury academy."}
+                ? "Return to your studies."
+                : "A small community of professionals, studying the disciplines of luxury."}
             </p>
           </div>
 
