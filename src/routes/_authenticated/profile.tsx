@@ -142,6 +142,14 @@ function ProfilePage() {
                   {profile?.display_name || user?.email}
                 </p>
                 <p className="mt-1 truncate text-xs text-platinum/60">{user?.email}</p>
+                {role ? (
+                  <p
+                    data-testid="user-role"
+                    className="mt-4 inline-block border border-gold/40 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-gold"
+                  >
+                    {role}
+                  </p>
+                ) : null}
                 <Hairline className="my-6" />
                 <LuxButton
                   variant="outline"
