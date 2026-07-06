@@ -105,7 +105,13 @@ export function Header() {
                 {underline}
               </Link>
             ) : (
-              <a key={item.label} href={item.href} className={classes} aria-current={ariaCurrent}>
+              <a
+                key={item.label}
+                href={item.href}
+                className={classes}
+                aria-current={ariaCurrent}
+                onClick={(e) => onHashNav(item.href, e)}
+              >
                 {item.label}
                 {underline}
               </a>
