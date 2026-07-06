@@ -11,10 +11,17 @@ import heroPearl from "@/assets/hero-pearl.jpg";
  * layout tuning.
  */
 
-const imageOptions = {
-  "Black Opal": heroOpal,
-  "Round Brilliant": heroDiamond,
-  "South Sea Pearl": heroPearl,
+const imageOptions = [heroOpal, heroDiamond, heroPearl];
+const imageLabels: Record<string, string> = {
+  [heroOpal]: "Black Opal",
+  [heroDiamond]: "Round Brilliant",
+  [heroPearl]: "South Sea Pearl",
+};
+const imageControl = {
+  control: "select" as const,
+  options: imageOptions,
+  mapping: imageOptions.reduce<Record<string, string>>((acc, v) => ((acc[v] = v), acc), {}),
+  labels: imageLabels,
 };
 
 const meta: Meta = {
