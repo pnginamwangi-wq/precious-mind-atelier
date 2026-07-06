@@ -188,7 +188,7 @@ function InstituteHero({ institute }: { institute: Institute }) {
   const reduceAttr = String(reduce);
 
   return (
-    <section ref={ref} data-testid="institute-hero" className="relative h-[100svh] min-h-[640px] overflow-hidden">
+    <section ref={ref} data-testid="institute-hero" data-reduce={reduceAttr} className="relative h-[100svh] min-h-[640px] overflow-hidden">
       <motion.div data-testid="hero-parallax" style={parallaxStyle} className="absolute inset-0">
         <img
           src={institute.hero}
