@@ -297,6 +297,40 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
   );
 }
 
+function Inquiry({ institute }: { institute: Institute }) {
+  return (
+    <Section id="inquiry" bordered tinted>
+      <Container>
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+          <div>
+            <Reveal>
+              <Eyebrow>Admissions</Eyebrow>
+            </Reveal>
+            <Reveal>
+              <h2 className="mt-6 font-display text-4xl leading-tight md:text-5xl">
+                A quiet conversation, first.
+              </h2>
+            </Reveal>
+            <Reveal>
+              <p className={`mt-8 max-w-md ${luxury.bodyMuted}`}>
+                Every candidate to the {institute.name} Institute is met personally.
+                Share a few lines about who you are and what draws you here, and the
+                admissions circle will write to you within three working days.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal>
+            <InquiryForm
+              instituteSlug={institute.slug}
+              instituteName={institute.name}
+            />
+          </Reveal>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
 function NextPrev({ current }: { current: Institute }) {
   const index = INSTITUTES.findIndex((i) => i.slug === current.slug);
   const prev = INSTITUTES[(index - 1 + INSTITUTES.length) % INSTITUTES.length];
