@@ -78,15 +78,6 @@ export function MobileTabs() {
 
           const linkClasses =
             "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
-          // TanStack Router's <Link> defaults to aria-current="page"
-          // whenever the route matches. Passing `undefined` doesn't
-          // suppress it (TanStack falls back to its own default), so we
-          // emit the literal string "false" whenever our own isNavActive
-          // says the tab is not current. That both defeats TanStack's
-          // default and remains a valid ARIA value.
-          const currentProps = {
-            "aria-current": (isActive ? "page" : "false") as "page" | "false",
-          };
 
           if (t.href.startsWith("#")) {
             return (
@@ -104,17 +95,35 @@ export function MobileTabs() {
             );
           }
 
+          // Use a router-driven <a> instead of TanStack's <Link>. TanStack
+          // Link unconditionally spreads STATIC_ACTIVE_PROPS on any route
+          // match, which would force aria-current="page" on the Home tab
+          // while a section is also active. Owning the anchor lets our
+          // isNavActive result be the sole source of truth for ARIA state.
           return (
             <li key={t.label} className="flex">
-              <Link
-                to={t.href}
+              <a
+                href={t.href}
                 aria-label={t.label}
-                activeProps={currentProps}
-                inactiveProps={currentProps}
+                aria-current={isActive ? "page" : undefined}
                 className={linkClasses}
+                onClick={(e) => {
+                  if (
+                    e.defaultPrevented ||
+                    e.button !== 0 ||
+                    e.metaKey ||
+                    e.ctrlKey ||
+                    e.shiftKey ||
+                    e.altKey
+                  ) {
+                    return;
+                  }
+                  e.preventDefault();
+                  void navigate({ to: t.href });
+                }}
               >
                 {inner}
-              </Link>
+              </a>
             </li>
           );
         })}
