@@ -12,9 +12,11 @@ import {
   ArrowLink,
   Container,
   Eyebrow,
-  GoldMark,
+  Footer,
   Hairline,
+  Header,
   LuxButton,
+  MobileTabs,
   Reveal,
   Section,
   SectionHeader,
@@ -25,8 +27,6 @@ import {
 export const Route = createFileRoute("/")({
   component: Home,
 });
-
-const NAV = ["Academy", "Institutes", "Masterclasses", "AI Mentor", "Library", "Journal"];
 
 const INSTITUTES = [
   { n: "01", name: "Precious Metals", tag: "Gold. Silver. Platinum." },
@@ -49,50 +49,21 @@ const SCROLL_OBJECTS = [
 
 function Home() {
   return (
-    <div className="min-h-screen bg-obsidian text-ivory">
-      <Nav />
-      <Hero />
-      <Manifesto />
-      <ScrollGallery />
-      <Institutes />
-      <AIMentor />
+    <div className="min-h-dvh bg-obsidian text-ivory">
+      <Header />
+      <main id="main">
+        <Hero />
+        <Manifesto />
+        <ScrollGallery />
+        <Institutes />
+        <AIMentor />
+      </main>
       <Footer />
+      <MobileTabs />
     </div>
   );
 }
 
-function Nav() {
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-obsidian/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-10">
-        <a href="/" className="flex items-center gap-3">
-          <GoldMark />
-          <div className="flex flex-col leading-none">
-            <span className="font-display text-[15px] tracking-wide text-ivory">
-              The Precious Intelligence Academy
-            </span>
-            <Eyebrow className="mt-1">Est. MMXXVI</Eyebrow>
-          </div>
-        </a>
-        <nav className="hidden items-center gap-8 lg:flex">
-          {NAV.map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="group relative text-[13px] font-light tracking-wide text-platinum/80 transition-colors hover:text-ivory"
-            >
-              {item}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full" />
-            </a>
-          ))}
-        </nav>
-        <LuxButton variant="outline" size="sm">
-          Enrol
-        </LuxButton>
-      </div>
-    </header>
-  );
-}
 
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -427,62 +398,3 @@ function AIMentor() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="border-t border-white/5 bg-obsidian pb-10 pt-24">
-      <Container>
-        <div className="grid gap-16 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <div className="flex items-center gap-3">
-              <GoldMark />
-              <span className="font-display text-lg text-ivory">
-                The Precious Intelligence Academy
-              </span>
-            </div>
-            <p className="mt-8 max-w-md font-display text-3xl leading-tight text-ivory/90 md:text-4xl">
-              Master the <em className="gold-gradient-text not-italic">Extraordinary</em>.
-            </p>
-          </div>
-
-          <div className="grid gap-10 md:col-span-7 md:grid-cols-3">
-            {[
-              {
-                title: "Academy",
-                items: ["Institutes", "Masterclasses", "Certifications", "AI Mentor"],
-              },
-              {
-                title: "Library",
-                items: ["Journal", "Product Library", "Glossary", "Downloads"],
-              },
-              {
-                title: "Institution",
-                items: ["About", "Faculty", "Careers", "Contact"],
-              },
-            ].map((col) => (
-              <div key={col.title}>
-                <Eyebrow>{col.title}</Eyebrow>
-                <ul className="mt-6 space-y-3">
-                  {col.items.map((i) => (
-                    <li key={i}>
-                      <a
-                        href="#"
-                        className="text-[13px] font-light text-platinum/70 transition-colors hover:text-ivory"
-                      >
-                        {i}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-20 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-8 md:flex-row md:items-center">
-          <Eyebrow muted>© MMXXVI · The Precious Intelligence Academy</Eyebrow>
-          <Eyebrow muted>Crafted with precision</Eyebrow>
-        </div>
-      </Container>
-    </footer>
-  );
-}
