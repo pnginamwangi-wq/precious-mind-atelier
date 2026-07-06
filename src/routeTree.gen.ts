@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as EditorialExampleRouteImport } from './routes/editorial-example'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -19,6 +20,11 @@ import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/institutes.$slug.chapters.$chapter'
 
+const GovernanceRoute = GovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EditorialExampleRoute = EditorialExampleRouteImport.update({
   id: '/editorial-example',
   path: '/editorial-example',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
+  '/governance': typeof GovernanceRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
+  '/governance': typeof GovernanceRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
+  '/governance': typeof GovernanceRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/editorial-example'
+    | '/governance'
     | '/profile'
     | '/institutes/$slug'
     | '/visual/editorial-blocks'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/editorial-example'
+    | '/governance'
     | '/profile'
     | '/institutes/$slug'
     | '/visual/editorial-blocks'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/editorial-example'
+    | '/governance'
     | '/_authenticated/profile'
     | '/institutes/$slug'
     | '/visual/editorial-blocks'
@@ -136,6 +148,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   EditorialExampleRoute: typeof EditorialExampleRoute
+  GovernanceRoute: typeof GovernanceRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
@@ -143,6 +156,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/governance': {
+      id: '/governance'
+      path: '/governance'
+      fullPath: '/governance'
+      preLoaderRoute: typeof GovernanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/editorial-example': {
       id: '/editorial-example'
       path: '/editorial-example'
@@ -237,6 +257,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   EditorialExampleRoute: EditorialExampleRoute,
+  GovernanceRoute: GovernanceRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,
