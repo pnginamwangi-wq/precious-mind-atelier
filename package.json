@@ -11,7 +11,10 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "a11y:tokens": "bun scripts/a11y-tokens.ts",
+    "a11y:runtime": "bun scripts/a11y-runtime.ts",
+    "a11y": "bun scripts/a11y-tokens.ts && bun scripts/a11y-runtime.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
