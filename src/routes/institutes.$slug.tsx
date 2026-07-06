@@ -124,6 +124,14 @@ function NotFound() {
   );
 }
 
+const INSTITUTE_SECTIONS = [
+  { id: "philosophy", label: "Philosophy" },
+  { id: "curriculum", label: "Curriculum" },
+  { id: "faculty", label: "Faculty" },
+  { id: "outcomes", label: "Outcomes" },
+  { id: "inquiry", label: "Admissions" },
+] as const;
+
 function InstitutePage() {
   const { institute } = Route.useLoaderData();
   return (
@@ -131,11 +139,22 @@ function InstitutePage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <InstituteHero institute={institute} />
-        <Philosophy institute={institute} />
-        <Curriculum institute={institute} />
-        <FacultyOutcomes institute={institute} />
-        <Inquiry institute={institute} />
-        <NextPrev current={institute} />
+        <SectionNavBar items={INSTITUTE_SECTIONS} label={`${institute.name} sections`} />
+        <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
+          <aside className="hidden lg:block lg:pt-32">
+            <SectionNav
+              items={INSTITUTE_SECTIONS}
+              label={`In the ${institute.name} Institute`}
+            />
+          </aside>
+          <div className="min-w-0">
+            <Philosophy institute={institute} />
+            <Curriculum institute={institute} />
+            <FacultyOutcomes institute={institute} />
+            <Inquiry institute={institute} />
+            <NextPrev current={institute} />
+          </div>
+        </div>
       </main>
       <Footer />
       <MobileTabs />
