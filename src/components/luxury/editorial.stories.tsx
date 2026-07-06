@@ -85,7 +85,7 @@ type FigureArgs = {
 export const FigureStory: StoryObj<FigureArgs> = {
   name: "Figure",
   argTypes: {
-    src: { control: "select", options: imageOptions },
+    src: imageControl,
     alt: { control: "text" },
     aspect: { control: "inline-radio", options: ["square", "portrait", "landscape", "wide"] },
     caption: { control: "text" },
@@ -136,7 +136,7 @@ export const VignetteStory: StoryObj<VignetteArgs> = {
   name: "Vignette",
   argTypes: {
     index: { control: "text" },
-    image: { control: "select", options: imageOptions },
+    image: imageControl,
     alt: { control: "text" },
     title: { control: "text" },
     origin: { control: "text" },
