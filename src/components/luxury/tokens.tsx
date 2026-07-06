@@ -10,7 +10,7 @@ export const luxury = {
   containerNarrow: "mx-auto max-w-[1100px] px-6 md:px-10",
   sectionY: "py-32 md:py-48",
   eyebrow: "font-numeric text-[10px] uppercase tracking-[0.32em] text-gold",
-  eyebrowMuted: "font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/50",
+  eyebrowMuted: "font-numeric text-[10px] uppercase tracking-[0.28em] text-platinum/70",
   bodyMuted: "text-[15px] font-light leading-relaxed text-platinum/70",
   bodySmall: "text-[13px] font-light tracking-wide text-platinum/70",
   hairline:

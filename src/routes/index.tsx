@@ -354,7 +354,7 @@ function AIMentor() {
                       Mentor · Live
                     </span>
                   </div>
-                  <span className="font-numeric text-[10px] uppercase tracking-[0.24em] text-platinum/40">
+                  <span className="font-numeric text-[10px] uppercase tracking-[0.24em] text-platinum/70">
                     Session 04
                   </span>
                 </div>
