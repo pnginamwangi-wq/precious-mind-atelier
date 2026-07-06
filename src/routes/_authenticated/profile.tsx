@@ -267,14 +267,47 @@ function ProfilePage() {
                       className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
                     />
                   </Field>
-                  <Field label="Avatar URL">
-                    <Input
-                      value={profile?.avatar_url ?? ""}
-                      onChange={(e) => setProfile((p) => (p ? { ...p, avatar_url: e.target.value } : p))}
-                      placeholder="https://"
-                      className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-                    />
+                  <Field label="Avatar" hint="PNG, JPG, or WEBP. Up to 5MB.">
+                    <div className="flex items-center gap-4">
+                      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-white/15 bg-obsidian">
+                        {avatarPreview ? (
+                          <img
+                            src={avatarPreview}
+                            alt="Current avatar"
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-xs text-platinum/50">
+                            None
+                          </div>
+                        )}
+                        {uploading ? (
+                          <div className="absolute inset-0 flex items-center justify-center bg-obsidian/70">
+                            <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                          </div>
+                        ) : null}
+                      </div>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="sr-only"
+                        onChange={onAvatarFileChange}
+                        aria-label="Upload avatar"
+                      />
+                      <LuxButton
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={uploading}
+                        onClick={() => fileInputRef.current?.click()}
+                        icon={<Upload className="h-3.5 w-3.5" />}
+                      >
+                        {uploading ? "Uploading" : avatarPreview ? "Replace" : "Upload"}
+                      </LuxButton>
+                    </div>
                   </Field>
+
                   <Field label="About" hint="A few sentences on your craft and ambitions.">
                     <Textarea
                       value={profile?.bio ?? ""}
