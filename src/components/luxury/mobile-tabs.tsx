@@ -1,14 +1,19 @@
 import { Compass, GraduationCap, Home, Library, Sparkles } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
+import { motion } from "framer-motion";
 
 const TABS = [
-  { label: "Home", href: "/", icon: Home, exact: true },
+  { label: "Home", href: "/", icon: Home },
   { label: "Institutes", href: "/institutes", icon: Compass },
   { label: "Mentor", href: "#mentor", icon: Sparkles, primary: true },
   { label: "Classes", href: "#masterclasses", icon: GraduationCap },
   { label: "Library", href: "#library", icon: Library },
 ];
+
+const SECTION_IDS = ["academy", "masterclasses", "mentor", "library", "journal"] as const;
 
 /**
  * Mobile bottom tab bar. Hidden on lg+.
@@ -16,6 +21,12 @@ const TABS = [
  */
 export function MobileTabs() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
+  const activeSection = useActiveSection(SECTION_IDS);
+  const navCtx = useMemo(
+    () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
+    [pathname, hash, activeSection],
+  );
 
   return (
     <nav
@@ -25,13 +36,13 @@ export function MobileTabs() {
     >
       <ul className="mx-auto grid max-w-md grid-cols-5 items-end">
         {TABS.map((t) => {
-          const isActive = t.exact ? pathname === t.href : false;
+          const isActive = isNavActive(t.href, navCtx);
           const Icon = t.icon;
 
           const inner = (
             <span
               className={cn(
-                "relative flex flex-col items-center gap-1.5 py-3 text-[9px] font-medium uppercase tracking-[0.2em] transition-colors",
+                "relative flex flex-col items-center gap-1.5 py-3 text-[9px] font-medium uppercase tracking-[0.2em] transition-colors duration-500",
                 t.primary
                   ? "text-obsidian"
                   : isActive
@@ -44,22 +55,37 @@ export function MobileTabs() {
                   <Icon className="h-5 w-5" />
                 </span>
               ) : (
-                <Icon className={cn("h-5 w-5", isActive && "text-gold")} />
+                <Icon
+                  className={cn(
+                    "h-5 w-5 transition-colors duration-500",
+                    isActive && "text-gold",
+                  )}
+                />
               )}
               <span className={cn(t.primary && "-mt-2 text-gold")}>{t.label}</span>
               {isActive && !t.primary ? (
-                <span className="absolute -top-px left-1/2 h-px w-8 -translate-x-1/2 bg-gold" />
+                <motion.span
+                  layoutId="mobile-tab-active"
+                  transition={{ type: "spring", stiffness: 350, damping: 32 }}
+                  className="absolute -top-px left-1/2 h-px w-8 -translate-x-1/2 bg-gold"
+                />
               ) : null}
             </span>
           );
 
           const linkClasses =
             "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
+          const ariaCurrent = isActive ? ("page" as const) : undefined;
 
           if (t.href.startsWith("#")) {
             return (
               <li key={t.label} className="flex">
-                <a href={t.href} aria-label={t.label} className={linkClasses}>
+                <a
+                  href={t.href}
+                  aria-label={t.label}
+                  aria-current={ariaCurrent}
+                  className={linkClasses}
+                >
                   {inner}
                 </a>
               </li>
@@ -71,7 +97,7 @@ export function MobileTabs() {
               <Link
                 to={t.href}
                 aria-label={t.label}
-                aria-current={isActive ? "page" : undefined}
+                aria-current={ariaCurrent}
                 className={linkClasses}
               >
                 {inner}
