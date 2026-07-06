@@ -1,0 +1,45 @@
+import { Meta, Canvas, Story } from "@storybook/addon-docs/blocks";
+import * as TokenStories from "../components/luxury/tokens.stories";
+
+<Meta title="Docs/Tokens" />
+
+# Tokens
+
+Foundational primitives from `src/components/luxury/tokens.tsx`. Mirror of the CSS variables in `src/styles.css`.
+
+## When to use
+
+| Token / helper | Use when |
+| --- | --- |
+| `bg-obsidian`, `bg-charcoal` | Page and elevated surface backgrounds. |
+| `text-ivory`, `text-platinum/70` | Foreground and muted body copy. |
+| `bg-gold`, `text-gold` | Single accent per view: primary CTA, active nav, one hairline. |
+| `bg-champagne` | Warm highlight on light-on-dark hero moments. |
+| `Container` / `Container narrow` | Every top-level section. Narrow variant for long-form prose. |
+| `Eyebrow` | Section labels, chapter numerals, category tags. |
+| `Hairline` | Divide editorial sections. Never inside dense forms. |
+| `GoldMark` | Brand lockup only (header, footer, share cards). |
+
+## Colors
+
+<Canvas of={TokenStories.Colors} />
+
+**Do.** Pair `bg-obsidian` with `text-ivory` for body, reserve `text-gold` for eyebrows and one CTA.
+
+**Don't.** Use gold on gold, or stack `bg-champagne` next to `bg-gold` — the values collapse under warm light.
+
+## Typography
+
+<Canvas of={TokenStories.Typography} />
+
+**Do.** Use `font-display` (Cormorant Garamond) for anything ≥ 24px. Body stays in Inter at 15px with `font-light`.
+
+**Don't.** Set display type below 20px. It loses its editorial weight and starts to read like body copy.
+
+## Eyebrow, Hairline, GoldMark, Container
+
+Each primitive has its own story: [`Eyebrow`](?path=/story/luxury-tokens--eyebrow-story), [`Hairline`](?path=/story/luxury-tokens--hairline-story), [`GoldMark`](?path=/story/luxury-tokens--gold-mark-story), [`Container`](?path=/story/luxury-tokens--container-story).
+
+**Do.** Wrap every route body in `<Container>` first, then compose inner grids.
+
+**Don't.** Nest containers, or use `GoldMark` as a decorative bullet in body text — it is the brand mark.

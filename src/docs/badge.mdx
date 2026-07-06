@@ -1,0 +1,29 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as BadgeStories from "../components/luxury/badge.stories";
+
+<Meta title="Docs/Badge" />
+
+# Badge
+
+Small metadata pills. Stories: [_Luxury / Badge_](?path=/story/luxury-badge--default).
+
+## When to use
+
+| Variant | Use for |
+| --- | --- |
+| `default` | Live status: **Enrolling**, **Live**, **New**. |
+| `secondary` | Neutral metadata: cohort year, chapter number. |
+| `outline` | Category tags on cards where color would compete with cover art. |
+| `destructive` | Closed, sold out, waitlist only. |
+
+<Canvas of={BadgeStories.AllVariants} />
+
+## Do
+
+- Use uppercase letterforms and letter-spacing (`tracking-[0.24em]`) for editorial rhythm.
+- Limit to one badge per card unless categorising (e.g. topic + level).
+
+## Don't
+
+- Use badges as buttons. If it's clickable, it's a `LuxButton ghost` or a `Link`.
+- Combine `default` and `destructive` on the same card — the reader can't tell which state is truth.

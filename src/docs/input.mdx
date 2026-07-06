@@ -1,0 +1,25 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Input" />
+
+# Input & Select
+
+Stories: [_Luxury / Input_](?path=/story/luxury-input--default), [_Luxury / Select_](?path=/story/luxury-select--default).
+
+## When to use
+
+- **Input** for free-text: email, name, essay prompt.
+- **Select** for a closed set of ≤ 8 options. Above that, use a searchable command palette.
+- **withLabel** in every production form. Placeholder-only fields fail accessibility and lose context on autofill.
+
+## Do
+
+- Left-align labels above the field with an `Eyebrow`-styled caption.
+- Pair a disabled state with helper text explaining why.
+- Use the medium (default 44px) size on marketing forms; small only inside settings tables.
+
+## Don't
+
+- Rely on placeholder as the label. It disappears when the user starts typing.
+- Combine more than two field sizes in one form.
+- Use a `Select` for boolean choices — use a `Switch` or `RadioGroup`.

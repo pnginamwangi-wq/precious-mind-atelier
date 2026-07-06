@@ -1,0 +1,20 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Overview" />
+
+# Luxury Design System
+
+A cinematic, editorial system built for the Precious Intelligence Academy. This section documents when to reach for each token and component, with paired do / don't examples.
+
+## Sections
+
+- **Tokens** — colors, typography, spacing primitives (`Container`, `Eyebrow`, `Hairline`, `GoldMark`).
+- **Components** — `Button`, `Badge`, `Card`, `Input`, `Select`, `Modal`, `Sheet`.
+- **Playground** — live token tweaking in _Design System / Token Playground_.
+
+## Guiding principles
+
+1. **Restraint over decoration.** Gold is punctuation, not paint. Use it for one focal element per view.
+2. **Editorial rhythm.** Prefer generous vertical spacing (`py-32 md:py-48`) and eyebrow labels over dense cards.
+3. **Semantic tokens only.** Never hardcode `#d4b26a` or `text-white`; use `bg-gold`, `text-ivory`, or the CSS variables in `src/styles.css`.
+4. **Motion is a whisper.** Reserve animation for entrance, hover lift, and page transitions. No looping ornament.

@@ -1,0 +1,28 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Modal & Sheet" />
+
+# Modal & Sheet
+
+Stories: [_Luxury / Modal_](?path=/story/luxury-modal--default), [_Luxury / Sheet_](?path=/story/luxury-sheet--right).
+
+## Choose one
+
+| Pattern | Use when |
+| --- | --- |
+| **Modal** (centered dialog) | Focused, terminal action: enrol, confirm, invite. User cannot proceed until answered. |
+| **Sheet right / left** | Contextual panel that supplements the page: filters, saved institutes, cart. |
+| **Sheet bottom** | Mobile-first flows, quick actions, sort controls. |
+| **Sheet top** | Rare. Banner-style announcements only. |
+
+## Do
+
+- Give every modal a single primary action (solid gold) and one `ghost` cancel.
+- Trap focus and return focus to the invoking control on close (Radix handles this — don't override).
+- Keep sheet width ≤ 480px so the page context stays visible.
+
+## Don't
+
+- Chain modals. If step two is needed, use a multi-step form inside the same modal.
+- Show destructive actions in a sheet. Destruction deserves a centered `AlertDialog`.
+- Use a modal for marketing. Newsletter prompts belong in the footer, not in a blocking overlay.

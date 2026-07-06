@@ -1,0 +1,31 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Token Playground" />
+
+# Token Playground
+
+Live-tweak every design token and preview the result across headings, cards, and buttons.
+
+Open the playground: [_Design System / Token Playground / Playground_](?path=/story/design-system-token-playground--playground).
+
+Preset variants:
+
+- [_Playground_](?path=/story/design-system-token-playground--playground) — the shipping tokens.
+- [_HighContrast_](?path=/story/design-system-token-playground--high-contrast) — pure black / pure white / saturated gold for accessibility spot checks.
+- [_WarmEditorial_](?path=/story/design-system-token-playground--warm-editorial) — Fraunces display with warmer obsidian for print-inspired routes.
+
+## How to use
+
+1. Open the **Controls** panel (bottom of the canvas).
+2. Adjust color pickers, font selectors, or the range sliders (display scale, tracking, radius, gold glow).
+3. The preview re-renders instantly. When a combination feels right, copy the values into `src/styles.css` under `@theme` and into `tokens.tsx`.
+
+## Do
+
+- Verify contrast on both `bg-obsidian` and `bg-charcoal` before committing a new gold.
+- Test `displayScale` at 0.85 (mobile) and 1.15 (large hero) before shipping.
+
+## Don't
+
+- Ship tokens changed only in the Playground. The Playground writes to inline styles, not to the CSS file — persist the change in `src/styles.css` for it to reach the app.
+- Introduce a fourth accent color. The system holds together at gold + champagne + gold-soft; a fourth accent breaks the editorial voice.
