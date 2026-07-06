@@ -1,11 +1,12 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, User, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Eyebrow, GoldMark, LuxButton, luxury } from "@/components/luxury";
 import { useAuth } from "@/hooks/use-auth";
+import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
 import { cn } from "@/lib/utils";
 
 
@@ -17,6 +18,8 @@ const NAV: { label: string; href: string; internal?: boolean }[] = [
   { label: "Library", href: "#library" },
   { label: "Journal", href: "#journal" },
 ];
+
+const SECTION_IDS = ["academy", "masterclasses", "mentor", "library", "journal"] as const;
 
 
 export function Header() {
