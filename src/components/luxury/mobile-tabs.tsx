@@ -1,5 +1,5 @@
 import { Compass, GraduationCap, Home, Library, Sparkles } from "lucide-react";
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
