@@ -11,10 +11,12 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { PageTransition } from "@/components/luxury";
+import { PageTransition, CookieNotice } from "@/components/luxury";
 import { MotionConfig } from "framer-motion";
 import { AuthProvider } from "@/hooks/use-auth";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieConsentProvider } from "@/lib/cookie-consent";
+
 
 
 
