@@ -18,6 +18,7 @@ import {
   fadeUp,
   luxury,
 } from "@/components/luxury";
+import { InquiryForm } from "@/components/luxury/inquiry-form";
 import { INSTITUTES, getInstitute, type Institute } from "@/data/institutes";
 
 export const Route = createFileRoute("/institutes/$slug")({
@@ -85,6 +86,7 @@ function InstitutePage() {
         <Philosophy institute={institute} />
         <Curriculum institute={institute} />
         <FacultyOutcomes institute={institute} />
+        <Inquiry institute={institute} />
         <NextPrev current={institute} />
       </main>
       <Footer />
@@ -139,9 +141,11 @@ function InstituteHero({ institute }: { institute: Institute }) {
             </Reveal>
             <Reveal>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                  Enrol in this Institute
-                </LuxButton>
+                <a href="#inquiry">
+                  <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
+                    Enrol in this Institute
+                  </LuxButton>
+                </a>
                 <Link to="/institutes">
                   <LuxButton variant="ghost">All eight Institutes</LuxButton>
                 </Link>
@@ -280,11 +284,47 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
               ))}
             </ul>
             <div className="mt-12">
-              <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                Request your invitation
-              </LuxButton>
+              <a href="#inquiry">
+                <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
+                  Request your invitation
+                </LuxButton>
+              </a>
             </div>
           </div>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+function Inquiry({ institute }: { institute: Institute }) {
+  return (
+    <Section id="inquiry" bordered tinted>
+      <Container>
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+          <div>
+            <Reveal>
+              <Eyebrow>Admissions</Eyebrow>
+            </Reveal>
+            <Reveal>
+              <h2 className="mt-6 font-display text-4xl leading-tight md:text-5xl">
+                A quiet conversation, first.
+              </h2>
+            </Reveal>
+            <Reveal>
+              <p className={`mt-8 max-w-md ${luxury.bodyMuted}`}>
+                Every candidate to the {institute.name} Institute is met personally.
+                Share a few lines about who you are and what draws you here, and the
+                admissions circle will write to you within three working days.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal>
+            <InquiryForm
+              instituteSlug={institute.slug}
+              instituteName={institute.name}
+            />
+          </Reveal>
         </div>
       </Container>
     </Section>
