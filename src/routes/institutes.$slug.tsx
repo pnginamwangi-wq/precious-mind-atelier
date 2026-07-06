@@ -161,9 +161,19 @@ function InstitutePage() {
   );
 }
 
+function useSyncReducedMotion(): boolean {
+  // Framer's useReducedMotion returns null on the first client render, then
+  // resolves on effect. That one-frame gap is enough for the hero parallax
+  // to commit its initial scale value before the guard kicks in. Read
+  // matchMedia synchronously so the very first render already knows.
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function InstituteHero({ institute }: { institute: Institute }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const framerReduce = useReducedMotion();
+  const reduce = framerReduce ?? useSyncReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   // When reduced motion is preferred, freeze all parallax MotionValues so the
   // hero image and content render without transform or opacity animation.
