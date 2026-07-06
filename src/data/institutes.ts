@@ -176,7 +176,7 @@ export const INSTITUTES: Institute[] = [
     intro:
       "From bench to boutique: the design, craft, and cultural history of the jewellery that defines houses like Cartier, Boucheron, and JAR.",
     philosophy:
-      "Jewellery is where all the other Institutes meet: metal, gem, hand, and story. The Institute studies it as an art form and as a trade, honouring the ateliers where a single piece can occupy a master for a thousand hours.",
+      "Jewellery gathers what the other Institutes teach: metal, gem, hand, and story. The Institute studies it as an art form and as a trade, honouring ateliers where a single piece can occupy a master for a thousand hours.",
     curriculum: [
       { chapter: "I", title: "A Short History of Adornment", summary: "From Egyptian gold to Belle Époque and beyond." },
       { chapter: "II", title: "Design and Gouache", summary: "The house drawing tradition, from concept to full colour rendering." },
