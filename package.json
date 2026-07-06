@@ -12,6 +12,8 @@
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "chromatic:ci": "chromatic --exit-once-uploaded",
     "a11y:tokens": "bun scripts/a11y-tokens.ts",
     "a11y:runtime": "bun scripts/a11y-runtime.ts",
     "a11y": "bun scripts/a11y-tokens.ts && bun scripts/a11y-runtime.ts"
