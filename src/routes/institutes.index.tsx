@@ -55,7 +55,7 @@ function InstitutesIndex() {
                     className="group block"
                     aria-label={`Enter the ${it.name} Institute`}
                   >
-                    <div className="relative aspect-[16/10] overflow-hidden">
+                    <div className="relative aspect-[16/10] min-h-[220px] overflow-hidden">
                       <img
                         src={it.hero}
                         alt=""
@@ -73,7 +73,7 @@ function InstitutesIndex() {
                           <span className="h-px w-10 bg-gold/60" />
                           <Eyebrow>Institute</Eyebrow>
                         </div>
-                        <h2 className="mt-4 font-display text-4xl leading-tight text-ivory md:text-5xl">
+                        <h2 className="mt-4 font-display text-3xl leading-tight text-ivory md:text-4xl">
                           {it.name}
                         </h2>
                         <p className={`mt-3 ${luxury.bodySmall}`}>{it.tag}</p>
