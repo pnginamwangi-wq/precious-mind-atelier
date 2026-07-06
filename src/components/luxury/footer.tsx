@@ -1,6 +1,7 @@
 import { Instagram, Linkedin, Youtube } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { useReducedMotion } from "framer-motion";
 import { Container, Eyebrow, GoldMark } from "@/components/luxury";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
 import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
