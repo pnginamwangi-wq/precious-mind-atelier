@@ -284,9 +284,11 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
               ))}
             </ul>
             <div className="mt-12">
-              <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                Request your invitation
-              </LuxButton>
+              <a href="#inquiry">
+                <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
+                  Request your invitation
+                </LuxButton>
+              </a>
             </div>
           </div>
         </div>
