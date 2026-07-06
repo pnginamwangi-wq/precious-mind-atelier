@@ -20,6 +20,11 @@ import {
   luxury,
 } from "@/components/luxury";
 import {
+  EducationDisclaimer,
+  disclaimersForSlug,
+} from "@/components/luxury/education-disclaimer";
+
+import {
   chapterSlug,
   getChapter,
   type CurriculumModule,
