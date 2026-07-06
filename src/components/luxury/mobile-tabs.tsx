@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 const TABS = [
   { label: "Home", href: "/", icon: Home, exact: true },
-  { label: "Institutes", href: "#institutes", icon: Compass },
+  { label: "Institutes", href: "/institutes", icon: Compass },
   { label: "Mentor", href: "#mentor", icon: Sparkles, primary: true },
   { label: "Classes", href: "#masterclasses", icon: GraduationCap },
   { label: "Library", href: "#library", icon: Library },

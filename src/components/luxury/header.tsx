@@ -9,14 +9,15 @@ import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 
-const NAV = [
+const NAV: { label: string; href: string; internal?: boolean }[] = [
   { label: "Academy", href: "#academy" },
-  { label: "Institutes", href: "#institutes" },
+  { label: "Institutes", href: "/institutes", internal: true },
   { label: "Masterclasses", href: "#masterclasses" },
   { label: "AI Mentor", href: "#mentor" },
   { label: "Library", href: "#library" },
   { label: "Journal", href: "#journal" },
 ];
+
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -66,16 +67,25 @@ export function Header() {
           aria-label="Primary"
           className="hidden items-center gap-8 lg:flex"
         >
-          {NAV.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="group relative rounded-sm text-[13px] font-light tracking-wide text-platinum/80 outline-none transition-colors hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian"
-            >
-              {item.label}
+          {NAV.map((item) => {
+            const classes =
+              "group relative rounded-sm text-[13px] font-light tracking-wide text-platinum/80 outline-none transition-colors hover:text-ivory focus-visible:text-ivory focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian";
+            const underline = (
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full group-focus-visible:w-full" />
-            </a>
-          ))}
+            );
+            return item.internal ? (
+              <Link key={item.label} to={item.href} className={classes}>
+                {item.label}
+                {underline}
+              </Link>
+            ) : (
+              <a key={item.label} href={item.href} className={classes}>
+                {item.label}
+                {underline}
+              </a>
+            );
+          })}
+
         </nav>
 
         <div className="flex items-center gap-2">
@@ -133,18 +143,34 @@ export function Header() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.05 + i * 0.05, duration: 0.5, ease: luxury.ease }}
                       >
-                        <a
-                          href={item.href}
-                          onClick={() => setOpen(false)}
-                          className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
-                        >
-                          <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
-                            {item.label}
-                          </span>
-                          <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
-                            0{i + 1}
-                          </span>
-                        </a>
+                        {item.internal ? (
+                          <Link
+                            to={item.href}
+                            onClick={() => setOpen(false)}
+                            className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
+                          >
+                            <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
+                              {item.label}
+                            </span>
+                            <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
+                              0{i + 1}
+                            </span>
+                          </Link>
+                        ) : (
+                          <a
+                            href={item.href}
+                            onClick={() => setOpen(false)}
+                            className="group flex items-baseline justify-between border-b border-white/5 py-4 outline-none focus-visible:text-gold"
+                          >
+                            <span className="font-display text-3xl text-ivory transition-colors group-hover:text-gold">
+                              {item.label}
+                            </span>
+                            <span className="font-numeric text-[10px] tracking-[0.28em] text-platinum/40">
+                              0{i + 1}
+                            </span>
+                          </a>
+                        )}
+
                       </motion.li>
                     ))}
                   </ul>
