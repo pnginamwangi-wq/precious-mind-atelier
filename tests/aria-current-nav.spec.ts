@@ -362,5 +362,144 @@ test.describe("aria-current tracking", () => {
       });
     });
   });
+
+
+
+  test.describe("hash-only URL changes keep aria-current consistent", () => {
+    /**
+     * Rewrites just the URL hash (no scroll, no click) and waits for the
+     * router to reflect it. This isolates the hash-driven branch of
+     * isNavActive from IntersectionObserver and click handlers, so we can
+     * assert every nav surface stays in lockstep with location.hash.
+     */
+    async function setHash(page: Page, hash: string) {
+      await page.evaluate((h) => {
+        window.history.replaceState(null, "", h);
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+      }, hash);
+      await expect(page).toHaveURL(new RegExp(`${hash.replace("#", "\\#")}$`));
+    }
+
+    test.describe("desktop Header + Footer", () => {
+      test.use({ viewport: DESKTOP });
+
+      test("hash change updates Header and Footer together", async ({
+        page,
+      }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        // Freeze motion and pin scroll so the section observer cannot
+        // race the hash update.
+        await page.emulateMedia({ reducedMotion: "reduce" });
+        await page.evaluate(() => window.scrollTo(0, 0));
+
+        await setHash(page, "#masterclasses");
+        await expectActive(
+          page,
+          'header nav[aria-label="Primary"]',
+          /Masterclasses/i,
+        );
+        await expectActive(
+          page,
+          'nav[aria-label="Footer"]',
+          /Masterclasses/i,
+        );
+
+        await setHash(page, "#mentor");
+        await expectActive(
+          page,
+          'header nav[aria-label="Primary"]',
+          /AI Mentor/i,
+        );
+        await expectActive(page, 'nav[aria-label="Footer"]', /AI Mentor/i);
+      });
+
+      test("clearing the hash removes aria-current from hash items", async ({
+        page,
+      }) => {
+        await page.goto("/#masterclasses", { waitUntil: "load" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+        await page.evaluate(() => window.scrollTo(0, 0));
+
+        // Replace to a bare "/" with no hash. No section should stay active.
+        await page.evaluate(() => {
+          window.history.replaceState(null, "", "/");
+          window.dispatchEvent(new HashChangeEvent("hashchange"));
+        });
+        await expect(page).toHaveURL(/\/$/);
+
+        // Neither Header nor Footer expose a "Home" link, so with no
+        // hash and no observed section every hash item should drop
+        // aria-current entirely.
+        await expectNoActive(page, 'header nav[aria-label="Primary"]');
+        await expectNoActive(page, 'nav[aria-label="Footer"]');
+
+
+      });
+    });
+
+    test.describe("MobileTabs", () => {
+      test.use({ viewport: MOBILE });
+
+      test("hash change flips MobileTabs aria-current", async ({ page }) => {
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+        await page.evaluate(() => window.scrollTo(0, 0));
+
+        const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
+
+        await page.evaluate(() => {
+          window.history.replaceState(null, "", "#masterclasses");
+          window.dispatchEvent(new HashChangeEvent("hashchange"));
+        });
+        await expect(page).toHaveURL(/#masterclasses$/);
+        await expect(
+          mobileNav.locator('[aria-current="page"]'),
+        ).toHaveAccessibleName(/Classes/i);
+
+        await page.evaluate(() => {
+          window.history.replaceState(null, "", "#mentor");
+          window.dispatchEvent(new HashChangeEvent("hashchange"));
+        });
+        await expect(page).toHaveURL(/#mentor$/);
+        await expect(
+          mobileNav.locator('[aria-current="page"]'),
+        ).toHaveAccessibleName(/Mentor/i);
+      });
+    });
+
+    test.describe("all three surfaces agree", () => {
+      // Header + Footer are visible together on desktop; MobileTabs is
+      // hidden by `lg:hidden`. We assert Header/Footer here and mirror
+      // the same hash on a mobile viewport to cover MobileTabs.
+      test("desktop Header and Footer report the same active item", async ({
+        page,
+      }) => {
+        await page.setViewportSize(DESKTOP);
+        await page.goto("/", { waitUntil: "networkidle" });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+        await page.evaluate(() => window.scrollTo(0, 0));
+
+        // Only hashes that map to a link in BOTH Header and Footer.
+        // Footer has no #academy link, so it is not included here.
+        for (const [hash, name] of [
+          ["#masterclasses", /Masterclasses/i],
+          ["#mentor", /AI Mentor/i],
+        ] as const) {
+
+          await page.evaluate((h) => {
+            window.history.replaceState(null, "", h);
+            window.dispatchEvent(new HashChangeEvent("hashchange"));
+          }, hash);
+          await expectActive(
+            page,
+            'header nav[aria-label="Primary"]',
+            name,
+          );
+          await expectActive(page, 'nav[aria-label="Footer"]', name);
+        }
+      });
+    });
+  });
 });
+
 
