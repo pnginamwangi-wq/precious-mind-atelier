@@ -130,9 +130,9 @@ function Hero() {
           variants={fadeUp}
           className={`mx-auto mt-10 max-w-xl ${luxury.bodyMuted}`}
         >
-          An immersive learning institution where precious metals, jewellery,
-          gemstones, luxury retail, and artificial intelligence converge to
-          shape the next generation of industry professionals.
+          An institution for those who work with the world's most precious
+          materials. Precious metals, jewellery, gemstones, and the disciplines
+          that surround them, studied at the level a serious professional expects.
         </motion.p>
 
         <motion.div
