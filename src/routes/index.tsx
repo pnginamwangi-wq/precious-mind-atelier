@@ -119,7 +119,7 @@ function Hero() {
         <motion.h1
           variants={fadeUp}
           transition={{ duration: 1.4, ease: luxury.ease }}
-          className="font-display text-[13vw] leading-[0.95] text-ivory md:text-[112px] lg:text-[136px]"
+          className="font-display text-[clamp(48px,13vw,112px)] leading-[0.95] text-ivory lg:text-[136px]"
         >
           Master the
           <br />
