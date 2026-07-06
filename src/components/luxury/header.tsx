@@ -8,6 +8,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Eyebrow, GoldMark, LuxButton, luxury } from "@/components/luxury";
 import { useAuth } from "@/hooks/use-auth";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
+import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { cn } from "@/lib/utils";
 
 
@@ -30,6 +31,7 @@ export function Header() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
   const activeSection = useActiveSection(SECTION_IDS);
+  const onHashNav = useSmoothHashNav();
   const navCtx = useMemo(
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
@@ -103,7 +105,13 @@ export function Header() {
                 {underline}
               </Link>
             ) : (
-              <a key={item.label} href={item.href} className={classes} aria-current={ariaCurrent}>
+              <a
+                key={item.label}
+                href={item.href}
+                className={classes}
+                aria-current={ariaCurrent}
+                onClick={(e) => onHashNav(item.href, e)}
+              >
                 {item.label}
                 {underline}
               </a>
@@ -225,7 +233,10 @@ export function Header() {
                           ) : (
                             <a
                               href={item.href}
-                              onClick={() => setOpen(false)}
+                              onClick={(e) => {
+                                onHashNav(item.href, e);
+                                setOpen(false);
+                              }}
                               className={rowClasses}
                               aria-current={ariaCurrent}
                             >

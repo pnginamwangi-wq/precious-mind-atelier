@@ -1,8 +1,9 @@
 import { Compass, GraduationCap, Home, Library, Sparkles } from "lucide-react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
+import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { motion } from "framer-motion";
 
 const TABS = [
@@ -23,6 +24,8 @@ export function MobileTabs() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
   const activeSection = useActiveSection(SECTION_IDS);
+  const onHashNav = useSmoothHashNav();
+  const navigate = useNavigate();
   const navCtx = useMemo(
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
@@ -75,7 +78,6 @@ export function MobileTabs() {
 
           const linkClasses =
             "group flex-1 outline-none focus-visible:bg-white/5 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gold";
-          const ariaCurrent = isActive ? ("page" as const) : undefined;
 
           if (t.href.startsWith("#")) {
             return (
@@ -83,8 +85,9 @@ export function MobileTabs() {
                 <a
                   href={t.href}
                   aria-label={t.label}
-                  aria-current={ariaCurrent}
+                  aria-current={isActive ? "page" : undefined}
                   className={linkClasses}
+                  onClick={(e) => onHashNav(t.href, e)}
                 >
                   {inner}
                 </a>
@@ -92,16 +95,35 @@ export function MobileTabs() {
             );
           }
 
+          // Use a router-driven <a> instead of TanStack's <Link>. TanStack
+          // Link unconditionally spreads STATIC_ACTIVE_PROPS on any route
+          // match, which would force aria-current="page" on the Home tab
+          // while a section is also active. Owning the anchor lets our
+          // isNavActive result be the sole source of truth for ARIA state.
           return (
             <li key={t.label} className="flex">
-              <Link
-                to={t.href}
+              <a
+                href={t.href}
                 aria-label={t.label}
-                aria-current={ariaCurrent}
+                aria-current={isActive ? "page" : undefined}
                 className={linkClasses}
+                onClick={(e) => {
+                  if (
+                    e.defaultPrevented ||
+                    e.button !== 0 ||
+                    e.metaKey ||
+                    e.ctrlKey ||
+                    e.shiftKey ||
+                    e.altKey
+                  ) {
+                    return;
+                  }
+                  e.preventDefault();
+                  void navigate({ to: t.href });
+                }}
               >
                 {inner}
-              </Link>
+              </a>
             </li>
           );
         })}

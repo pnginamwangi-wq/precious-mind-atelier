@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { Container, Eyebrow, GoldMark } from "@/components/luxury";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
+import { useSmoothHashNav } from "@/hooks/use-smooth-hash-nav";
 import { cn } from "@/lib/utils";
 
 type FooterLink = { label: string; href: string; internal?: boolean };
@@ -49,6 +50,7 @@ export function Footer() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
   const activeSection = useActiveSection(SECTION_IDS);
+  const onHashNav = useSmoothHashNav();
   const navCtx = useMemo(
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
@@ -122,6 +124,7 @@ export function Footer() {
                             href={item.href}
                             className={linkClasses}
                             aria-current={ariaCurrent}
+                            onClick={(e) => onHashNav(item.href, e)}
                           >
                             {item.label}
                             {underline}
