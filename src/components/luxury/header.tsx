@@ -3,7 +3,8 @@ import { Menu, User, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Eyebrow, GoldMark, LuxButton, luxury } from "@/components/luxury";
 import { useAuth } from "@/hooks/use-auth";
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
