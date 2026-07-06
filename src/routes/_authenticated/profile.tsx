@@ -52,6 +52,25 @@ function ProfilePage() {
   const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Resolve a stored avatar_url into a viewable URL. Full https URLs are used
+  // directly; storage paths (e.g. "<uid>/avatar-123.png") are exchanged for a
+  // short-lived signed URL against the private `avatars` bucket.
+  const resolveAvatarUrl = async (value: string | null): Promise<string | null> => {
+    if (!value) return null;
+    if (/^https?:\/\//i.test(value)) return value;
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .createSignedUrl(value, 60 * 60);
+    if (error) {
+      toast.error("Could not load avatar", { description: error.message });
+      return null;
+    }
+    return data?.signedUrl ?? null;
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -74,14 +93,50 @@ function ProfilePage() {
       .select("id, display_name, avatar_url, headline, bio")
       .eq("id", user.id)
       .maybeSingle()
-      .then(({ data, error }) => {
+      .then(async ({ data, error }) => {
         if (error) toast.error("Could not load profile", { description: error.message });
-        setProfile(
-          data ?? { id: user.id, display_name: null, avatar_url: null, headline: null, bio: null },
-        );
+        const next: Profile =
+          data ?? { id: user.id, display_name: null, avatar_url: null, headline: null, bio: null };
+        setProfile(next);
+        setAvatarPreview(await resolveAvatarUrl(next.avatar_url));
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  const onAvatarFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !user) return;
+    if (!file.type.startsWith("image/")) {
+      return toast.error("Please choose an image file");
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      return toast.error("Image must be under 5MB");
+    }
+    setUploading(true);
+    const ext = file.name.split(".").pop()?.toLowerCase() || "png";
+    const path = `${user.id}/avatar-${Date.now()}.${ext}`;
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+    if (uploadError) {
+      setUploading(false);
+      return toast.error("Upload failed", { description: uploadError.message });
+    }
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .upsert({ id: user.id, avatar_url: path }, { onConflict: "id" });
+    if (updateError) {
+      setUploading(false);
+      return toast.error("Could not save avatar", { description: updateError.message });
+    }
+    setProfile((p) => (p ? { ...p, avatar_url: path } : p));
+    setAvatarPreview(await resolveAvatarUrl(path));
+    setUploading(false);
+    toast.success("Avatar updated");
+  };
+
 
   const onSave = async (e: React.FormEvent) => {
     e.preventDefault();
