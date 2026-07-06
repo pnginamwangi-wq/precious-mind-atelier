@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+
 
 import heroOpal from "@/assets/hero-opal.jpg";
 import heroGold from "@/assets/hero-gold.jpg";
@@ -29,15 +30,16 @@ export const Route = createFileRoute("/")({
 });
 
 const INSTITUTES = [
-  { n: "01", name: "Precious Metals", tag: "Gold. Silver. Platinum." },
-  { n: "02", name: "Bullion", tag: "Bars. Coins. Markets." },
-  { n: "03", name: "Numismatics", tag: "Rare and commemorative coinage." },
-  { n: "04", name: "Gemstones", tag: "Diamonds. Opals. Coloured stones." },
-  { n: "05", name: "Jewellery", tag: "Design. Craft. Provenance." },
-  { n: "06", name: "Horology", tag: "Swiss watchmaking, decoded." },
-  { n: "07", name: "Luxury Retail", tag: "Clienteling and high value sales." },
-  { n: "08", name: "Artificial Intelligence", tag: "AI for the luxury industry." },
-];
+  { slug: "precious-metals", n: "01", name: "Precious Metals", tag: "Gold. Silver. Platinum." },
+  { slug: "bullion", n: "02", name: "Bullion", tag: "Bars. Coins. Markets." },
+  { slug: "numismatics", n: "03", name: "Numismatics", tag: "Rare and commemorative coinage." },
+  { slug: "gemstones", n: "04", name: "Gemstones", tag: "Diamonds. Opals. Coloured stones." },
+  { slug: "jewellery", n: "05", name: "Jewellery", tag: "Design. Craft. Provenance." },
+  { slug: "horology", n: "06", name: "Horology", tag: "Swiss watchmaking, decoded." },
+  { slug: "luxury-retail", n: "07", name: "Luxury Retail", tag: "Clienteling and high value sales." },
+  { slug: "artificial-intelligence", n: "08", name: "Artificial Intelligence", tag: "AI for the luxury industry." },
+] as const;
+
 
 const SCROLL_OBJECTS = [
   { src: heroOpal, name: "Black Opal", origin: "Lightning Ridge, Australia" },
@@ -266,10 +268,12 @@ function Institutes() {
         />
         <div className="grid gap-px bg-white/5 md:grid-cols-2 lg:grid-cols-4">
           {INSTITUTES.map((it) => (
-            <a
-              key={it.n}
-              href="#"
+            <Link
+              key={it.slug}
+              to="/institutes/$slug"
+              params={{ slug: it.slug }}
               className="group relative flex flex-col justify-between bg-obsidian p-8 transition-colors duration-500 hover:bg-charcoal md:min-h-[280px] md:p-10"
+              aria-label={`Enter the ${it.name} Institute`}
             >
               <div className="flex items-start justify-between">
                 <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">{it.n}</span>
@@ -284,9 +288,15 @@ function Institutes() {
                 </p>
               </div>
               <div className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-gold to-transparent transition-transform duration-700 group-hover:scale-x-100" />
-            </a>
+            </Link>
           ))}
         </div>
+        <div className="mt-12 text-center">
+          <Link to="/institutes">
+            <LuxButton variant="outline">All eight Institutes</LuxButton>
+          </Link>
+        </div>
+
       </Container>
     </Section>
   );
