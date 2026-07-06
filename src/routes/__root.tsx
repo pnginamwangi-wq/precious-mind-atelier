@@ -138,26 +138,30 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        {/*
-         * reducedMotion="user" makes Framer Motion honour the OS-level
-         * prefers-reduced-motion setting for every motion component in the
-         * tree: transform and layout animations are skipped, opacity is
-         * preserved so reveals still resolve to their final state.
-         */}
-        <MotionConfig reducedMotion="user">
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-gold focus:px-4 focus:py-2 focus:text-[11px] focus:font-medium focus:uppercase focus:tracking-[0.24em] focus:text-obsidian"
-          >
-            Skip to content
-          </a>
-          <PageTransition>
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-          </PageTransition>
-          <Toaster />
-        </MotionConfig>
+        <CookieConsentProvider>
+          {/*
+           * reducedMotion="user" makes Framer Motion honour the OS-level
+           * prefers-reduced-motion setting for every motion component in the
+           * tree: transform and layout animations are skipped, opacity is
+           * preserved so reveals still resolve to their final state.
+           */}
+          <MotionConfig reducedMotion="user">
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-gold focus:px-4 focus:py-2 focus:text-[11px] focus:font-medium focus:uppercase focus:tracking-[0.24em] focus:text-obsidian"
+            >
+              Skip to content
+            </a>
+            <PageTransition>
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+            </PageTransition>
+            <CookieNotice />
+            <Toaster />
+          </MotionConfig>
+        </CookieConsentProvider>
       </AuthProvider>
+
     </QueryClientProvider>
   );
 }
