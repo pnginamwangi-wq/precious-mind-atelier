@@ -14,6 +14,8 @@ import {
   Reveal,
   Section,
   SectionHeader,
+  SectionNav,
+  SectionNavBar,
   fadeUp,
   luxury,
 } from "@/components/luxury";
