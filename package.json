@@ -79,6 +79,7 @@
     "@lovable.dev/vite-tanstack-config": "2.7.0",
     "@playwright/test": "^1.61.1",
     "@storybook/addon-a11y": "^10.4.6",
+    "@storybook/addon-docs": "^10.4.6",
     "@storybook/addon-themes": "^10.4.6",
     "@storybook/react-vite": "^10.4.6",
     "@types/node": "^22.16.5",

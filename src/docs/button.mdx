@@ -1,0 +1,31 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Button" />
+
+# Button (LuxButton)
+
+See stories under [_Luxury / Button_](?path=/story/luxury-button--default).
+
+## When to use each variant
+
+| Variant | Use for |
+| --- | --- |
+| `default` (solid gold) | The single primary action per view. Enrol, submit, confirm. |
+| `outline` | Secondary action next to the primary. View curriculum, learn more. |
+| `ghost` | Tertiary nav, filter chips, "All eight Institutes". |
+
+## Sizes
+
+Default is 44px tall to preserve tap targets. Use the small variant only inside dense tables or filter bars.
+
+## Do
+
+- Keep verbs short and titlecase: **Enrol**, **Reserve seat**, **View chapter**.
+- One `default` button per hero, per modal, per card.
+- Pair with an `outline` when a secondary path exists.
+
+## Don't
+
+- Stack two solid gold buttons side by side — they cancel each other's authority.
+- Use `ghost` as the only CTA in a hero. It disappears against `bg-obsidian`.
+- Add emoji or icons before the label unless the action is non-obvious (external link, download).
