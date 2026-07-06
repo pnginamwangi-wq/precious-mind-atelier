@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, Outlet, useChildMatches } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
@@ -138,7 +138,13 @@ const INSTITUTE_SECTIONS = [
 
 function InstitutePage() {
   const { institute } = Route.useLoaderData();
+  // This route is both a leaf (institute detail) and a parent of the
+  // chapters subtree. When a child route is active, defer entirely to it
+  // instead of rendering the institute layout underneath.
+  const childMatches = useChildMatches();
+  if (childMatches.length > 0) return <Outlet />;
   return (
+
     <>
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
