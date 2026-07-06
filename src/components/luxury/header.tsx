@@ -32,6 +32,9 @@ export function Header() {
   const hash = useRouterState({ select: (s) => s.location.hash ?? "" });
   const activeSection = useActiveSection(SECTION_IDS);
   const onHashNav = useSmoothHashNav();
+  // Snap active-state color + underline transitions when reduced motion is on.
+  const reduceMotion = useReducedMotion();
+  const motionDur = reduceMotion ? "duration-0" : "duration-500";
   const navCtx = useMemo(
     () => ({ pathname, hash: hash ? `#${hash.replace(/^#/, "")}` : "", activeSection }),
     [pathname, hash, activeSection],
