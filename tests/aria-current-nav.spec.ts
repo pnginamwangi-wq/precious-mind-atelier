@@ -498,9 +498,11 @@ test.describe("aria-current tracking", () => {
           await expectActive(page, 'nav[aria-label="Footer"]', name);
         }
       });
+    });
   });
 
   test.describe("at most one aria-current per nav surface", () => {
+
     /**
      * Asserts that `navSelector` contains 0 or 1 links with
      * aria-current="page". More than one active item would mean
