@@ -173,29 +173,53 @@ function Manifesto() {
       <Container narrow>
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-4">
-            <Eyebrow>I. Manifesto</Eyebrow>
+            <Eyebrow>I. Our Philosophy</Eyebrow>
             <Hairline className="mt-6 w-16" />
           </Reveal>
-          <div className="md:col-span-8">
+          <div className="md:col-span-8 space-y-8">
             <Reveal>
               <p className="font-display text-3xl leading-[1.25] text-ivory md:text-[42px] md:leading-[1.2]">
-                This is not a course website. It is a digital institution built
-                for those who traffic in the rarest materials on earth, and for
-                the intelligence that will shape their next century.
+                This isn't another learning platform.
               </p>
             </Reveal>
-            <div className="mt-16 grid gap-10 sm:grid-cols-3">
-              {[
-                { k: "8", v: "Institutes" },
-                { k: "240+", v: "Masterclasses" },
-                { k: "1", v: "AI Mentor, always in session" },
-              ].map((item) => (
-                <Reveal key={item.v}>
-                  <div className="font-numeric text-4xl text-gold md:text-5xl">{item.k}</div>
-                  <div className={`mt-3 ${luxury.bodySmall}`}>{item.v}</div>
-                </Reveal>
-              ))}
-            </div>
+            <Reveal>
+              <p className="font-display text-2xl leading-[1.35] text-ivory/90 md:text-[28px]">
+                It is a place for people who believe knowledge is as valuable
+                as the products they represent.
+              </p>
+            </Reveal>
+            <Reveal>
+              <p className={`${luxury.bodyMuted} text-[16px] md:text-[17px]`}>
+                Whether it is a gold bar, a rare gemstone, a handcrafted piece
+                of jewellery, or an exceptional client experience, mastery
+                begins with understanding.
+              </p>
+            </Reveal>
+            <Reveal>
+              <p className={`${luxury.bodyMuted} text-[16px] md:text-[17px]`}>
+                The Precious Intelligence Academy was created for professionals
+                who want to deepen their expertise, refine their craft, and
+                build the confidence that only knowledge can provide.
+              </p>
+            </Reveal>
+            <Reveal>
+              <p className={`${luxury.bodyMuted} text-[16px] md:text-[17px]`}>
+                We believe luxury is earned through precision, curiosity,
+                craftsmanship, and continual learning.
+              </p>
+            </Reveal>
+            <Reveal>
+              <p className="font-display text-2xl leading-[1.35] text-ivory md:text-[28px]">
+                Because extraordinary service begins with extraordinary
+                knowledge.
+              </p>
+            </Reveal>
+            <Reveal>
+              <Hairline className="w-16" />
+              <p className="mt-8 font-display text-3xl italic text-ivory md:text-4xl">
+                Master the <span className="gold-gradient-text not-italic">Extraordinary</span>.
+              </p>
+            </Reveal>
           </div>
         </div>
       </Container>
