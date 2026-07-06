@@ -350,14 +350,14 @@ function AIMentor() {
                 "Luxury sales roleplay simulations",
                 "Personal glossary and citations",
               ].map((f) => (
-                <Reveal
+                <motion.li
                   key={f}
-                  as-element="li"
+                  variants={fadeUp}
                   className="flex items-center gap-4 text-[14px] font-light text-ivory/90"
                 >
                   <span className="h-px w-6 bg-gold" />
                   {f}
-                </Reveal>
+                </motion.li>
               ))}
             </ul>
           </div>
