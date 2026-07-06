@@ -46,8 +46,18 @@ export function useSmoothHashNav(): (
       const inCurrentRoute =
         typeof document !== "undefined" && document.getElementById(id) !== null;
 
-      if (pathname === "/" || inCurrentRoute) {
-        void navigate({ to: pathname, hash: id, replace: true });
+      if (pathname === "/") {
+        // Update the router hash first so `isNavActive` flips the tapped
+        // item to aria-current="page" this render, then scroll.
+        void navigate({ to: "/", hash: id, replace: true });
+        scrollToTarget();
+      } else if (inCurrentRoute) {
+        // Secondary in-page nav on a non-root route (e.g. institute
+        // detail). Update the URL hash without a router navigation so
+        // we do not trigger a route change or loader re-run.
+        if (typeof window !== "undefined") {
+          window.history.replaceState(null, "", `#${id}`);
+        }
         scrollToTarget();
       } else {
         // Cross-route jump: land on "/" then scroll once the section mounts.
