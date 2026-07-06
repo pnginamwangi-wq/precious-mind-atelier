@@ -168,6 +168,7 @@ test.describe("aria-current tracking", () => {
         'nav[aria-label="Mobile navigation"]',
         /Institutes/i,
       );
+    });
   });
 
   test.describe("smooth scroll click updates active state immediately", () => {
