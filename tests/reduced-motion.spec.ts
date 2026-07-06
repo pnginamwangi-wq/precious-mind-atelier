@@ -10,7 +10,11 @@ import { test, expect, type Page } from "@playwright/test";
  * useReducedMotion guard in the hero are what make these assertions pass.
  */
 
-test.use({ reducedMotion: "reduce" });
+// test.use({ reducedMotion: "reduce" }) is unreliable with the sandbox
+// Chromium binary; emulate the media feature per test instead.
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+});
 
 async function transformOf(page: Page, selector: string): Promise<string> {
   return page.evaluate((sel) => {
