@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      institute_inquiries: {
+        Row: {
+          background: string | null
+          created_at: string
+          email: string
+          id: string
+          institute_name: string
+          institute_slug: string
+          message: string | null
+          name: string
+          user_id: string | null
+        }
+        Insert: {
+          background?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          institute_name: string
+          institute_slug: string
+          message?: string | null
+          name: string
+          user_id?: string | null
+        }
+        Update: {
+          background?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          institute_name?: string
+          institute_slug?: string
+          message?: string | null
+          name?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
