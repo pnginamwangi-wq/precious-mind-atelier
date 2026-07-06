@@ -482,11 +482,13 @@ test.describe("aria-current tracking", () => {
         await page.emulateMedia({ reducedMotion: "reduce" });
         await page.evaluate(() => window.scrollTo(0, 0));
 
+        // Only hashes that map to a link in BOTH Header and Footer.
+        // Footer has no #academy link, so it is not included here.
         for (const [hash, name] of [
-          ["#academy", /Academy/i],
           ["#masterclasses", /Masterclasses/i],
           ["#mentor", /AI Mentor/i],
         ] as const) {
+
           await page.evaluate((h) => {
             window.history.replaceState(null, "", h);
             window.dispatchEvent(new HashChangeEvent("hashchange"));
