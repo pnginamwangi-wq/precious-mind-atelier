@@ -88,13 +88,16 @@ function ProfilePage() {
     setSaving(true);
     const { error } = await supabase
       .from("profiles")
-      .update({
-        display_name: parsed.data.display_name,
-        headline: parsed.data.headline || null,
-        bio: parsed.data.bio || null,
-        avatar_url: parsed.data.avatar_url || null,
-      })
-      .eq("id", user.id);
+      .upsert(
+        {
+          id: user.id,
+          display_name: parsed.data.display_name,
+          headline: parsed.data.headline || null,
+          bio: parsed.data.bio || null,
+          avatar_url: parsed.data.avatar_url || null,
+        },
+        { onConflict: "id" },
+      );
     setSaving(false);
     if (error) return toast.error("Could not save", { description: error.message });
     toast.success("Profile updated");
