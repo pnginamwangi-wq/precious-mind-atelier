@@ -23,7 +23,6 @@ import {
   fadeUp,
   luxury,
 } from "@/components/luxury";
-import { EducationDisclaimer } from "@/components/luxury/education-disclaimer";
 import { Info } from "lucide-react";
 
 
@@ -290,7 +289,7 @@ function Institutes() {
           index="III"
           eyebrow="The Institutes"
           title="Eight disciplines. One faculty."
-          intro="Each Institute is a self contained programme, developed with master jewellers, refiners, gemmologists, horologists, and luxury retail directors."
+          intro="Each Institute is a self contained programme, drawn from reputable public sources and recognised industry references."
         />
         <div className="grid gap-px bg-white/5 md:grid-cols-2 lg:grid-cols-4">
           {INSTITUTES.map((it) => (
@@ -437,9 +436,6 @@ function AIMentor() {
           </Reveal>
         </div>
       </Container>
-      <div className="mt-20">
-        <EducationDisclaimer kinds={["ai"]} />
-      </div>
     </Section>
 
   );
