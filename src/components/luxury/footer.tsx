@@ -116,7 +116,21 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-20 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-8 md:flex-row md:items-center">
+        <div className="mt-16 border-t border-white/5 pt-6">
+          <p className="text-[11.5px] font-light leading-relaxed text-platinum/60">
+            Educational content only. Not financial, investment, gemological, or legal advice.{" "}
+            <Link
+              to="/governance"
+              hash="disclosures"
+              className="text-platinum/80 underline decoration-gold/40 underline-offset-4 transition-colors hover:text-gold"
+            >
+              Read our disclosures
+            </Link>
+            .
+          </p>
+        </div>
+
+        <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-8 md:flex-row md:items-center">
           <Eyebrow muted>© MMXXVI · The Precious Intelligence Academy</Eyebrow>
           <div className="flex items-center gap-6">
             <CookieSettingsLink />
