@@ -79,7 +79,7 @@ const numismaticsCurriculum: ChapterContent[] = [
         heading: "The Sheldon scale",
         paragraphs: [
           "Coin condition in much of the modern trade is described using the Sheldon scale, a numeric grading system originally developed for large cents and later extended across coinage broadly, running from 1, a coin barely identifiable, to 70, a theoretically perfect example with no visible imperfections even under magnification. Grades in between are anchored by widely understood benchmarks: About Good, Fine, Very Fine, Extremely Fine, About Uncirculated, and Mint State, each with its own numeric band.",
-          "The scale exists to replace vague, subjective language, \"pretty nice condition\", with a shared vocabulary precise enough that two dealers on opposite sides of the world can discuss a coin's condition without seeing it in hand, and arrive in similar expectations of what they will find when they do.",
+          "The scale exists to replace vague, subjective language, \"pretty nice condition\", with a shared vocabulary precise enough that two dealers on opposite sides of the world can discuss a coin's condition without seeing it in hand, and arrive at similar expectations of what they will find when they do.",
         ],
       },
       {
