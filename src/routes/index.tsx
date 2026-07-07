@@ -142,16 +142,19 @@ function Hero() {
           variants={fadeUp}
           className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <LuxButton>Explore the Academy</LuxButton>
+          <LuxButton asChild>
+            <Link to="/institutes">Explore the Academy</Link>
+          </LuxButton>
           <LuxButton
+            asChild
             variant="ghost"
             icon={
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                 <path d="M0 0L10 5L0 10V0Z" fill="currentColor" />
               </svg>
             }
           >
-            Meet the AI Mentor
+            <a href="#mentor">Meet the AI Mentor</a>
           </LuxButton>
         </motion.div>
       </motion.div>
@@ -271,9 +274,6 @@ function ScrollGallery() {
                 </h3>
                 <p className={`mt-4 ${luxury.bodySmall}`}>{obj.origin}</p>
                 <Hairline className="mt-8 w-24" />
-                <div className="mt-8">
-                  <ArrowLink>Study the object</ArrowLink>
-                </div>
               </div>
             </motion.article>
           ))}
@@ -319,9 +319,9 @@ function Institutes() {
           ))}
         </div>
         <div className="mt-12 text-center">
-          <Link to="/institutes">
-            <LuxButton variant="outline">All eight Institutes</LuxButton>
-          </Link>
+          <LuxButton asChild variant="outline">
+            <Link to="/institutes">All eight Institutes</Link>
+          </LuxButton>
         </div>
 
       </Container>
@@ -423,23 +423,15 @@ function AIMentor() {
                   </div>
                 </div>
 
-                <div className="mt-10 flex items-center gap-3 border-t border-white/5 pt-6">
-                  <div className="flex-1 rounded-sm bg-obsidian/60 px-4 py-3 text-[13px] font-light text-platinum/60">
-                    Ask the Mentor anything…
-                  </div>
-                  <button
-                    type="button"
-                    aria-label="Send message to Mentor"
-                    className="flex h-11 w-11 items-center justify-center bg-gold text-obsidian outline-none transition-colors hover:bg-champagne focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path
-                        d="M1 7H13M13 7L7 1M13 7L7 13"
-                        stroke="currentColor"
-                        strokeWidth="1.4"
-                      />
-                    </svg>
-                  </button>
+                <div className="mt-10 border-t border-white/5 pt-6">
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-platinum/70">
+                    Sample transcript
+                  </p>
+                  <p className="mt-3 text-[13px] font-light leading-relaxed text-platinum/70">
+                    The Mentor is not yet available to the public. Enrolled members
+                    will receive a private session invitation when the AI Mentor
+                    opens to their cohort.
+                  </p>
                 </div>
               </div>
             </div>

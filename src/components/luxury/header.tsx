@@ -17,11 +17,10 @@ const NAV: { label: string; href: string; internal?: boolean }[] = [
   { label: "Institutes", href: "/institutes", internal: true },
   { label: "Masterclasses", href: "#masterclasses" },
   { label: "AI Mentor", href: "#mentor" },
-  { label: "Library", href: "#library" },
-  { label: "Journal", href: "#journal" },
+  { label: "Governance", href: "/governance", internal: true },
 ];
 
-const SECTION_IDS = ["academy", "masterclasses", "mentor", "library", "journal"] as const;
+const SECTION_IDS = ["academy", "masterclasses", "mentor"] as const;
 
 
 export function Header() {
@@ -129,17 +128,13 @@ export function Header() {
         <div className="flex items-center gap-2">
           <div className="hidden lg:block">
             {user ? (
-              <Link to="/profile" aria-label="Your profile">
-                <LuxButton variant="outline" size="sm" icon={<User className="h-3.5 w-3.5" />}>
-                  Profile
-                </LuxButton>
-              </Link>
+              <LuxButton asChild variant="outline" size="sm" icon={<User className="h-3.5 w-3.5" />}>
+                <Link to="/profile" aria-label="Your profile">Profile</Link>
+              </LuxButton>
             ) : (
-              <Link to="/auth" aria-label="Sign in to the Academy">
-                <LuxButton variant="outline" size="sm">
-                  Sign in
-                </LuxButton>
-              </Link>
+              <LuxButton asChild variant="outline" size="sm">
+                <Link to="/auth" aria-label="Sign in to the Academy">Sign in</Link>
+              </LuxButton>
             )}
           </div>
 
@@ -218,7 +213,7 @@ export function Header() {
                       const indexClasses = cn(
                         "font-numeric text-[10px] tracking-[0.28em] transition-colors",
                         motionDur,
-                        active ? "text-gold" : "text-platinum/40",
+                        active ? "text-gold" : "text-platinum/70",
                       );
                       const ariaCurrent = active ? ("page" as const) : undefined;
                       return (
@@ -258,11 +253,11 @@ export function Header() {
                   </ul>
 
                   <div className="mt-10">
-                    <Link to={user ? "/profile" : "/auth"} onClick={() => setOpen(false)}>
-                      <LuxButton className="w-full">
+                    <LuxButton asChild className="w-full">
+                      <Link to={user ? "/profile" : "/auth"} onClick={() => setOpen(false)}>
                         {user ? "Your profile" : "Sign in or create account"}
-                      </LuxButton>
-                    </Link>
+                      </Link>
+                    </LuxButton>
                   </div>
 
                 </nav>
