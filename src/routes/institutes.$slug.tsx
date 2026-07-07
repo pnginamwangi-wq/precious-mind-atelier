@@ -245,6 +245,11 @@ function InstituteHero({ institute }: { institute: Institute }) {
                 <LuxButton asChild variant="ghost">
                   <Link to="/institutes">All eight Institutes</Link>
                 </LuxButton>
+                {institute.slug === "precious-metals" ? (
+                  <LuxButton asChild variant="ghost">
+                    <Link to="/smelt-lab">Open the Smelt Lab</Link>
+                  </LuxButton>
+                ) : null}
                 <SaveInstituteButton slug={institute.slug} name={institute.name} />
               </div>
             </Reveal>
