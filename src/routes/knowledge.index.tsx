@@ -12,7 +12,7 @@ import {
 import { GLOSSARY } from "@/data/glossary";
 import { PATHWAYS } from "@/data/pathways";
 import { COMPARISONS } from "@/data/comparisons";
-import { BookOpen, Compass, GitCompare, Search } from "lucide-react";
+import { BookOpen, Compass, Flame, GitCompare, Search } from "lucide-react";
 
 export const Route = createFileRoute("/knowledge/")({
   head: () => ({
