@@ -322,9 +322,8 @@ function TermsPage() {
             </div>
           </Container>
         </Section>
-
-        <Footer />
       </main>
+      <Footer />
       <MobileTabs />
     </>
   );

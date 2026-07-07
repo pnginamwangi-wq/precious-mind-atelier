@@ -45,8 +45,8 @@ function AuthPage() {
   }, [loading, session, navigate]);
 
   return (
-    <main className="relative min-h-screen bg-obsidian text-ivory">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.12),transparent_60%)]" />
+    <main id="main" tabIndex={-1} className="relative min-h-dvh bg-obsidian text-ivory outline-none">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--gold)_12%,transparent),transparent_60%)]" />
       <Container className="relative flex min-h-screen flex-col items-center justify-center py-24">
         <Link
           to="/"

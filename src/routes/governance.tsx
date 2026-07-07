@@ -355,9 +355,8 @@ function GovernancePage() {
             </div>
           </Container>
         </Section>
-
-        <Footer />
       </main>
+      <Footer />
       <MobileTabs />
     </>
   );
