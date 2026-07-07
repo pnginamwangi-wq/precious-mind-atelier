@@ -23,7 +23,6 @@ import {
   fadeUp,
   luxury,
 } from "@/components/luxury";
-import { EducationDisclaimer } from "@/components/luxury/education-disclaimer";
 import { Info } from "lucide-react";
 
 
@@ -80,6 +79,7 @@ function Home() {
         <ScrollGallery />
         <Institutes />
         <AIMentor />
+        <ClosingCta />
       </main>
       <Footer />
       <MobileTabs />
@@ -290,7 +290,7 @@ function Institutes() {
           index="III"
           eyebrow="The Institutes"
           title="Eight disciplines. One faculty."
-          intro="Each Institute is a self contained programme, developed with master jewellers, refiners, gemmologists, horologists, and luxury retail directors."
+          intro="Each Institute is a self contained programme, drawn from reputable public sources and recognised industry references."
         />
         <div className="grid gap-px bg-white/5 md:grid-cols-2 lg:grid-cols-4">
           {INSTITUTES.map((it) => (
@@ -437,11 +437,55 @@ function AIMentor() {
           </Reveal>
         </div>
       </Container>
-      <div className="mt-20">
-        <EducationDisclaimer kinds={["ai"]} />
-      </div>
     </Section>
 
+  );
+}
+
+function ClosingCta() {
+  return (
+    <Section bordered className="overflow-hidden">
+      <Container narrow>
+        <div className="grid gap-16 md:grid-cols-12">
+          <Reveal className="md:col-span-5">
+            <Eyebrow>V. Content Integrity</Eyebrow>
+            <Hairline className="mt-6 w-16" />
+          </Reveal>
+          <div className="md:col-span-7 space-y-8">
+            <Reveal>
+              <p className="font-display text-3xl leading-[1.25] text-ivory md:text-4xl">
+                Independently researched. Plainly stated.
+              </p>
+            </Reveal>
+            <Reveal>
+              <p className={`${luxury.bodyMuted}`}>
+                Every lesson is drawn from reputable public sources and recognised industry references. No endorsement, sponsorship, or affiliation with any external organisation is implied. Certificates recognise the completion of Academy learning only.
+              </p>
+            </Reveal>
+            <Reveal>
+              <p className={luxury.bodySmall}>
+                Read the full{" "}
+                <Link
+                  to="/governance"
+                  hash="disclosures"
+                  className="text-ivory underline decoration-gold/40 underline-offset-4 transition-colors hover:text-gold"
+                >
+                  disclosures and governance charter
+                </Link>
+                .
+              </p>
+            </Reveal>
+            <Reveal>
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <LuxButton asChild>
+                  <Link to="/institutes">Begin with an Institute</Link>
+                </LuxButton>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </Container>
+    </Section>
   );
 }
 
