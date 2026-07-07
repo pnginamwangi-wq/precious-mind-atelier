@@ -243,6 +243,7 @@ function PrivacyPage() {
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <Section className="pt-40">
           <SectionHeader
+            as="h1"
             eyebrow="Privacy Policy"
             title={
               <>
