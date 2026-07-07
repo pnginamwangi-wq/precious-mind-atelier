@@ -117,11 +117,9 @@ function NotFound() {
           <Eyebrow>Not found</Eyebrow>
           <h1 className="mt-4 font-display text-4xl">This Institute does not exist.</h1>
           <div className="mt-8">
-            <Link to="/institutes">
-              <LuxButton variant="outline" icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                View all Institutes
-              </LuxButton>
-            </Link>
+            <LuxButton asChild variant="outline" icon={<ArrowRight className="h-3.5 w-3.5" />}>
+              <Link to="/institutes">View all Institutes</Link>
+            </LuxButton>
           </div>
         </div>
       </main>
@@ -246,14 +244,12 @@ function InstituteHero({ institute }: { institute: Institute }) {
             </Reveal>
             <Reveal>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <a href="#inquiry">
-                  <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                    Enrol in this Institute
-                  </LuxButton>
-                </a>
-                <Link to="/institutes">
-                  <LuxButton variant="ghost">All eight Institutes</LuxButton>
-                </Link>
+                <LuxButton asChild icon={<ArrowRight className="h-3.5 w-3.5" />}>
+                  <a href="#inquiry">Enrol in this Institute</a>
+                </LuxButton>
+                <LuxButton asChild variant="ghost">
+                  <Link to="/institutes">All eight Institutes</Link>
+                </LuxButton>
                 <SaveInstituteButton slug={institute.slug} name={institute.name} />
               </div>
             </Reveal>

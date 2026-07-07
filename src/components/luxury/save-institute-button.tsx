@@ -55,11 +55,9 @@ export function SaveInstituteButton({ slug, name }: Props) {
 
   if (!userId) {
     return (
-      <Link to="/auth">
-        <LuxButton variant="ghost" icon={<Bookmark className="h-3.5 w-3.5" />}>
-          Sign in to save
-        </LuxButton>
-      </Link>
+      <LuxButton asChild variant="ghost" icon={<Bookmark className="h-3.5 w-3.5" />}>
+        <Link to="/auth">Sign in to save</Link>
+      </LuxButton>
     );
   }
 

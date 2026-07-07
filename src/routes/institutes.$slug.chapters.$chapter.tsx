@@ -76,11 +76,9 @@ function ChapterNotFound() {
             It may have been renamed or moved. Return to the Institutes to continue.
           </p>
           <div className="mt-8">
-            <Link to="/institutes">
-              <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                Back to the Institutes
-              </LuxButton>
-            </Link>
+            <LuxButton asChild icon={<ArrowRight className="h-3.5 w-3.5" />}>
+              <Link to="/institutes">Back to the Institutes</Link>
+            </LuxButton>
           </div>
         </div>
       </main>
@@ -233,15 +231,15 @@ function ChapterStudy({
               ))}
             </div>
             <div className="mt-10">
-              <Link
-                to="/institutes/$slug"
-                params={{ slug: institute.slug }}
-                hash="inquiry"
-              >
-                <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
+              <LuxButton asChild icon={<ArrowRight className="h-3.5 w-3.5" />}>
+                <Link
+                  to="/institutes/$slug"
+                  params={{ slug: institute.slug }}
+                  hash="inquiry"
+                >
                   Request an invitation
-                </LuxButton>
-              </Link>
+                </Link>
+              </LuxButton>
             </div>
           </div>
         </div>
