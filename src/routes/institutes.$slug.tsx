@@ -132,7 +132,7 @@ function NotFound() {
 const INSTITUTE_SECTIONS = [
   { id: "philosophy", label: "Philosophy" },
   { id: "curriculum", label: "Curriculum" },
-  { id: "faculty", label: "Faculty & Outcomes" },
+  { id: "faculty", label: "Practitioners & Outcomes" },
   { id: "inquiry", label: "Admissions" },
 ] as const;
 
@@ -356,23 +356,30 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
         <div className="grid gap-16 md:grid-cols-12 md:gap-20">
           <div className="md:col-span-6">
             <Reveal>
-              <Eyebrow>III. Faculty</Eyebrow>
+              <Eyebrow>III. Practitioners in residence</Eyebrow>
             </Reveal>
             <Reveal>
               <h2 className="mt-6 font-display text-4xl leading-tight md:text-5xl">
-                Taught by the people who set the standard.
+                Led by working practitioners of the discipline.
               </h2>
             </Reveal>
+            <Reveal>
+              <p className={`mt-6 max-w-lg ${luxury.bodySmall}`}>
+                Each cohort is taught by practising professionals in the field.
+                Named practitioners for a given cohort are introduced to enrolled
+                members privately, once teaching arrangements are confirmed.
+              </p>
+            </Reveal>
             <ul className="mt-10 space-y-6">
-              {institute.faculty.map((f) => (
+              {institute.practitioners.map((p) => (
                 <motion.li
-                  key={f.name}
+                  key={`${p.role}-${p.region}`}
                   variants={fadeUp}
                   className="border-b border-white/5 pb-6 last:border-none"
                 >
-                  <p className="font-display text-2xl text-ivory">{f.name}</p>
-                  <p className="mt-2 text-[13px] font-light tracking-wide text-platinum/60">
-                    {f.role}
+                  <p className="font-display text-2xl text-ivory">{p.role}</p>
+                  <p className="mt-2 text-[13px] font-light tracking-wide text-platinum/75">
+                    {p.region}
                   </p>
                 </motion.li>
               ))}
@@ -381,12 +388,10 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
 
           <div className="md:col-span-5 md:col-start-8">
             <Reveal>
-              <Eyebrow>IV. Outcomes</Eyebrow>
-            </Reveal>
-            <Reveal>
-              <h2 className="mt-6 font-display text-4xl leading-tight md:text-5xl">
+              <h3 className="font-display text-4xl leading-tight md:text-5xl">
                 What you will be able to do.
-              </h2>
+              </h3>
+              <span className={cn(luxury.eyebrow, "mt-4 block")}>IV. Outcomes</span>
             </Reveal>
             <ul className="mt-10 space-y-5">
               {institute.outcomes.map((o) => (
@@ -401,11 +406,9 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
               ))}
             </ul>
             <div className="mt-12">
-              <a href="#inquiry">
-                <LuxButton icon={<ArrowRight className="h-3.5 w-3.5" />}>
-                  Request your invitation
-                </LuxButton>
-              </a>
+              <LuxButton asChild icon={<ArrowRight className="h-3.5 w-3.5" />}>
+                <a href="#inquiry">Request your invitation</a>
+              </LuxButton>
             </div>
           </div>
         </div>
