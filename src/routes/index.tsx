@@ -151,9 +151,7 @@ function Hero() {
           variants={fadeUp}
           className={`mx-auto mt-10 max-w-xl ${luxury.bodyMuted}`}
         >
-          An institution for those who work with the world's most precious
-          materials. Precious metals, jewellery, gemstones, and the disciplines
-          that surround them, studied at the level a serious professional expects.
+          An institution for those who work with the world's most precious materials, studied at the level a serious professional expects.
         </motion.p>
 
         <motion.div
@@ -208,34 +206,17 @@ function Manifesto() {
             </Reveal>
             <Reveal>
               <p className="font-display text-2xl leading-[1.35] text-ivory/90 md:text-[28px]">
-                It is a place for people who believe knowledge is as valuable
-                as the products they represent.
+                It is a place for people who believe knowledge is as valuable as the products they represent.
               </p>
             </Reveal>
             <Reveal>
               <p className={`${luxury.bodyMuted} text-[16px] md:text-[17px]`}>
-                Whether it is a gold bar, a rare gemstone, a handcrafted piece
-                of jewellery, or an exceptional client experience, mastery
-                begins with understanding.
+                A gold bar, a rare gemstone, a handcrafted piece, an exceptional client experience: mastery begins with understanding.
               </p>
             </Reveal>
             <Reveal>
               <p className={`${luxury.bodyMuted} text-[16px] md:text-[17px]`}>
-                The Precious Intelligence Academy was created for professionals
-                who want to deepen their expertise, refine their craft, and
-                build the confidence that only knowledge can provide.
-              </p>
-            </Reveal>
-            <Reveal>
-              <p className={`${luxury.bodyMuted} text-[16px] md:text-[17px]`}>
-                We believe luxury is earned through precision, curiosity,
-                craftsmanship, and continual learning.
-              </p>
-            </Reveal>
-            <Reveal>
-              <p className="font-display text-2xl leading-[1.35] text-ivory md:text-[28px]">
-                Because extraordinary service begins with extraordinary
-                knowledge.
+                Luxury is earned through precision, curiosity, craftsmanship, and continual learning.
               </p>
             </Reveal>
             <Reveal>

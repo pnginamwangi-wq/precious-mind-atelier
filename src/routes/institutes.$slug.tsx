@@ -20,10 +20,6 @@ import {
   fadeUp,
   luxury,
 } from "@/components/luxury";
-import {
-  EducationDisclaimer,
-  disclaimersForSlug,
-} from "@/components/luxury/education-disclaimer";
 import { cn } from "@/lib/utils";
 
 import { InquiryForm } from "@/components/luxury/inquiry-form";
@@ -148,7 +144,6 @@ function InstitutePage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <InstituteHero institute={institute} />
-        <EducationDisclaimer kinds={disclaimersForSlug(institute.slug)} />
         <SectionNavBar items={INSTITUTE_SECTIONS} label={`${institute.name} sections`} />
 
         <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
@@ -362,9 +357,7 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
             </Reveal>
             <Reveal>
               <p className={`mt-6 max-w-lg ${luxury.bodySmall}`}>
-                Each cohort is taught by practising professionals in the field.
-                Named practitioners for a given cohort are introduced to enrolled
-                members privately, once teaching arrangements are confirmed.
+                Each cohort is taught by practising professionals. Named practitioners are introduced to enrolled members privately, once teaching arrangements are confirmed.
               </p>
             </Reveal>
             <ul className="mt-10 space-y-6">

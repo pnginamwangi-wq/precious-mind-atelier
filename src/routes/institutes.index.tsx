@@ -64,7 +64,7 @@ function InstitutesIndex() {
             as="h1"
             eyebrow="The Institutes"
             title="Eight disciplines. One faculty."
-            intro="Each Institute is a self contained programme, developed with master jewellers, refiners, gemmologists, horologists, and luxury retail directors. Enter the discipline you are drawn to."
+            intro="Each Institute is a self contained programme, taught by practitioners of the discipline. Enter the one you are drawn to."
           />
 
           <Container className="mt-16">

@@ -12,6 +12,7 @@ import {
   SectionHeader,
   luxury,
 } from "@/components/luxury";
+import { EducationDisclaimer } from "@/components/luxury/education-disclaimer";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/governance")({
@@ -258,7 +259,7 @@ function GovernancePage() {
           <Container narrow>
             <Reveal>
               <div className={cn(luxury.bodyMuted, "border-l border-gold/40 pl-6 italic")}>
-                The Precious Intelligence Academy is a respected place of study. Every page is written to reinforce credibility through careful language, thoughtful design, and clear communication.
+                Every page is written to reinforce credibility through careful language, thoughtful design, and clear communication.
               </div>
             </Reveal>
           </Container>
@@ -338,6 +339,27 @@ function GovernancePage() {
                   </div>
                 </article>
               ))}
+            </div>
+
+            <div id="disclosures" className="mt-24 scroll-mt-24 md:mt-32">
+              <Hairline />
+              <Reveal>
+                <div className="mt-16">
+                  <Eyebrow>Disclosures</Eyebrow>
+                  <h2 className="mt-6 font-display text-4xl leading-tight text-ivory md:text-5xl">
+                    The full disclaimers, gathered in one place.
+                  </h2>
+                  <p className={cn(luxury.bodyMuted, "mt-6 max-w-2xl")}>
+                    A single reference for the financial, gemological, and AI transparency notices that apply across the Academy. Articles XII and XIII above state the principle; the copy below states the practical detail.
+                  </p>
+                </div>
+              </Reveal>
+              <div className="mt-10">
+                <EducationDisclaimer
+                  kinds={["financial", "gemological", "ai"]}
+                  className="!border-x-0"
+                />
+              </div>
             </div>
 
             <div className="mt-24 md:mt-32">
