@@ -9,6 +9,7 @@ export * from "./page-transition";
 export * from "./section-nav";
 export * from "./cookie-notice";
 export * from "./education-disclaimer";
+export * from "./knowledge-check";
 
 
 
