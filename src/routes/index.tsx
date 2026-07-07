@@ -10,7 +10,6 @@ import heroWatch from "@/assets/hero-watch.jpg";
 import heroPearl from "@/assets/hero-pearl.jpg";
 
 import {
-  ArrowLink,
   Container,
   Eyebrow,
   Footer,

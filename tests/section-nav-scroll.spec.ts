@@ -40,7 +40,7 @@ test.describe("SectionNav active highlight", () => {
     await expectRailActive(page, railLabel, /Curriculum/i);
 
     await page.locator("#faculty").scrollIntoViewIfNeeded();
-    await expectRailActive(page, railLabel, /Faculty & Outcomes/i);
+    await expectRailActive(page, railLabel, /Practitioners & Outcomes/i);
 
     await page.locator("#inquiry").scrollIntoViewIfNeeded();
     await expectRailActive(page, railLabel, /Admissions/i);
