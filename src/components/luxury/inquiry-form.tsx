@@ -122,37 +122,46 @@ export function InquiryForm({ instituteSlug, instituteName, className }: Inquiry
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Your name">
-          <Input
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoComplete="name"
-            maxLength={120}
-            className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-          />
+          {(id) => (
+            <Input
+              id={id}
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
+              maxLength={120}
+              className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
+            />
+          )}
         </Field>
         <Field label="Email">
-          <Input
-            required
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            maxLength={255}
-            className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-          />
+          {(id) => (
+            <Input
+              id={id}
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              maxLength={255}
+              className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
+            />
+          )}
         </Field>
       </div>
 
       <div className="mt-5">
         <Field label="Your background" hint="A line or two, up to 400 characters.">
-          <Input
-            value={background}
-            onChange={(e) => setBackground(e.target.value)}
-            placeholder="Gemmologist, luxury retail strategist, aspiring apprentice."
-            maxLength={400}
-            className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-          />
+          {(id) => (
+            <Input
+              id={id}
+              value={background}
+              onChange={(e) => setBackground(e.target.value)}
+              placeholder="Gemmologist, luxury retail strategist, aspiring apprentice."
+              maxLength={400}
+              className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
+            />
+          )}
         </Field>
       </div>
 
@@ -161,18 +170,21 @@ export function InquiryForm({ instituteSlug, instituteName, className }: Inquiry
           label="Why this Institute?"
           hint="Optional. Tell us what draws you to this discipline."
         >
-          <Textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            rows={5}
-            maxLength={2000}
-            className="rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-          />
+          {(id) => (
+            <Textarea
+              id={id}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows={5}
+              maxLength={2000}
+              className="rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
+            />
+          )}
         </Field>
       </div>
 
       <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-platinum/40">
+        <p className="text-[11px] uppercase tracking-[0.28em] text-platinum/70">
           Handled in confidence
         </p>
         <LuxButton
