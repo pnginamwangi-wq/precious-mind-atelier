@@ -60,6 +60,12 @@ function KnowledgeIndex() {
       title: "Search",
       dek: "Look across chapters, articles, glossary terms, and library objects in one place.",
     },
+    {
+      to: "/smelt-lab",
+      icon: Flame,
+      title: "The Smelt Lab",
+      dek: "A cinematic interactive that teaches karats by letting you mix and cast your own gold alloy.",
+    },
   ] as const;
 
   return (
