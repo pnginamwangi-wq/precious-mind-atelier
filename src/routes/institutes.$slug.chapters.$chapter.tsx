@@ -19,10 +19,6 @@ import {
   fadeUp,
   luxury,
 } from "@/components/luxury";
-import {
-  EducationDisclaimer,
-  disclaimersForSlug,
-} from "@/components/luxury/education-disclaimer";
 import { KnowledgeCheck } from "@/components/luxury/knowledge-check";
 import { getChapterContent, type ChapterContent } from "@/data/curriculum";
 
@@ -140,7 +136,6 @@ function ChapterPage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <ChapterHero institute={institute} module={module} />
-        <EducationDisclaimer kinds={disclaimersForSlug(institute.slug)} />
         <SectionNavBar items={sections} label="Chapter sections" />
 
         <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">

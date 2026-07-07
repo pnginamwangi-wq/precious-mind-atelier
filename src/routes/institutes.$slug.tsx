@@ -20,10 +20,6 @@ import {
   fadeUp,
   luxury,
 } from "@/components/luxury";
-import {
-  EducationDisclaimer,
-  disclaimersForSlug,
-} from "@/components/luxury/education-disclaimer";
 import { cn } from "@/lib/utils";
 
 import { InquiryForm } from "@/components/luxury/inquiry-form";
@@ -148,7 +144,6 @@ function InstitutePage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <InstituteHero institute={institute} />
-        <EducationDisclaimer kinds={disclaimersForSlug(institute.slug)} />
         <SectionNavBar items={INSTITUTE_SECTIONS} label={`${institute.name} sections`} />
 
         <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
