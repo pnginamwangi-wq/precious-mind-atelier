@@ -1,4 +1,3 @@
-import { Instagram, Linkedin, Youtube } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useReducedMotion } from "framer-motion";
@@ -17,39 +16,20 @@ const COLS: { title: string; items: FooterLink[] }[] = [
     items: [
       { label: "Institutes", href: "/institutes", internal: true },
       { label: "Masterclasses", href: "#masterclasses" },
-      { label: "Certifications", href: "#certifications" },
       { label: "AI Mentor", href: "#mentor" },
-    ],
-  },
-  {
-    title: "Library",
-    items: [
-      { label: "Journal", href: "#journal" },
-      { label: "Product Library", href: "#library" },
-      { label: "Glossary", href: "#glossary" },
-      { label: "Downloads", href: "#downloads" },
     ],
   },
   {
     title: "Institution",
     items: [
-      { label: "About", href: "#about" },
-      { label: "Faculty", href: "#faculty" },
       { label: "Governance", href: "/governance", internal: true },
-      { label: "Contact", href: "#contact" },
       { label: "Privacy", href: "/privacy", internal: true },
       { label: "Terms", href: "/terms", internal: true },
     ],
   },
 ];
 
-const SOCIAL = [
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
-  { label: "YouTube", href: "#", Icon: Youtube },
-];
-
-const SECTION_IDS = ["academy", "masterclasses", "mentor", "library", "journal"] as const;
+const SECTION_IDS = ["academy", "masterclasses", "mentor"] as const;
 
 export function Footer() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -78,24 +58,11 @@ export function Footer() {
             <p className="mt-8 max-w-md font-display text-3xl leading-tight text-ivory/90 md:text-4xl">
               Master the <em className="gold-gradient-text not-italic">Extraordinary</em>.
             </p>
-
-            <div className="mt-10 flex items-center gap-3">
-              {SOCIAL.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="flex h-11 w-11 items-center justify-center border border-white/10 text-platinum/70 outline-none transition-colors hover:border-gold hover:text-gold focus-visible:border-gold focus-visible:text-gold focus-visible:ring-1 focus-visible:ring-gold"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
           </div>
 
           <nav
             aria-label="Footer"
-            className="grid gap-10 md:col-span-7 md:grid-cols-3"
+            className="grid gap-10 md:col-span-7 md:grid-cols-2"
           >
             {COLS.map((col) => (
               <div key={col.title}>

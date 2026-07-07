@@ -207,6 +207,7 @@ function TermsPage() {
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <Section className="pt-40">
           <SectionHeader
+            as="h1"
             eyebrow="Terms of Use"
             title={
               <>
@@ -322,9 +323,8 @@ function TermsPage() {
             </div>
           </Container>
         </Section>
-
-        <Footer />
       </main>
+      <Footer />
       <MobileTabs />
     </>
   );

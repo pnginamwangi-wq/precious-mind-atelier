@@ -42,8 +42,7 @@ export function CookieNotice() {
     <>
       {showBanner && (
         <div
-          role="dialog"
-          aria-live="polite"
+          role="region"
           aria-label="Cookie notice"
           className="fixed inset-x-0 bottom-0 z-[90] border-t border-white/10 bg-obsidian/95 backdrop-blur-md"
         >

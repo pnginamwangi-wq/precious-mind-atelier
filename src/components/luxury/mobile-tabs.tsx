@@ -1,4 +1,4 @@
-import { Compass, GraduationCap, Home, Library, Sparkles } from "lucide-react";
+import { Compass, GraduationCap, Home, ScrollText, Sparkles } from "lucide-react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -11,10 +11,10 @@ const TABS = [
   { label: "Institutes", href: "/institutes", icon: Compass },
   { label: "Mentor", href: "#mentor", icon: Sparkles, primary: true },
   { label: "Classes", href: "#masterclasses", icon: GraduationCap },
-  { label: "Library", href: "#library", icon: Library },
+  { label: "Charter", href: "/governance", icon: ScrollText },
 ];
 
-const SECTION_IDS = ["academy", "masterclasses", "mentor", "library", "journal"] as const;
+const SECTION_IDS = ["academy", "masterclasses", "mentor"] as const;
 
 /**
  * Mobile bottom tab bar. Hidden on lg+.

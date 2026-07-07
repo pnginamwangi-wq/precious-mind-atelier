@@ -13,6 +13,18 @@ export type CurriculumModule = {
   summary: string;
 };
 
+/**
+ * A practitioner profile describes the *kind* of professional who leads a
+ * session inside the Institute. Individuals are intentionally not named on
+ * public pages: named faculty are introduced to enrolled members once
+ * arrangements are confirmed. This avoids fabricated credentials on
+ * marketing surfaces (see the Governance Charter, Article II).
+ */
+export type Practitioner = {
+  role: string;
+  region: string;
+};
+
 export type Institute = {
   slug: string;
   n: string;
@@ -23,7 +35,7 @@ export type Institute = {
   philosophy: string;
   overline: string;
   curriculum: CurriculumModule[];
-  faculty: { name: string; role: string }[];
+  practitioners: Practitioner[];
   outcomes: string[];
   signature: { label: string; value: string }[];
 };
@@ -48,10 +60,10 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "Recycling and Circularity", summary: "Urban mining, closed loop refining, and the economics of recovered metal." },
       { chapter: "VI", title: "Masterclass, The Pour", summary: "Live studio session with a Swiss refiner casting a one kilogram bar." },
     ],
-    faculty: [
-      { name: "Dr. Élise Reynard", role: "Refining Chemist, Geneva" },
-      { name: "Marcus Aldenwood", role: "LBMA Good Delivery Assessor" },
-      { name: "Yuki Tanabe", role: "Master Metallurgist, Kyoto" },
+    practitioners: [
+      { role: "Refining chemist", region: "Switzerland" },
+      { role: "LBMA Good Delivery assessor", region: "London" },
+      { role: "Master metallurgist", region: "Japan" },
     ],
     outcomes: [
       "Read a certificate of assay with confidence.",
@@ -61,7 +73,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "12 weeks" },
       { label: "Format", value: "Studio, live sessions, private mentor" },
-      { label: "Certification", value: "Diploma in Precious Metals" },
+      { label: "Recognition", value: "Certificate of Completion, Precious Metals" },
     ],
   },
   {
@@ -83,9 +95,9 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "Regulation and Risk", summary: "AML, KYC, counterfeit detection, and insured transport." },
       { chapter: "VI", title: "Client Advisory Practicum", summary: "Structuring a private bullion allocation from ten thousand to ten million." },
     ],
-    faculty: [
-      { name: "James Corvin", role: "Former Head of Precious Metals, Zurich" },
-      { name: "Priya Rajan", role: "Director, Vault Operations Singapore" },
+    practitioners: [
+      { role: "Former head of precious metals desk", region: "Zurich" },
+      { role: "Vault operations director", region: "Singapore" },
     ],
     outcomes: [
       "Structure and defend a bullion allocation.",
@@ -95,7 +107,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "10 weeks" },
       { label: "Format", value: "Live desks, vault visits, mentor" },
-      { label: "Certification", value: "Diploma in Bullion" },
+      { label: "Recognition", value: "Certificate of Completion, Bullion" },
     ],
   },
   {
@@ -117,9 +129,9 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "Auctions and Appraisal", summary: "Reading catalogues, bidding strategy, and preparing a consignment." },
       { chapter: "VI", title: "Studio, Ten Coins", summary: "Hands on examination of ten significant coins from a private collection." },
     ],
-    faculty: [
-      { name: "Prof. Alessandro Vento", role: "Ancient Numismatist, Rome" },
-      { name: "Charlotte Grieves", role: "Senior Cataloguer, London Auctions" },
+    practitioners: [
+      { role: "Ancient numismatist", region: "Rome" },
+      { role: "Senior auction cataloguer", region: "London" },
     ],
     outcomes: [
       "Grade and authenticate coins with confidence.",
@@ -129,7 +141,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "14 weeks" },
       { label: "Format", value: "Studio, auction houses, mentor" },
-      { label: "Certification", value: "Diploma in Numismatics" },
+      { label: "Recognition", value: "Certificate of Completion, Numismatics" },
     ],
   },
   {
@@ -151,9 +163,9 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "Ethics and Origin", summary: "Kimberley Process, responsible mining, and disclosure of treatments." },
       { chapter: "VI", title: "The Studio Loupe", summary: "Guided identification of fifty stones under expert supervision." },
     ],
-    faculty: [
-      { name: "Dr. Anwen Prys", role: "Gemmologist, FGA, DGA" },
-      { name: "Rohan Malhotra", role: "Coloured Stone Dealer, Jaipur" },
+    practitioners: [
+      { role: "Practising gemmologist, FGA and DGA credentialled", region: "United Kingdom" },
+      { role: "Coloured stone dealer", region: "Jaipur" },
     ],
     outcomes: [
       "Identify and grade gems in a professional setting.",
@@ -163,7 +175,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "16 weeks" },
       { label: "Format", value: "Laboratory, atelier, mentor" },
-      { label: "Certification", value: "Diploma in Gemmology" },
+      { label: "Recognition", value: "Certificate of Completion, Gemmology" },
     ],
   },
   {
@@ -174,7 +186,7 @@ export const INSTITUTES: Institute[] = [
     hero: jewellery,
     overline: "Institute of Jewellery",
     intro:
-      "From bench to boutique: the design, craft, and cultural history of the jewellery that defines houses like Cartier, Boucheron, and JAR.",
+      "From bench to boutique: the design, craft, and cultural history of the jewellery that defines the great houses of Place Vendôme and beyond.",
     philosophy:
       "Jewellery gathers what the other Institutes teach: metal, gem, hand, and story. The Institute studies it as an art form and as a trade, honouring ateliers where a single piece can occupy a master for a thousand hours.",
     curriculum: [
@@ -185,9 +197,9 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "Provenance and Estate", summary: "Reading maker's marks, signed pieces, and the secondary market." },
       { chapter: "VI", title: "The Vitrine", summary: "Curating and presenting a capsule collection for a private client." },
     ],
-    faculty: [
-      { name: "Maître Colette Fournier", role: "Head of Atelier, Place Vendôme" },
-      { name: "Sir Andrew Ellsworth", role: "Estate Jewellery Specialist" },
+    practitioners: [
+      { role: "Head of atelier", region: "Place Vendôme" },
+      { role: "Estate jewellery specialist", region: "London" },
     ],
     outcomes: [
       "Read a piece of jewellery, front and back.",
@@ -197,7 +209,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "14 weeks" },
       { label: "Format", value: "Atelier, drawing studio, mentor" },
-      { label: "Certification", value: "Diploma in Jewellery" },
+      { label: "Recognition", value: "Certificate of Completion, Jewellery" },
     ],
   },
   {
@@ -219,9 +231,9 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "Servicing and Provenance", summary: "Certificates, papers, and the second market that shapes true value." },
       { chapter: "VI", title: "Loupe Studio", summary: "Hands on examination of significant pieces from a private cabinet." },
     ],
-    faculty: [
-      { name: "Julien Beaumont", role: "Watchmaker, Vallée de Joux" },
-      { name: "Isabelle Meier", role: "Auction Specialist, Geneva" },
+    practitioners: [
+      { role: "Independent watchmaker", region: "Vallée de Joux" },
+      { role: "Auction specialist, watches", region: "Geneva" },
     ],
     outcomes: [
       "Describe and defend a complication in plain language.",
@@ -231,7 +243,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "12 weeks" },
       { label: "Format", value: "Bench visits, studio, mentor" },
-      { label: "Certification", value: "Diploma in Horology" },
+      { label: "Recognition", value: "Certificate of Completion, Horology" },
     ],
   },
   {
@@ -253,9 +265,9 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "After the Sale", summary: "Aftercare, restoration, private previews, and lifetime value." },
       { chapter: "VI", title: "Simulation Studio", summary: "AI powered client roleplays with immediate coaching feedback." },
     ],
-    faculty: [
-      { name: "Nadine Achour", role: "Former Sales Director, Paris" },
-      { name: "William Trask", role: "Private Client Consultant, Hong Kong" },
+    practitioners: [
+      { role: "Former sales director, high jewellery", region: "Paris" },
+      { role: "Private client consultant", region: "Hong Kong" },
     ],
     outcomes: [
       "Lead a seven figure conversation with composure.",
@@ -265,7 +277,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "8 weeks" },
       { label: "Format", value: "Roleplay studio, mentor, boutique visits" },
-      { label: "Certification", value: "Diploma in Luxury Retail" },
+      { label: "Recognition", value: "Certificate of Completion, Luxury Retail" },
     ],
   },
   {
@@ -287,9 +299,9 @@ export const INSTITUTES: Institute[] = [
       { chapter: "V", title: "Governance", summary: "Data, IP, and the ethics of AI inside a house of taste." },
       { chapter: "VI", title: "Studio, Build a Mentor", summary: "Ship a private AI mentor tailored to your team, in one week." },
     ],
-    faculty: [
-      { name: "Dr. Hana Voss", role: "Applied AI Researcher, Zurich" },
-      { name: "Rafael Mendes", role: "Digital Director, luxury conglomerate" },
+    practitioners: [
+      { role: "Applied AI researcher", region: "Zurich" },
+      { role: "Digital director, luxury sector", region: "Europe" },
     ],
     outcomes: [
       "Lead an AI programme inside a maison with clarity.",
@@ -299,7 +311,7 @@ export const INSTITUTES: Institute[] = [
     signature: [
       { label: "Duration", value: "10 weeks" },
       { label: "Format", value: "Studio, mentor, house residencies" },
-      { label: "Certification", value: "Diploma in Applied AI for Luxury" },
+      { label: "Recognition", value: "Certificate of Completion, Applied AI for Luxury" },
     ],
   },
 ];
@@ -325,4 +337,3 @@ export function getChapter(
   if (index === -1) return undefined;
   return { institute, module: institute.curriculum[index], index };
 }
-

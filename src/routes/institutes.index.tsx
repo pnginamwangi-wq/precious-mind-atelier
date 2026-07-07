@@ -40,6 +40,7 @@ function InstitutesIndex() {
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <Section className="pt-40">
           <SectionHeader
+            as="h1"
             eyebrow="The Institutes"
             title="Eight disciplines. One faculty."
             intro="Each Institute is a self contained programme, developed with master jewellers, refiners, gemmologists, horologists, and luxury retail directors. Enter the discipline you are drawn to."
