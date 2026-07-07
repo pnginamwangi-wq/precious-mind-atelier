@@ -73,13 +73,16 @@ export function SectionHeader({
   title,
   intro,
   align = "left",
+  as = "h2",
 }: {
   index?: string;
   eyebrow: string;
   title: ReactNode;
   intro?: ReactNode;
   align?: "left" | "center";
+  as?: "h1" | "h2";
 }) {
+  const Heading = as;
   return (
     <div className={cn("mb-16 md:mb-20", align === "center" && "text-center")}>
       <Reveal>
@@ -89,7 +92,7 @@ export function SectionHeader({
         </span>
       </Reveal>
       <Reveal>
-        <h2 className="mt-6 font-display text-5xl leading-tight md:text-7xl">{title}</h2>
+        <Heading className="mt-6 font-display text-5xl leading-tight md:text-7xl">{title}</Heading>
       </Reveal>
       {intro ? (
         <Reveal>

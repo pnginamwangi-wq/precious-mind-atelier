@@ -17,6 +17,7 @@ const FINANCIAL_SLUGS = new Set([
   "precious-metals",
   "bullion",
   "numismatics",
+  "horology",
 ]);
 
 const GEMOLOGICAL_SLUGS = new Set([
