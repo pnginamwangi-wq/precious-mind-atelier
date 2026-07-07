@@ -28,6 +28,25 @@ import { Info } from "lucide-react";
 
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "The Precious Intelligence Academy, Luxury Education" },
+      {
+        name: "description",
+        content:
+          "A digital institution for the disciplines of luxury: precious metals, bullion, gemstones, jewellery, horology, and luxury retail.",
+      },
+      { property: "og:title", content: "The Precious Intelligence Academy, Luxury Education" },
+      {
+        property: "og:description",
+        content:
+          "A place for professionals who believe knowledge is as valuable as the materials they represent.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
   component: Home,
 });
 

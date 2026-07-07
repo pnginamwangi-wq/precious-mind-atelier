@@ -21,12 +21,33 @@ export const Route = createFileRoute("/institutes/")({
       {
         name: "description",
         content:
-          "Eight disciplines. One faculty. The Institutes of Precious Metals, Bullion, Numismatics, Gemstones, Jewellery, Horology, Luxury Retail, and Applied Intelligence.",
+          "Eight disciplines. One faculty. Precious Metals, Bullion, Numismatics, Gemstones, Jewellery, Horology, Luxury Retail, and Applied Intelligence.",
       },
       { property: "og:title", content: "The Institutes, The Precious Intelligence Academy" },
       {
         property: "og:description",
         content: "Eight self contained programmes, taught by the practitioners who set the standard.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/institutes" },
+    ],
+    links: [{ rel: "canonical", href: "/institutes" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "The Institutes",
+          description:
+            "Eight self contained programmes at The Precious Intelligence Academy.",
+          url: "/institutes",
+          hasPart: INSTITUTES.map((it) => ({
+            "@type": "EducationalOrganization",
+            name: it.name,
+            url: `/institutes/${it.slug}`,
+          })),
+        }),
       },
     ],
   }),

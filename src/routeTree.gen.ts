@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as EditorialExampleRouteImport } from './routes/editorial-example'
@@ -25,6 +26,11 @@ import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/inst
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/governance'
     | '/privacy'
+    | '/sitemap.xml'
     | '/terms'
     | '/profile'
     | '/institutes/$slug'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/governance'
     | '/privacy'
+    | '/sitemap.xml'
     | '/terms'
     | '/profile'
     | '/institutes/$slug'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/governance'
     | '/privacy'
+    | '/sitemap.xml'
     | '/terms'
     | '/_authenticated/profile'
     | '/institutes/$slug'
@@ -174,6 +186,7 @@ export interface RootRouteChildren {
   EditorialExampleRoute: typeof EditorialExampleRoute
   GovernanceRoute: typeof GovernanceRoute
   PrivacyRoute: typeof PrivacyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -299,6 +319,7 @@ const rootRouteChildren: RootRouteChildren = {
   EditorialExampleRoute: EditorialExampleRoute,
   GovernanceRoute: GovernanceRoute,
   PrivacyRoute: PrivacyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,

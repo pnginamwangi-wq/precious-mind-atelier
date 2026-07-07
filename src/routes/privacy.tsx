@@ -24,7 +24,7 @@ export const Route = createFileRoute("/privacy")({
       {
         name: "description",
         content:
-          "How The Precious Intelligence Academy collects, uses, protects, and returns personal data. Written to Australian Privacy Act principles and aligned with GDPR and CCPA style rights, including access, correction, deletion, and portability.",
+          "How The Precious Intelligence Academy collects, uses, and protects personal data. Aligned with Australian Privacy Act, GDPR, and CCPA principles.",
       },
       { property: "og:title", content: "Privacy Policy, The Precious Intelligence Academy" },
       {

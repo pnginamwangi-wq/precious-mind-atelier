@@ -85,20 +85,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "The Precious Intelligence Academy" },
+      { title: "The Precious Intelligence Academy, Luxury Education" },
       {
         name: "description",
         content:
-          "A digital institution for the disciplines of luxury. Precious metals, bullion, numismatics, gemstones, jewellery, horology, luxury retail, and applied intelligence.",
+          "A digital institution for the disciplines of luxury: precious metals, bullion, gemstones, jewellery, horology, and luxury retail.",
       },
       { name: "author", content: "The Precious Intelligence Academy" },
-      { property: "og:title", content: "The Precious Intelligence Academy" },
+      { property: "og:site_name", content: "The Precious Intelligence Academy" },
+      { property: "og:title", content: "The Precious Intelligence Academy, Luxury Education" },
       {
         property: "og:description",
         content:
           "A place for professionals who believe knowledge is as valuable as the materials they represent. Master the Extraordinary.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -111,7 +113,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "EducationalOrganization",
+          name: "The Precious Intelligence Academy",
+          description:
+            "A digital institution for the disciplines of luxury: precious metals, bullion, gemstones, jewellery, horology, and luxury retail.",
+          url: "/",
+        }),
+      },
+    ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
