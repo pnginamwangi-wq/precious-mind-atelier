@@ -37,7 +37,7 @@ export const Route = createFileRoute("/institutes/$slug/chapters/$chapter")({
     if (!found) throw notFound();
     return found;
   },
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     if (!loaderData) {
       return {
         meta: [
@@ -48,6 +48,7 @@ export const Route = createFileRoute("/institutes/$slug/chapters/$chapter")({
     }
     const { institute, module } = loaderData;
     const title = `Chapter ${module.chapter}, ${module.title}, ${institute.name} Institute`;
+    const url = `/institutes/${params.slug}/chapters/${params.chapter}`;
     return {
       meta: [
         { title },
@@ -55,8 +56,31 @@ export const Route = createFileRoute("/institutes/$slug/chapters/$chapter")({
         { property: "og:title", content: title },
         { property: "og:description", content: module.summary },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { property: "og:image", content: institute.hero },
         { property: "twitter:image", content: institute.hero },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: module.title,
+            description: module.summary,
+            image: institute.hero,
+            url,
+            publisher: {
+              "@type": "EducationalOrganization",
+              name: `${institute.name} Institute`,
+            },
+            isPartOf: {
+              "@type": "EducationalOrganization",
+              name: "The Precious Intelligence Academy",
+            },
+          }),
+        },
       ],
     };
   },
