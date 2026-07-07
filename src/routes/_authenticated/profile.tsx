@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Award, BookOpen, GraduationCap, Loader2, LogOut, Upload } from "lucide-react";
+import { Loader2, LogOut, Upload } from "lucide-react";
 
 
 import { supabase } from "@/integrations/supabase/client";
@@ -239,82 +239,95 @@ function ProfilePage() {
               </div>
 
               <div className="space-y-4">
-                <StatCard icon={<BookOpen className="h-4 w-4" />} label="Masterclasses" value="0" hint="Enrolled" />
-                <StatCard icon={<GraduationCap className="h-4 w-4" />} label="Learning path" value="Foundations" hint="Current stage" />
-                <StatCard icon={<Award className="h-4 w-4" />} label="Certifications" value="0" hint="Awarded" />
+                <p className="text-[11px] font-light leading-relaxed text-platinum/70">
+                  Your enrolment activity will appear here as masterclasses,
+                  mentorship sessions, and certificates of completion become
+                  available to your cohort.
+                </p>
               </div>
             </aside>
 
-            <form onSubmit={onSave} className="space-y-6 border border-white/10 bg-black/30 p-8 backdrop-blur-sm">
+            <form onSubmit={onSave} className="space-y-6 border border-white/10 bg-charcoal/40 p-8 backdrop-blur-sm">
               {loading ? (
-                <div className="flex items-center justify-center py-20 text-platinum/60">
+                <div className="flex items-center justify-center py-20 text-platinum/70">
                   <Loader2 className="h-5 w-5 animate-spin" />
                 </div>
               ) : (
                 <>
                   <Field label="Display name">
-                    <Input
-                      value={profile?.display_name ?? ""}
-                      onChange={(e) => setProfile((p) => (p ? { ...p, display_name: e.target.value } : p))}
-                      className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-                    />
+                    {(id) => (
+                      <Input
+                        id={id}
+                        value={profile?.display_name ?? ""}
+                        onChange={(e) => setProfile((p) => (p ? { ...p, display_name: e.target.value } : p))}
+                        className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
+                      />
+                    )}
                   </Field>
                   <Field label="Headline" hint="A short professional line, up to 120 characters.">
-                    <Input
-                      value={profile?.headline ?? ""}
-                      onChange={(e) => setProfile((p) => (p ? { ...p, headline: e.target.value } : p))}
-                      placeholder="Gemmologist, luxury retail strategist."
-                      className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-                    />
+                    {(id) => (
+                      <Input
+                        id={id}
+                        value={profile?.headline ?? ""}
+                        onChange={(e) => setProfile((p) => (p ? { ...p, headline: e.target.value } : p))}
+                        placeholder="Gemmologist, luxury retail strategist."
+                        className="h-11 rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
+                      />
+                    )}
                   </Field>
                   <Field label="Avatar" hint="PNG, JPG, or WEBP. Up to 5MB.">
-                    <div className="flex items-center gap-4">
-                      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-white/15 bg-obsidian">
-                        {avatarPreview ? (
-                          <img
-                            src={avatarPreview}
-                            alt="Current avatar"
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center text-xs text-platinum/50">
-                            None
-                          </div>
-                        )}
-                        {uploading ? (
-                          <div className="absolute inset-0 flex items-center justify-center bg-obsidian/70">
-                            <Loader2 className="h-5 w-5 animate-spin text-gold" />
-                          </div>
-                        ) : null}
+                    {() => (
+                      <div className="flex items-center gap-4">
+                        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-white/15 bg-obsidian">
+                          {avatarPreview ? (
+                            <img
+                              src={avatarPreview}
+                              alt="Current avatar"
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center text-xs text-platinum/70">
+                              None
+                            </div>
+                          )}
+                          {uploading ? (
+                            <div className="absolute inset-0 flex items-center justify-center bg-obsidian/70">
+                              <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                            </div>
+                          ) : null}
+                        </div>
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          className="sr-only"
+                          onChange={onAvatarFileChange}
+                          aria-label="Upload avatar"
+                        />
+                        <LuxButton
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={uploading}
+                          onClick={() => fileInputRef.current?.click()}
+                          icon={<Upload className="h-3.5 w-3.5" />}
+                        >
+                          {uploading ? "Uploading" : avatarPreview ? "Replace" : "Upload"}
+                        </LuxButton>
                       </div>
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        className="sr-only"
-                        onChange={onAvatarFileChange}
-                        aria-label="Upload avatar"
-                      />
-                      <LuxButton
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={uploading}
-                        onClick={() => fileInputRef.current?.click()}
-                        icon={<Upload className="h-3.5 w-3.5" />}
-                      >
-                        {uploading ? "Uploading" : avatarPreview ? "Replace" : "Upload"}
-                      </LuxButton>
-                    </div>
+                    )}
                   </Field>
 
                   <Field label="About" hint="A few sentences on your craft and ambitions.">
-                    <Textarea
-                      value={profile?.bio ?? ""}
-                      onChange={(e) => setProfile((p) => (p ? { ...p, bio: e.target.value } : p))}
-                      rows={5}
-                      className="rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
-                    />
+                    {(id) => (
+                      <Textarea
+                        id={id}
+                        value={profile?.bio ?? ""}
+                        onChange={(e) => setProfile((p) => (p ? { ...p, bio: e.target.value } : p))}
+                        rows={5}
+                        className="rounded-none border-white/15 bg-white/[0.02] text-ivory focus-visible:border-gold focus-visible:ring-0"
+                      />
+                    )}
                   </Field>
                   <div className="flex justify-end">
                     <LuxButton type="submit" disabled={saving}>
@@ -340,13 +353,16 @@ function Field({
 }: {
   label: string;
   hint?: string;
-  children: React.ReactNode;
+  children: (fieldId: string) => React.ReactNode;
 }) {
+  const fieldId = useId();
   return (
     <div className="space-y-2">
-      <Label className="text-[10px] uppercase tracking-[0.28em] text-platinum/70">{label}</Label>
-      {children}
-      {hint ? <p className="text-xs text-platinum/50">{hint}</p> : null}
+      <Label htmlFor={fieldId} className="text-[10px] uppercase tracking-[0.28em] text-platinum/80">
+        {label}
+      </Label>
+      {children(fieldId)}
+      {hint ? <p className="text-xs text-platinum/70">{hint}</p> : null}
     </div>
   );
 }
@@ -363,13 +379,13 @@ function StatCard({
   hint: string;
 }) {
   return (
-    <div className="border border-white/10 bg-black/20 p-5">
+    <div className="border border-white/10 bg-charcoal/40 p-5">
       <div className="flex items-center gap-3 text-gold">
         {icon}
         <Eyebrow>{label}</Eyebrow>
       </div>
       <p className="mt-3 font-display text-2xl text-ivory">{value}</p>
-      <p className="text-xs text-platinum/50">{hint}</p>
+      <p className="text-xs text-platinum/70">{hint}</p>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { ArrowRight, Loader2 } from "lucide-react";
@@ -194,13 +194,21 @@ function Field({
 }: {
   label: string;
   hint?: string;
-  children: React.ReactNode;
+  children: (fieldId: string) => React.ReactNode;
 }) {
+  const fieldId = useId();
+  const hintId = hint ? `${fieldId}-hint` : undefined;
   return (
     <div className="space-y-2">
-      <Label className="text-[10px] uppercase tracking-[0.28em] text-platinum/70">{label}</Label>
-      {children}
-      {hint ? <p className="text-xs text-platinum/50">{hint}</p> : null}
+      <Label htmlFor={fieldId} className="text-[10px] uppercase tracking-[0.28em] text-platinum/80">
+        {label}
+      </Label>
+      {children(fieldId)}
+      {hint ? (
+        <p id={hintId} className="text-xs text-platinum/70">
+          {hint}
+        </p>
+      ) : null}
     </div>
   );
 }

@@ -56,7 +56,6 @@ const CONTROLLER = {
   name: "The Precious Intelligence Academy",
   location: "Perth, Western Australia, Australia",
   jurisdiction: "Australia (Privacy Act 1988, Australian Privacy Principles)",
-  contactEmail: "privacy contact address to be published on this page",
   responseWindowDays: 30,
   lastUpdated: "6 July 2026",
 };
@@ -168,9 +167,9 @@ const ARTICLES: Article[] = [
   {
     index: "VIII",
     eyebrow: "How to exercise a right",
-    title: "One address, one clear process.",
+    title: "One clear process.",
     body: [
-      `To exercise any right described in this policy, a reader may write to the Academy at the privacy contact address published on this page. Where a contact address has not yet been published, a reader may use the enquiry form on the site and state clearly that the request concerns privacy.`,
+      `To exercise any right described in this policy, a reader may use the enquiry form on the site and state clearly that the request concerns privacy. A dedicated privacy contact address will be published on this page once it is available.`,
       `The Academy aims to acknowledge every request promptly and to complete it within ${CONTROLLER.responseWindowDays} days. Where a request is unusually complex, the reader will be informed of the reason for any additional time required.`,
       "Before acting on a request that concerns an account, the Academy will take reasonable steps to verify the identity of the person making the request, in order to protect the account from impersonation.",
     ],
@@ -357,9 +356,8 @@ function PrivacyPage() {
             </div>
           </Container>
         </Section>
-
-        <Footer />
       </main>
+      <Footer />
       <MobileTabs />
     </>
   );
