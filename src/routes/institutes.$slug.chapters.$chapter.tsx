@@ -120,11 +120,20 @@ const CHAPTER_SECTIONS = [
   { id: "next", label: "Continue" },
 ] as const;
 
+const CHAPTER_SECTIONS_WITH_CONTENT = [
+  { id: "overview", label: "Overview" },
+  { id: "study", label: "Study" },
+  { id: "knowledge-check", label: "Knowledge check" },
+  { id: "next", label: "Continue" },
+] as const;
+
 function ChapterPage() {
   const { institute, module, index } = Route.useLoaderData();
   const total = institute.curriculum.length;
   const prev = institute.curriculum[(index - 1 + total) % total];
   const next = institute.curriculum[(index + 1) % total];
+  const content = getChapterContent(institute.slug, module.chapter);
+  const sections = content ? CHAPTER_SECTIONS_WITH_CONTENT : CHAPTER_SECTIONS;
 
   return (
     <>
@@ -132,14 +141,18 @@ function ChapterPage() {
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <ChapterHero institute={institute} module={module} />
         <EducationDisclaimer kinds={disclaimersForSlug(institute.slug)} />
-        <SectionNavBar items={CHAPTER_SECTIONS} label="Chapter sections" />
+        <SectionNavBar items={sections} label="Chapter sections" />
 
         <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
           <aside className="hidden lg:block lg:pt-32">
-            <SectionNav items={CHAPTER_SECTIONS} label="In this chapter" />
+            <SectionNav items={sections} label="In this chapter" />
           </aside>
           <div className="min-w-0">
-            <ChapterStudy institute={institute} module={module} />
+            {content ? (
+              <ChapterLesson content={content} />
+            ) : (
+              <ChapterStudy institute={institute} module={module} />
+            )}
             <ChapterNav institute={institute} prev={prev} next={next} />
           </div>
         </div>
