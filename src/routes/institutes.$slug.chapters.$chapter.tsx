@@ -23,6 +23,8 @@ import {
   EducationDisclaimer,
   disclaimersForSlug,
 } from "@/components/luxury/education-disclaimer";
+import { KnowledgeCheck } from "@/components/luxury/knowledge-check";
+import { getChapterContent, type ChapterContent } from "@/data/curriculum";
 
 import {
   chapterSlug,
