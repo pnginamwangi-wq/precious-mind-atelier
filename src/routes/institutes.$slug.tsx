@@ -24,6 +24,7 @@ import {
   EducationDisclaimer,
   disclaimersForSlug,
 } from "@/components/luxury/education-disclaimer";
+import { cn } from "@/lib/utils";
 
 import { InquiryForm } from "@/components/luxury/inquiry-form";
 import { SaveInstituteButton } from "@/components/luxury/save-institute-button";
