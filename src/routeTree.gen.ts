@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SmeltLabRouteImport } from './routes/smelt-lab'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LibraryRouteImport } from './routes/library'
@@ -40,6 +41,11 @@ import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/inst
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SmeltLabRoute = SmeltLabRouteImport.update({
+  id: '/smelt-lab',
+  path: '/smelt-lab',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/library': typeof LibraryRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/smelt-lab': typeof SmeltLabRoute
   '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/governance': typeof GovernanceRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/smelt-lab': typeof SmeltLabRoute
   '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
@@ -238,6 +246,7 @@ export interface FileRoutesById {
   '/library': typeof LibraryRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/smelt-lab': typeof SmeltLabRoute
   '/terms': typeof TermsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
@@ -268,6 +277,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/privacy'
     | '/sitemap.xml'
+    | '/smelt-lab'
     | '/terms'
     | '/profile'
     | '/institutes/$slug'
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/privacy'
     | '/sitemap.xml'
+    | '/smelt-lab'
     | '/terms'
     | '/profile'
     | '/institutes/$slug'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/privacy'
     | '/sitemap.xml'
+    | '/smelt-lab'
     | '/terms'
     | '/_authenticated/profile'
     | '/institutes/$slug'
@@ -352,6 +364,7 @@ export interface RootRouteChildren {
   LibraryRoute: typeof LibraryRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SmeltLabRoute: typeof SmeltLabRoute
   TermsRoute: typeof TermsRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
@@ -365,6 +378,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/smelt-lab': {
+      id: '/smelt-lab'
+      path: '/smelt-lab'
+      fullPath: '/smelt-lab'
+      preLoaderRoute: typeof SmeltLabRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -636,6 +656,7 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryRoute: LibraryRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SmeltLabRoute: SmeltLabRoute,
   TermsRoute: TermsRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
@@ -644,13 +665,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
