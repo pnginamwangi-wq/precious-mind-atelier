@@ -13,10 +13,10 @@ import { cn } from "@/lib/utils";
 
 
 const NAV: { label: string; href: string; internal?: boolean }[] = [
-  { label: "Academy", href: "#academy" },
   { label: "Institutes", href: "/institutes", internal: true },
-  { label: "Masterclasses", href: "#masterclasses" },
-  { label: "AI Mentor", href: "#mentor" },
+  { label: "Journal", href: "/journal", internal: true },
+  { label: "Knowledge", href: "/knowledge", internal: true },
+  { label: "Library", href: "/library", internal: true },
   { label: "Governance", href: "/governance", internal: true },
 ];
 

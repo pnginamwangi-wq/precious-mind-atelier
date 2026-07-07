@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Container, Eyebrow, GoldMark } from "@/components/luxury";
+import { Container, Eyebrow, GoldMark, NewsletterSignup } from "@/components/luxury";
 import { CookieSettingsLink } from "@/components/luxury/cookie-notice";
 
 import { isNavActive, useActiveSection } from "@/hooks/use-active-nav";
@@ -15,14 +15,16 @@ const COLS: { title: string; items: FooterLink[] }[] = [
     title: "Academy",
     items: [
       { label: "Institutes", href: "/institutes", internal: true },
-      { label: "Masterclasses", href: "#masterclasses" },
-      { label: "AI Mentor", href: "#mentor" },
+      { label: "The Journal", href: "/journal", internal: true },
+      { label: "Knowledge Hub", href: "/knowledge", internal: true },
+      { label: "Library", href: "/library", internal: true },
     ],
   },
   {
     title: "Institution",
     items: [
       { label: "Governance", href: "/governance", internal: true },
+      { label: "Disclosures", href: "/governance#disclosures" },
       { label: "Privacy", href: "/privacy", internal: true },
       { label: "Terms", href: "/terms", internal: true },
     ],
@@ -58,6 +60,13 @@ export function Footer() {
             <p className="mt-8 max-w-md font-display text-3xl leading-tight text-ivory/90 md:text-4xl">
               Master the <em className="gold-gradient-text not-italic">Extraordinary</em>.
             </p>
+            <div className="mt-10">
+              <NewsletterSignup
+                source="footer"
+                variant="footer"
+                eyebrow="The Journal, weekly"
+              />
+            </div>
           </div>
 
           <nav

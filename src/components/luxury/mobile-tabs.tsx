@@ -1,4 +1,4 @@
-import { Compass, GraduationCap, Home, ScrollText, Sparkles } from "lucide-react";
+import { BookOpen, Compass, Home, Library, Newspaper } from "lucide-react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -9,9 +9,9 @@ import { motion, useReducedMotion } from "framer-motion";
 const TABS = [
   { label: "Home", href: "/", icon: Home },
   { label: "Institutes", href: "/institutes", icon: Compass },
-  { label: "Mentor", href: "#mentor", icon: Sparkles, primary: true },
-  { label: "Classes", href: "#masterclasses", icon: GraduationCap },
-  { label: "Charter", href: "/governance", icon: ScrollText },
+  { label: "Journal", href: "/journal", icon: Newspaper, primary: true },
+  { label: "Knowledge", href: "/knowledge", icon: BookOpen },
+  { label: "Library", href: "/library", icon: Library },
 ];
 
 const SECTION_IDS = ["academy", "masterclasses", "mentor"] as const;

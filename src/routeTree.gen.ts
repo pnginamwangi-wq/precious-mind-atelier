@@ -12,15 +12,29 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as LibraryRouteImport } from './routes/library'
+import { Route as KnowledgeRouteImport } from './routes/knowledge'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as EditorialExampleRouteImport } from './routes/editorial-example'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LibraryIndexRouteImport } from './routes/library.index'
+import { Route as KnowledgeIndexRouteImport } from './routes/knowledge.index'
+import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
 import { Route as VisualEditorialBlocksRouteImport } from './routes/visual/editorial-blocks'
+import { Route as LibrarySlugRouteImport } from './routes/library.$slug'
+import { Route as KnowledgeSearchRouteImport } from './routes/knowledge.search'
+import { Route as KnowledgePathwaysRouteImport } from './routes/knowledge.pathways'
+import { Route as KnowledgeGlossaryRouteImport } from './routes/knowledge.glossary'
+import { Route as KnowledgeCompareRouteImport } from './routes/knowledge.compare'
+import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as JournalTagTagRouteImport } from './routes/journal.tag.$tag'
+import { Route as JournalCategoryCategoryRouteImport } from './routes/journal.category.$category'
 import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/institutes.$slug.chapters.$chapter'
 
 const TermsRoute = TermsRouteImport.update({
@@ -36,6 +50,21 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeRoute = KnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GovernanceRoute = GovernanceRouteImport.update({
@@ -62,6 +91,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LibraryIndexRoute = LibraryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LibraryRoute,
+} as any)
+const KnowledgeIndexRoute = KnowledgeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => KnowledgeRoute,
+} as any)
+const JournalIndexRoute = JournalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => JournalRoute,
+} as any)
 const InstitutesIndexRoute = InstitutesIndexRouteImport.update({
   id: '/institutes/',
   path: '/institutes/',
@@ -72,6 +116,36 @@ const VisualEditorialBlocksRoute = VisualEditorialBlocksRouteImport.update({
   path: '/visual/editorial-blocks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LibrarySlugRoute = LibrarySlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LibraryRoute,
+} as any)
+const KnowledgeSearchRoute = KnowledgeSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => KnowledgeRoute,
+} as any)
+const KnowledgePathwaysRoute = KnowledgePathwaysRouteImport.update({
+  id: '/pathways',
+  path: '/pathways',
+  getParentRoute: () => KnowledgeRoute,
+} as any)
+const KnowledgeGlossaryRoute = KnowledgeGlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
+  getParentRoute: () => KnowledgeRoute,
+} as any)
+const KnowledgeCompareRoute = KnowledgeCompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => KnowledgeRoute,
+} as any)
+const JournalSlugRoute = JournalSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => JournalRoute,
+} as any)
 const InstitutesSlugRoute = InstitutesSlugRouteImport.update({
   id: '/institutes/$slug',
   path: '/institutes/$slug',
@@ -81,6 +155,16 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const JournalTagTagRoute = JournalTagTagRouteImport.update({
+  id: '/tag/$tag',
+  path: '/tag/$tag',
+  getParentRoute: () => JournalRoute,
+} as any)
+const JournalCategoryCategoryRoute = JournalCategoryCategoryRouteImport.update({
+  id: '/category/$category',
+  path: '/category/$category',
+  getParentRoute: () => JournalRoute,
 } as any)
 const InstitutesSlugChaptersChapterRoute =
   InstitutesSlugChaptersChapterRouteImport.update({
@@ -94,13 +178,27 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
+  '/journal': typeof JournalRouteWithChildren
+  '/knowledge': typeof KnowledgeRouteWithChildren
+  '/library': typeof LibraryRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
+  '/journal/$slug': typeof JournalSlugRoute
+  '/knowledge/compare': typeof KnowledgeCompareRoute
+  '/knowledge/glossary': typeof KnowledgeGlossaryRoute
+  '/knowledge/pathways': typeof KnowledgePathwaysRoute
+  '/knowledge/search': typeof KnowledgeSearchRoute
+  '/library/$slug': typeof LibrarySlugRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
+  '/journal/': typeof JournalIndexRoute
+  '/knowledge/': typeof KnowledgeIndexRoute
+  '/library/': typeof LibraryIndexRoute
+  '/journal/category/$category': typeof JournalCategoryCategoryRoute
+  '/journal/tag/$tag': typeof JournalTagTagRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
 export interface FileRoutesByTo {
@@ -113,8 +211,19 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
+  '/journal/$slug': typeof JournalSlugRoute
+  '/knowledge/compare': typeof KnowledgeCompareRoute
+  '/knowledge/glossary': typeof KnowledgeGlossaryRoute
+  '/knowledge/pathways': typeof KnowledgePathwaysRoute
+  '/knowledge/search': typeof KnowledgeSearchRoute
+  '/library/$slug': typeof LibrarySlugRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes': typeof InstitutesIndexRoute
+  '/journal': typeof JournalIndexRoute
+  '/knowledge': typeof KnowledgeIndexRoute
+  '/library': typeof LibraryIndexRoute
+  '/journal/category/$category': typeof JournalCategoryCategoryRoute
+  '/journal/tag/$tag': typeof JournalTagTagRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
 export interface FileRoutesById {
@@ -124,13 +233,27 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
+  '/journal': typeof JournalRouteWithChildren
+  '/knowledge': typeof KnowledgeRouteWithChildren
+  '/library': typeof LibraryRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
+  '/journal/$slug': typeof JournalSlugRoute
+  '/knowledge/compare': typeof KnowledgeCompareRoute
+  '/knowledge/glossary': typeof KnowledgeGlossaryRoute
+  '/knowledge/pathways': typeof KnowledgePathwaysRoute
+  '/knowledge/search': typeof KnowledgeSearchRoute
+  '/library/$slug': typeof LibrarySlugRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
+  '/journal/': typeof JournalIndexRoute
+  '/knowledge/': typeof KnowledgeIndexRoute
+  '/library/': typeof LibraryIndexRoute
+  '/journal/category/$category': typeof JournalCategoryCategoryRoute
+  '/journal/tag/$tag': typeof JournalTagTagRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
 }
 export interface FileRouteTypes {
@@ -140,13 +263,27 @@ export interface FileRouteTypes {
     | '/auth'
     | '/editorial-example'
     | '/governance'
+    | '/journal'
+    | '/knowledge'
+    | '/library'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
     | '/profile'
     | '/institutes/$slug'
+    | '/journal/$slug'
+    | '/knowledge/compare'
+    | '/knowledge/glossary'
+    | '/knowledge/pathways'
+    | '/knowledge/search'
+    | '/library/$slug'
     | '/visual/editorial-blocks'
     | '/institutes/'
+    | '/journal/'
+    | '/knowledge/'
+    | '/library/'
+    | '/journal/category/$category'
+    | '/journal/tag/$tag'
     | '/institutes/$slug/chapters/$chapter'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -159,8 +296,19 @@ export interface FileRouteTypes {
     | '/terms'
     | '/profile'
     | '/institutes/$slug'
+    | '/journal/$slug'
+    | '/knowledge/compare'
+    | '/knowledge/glossary'
+    | '/knowledge/pathways'
+    | '/knowledge/search'
+    | '/library/$slug'
     | '/visual/editorial-blocks'
     | '/institutes'
+    | '/journal'
+    | '/knowledge'
+    | '/library'
+    | '/journal/category/$category'
+    | '/journal/tag/$tag'
     | '/institutes/$slug/chapters/$chapter'
   id:
     | '__root__'
@@ -169,13 +317,27 @@ export interface FileRouteTypes {
     | '/auth'
     | '/editorial-example'
     | '/governance'
+    | '/journal'
+    | '/knowledge'
+    | '/library'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
     | '/_authenticated/profile'
     | '/institutes/$slug'
+    | '/journal/$slug'
+    | '/knowledge/compare'
+    | '/knowledge/glossary'
+    | '/knowledge/pathways'
+    | '/knowledge/search'
+    | '/library/$slug'
     | '/visual/editorial-blocks'
     | '/institutes/'
+    | '/journal/'
+    | '/knowledge/'
+    | '/library/'
+    | '/journal/category/$category'
+    | '/journal/tag/$tag'
     | '/institutes/$slug/chapters/$chapter'
   fileRoutesById: FileRoutesById
 }
@@ -185,6 +347,9 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   EditorialExampleRoute: typeof EditorialExampleRoute
   GovernanceRoute: typeof GovernanceRoute
+  JournalRoute: typeof JournalRouteWithChildren
+  KnowledgeRoute: typeof KnowledgeRouteWithChildren
+  LibraryRoute: typeof LibraryRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -214,6 +379,27 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge': {
+      id: '/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/governance': {
@@ -251,6 +437,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/library/': {
+      id: '/library/'
+      path: '/'
+      fullPath: '/library/'
+      preLoaderRoute: typeof LibraryIndexRouteImport
+      parentRoute: typeof LibraryRoute
+    }
+    '/knowledge/': {
+      id: '/knowledge/'
+      path: '/'
+      fullPath: '/knowledge/'
+      preLoaderRoute: typeof KnowledgeIndexRouteImport
+      parentRoute: typeof KnowledgeRoute
+    }
+    '/journal/': {
+      id: '/journal/'
+      path: '/'
+      fullPath: '/journal/'
+      preLoaderRoute: typeof JournalIndexRouteImport
+      parentRoute: typeof JournalRoute
+    }
     '/institutes/': {
       id: '/institutes/'
       path: '/institutes'
@@ -265,6 +472,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VisualEditorialBlocksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/library/$slug': {
+      id: '/library/$slug'
+      path: '/$slug'
+      fullPath: '/library/$slug'
+      preLoaderRoute: typeof LibrarySlugRouteImport
+      parentRoute: typeof LibraryRoute
+    }
+    '/knowledge/search': {
+      id: '/knowledge/search'
+      path: '/search'
+      fullPath: '/knowledge/search'
+      preLoaderRoute: typeof KnowledgeSearchRouteImport
+      parentRoute: typeof KnowledgeRoute
+    }
+    '/knowledge/pathways': {
+      id: '/knowledge/pathways'
+      path: '/pathways'
+      fullPath: '/knowledge/pathways'
+      preLoaderRoute: typeof KnowledgePathwaysRouteImport
+      parentRoute: typeof KnowledgeRoute
+    }
+    '/knowledge/glossary': {
+      id: '/knowledge/glossary'
+      path: '/glossary'
+      fullPath: '/knowledge/glossary'
+      preLoaderRoute: typeof KnowledgeGlossaryRouteImport
+      parentRoute: typeof KnowledgeRoute
+    }
+    '/knowledge/compare': {
+      id: '/knowledge/compare'
+      path: '/compare'
+      fullPath: '/knowledge/compare'
+      preLoaderRoute: typeof KnowledgeCompareRouteImport
+      parentRoute: typeof KnowledgeRoute
+    }
+    '/journal/$slug': {
+      id: '/journal/$slug'
+      path: '/$slug'
+      fullPath: '/journal/$slug'
+      preLoaderRoute: typeof JournalSlugRouteImport
+      parentRoute: typeof JournalRoute
+    }
     '/institutes/$slug': {
       id: '/institutes/$slug'
       path: '/institutes/$slug'
@@ -278,6 +527,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/journal/tag/$tag': {
+      id: '/journal/tag/$tag'
+      path: '/tag/$tag'
+      fullPath: '/journal/tag/$tag'
+      preLoaderRoute: typeof JournalTagTagRouteImport
+      parentRoute: typeof JournalRoute
+    }
+    '/journal/category/$category': {
+      id: '/journal/category/$category'
+      path: '/category/$category'
+      fullPath: '/journal/category/$category'
+      preLoaderRoute: typeof JournalCategoryCategoryRouteImport
+      parentRoute: typeof JournalRoute
     }
     '/institutes/$slug/chapters/$chapter': {
       id: '/institutes/$slug/chapters/$chapter'
@@ -300,6 +563,56 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface JournalRouteChildren {
+  JournalSlugRoute: typeof JournalSlugRoute
+  JournalIndexRoute: typeof JournalIndexRoute
+  JournalCategoryCategoryRoute: typeof JournalCategoryCategoryRoute
+  JournalTagTagRoute: typeof JournalTagTagRoute
+}
+
+const JournalRouteChildren: JournalRouteChildren = {
+  JournalSlugRoute: JournalSlugRoute,
+  JournalIndexRoute: JournalIndexRoute,
+  JournalCategoryCategoryRoute: JournalCategoryCategoryRoute,
+  JournalTagTagRoute: JournalTagTagRoute,
+}
+
+const JournalRouteWithChildren =
+  JournalRoute._addFileChildren(JournalRouteChildren)
+
+interface KnowledgeRouteChildren {
+  KnowledgeCompareRoute: typeof KnowledgeCompareRoute
+  KnowledgeGlossaryRoute: typeof KnowledgeGlossaryRoute
+  KnowledgePathwaysRoute: typeof KnowledgePathwaysRoute
+  KnowledgeSearchRoute: typeof KnowledgeSearchRoute
+  KnowledgeIndexRoute: typeof KnowledgeIndexRoute
+}
+
+const KnowledgeRouteChildren: KnowledgeRouteChildren = {
+  KnowledgeCompareRoute: KnowledgeCompareRoute,
+  KnowledgeGlossaryRoute: KnowledgeGlossaryRoute,
+  KnowledgePathwaysRoute: KnowledgePathwaysRoute,
+  KnowledgeSearchRoute: KnowledgeSearchRoute,
+  KnowledgeIndexRoute: KnowledgeIndexRoute,
+}
+
+const KnowledgeRouteWithChildren = KnowledgeRoute._addFileChildren(
+  KnowledgeRouteChildren,
+)
+
+interface LibraryRouteChildren {
+  LibrarySlugRoute: typeof LibrarySlugRoute
+  LibraryIndexRoute: typeof LibraryIndexRoute
+}
+
+const LibraryRouteChildren: LibraryRouteChildren = {
+  LibrarySlugRoute: LibrarySlugRoute,
+  LibraryIndexRoute: LibraryIndexRoute,
+}
+
+const LibraryRouteWithChildren =
+  LibraryRoute._addFileChildren(LibraryRouteChildren)
+
 interface InstitutesSlugRouteChildren {
   InstitutesSlugChaptersChapterRoute: typeof InstitutesSlugChaptersChapterRoute
 }
@@ -318,6 +631,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   EditorialExampleRoute: EditorialExampleRoute,
   GovernanceRoute: GovernanceRoute,
+  JournalRoute: JournalRouteWithChildren,
+  KnowledgeRoute: KnowledgeRouteWithChildren,
+  LibraryRoute: LibraryRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,

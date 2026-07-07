@@ -1,11 +1,14 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useId, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Loader2, LogOut, Upload } from "lucide-react";
+import { Bookmark, Loader2, LogOut, Upload } from "lucide-react";
 
 
 import { supabase } from "@/integrations/supabase/client";
+import { listBookmarks } from "@/lib/journal.functions";
+import { getArticle } from "@/data/journal";
 import { useAuth } from "@/hooks/use-auth";
 import { Header } from "@/components/luxury/header";
 import { Footer } from "@/components/luxury/footer";
@@ -339,6 +342,9 @@ function ProfilePage() {
             </form>
           </Container>
         </Section>
+
+        <BookmarksSection />
+
       </main>
       <Footer />
       <MobileTabs />
@@ -389,3 +395,70 @@ function StatCard({
     </div>
   );
 }
+
+function BookmarksSection() {
+  const listFn = useServerFn(listBookmarks);
+  const [rows, setRows] = useState<Array<{ article_slug: string; created_at: string }> | null>(null);
+  useEffect(() => {
+    let alive = true;
+    listFn()
+      .then((r) => alive && setRows(r))
+      .catch(() => alive && setRows([]));
+    return () => {
+      alive = false;
+    };
+  }, [listFn]);
+
+  return (
+    <Section>
+      <Container>
+        <SectionHeader
+          eyebrow="Your Journal"
+          title="Saved articles"
+          intro="Articles you bookmark from The Journal appear here, ready to read again."
+        />
+        <div className="mt-10">
+          {rows === null ? (
+            <div className="flex items-center gap-3 text-platinum/70">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm">Loading</span>
+            </div>
+          ) : rows.length === 0 ? (
+            <div className="border border-white/10 bg-charcoal/40 p-10 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 text-gold">
+                <Bookmark className="h-5 w-5" />
+              </div>
+              <h3 className="mt-6 font-display text-2xl text-ivory">No saved articles yet</h3>
+              <p className="mt-3 text-sm text-platinum/70">
+                Open an article in The Journal and tap Save to keep it here.
+              </p>
+              <div className="mt-6">
+                <LuxButton asChild variant="outline">
+                  <Link to="/journal">Open The Journal</Link>
+                </LuxButton>
+              </div>
+            </div>
+          ) : (
+            <ul className="divide-y divide-white/5 border-y border-white/5">
+              {rows.map((row) => {
+                const a = getArticle(row.article_slug);
+                if (!a) return null;
+                return (
+                  <li key={row.article_slug}>
+                    <Link to="/journal/$slug" params={{ slug: a.slug }} className="group block py-6">
+                      <Eyebrow>Saved · {new Date(row.created_at).toLocaleDateString("en-GB")}</Eyebrow>
+                      <p className="mt-3 font-display text-xl text-ivory group-hover:text-gold md:text-2xl">
+                        {a.title}
+                      </p>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
