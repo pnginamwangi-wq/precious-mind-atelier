@@ -532,6 +532,12 @@ function JournalTeaser() {
 function BeyondTheInstitutes() {
   const cards = [
     {
+      to: "/smelt-lab",
+      eyebrow: "Flagship Interactive",
+      title: "The Smelt Lab",
+      dek: "Blend gold, copper, silver, and palladium in a cinematic virtual crucible. Watch karat, purity, colour, and hallmark emerge as you pour.",
+    },
+    {
       to: "/knowledge",
       eyebrow: "Knowledge Hub",
       title: "Glossary, pathways, comparisons",
@@ -547,7 +553,7 @@ function BeyondTheInstitutes() {
   return (
     <Section>
       <Container>
-        <ul className="grid gap-px bg-white/5 md:grid-cols-2">
+        <ul className="grid gap-px bg-white/5 md:grid-cols-3">
           {cards.map((c) => (
             <li key={c.to} className="bg-obsidian">
               <Link to={c.to} className="group block p-10 md:p-14">

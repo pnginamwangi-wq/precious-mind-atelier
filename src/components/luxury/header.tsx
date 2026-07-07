@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 
 const NAV: { label: string; href: string; internal?: boolean }[] = [
   { label: "Institutes", href: "/institutes", internal: true },
+  { label: "Smelt Lab", href: "/smelt-lab", internal: true },
   { label: "Journal", href: "/journal", internal: true },
   { label: "Knowledge", href: "/knowledge", internal: true },
   { label: "Library", href: "/library", internal: true },

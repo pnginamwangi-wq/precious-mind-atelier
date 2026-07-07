@@ -12,7 +12,7 @@ import {
 import { GLOSSARY } from "@/data/glossary";
 import { PATHWAYS } from "@/data/pathways";
 import { COMPARISONS } from "@/data/comparisons";
-import { BookOpen, Compass, GitCompare, Search } from "lucide-react";
+import { BookOpen, Compass, Flame, GitCompare, Search } from "lucide-react";
 
 export const Route = createFileRoute("/knowledge/")({
   head: () => ({
@@ -59,6 +59,12 @@ function KnowledgeIndex() {
       icon: Search,
       title: "Search",
       dek: "Look across chapters, articles, glossary terms, and library objects in one place.",
+    },
+    {
+      to: "/smelt-lab",
+      icon: Flame,
+      title: "The Smelt Lab",
+      dek: "A cinematic interactive that teaches karats by letting you mix and cast your own gold alloy.",
     },
   ] as const;
 
