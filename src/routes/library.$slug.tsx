@@ -38,7 +38,9 @@ export const Route = createFileRoute("/library/$slug")({
         { property: "og:title", content: `${it.name}, The Library` },
         { property: "og:description", content: it.dek },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: `/library/${it.slug}` },
       ],
+      links: [{ rel: "canonical", href: `/library/${it.slug}` }],
     };
   },
   notFoundComponent: NotFound,

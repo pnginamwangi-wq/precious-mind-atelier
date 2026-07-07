@@ -10,7 +10,11 @@ export const Route = createFileRoute("/knowledge/pathways")({
     meta: [
       { title: "Learning Pathways, Knowledge Hub" },
       { name: "description", content: "Curated sequences of chapters, articles, and library entries that read together as short courses." },
+      { property: "og:title", content: "Learning Pathways, Knowledge Hub" },
+      { property: "og:description", content: "Curated sequences of chapters, articles, and library entries that read together as short courses." },
+      { property: "og:url", content: "/knowledge/pathways" },
     ],
+    links: [{ rel: "canonical", href: "/knowledge/pathways" }],
   }),
   component: PathwaysPage,
 });
