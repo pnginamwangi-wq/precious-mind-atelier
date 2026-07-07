@@ -78,6 +78,8 @@ function Home() {
         <Manifesto />
         <ScrollGallery />
         <Institutes />
+        <JournalTeaser />
+        <BeyondTheInstitutes />
         <AIMentor />
         <ClosingCta />
       </main>
@@ -484,6 +486,84 @@ function ClosingCta() {
             </Reveal>
           </div>
         </div>
+      </Container>
+    </Section>
+  );
+}
+
+function JournalTeaser() {
+  return (
+    <Section id="journal-teaser">
+      <Container>
+        <div className="grid gap-16 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-6">
+            <Eyebrow>The Journal</Eyebrow>
+            <h2 className="mt-4 font-display text-4xl leading-tight text-ivory md:text-5xl">
+              A weekly dispatch from the <em className="gold-gradient-text not-italic">Academy Desk</em>.
+            </h2>
+            <p className={`mt-6 max-w-lg ${luxury.bodyMuted}`}>
+              Editorial writing on craft, provenance, history, and the small disciplines that separate a professional from a beginner. One considered piece each Sunday.
+            </p>
+            <div className="mt-8">
+              <LuxButton asChild variant="outline">
+                <Link to="/journal">Read The Journal</Link>
+              </LuxButton>
+            </div>
+          </div>
+          <div className="md:col-span-6">
+            <ul className="grid gap-px bg-white/5">
+              {["reading-a-hallmark", "the-four-cs-reread", "ai-in-the-atelier"].map((slug) => (
+                <li key={slug} className="bg-obsidian p-6">
+                  <Link to="/journal/$slug" params={{ slug }} className="group block">
+                    <p className="font-display text-xl text-ivory group-hover:text-gold">
+                      {slug.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase())}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+function BeyondTheInstitutes() {
+  const cards = [
+    {
+      to: "/knowledge",
+      eyebrow: "Knowledge Hub",
+      title: "Glossary, pathways, comparisons",
+      dek: "A single place to consult the shared vocabulary, follow curated sequences, and compare products the trade often conflates.",
+    },
+    {
+      to: "/library",
+      eyebrow: "The Library",
+      title: "Reference pages for the objects",
+      dek: "The bars, coins, stones, and timepieces at the centre of the trade, each with specifications, value factors, care, and sales guidance.",
+    },
+  ] as const;
+  return (
+    <Section>
+      <Container>
+        <ul className="grid gap-px bg-white/5 md:grid-cols-2">
+          {cards.map((c) => (
+            <li key={c.to} className="bg-obsidian">
+              <Link to={c.to} className="group block p-10 md:p-14">
+                <Eyebrow>{c.eyebrow}</Eyebrow>
+                <h3 className="mt-6 font-display text-3xl leading-tight text-ivory group-hover:text-gold md:text-4xl">
+                  {c.title}
+                </h3>
+                <p className={`mt-4 max-w-md ${luxury.bodyMuted}`}>{c.dek}</p>
+                <div className="mt-8 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-gold">
+                  Enter
+                  <span aria-hidden className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Container>
     </Section>
   );
