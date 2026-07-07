@@ -18,17 +18,16 @@ export const Route = createFileRoute("/governance")({
   head: () => ({
     meta: [
       {
-        title:
-          "Governance, Legal and Ethical Charter, The Precious Intelligence Academy",
+        title: "Governance Charter, The Precious Intelligence Academy",
       },
       {
         name: "description",
         content:
-          "The legal, ethical, and compliance charter that governs how The Precious Intelligence Academy is designed, written, and taught. Independence, transparency, and educational integrity, stated plainly.",
+          "The legal, ethical, and compliance charter of The Precious Intelligence Academy. Independence, transparency, and educational integrity, stated plainly.",
       },
       {
         property: "og:title",
-        content: "Governance and Ethical Charter, The Precious Intelligence Academy",
+        content: "Governance Charter, The Precious Intelligence Academy",
       },
       {
         property: "og:description",
@@ -36,8 +35,10 @@ export const Route = createFileRoute("/governance")({
           "Independence, transparency, and educational integrity. The principles that govern the Academy.",
       },
       { property: "og:type", content: "article" },
+      { property: "og:url", content: "/governance" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/governance" }],
   }),
   component: GovernancePage,
 });
