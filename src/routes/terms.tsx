@@ -23,7 +23,7 @@ export const Route = createFileRoute("/terms")({
       {
         name: "description",
         content:
-          "The terms that govern use of The Precious Intelligence Academy. Consumer transparency, prohibited content and conduct, intellectual property ownership, and limitation of liability, written in plain language.",
+          "Terms that govern use of The Precious Intelligence Academy: acceptable use, intellectual property, liability limits, and dispute resolution.",
       },
       { property: "og:title", content: "Terms of Use, The Precious Intelligence Academy" },
       {
