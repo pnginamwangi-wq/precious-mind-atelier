@@ -11,18 +11,21 @@ export const Route = createFileRoute("/journal/category/$category")({
     if (!cat) throw notFound();
     return { category: cat.slug as JournalCategorySlug };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return { meta: [{ title: "Category not found, The Journal" }, { name: "robots", content: "noindex" }] };
     }
     const label = categoryLabel(loaderData.category);
+    const path = `/journal/category/${params.category}`;
     return {
       meta: [
         { title: `${label}, The Journal` },
         { name: "description", content: `Editorial writing from The Academy Desk on ${label}.` },
         { property: "og:title", content: `${label}, The Journal` },
         { property: "og:description", content: `Editorial writing from The Academy Desk on ${label}.` },
+        { property: "og:url", content: path },
       ],
+      links: [{ rel: "canonical", href: path }],
     };
   },
   notFoundComponent: () => <NotFound />,

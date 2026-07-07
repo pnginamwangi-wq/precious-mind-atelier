@@ -12,7 +12,11 @@ export const Route = createFileRoute("/knowledge/glossary")({
     meta: [
       { title: "Glossary, Knowledge Hub, The Precious Intelligence Academy" },
       { name: "description", content: "Definitions of the terminology that recurs across the eight Institutes." },
+      { property: "og:title", content: "Glossary, Knowledge Hub" },
+      { property: "og:description", content: "Definitions of the terminology that recurs across the eight Institutes." },
+      { property: "og:url", content: "/knowledge/glossary" },
     ],
+    links: [{ rel: "canonical", href: "/knowledge/glossary" }],
   }),
   component: GlossaryPage,
 });

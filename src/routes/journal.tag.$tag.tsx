@@ -10,7 +10,9 @@ export const Route = createFileRoute("/journal/tag/$tag")({
     meta: [
       { title: `Tag: ${params.tag}, The Journal` },
       { name: "description", content: `Journal articles tagged “${params.tag}”.` },
+      { name: "robots", content: "noindex" },
     ],
+    links: [{ rel: "canonical", href: `/journal/tag/${params.tag}` }],
   }),
   component: TagPage,
 });

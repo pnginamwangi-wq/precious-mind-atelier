@@ -10,7 +10,11 @@ export const Route = createFileRoute("/knowledge/compare")({
     meta: [
       { title: "Comparisons, Knowledge Hub" },
       { name: "description", content: "Side by side guides to pairs the trade frequently confuses." },
+      { property: "og:title", content: "Comparisons, Knowledge Hub" },
+      { property: "og:description", content: "Side by side guides to pairs the trade frequently confuses." },
+      { property: "og:url", content: "/knowledge/compare" },
     ],
+    links: [{ rel: "canonical", href: "/knowledge/compare" }],
   }),
   component: ComparePage,
 });
