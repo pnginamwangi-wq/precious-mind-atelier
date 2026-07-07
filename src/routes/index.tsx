@@ -532,6 +532,12 @@ function JournalTeaser() {
 function BeyondTheInstitutes() {
   const cards = [
     {
+      to: "/smelt-lab",
+      eyebrow: "Flagship Interactive",
+      title: "The Smelt Lab",
+      dek: "Blend gold, copper, silver, and palladium in a cinematic virtual crucible. Watch karat, purity, colour, and hallmark emerge as you pour.",
+    },
+    {
       to: "/knowledge",
       eyebrow: "Knowledge Hub",
       title: "Glossary, pathways, comparisons",
