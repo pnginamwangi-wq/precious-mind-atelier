@@ -32,7 +32,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           });
           for (const module of it.curriculum) {
             entries.push({
-              path: `/institutes/${it.slug}/chapters/${module.chapter.toLowerCase()}`,
+              path: `/institutes/${it.slug}/chapters/${chapterSlug(module.chapter)}`,
               changefreq: "monthly",
               priority: "0.6",
             });
