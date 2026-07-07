@@ -163,6 +163,75 @@ function ChapterPage() {
   );
 }
 
+function ChapterLesson({ content }: { content: ChapterContent }) {
+  return (
+    <>
+      <Section id="study" bordered className="scroll-mt-24">
+        <Container>
+          <SectionHeader
+            index={content.chapter}
+            eyebrow="The chapter"
+            title="Read, then reflect."
+            intro="A written lesson in the Academy's voice. Read slowly; the takeaways and knowledge check that follow are meant to be worked through in the same sitting."
+          />
+          <div className="mt-14 grid gap-16 md:grid-cols-12 md:gap-20">
+            <div className="md:col-span-8 md:col-start-3">
+              <div className="space-y-14">
+                {content.reading.map((section) => (
+                  <Reveal key={section.heading}>
+                    <Eyebrow>{section.heading}</Eyebrow>
+                    <div className="mt-6 space-y-5">
+                      {section.paragraphs.map((p, i) => (
+                        <p
+                          key={i}
+                          className={`text-[15px] leading-[1.85] ${luxury.bodyMuted}`}
+                        >
+                          {p}
+                        </p>
+                      ))}
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              <Hairline className="my-16" />
+
+              <Reveal>
+                <Eyebrow>Key takeaways</Eyebrow>
+                <ul className="mt-8 space-y-5">
+                  {content.takeaways.map((t) => (
+                    <motion.li
+                      key={t}
+                      variants={fadeUp}
+                      className="flex items-start gap-4 text-[15px] font-light leading-relaxed text-ivory/90"
+                    >
+                      <span className="mt-2.5 h-px w-6 shrink-0 bg-gold" />
+                      <span>{t}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section id="knowledge-check" bordered tinted className="scroll-mt-24">
+        <Container>
+          <SectionHeader
+            eyebrow="Knowledge check"
+            title="Confirm what you have just studied."
+            intro="Three questions to confirm what you have just studied. This is a private self-check for your own study; it does not affect your standing at the Academy."
+          />
+          <div className="mt-14 md:mx-auto md:max-w-3xl">
+            <KnowledgeCheck questions={content.quiz} />
+          </div>
+        </Container>
+      </Section>
+    </>
+  );
+}
+
 function ChapterHero({
   institute,
   module,
