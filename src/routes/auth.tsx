@@ -19,9 +19,20 @@ export const Route = createFileRoute("/auth")({
       { title: "Sign in, The Precious Intelligence Academy" },
       {
         name: "description",
-        content: "Sign in to the Academy to resume your studies.",
+        content:
+          "Sign in or create an account at The Precious Intelligence Academy to resume your studies and access enrolled Institutes.",
       },
+      { property: "og:title", content: "Sign in, The Precious Intelligence Academy" },
+      {
+        property: "og:description",
+        content:
+          "Sign in or create an account at The Precious Intelligence Academy to resume your studies.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/auth" },
+      { name: "robots", content: "noindex" },
     ],
+    links: [{ rel: "canonical", href: "/auth" }],
   }),
   component: AuthPage,
 });
