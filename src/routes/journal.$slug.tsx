@@ -31,6 +31,37 @@ export const Route = createFileRoute("/journal/$slug")({
       };
     }
     const a = loaderData.article;
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: a.title,
+      description: a.dek,
+      datePublished: a.publishedAt,
+      dateModified: a.publishedAt,
+      author: { "@type": "Organization", name: "The Academy Desk" },
+      publisher: {
+        "@type": "Organization",
+        name: "The Precious Intelligence Academy",
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `/journal/${a.slug}`,
+      },
+      articleSection: a.category,
+      keywords: a.tags.join(", "),
+      wordCount: a.body
+        .map((b) =>
+          b.kind === "paragraph" || b.kind === "heading" || b.kind === "quote"
+            ? b.text
+            : b.kind === "list"
+              ? b.items.join(" ")
+              : "",
+        )
+        .join(" ")
+        .split(/\s+/)
+        .filter(Boolean).length,
+      timeRequired: `PT${a.readingMinutes}M`,
+    };
     return {
       meta: [
         { title: `${a.title}, The Journal` },
@@ -43,6 +74,12 @@ export const Route = createFileRoute("/journal/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
       ],
       links: [{ rel: "canonical", href: `/journal/${a.slug}` }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(jsonLd),
+        },
+      ],
     };
   },
   notFoundComponent: NotFound,
