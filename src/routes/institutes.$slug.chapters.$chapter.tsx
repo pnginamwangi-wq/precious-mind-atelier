@@ -23,6 +23,8 @@ import {
   EducationDisclaimer,
   disclaimersForSlug,
 } from "@/components/luxury/education-disclaimer";
+import { KnowledgeCheck } from "@/components/luxury/knowledge-check";
+import { getChapterContent, type ChapterContent } from "@/data/curriculum";
 
 import {
   chapterSlug,
@@ -118,11 +120,20 @@ const CHAPTER_SECTIONS = [
   { id: "next", label: "Continue" },
 ] as const;
 
+const CHAPTER_SECTIONS_WITH_CONTENT = [
+  { id: "overview", label: "Overview" },
+  { id: "study", label: "Study" },
+  { id: "knowledge-check", label: "Knowledge check" },
+  { id: "next", label: "Continue" },
+] as const;
+
 function ChapterPage() {
   const { institute, module, index } = Route.useLoaderData();
   const total = institute.curriculum.length;
   const prev = institute.curriculum[(index - 1 + total) % total];
   const next = institute.curriculum[(index + 1) % total];
+  const content = getChapterContent(institute.slug, module.chapter);
+  const sections = content ? CHAPTER_SECTIONS_WITH_CONTENT : CHAPTER_SECTIONS;
 
   return (
     <>
@@ -130,20 +141,93 @@ function ChapterPage() {
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <ChapterHero institute={institute} module={module} />
         <EducationDisclaimer kinds={disclaimersForSlug(institute.slug)} />
-        <SectionNavBar items={CHAPTER_SECTIONS} label="Chapter sections" />
+        <SectionNavBar items={sections} label="Chapter sections" />
 
         <div className="relative lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 lg:px-10 xl:gap-16">
           <aside className="hidden lg:block lg:pt-32">
-            <SectionNav items={CHAPTER_SECTIONS} label="In this chapter" />
+            <SectionNav items={sections} label="In this chapter" />
           </aside>
           <div className="min-w-0">
-            <ChapterStudy institute={institute} module={module} />
+            {content ? (
+              <ChapterLesson content={content} />
+            ) : (
+              <ChapterStudy institute={institute} module={module} />
+            )}
             <ChapterNav institute={institute} prev={prev} next={next} />
           </div>
         </div>
       </main>
       <Footer />
       <MobileTabs />
+    </>
+  );
+}
+
+function ChapterLesson({ content }: { content: ChapterContent }) {
+  return (
+    <>
+      <Section id="study" bordered className="scroll-mt-24">
+        <Container>
+          <SectionHeader
+            index={content.chapter}
+            eyebrow="The chapter"
+            title="Read, then reflect."
+            intro="A written lesson in the Academy's voice. Read slowly; the takeaways and knowledge check that follow are meant to be worked through in the same sitting."
+          />
+          <div className="mt-14 grid gap-16 md:grid-cols-12 md:gap-20">
+            <div className="md:col-span-8 md:col-start-3">
+              <div className="space-y-14">
+                {content.reading.map((section) => (
+                  <Reveal key={section.heading}>
+                    <Eyebrow>{section.heading}</Eyebrow>
+                    <div className="mt-6 space-y-5">
+                      {section.paragraphs.map((p, i) => (
+                        <p
+                          key={i}
+                          className={`text-[15px] leading-[1.85] ${luxury.bodyMuted}`}
+                        >
+                          {p}
+                        </p>
+                      ))}
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              <Hairline className="my-16" />
+
+              <Reveal>
+                <Eyebrow>Key takeaways</Eyebrow>
+                <ul className="mt-8 space-y-5">
+                  {content.takeaways.map((t) => (
+                    <motion.li
+                      key={t}
+                      variants={fadeUp}
+                      className="flex items-start gap-4 text-[15px] font-light leading-relaxed text-ivory/90"
+                    >
+                      <span className="mt-2.5 h-px w-6 shrink-0 bg-gold" />
+                      <span>{t}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section id="knowledge-check" bordered tinted className="scroll-mt-24">
+        <Container>
+          <SectionHeader
+            eyebrow="Knowledge check"
+            title="Confirm what you have just studied."
+            intro="Three questions to confirm what you have just studied. This is a private self-check for your own study; it does not affect your standing at the Academy."
+          />
+          <div className="mt-14 md:mx-auto md:max-w-3xl">
+            <KnowledgeCheck questions={content.quiz} />
+          </div>
+        </Container>
+      </Section>
     </>
   );
 }
