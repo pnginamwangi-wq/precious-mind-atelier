@@ -357,9 +357,7 @@ function FacultyOutcomes({ institute }: { institute: Institute }) {
             </Reveal>
             <Reveal>
               <p className={`mt-6 max-w-lg ${luxury.bodySmall}`}>
-                Each cohort is taught by practising professionals in the field.
-                Named practitioners for a given cohort are introduced to enrolled
-                members privately, once teaching arrangements are confirmed.
+                Each cohort is taught by practising professionals. Named practitioners are introduced to enrolled members privately, once teaching arrangements are confirmed.
               </p>
             </Reveal>
             <ul className="mt-10 space-y-6">

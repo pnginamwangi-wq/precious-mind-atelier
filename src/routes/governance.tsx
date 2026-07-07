@@ -259,7 +259,7 @@ function GovernancePage() {
           <Container narrow>
             <Reveal>
               <div className={cn(luxury.bodyMuted, "border-l border-gold/40 pl-6 italic")}>
-                The Precious Intelligence Academy is a respected place of study. Every page is written to reinforce credibility through careful language, thoughtful design, and clear communication.
+                Every page is written to reinforce credibility through careful language, thoughtful design, and clear communication.
               </div>
             </Reveal>
           </Container>
