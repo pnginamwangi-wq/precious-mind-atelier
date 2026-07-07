@@ -31,6 +31,30 @@ export const Route = createFileRoute("/library/$slug")({
       };
     }
     const it = loaderData.item;
+    const articleLd = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: it.name,
+      description: it.dek,
+      author: { "@type": "Organization", name: "The Academy Desk" },
+      publisher: {
+        "@type": "Organization",
+        name: "The Precious Intelligence Academy",
+      },
+      mainEntityOfPage: { "@type": "WebPage", "@id": `/library/${it.slug}` },
+      about: it.eyebrow,
+    };
+    const faqLd = it.faqs.length
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: it.faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        }
+      : null;
     return {
       meta: [
         { title: `${it.name}, The Library` },
@@ -41,6 +65,12 @@ export const Route = createFileRoute("/library/$slug")({
         { property: "og:url", content: `/library/${it.slug}` },
       ],
       links: [{ rel: "canonical", href: `/library/${it.slug}` }],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(articleLd) },
+        ...(faqLd
+          ? [{ type: "application/ld+json", children: JSON.stringify(faqLd) }]
+          : []),
+      ],
     };
   },
   notFoundComponent: NotFound,
