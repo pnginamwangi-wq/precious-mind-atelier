@@ -38,9 +38,11 @@ export const Route = createFileRoute("/journal/$slug")({
         { property: "og:title", content: a.title },
         { property: "og:description", content: a.dek },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: `/journal/${a.slug}` },
         { property: "article:published_time", content: a.publishedAt },
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      links: [{ rel: "canonical", href: `/journal/${a.slug}` }],
     };
   },
   notFoundComponent: NotFound,

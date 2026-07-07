@@ -21,7 +21,9 @@ export const Route = createFileRoute("/knowledge/search")({
     meta: [
       { title: "Search, Knowledge Hub" },
       { name: "description", content: "Search across chapters, articles, glossary terms, and library entries." },
+      { name: "robots", content: "noindex" },
     ],
+    links: [{ rel: "canonical", href: "/knowledge/search" }],
   }),
   component: SearchPage,
 });
