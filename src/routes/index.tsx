@@ -553,7 +553,7 @@ function BeyondTheInstitutes() {
   return (
     <Section>
       <Container>
-        <ul className="grid gap-px bg-white/5 md:grid-cols-2">
+        <ul className="grid gap-px bg-white/5 md:grid-cols-3">
           {cards.map((c) => (
             <li key={c.to} className="bg-obsidian">
               <Link to={c.to} className="group block p-10 md:p-14">
