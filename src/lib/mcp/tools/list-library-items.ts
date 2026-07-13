@@ -12,8 +12,8 @@ export default defineTool({
     const items = LIBRARY.map((i) => ({
       slug: i.slug,
       name: i.name,
-      category: i.category,
-      summary: i.summary,
+      eyebrow: i.eyebrow,
+      dek: i.dek,
     }));
     return {
       content: [{ type: "text", text: JSON.stringify(items, null, 2) }],
