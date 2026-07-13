@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Smelt Lab · Precious Intelligence Academy</title>
+<meta name="description" content="An interactive precious metals laboratory. Alloy, melt, cast and assay gold to international bullion standards.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{
+  --bg:#08070a;
+  --panel:rgba(22,19,15,.72);
+  --glass:rgba(255,255,255,.04);
+  --line:rgba(201,161,64,.18);
+  --cream:#f5eedd;
+  --body:#cfc5ab;
+  --gold:#c9a140;
+  --gold-hi:#f0d488;
+  --gold-deep:#7d5f20;
+  --focus:#f0d488;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'Inter',sans-serif;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  line-height:1.7;
+}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.12}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:4px}
+button{font-family:inherit}
+
+.hero{position:relative;min-height:82vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:5rem 1.5rem 4rem;overflow:hidden}
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-fallback{position:absolute;inset:0;
+  background:
+    radial-gradient(900px 480px at 68% 82%, rgba(255,122,40,.16), transparent 60%),
+    radial-gradient(1100px 600px at 30% 20%, rgba(201,161,64,.1), transparent 55%),
+    linear-gradient(180deg,#0b0a0e, #08070a 70%);}
+.hero-fallback::after{content:'';position:absolute;inset:0;opacity:.5;
+  background:
+    linear-gradient(115deg, transparent 42%, rgba(240,212,136,.05) 50%, transparent 58%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 90px);
+  animation:heroSheen 14s ease-in-out infinite}
+@keyframes heroSheen{0%,100%{transform:translateX(-3%)}50%{transform:translateX(3%)}}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(5,4,7,.9) 100%)}
+.hero-inner{position:relative;z-index:2;max-width:760px}
+.eyebrow{letter-spacing:.34em;font-size:.66rem;text-transform:uppercase;color:var(--gold);
+  font-family:'Space Mono',monospace;margin-bottom:1.3rem}
+.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);color:var(--gold-hi)}
+.hero h1 em{color:var(--cream);font-style:italic}
+.hero p{max-width:600px;margin:1.4rem auto 0;color:var(--body);font-size:1.05rem;line-height:1.8}
+
+.stepper{display:flex;justify-content:center;margin:3rem auto 0;max-width:600px;position:relative;z-index:2;width:100%}
+.step{flex:1;text-align:center;position:relative;padding-top:22px}
+.step::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  width:12px;height:12px;border-radius:50%;border:1.5px solid var(--gold-deep);background:var(--bg);transition:.5s}
+.step::after{content:'';position:absolute;top:11.5px;left:calc(50% + 10px);right:calc(-50% + 10px);height:1px;background:var(--gold-deep);opacity:.4}
+.step:last-child::after{display:none}
+.step span{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--body);text-transform:uppercase;transition:.5s}
+.step.active::before{background:var(--gold-hi);border-color:var(--gold-hi);box-shadow:0 0 14px rgba(240,212,136,.7)}
+.step.active span{color:var(--gold-hi)}
+.step.done::before{background:var(--gold-deep);border-color:var(--gold)}
+.step.done span{color:var(--gold)}
+
+.lab{max-width:1280px;margin:0 auto;padding:3rem 1.5rem 4.5rem;display:grid;
+  grid-template-columns:340px 1fr 320px;gap:1.6rem;position:relative;z-index:3;align-items:start}
+@media(max-width:1100px){.lab{grid-template-columns:1fr 1fr}.assay-col{grid-column:1/-1}}
+@media(max-width:760px){.lab{grid-template-columns:1fr}}
+
+.panel{background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:14px;padding:1.7rem 1.6rem;
+  box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05)}
+.panel h2{font-size:1.45rem;color:var(--gold-hi);margin-bottom:.25rem}
+.panel .sub{color:var(--body);font-size:.85rem;margin-bottom:1.4rem;line-height:1.6}
+
+.canister{display:flex;align-items:center;gap:1rem;padding:.9rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.canister:last-of-type{border-bottom:none}
+.swatch{width:52px;height:52px;border-radius:12px;flex-shrink:0;cursor:pointer;position:relative;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 -10px 16px rgba(0,0,0,.5), inset 0 4px 8px rgba(255,255,255,.25), 0 8px 18px rgba(0,0,0,.5);
+  transition:transform .2s cubic-bezier(.3,1.5,.5,1), box-shadow .25s}
+.swatch:hover{transform:translateY(-3px)}
+.swatch:active{transform:scale(.94)}
+.metal-info{flex:1;min-width:0}
+.metal-name{font-family:'Space Mono',monospace;font-size:.73rem;letter-spacing:.06em;color:var(--cream)}
+.metal-role{font-size:.76rem;color:var(--body);margin-top:3px;line-height:1.55}
+.amount{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.amount .val{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--gold-hi);min-width:54px;text-align:center}
+.amount .btns{display:flex;gap:.4rem}
+.amount button{width:28px;height:28px;border-radius:50%;border:1px solid var(--gold-deep);
+  background:rgba(201,161,64,.07);color:var(--gold-hi);font-size:1rem;cursor:pointer;line-height:1;
+  display:flex;align-items:center;justify-content:center;transition:.18s}
+.amount button:hover{background:rgba(201,161,64,.22);border-color:var(--gold)}
+.presets{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.15rem}
+.presets button{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;
+  padding:.42rem .7rem;border-radius:22px;border:1px solid var(--gold-deep);
+  background:transparent;color:var(--gold);cursor:pointer;transition:.2s}
+.presets button:hover{background:rgba(201,161,64,.14);color:var(--gold-hi);transform:translateY(-1px)}
+.hint{font-size:.68rem;color:var(--body);margin-top:.95rem;text-align:center;line-height:1.6}
+
+.stage-col{display:flex;flex-direction:column;align-items:center}
+.stage-wrap{position:relative;width:100%;border-radius:16px;overflow:hidden;
+  border:1px solid var(--line);background:#0a090c;
+  box-shadow:0 40px 90px rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,255,255,.03)}
+#gl{display:block;width:100%;height:540px;touch-action:none;cursor:grab}
+#gl:active{cursor:grabbing}
+.stage-vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:radial-gradient(115% 95% at 50% 46%, transparent 46%, rgba(0,0,0,.55) 100%)}
+#pourFx{position:absolute;inset:0;width:100%;height:100%;z-index:4;opacity:0;
+  pointer-events:none;transition:opacity .9s ease;background:#000}
+#pourFx.on{opacity:1}
+.stage-grade{position:absolute;inset:0;pointer-events:none;z-index:2;mix-blend-mode:soft-light;
+  background:linear-gradient(180deg, rgba(255,150,60,.12), transparent 40%, rgba(20,10,40,.25) 100%)}
+.stage-hud{position:absolute;top:14px;left:16px;font-family:'Space Mono',monospace;
+  font-size:.58rem;letter-spacing:.24em;color:rgba(245,238,221,.45);text-transform:uppercase;pointer-events:none;z-index:3}
+.stage-hint{position:absolute;top:14px;right:16px;font-family:'Space Mono',monospace;
+  font-size:.56rem;letter-spacing:.14em;color:rgba(245,238,221,.35);text-transform:uppercase;pointer-events:none;z-index:3}
+.stage-msg{position:absolute;bottom:14px;left:0;right:0;text-align:center;pointer-events:none;z-index:3;
+  font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--body);text-transform:uppercase}
+
+.gauge{margin-top:1rem;width:100%;max-width:340px}
+.gauge .track{height:8px;border-radius:8px;background:#17130c;border:1px solid var(--line);overflow:hidden}
+.gauge .fillbar{height:100%;width:0%;border-radius:8px;transition:width .2s linear;
+  background:linear-gradient(90deg,#8a6a26,#e6a13c 55%,#ff7a2f 85%,#ffd27a)}
+.gauge .lbl{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;
+  font-size:.62rem;color:var(--body);margin-top:.45rem;letter-spacing:.1em}
+.gauge .temp{color:var(--gold-hi)}
+
+.style-pick{display:flex;gap:.6rem;margin-top:1.1rem;justify-content:center;width:100%;max-width:420px}
+.style-pick button{flex:1;padding:.7rem .6rem;border-radius:10px;cursor:pointer;
+  border:1px solid var(--gold-deep);background:var(--glass);color:var(--body);
+  font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  line-height:1.55;transition:.22s}
+.style-pick button small{display:block;font-size:.56rem;color:var(--body);text-transform:none;letter-spacing:.02em;font-family:'Inter',sans-serif}
+.style-pick button.sel{border-color:var(--gold-hi);color:var(--gold-hi);background:rgba(201,161,64,.12)}
+
+.actions{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap;justify-content:center}
+.btn{padding:.95rem 1.8rem;border-radius:8px;cursor:pointer;position:relative;overflow:hidden;
+  font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  transition:transform .18s, box-shadow .25s, opacity .3s}
+.btn.primary{border:none;color:#1a1408;background:linear-gradient(180deg,var(--gold-hi),var(--gold-deep))}
+.btn.primary::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.5) 50%,transparent 62%);
+  background-size:240% 100%;background-position:130% 0;transition:background-position .6s}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,161,64,.4)}
+.btn.primary:hover::after{background-position:-40% 0}
+.btn.ghost{background:var(--glass);border:1px solid var(--gold-deep);color:var(--gold)}
+.btn.ghost:hover{background:rgba(201,161,64,.12)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+
+.vault{width:100%;max-width:480px;margin-top:1.5rem}
+.vault h3{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--body);
+  text-transform:uppercase;text-align:center;margin-bottom:.7rem}
+.vault-row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;min-height:46px}
+.vault-bar{width:84px;height:44px;border-radius:6px;position:relative;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25), inset 0 -9px 14px rgba(60,42,8,.45),
+    inset 0 5px 9px rgba(255,248,220,.32), 0 8px 18px rgba(0,0,0,.55);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;color:#4b380e;transition:transform .2s;animation:fadeUp .5s ease both}
+.vault-bar:hover{transform:translateY(-4px) scale(1.06)}
+.vault-bar.cast{border-radius:7px 7px 14px 14px/6px 6px 16px 16px}
+.vault-bar b{font-size:.6rem;font-weight:700;letter-spacing:.05em}
+.vault-bar span{font-size:.46rem;letter-spacing:.06em}
+.vault .none{font-size:.7rem;color:var(--body);text-align:center;width:100%;padding-top:.5rem}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.assay-col .empty{color:var(--body);font-size:.85rem;padding:1.4rem 0;text-align:center;line-height:1.7}
+.assay{display:none;text-align:center}
+.assay.show{display:block;animation:fadeUp .7s ease both}
+.karat-big{font-family:'Cormorant Garamond',serif;font-size:3.1rem;color:var(--gold-hi);line-height:1}
+.karat-lbl{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--body);margin-top:.3rem}
+.hallmark{display:inline-block;border:1.5px solid var(--gold);border-radius:4px;padding:.35rem .95rem;
+  font-family:'Space Mono',monospace;letter-spacing:.1em;font-size:.8rem;color:var(--gold-hi);margin:.85rem 0}
+.assay .rows{margin:.55rem 0 1rem;font-family:'Space Mono',monospace;font-size:.72rem}
+.assay .rows div{display:flex;justify-content:space-between;padding:.48rem .2rem;border-bottom:1px solid rgba(255,255,255,.06);color:var(--body)}
+.assay .rows div b{color:var(--cream);font-weight:400}
+.mix-bar{height:13px;border-radius:8px;overflow:hidden;display:flex;margin:.9rem 0 .45rem;border:1px solid var(--line)}
+.mix-legend{display:flex;flex-wrap:wrap;gap:.5rem .9rem;justify-content:center;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--body);letter-spacing:.05em}
+.mix-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.color-name{font-size:1.2rem;color:var(--gold-hi);margin-top:1rem;font-family:'Cormorant Garamond',serif}
+.color-note{color:var(--body);font-size:.82rem;line-height:1.65;margin-top:.35rem}
+.bar-status{margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--line);
+  font-size:.7rem;color:var(--body);font-family:'Space Mono',monospace;line-height:1.7}
+.bar-status.match{color:var(--gold-hi)}
+
+.section{max-width:1120px;margin:0 auto;padding:0 1.5rem 5rem;position:relative;z-index:3}
+.section h2{font-size:2rem;color:var(--gold-hi);text-align:center;margin-bottom:.5rem}
+.section .lead{color:var(--body);text-align:center;max-width:640px;margin:0 auto 2.2rem;font-size:.95rem;line-height:1.75}
+.gtabs{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.gtabs button{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:22px;border:1px solid var(--gold-deep);background:transparent;color:var(--gold);cursor:pointer;transition:.2s}
+.gtabs button.sel{background:rgba(201,161,64,.14);color:var(--gold-hi);border-color:var(--gold)}
+.gcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:1.3rem}
+.gcard{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;padding:1.3rem;
+  transition:transform .25s, box-shadow .25s;animation:fadeUp .5s ease both}
+.gcard:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(0,0,0,.55)}
+.gbar{width:100%;height:76px;border-radius:7px;margin-bottom:1rem;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.24), inset 0 -13px 20px rgba(50,36,8,.4),
+    inset 0 8px 13px rgba(255,248,220,.3), 0 12px 24px rgba(0,0,0,.5)}
+.gbar.castshape{border-radius:10px 10px 22px 22px/8px 8px 24px 24px}
+.gbar b{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.13em;color:rgba(50,36,8,.85);font-weight:700;text-align:center;padding:0 .3rem}
+.gbar span{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.16em;color:rgba(50,36,8,.65)}
+.gcard h3{font-size:1.15rem;color:var(--gold-hi);margin-bottom:.2rem}
+.gcard .gmeta{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:.6rem}
+.gcard p{font-size:.87rem;color:var(--body);line-height:1.68}
+
+table{width:100%;border-collapse:collapse;font-family:'Space Mono',monospace;font-size:.8rem}
+th,td{padding:.8rem .6rem;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--gold);font-weight:400;letter-spacing:.06em;text-transform:uppercase;font-size:.64rem}
+td{color:var(--body)} td.k{color:var(--cream)}
+tbody tr:hover{background:rgba(201,161,64,.05)}
+tbody tr:hover td.k{color:var(--gold-hi)}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+@media(max-width:780px){.notes{grid-template-columns:1fr}}
+.note{border-left:2px solid var(--gold);padding-left:1.1rem;transition:transform .25s, border-color .25s}
+.note:hover{transform:translateX(4px);border-color:var(--gold-hi)}
+.note h3{font-size:1.16rem;color:var(--gold-hi);margin-bottom:.45rem}
+.note p{font-size:.88rem;color:var(--body);line-height:1.72}
+footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.68rem;
+  letter-spacing:.1em;border-top:1px solid var(--line);font-family:'Space Mono',monospace}
+
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01s!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-media" aria-hidden="true">
+    <div class="hero-fallback"></div>
+    <div class="hero-vignette"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow">Precious Intelligence Academy</div>
+    <h1>The Smelt Lab<br><em>Master the metal itself</em></h1>
+    <p>Every carat standard in the world is a precise recipe of pure gold and alloying metals. In this laboratory you will compose that recipe, take it to 1,064 degrees Celsius, cast it, and read the assay to international bullion standards.</p>
+    <div class="stepper" role="list" aria-label="Process stages">
+      <div class="step active" role="listitem"><span>Charge</span></div>
+      <div class="step" role="listitem"><span>Melt</span></div>
+      <div class="step" role="listitem"><span>Cast</span></div>
+      <div class="step" role="listitem"><span>Assay</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="lab">
+
+  <div class="panel">
+    <h2>Metal Inventory</h2>
+    <p class="sub">Select a metal to add 0.5 g of investment-grade grain to the crucible, or use the precision controls.</p>
+
+    <div class="canister" data-metal="gold">
+      <button class="swatch" aria-label="Add 0.5 grams of pure gold"
+        style="background:linear-gradient(135deg,#f6dd94,#c9a140 55%,#8a6a26)"></button>
+      <div class="metal-info">
+        <div class="metal-name">GOLD · Au 999.9</div>
+        <div class="metal-role">The only metal counted toward carat. Everything else in the crucible exists to serve it.</div>
+      </div>
+      <div class="amount"><span class="val" aria-live="polite">0.0g</span>
+        <div class="btns"><button class="minus" aria-label="Remove gold">–</button><button class="plus" aria-label="Add gold">+</button></div>
+      </div>
+    </div>
+
+    <div class="canister" data-metal="copper">
+      <button class="swatch" aria-label="Add 0.5 grams of copper"
+        style="background:linear-gradient(135deg,#e09a6e,#b3663f 55%,#7c4126)"></button>
+      <div class="metal-info">
+        <div class="metal-name">COPPER · Cu</div>
+        <div class="metal-role">The primary hardener. It warms the colour, and beyond half of the alloy share the result is rose gold.</div>
+      </div>
+      <div class="amount"><span class="val" aria-live="polite">0.0g</span>
+        <div class="btns"><button class="minus" aria-label="Remove copper">–</button><button class="plus" aria-label="Add copper">+</button></div>
+      </div>
+    </div>
+
+    <div class="canister" data-metal="silver">
+      <button class="swatch" aria-label="Add 0.5 grams of fine silver"
+        style="background:linear-gradient(135deg,#f2ede0,#d9d3c2 55%,#9a947f)"></button>
+      <div class="metal-info">
+        <div class="metal-name">SILVER · Ag 999</div>
+        <div class="metal-role">Copper's counterweight. It cools and brightens the tone; balanced together they hold a classic yellow.</div>
+      </div>
+      <div class="amount"><span class="val" aria-live="polite">0.0g</span>
+        <div class="btns"><button class="minus" aria-label="Remove silver">–</button><button class="plus" aria-label="Add silver">+</button></div>
+      </div>
+    </div>
+
+    <div class="canister" data-metal="palladium">
+      <button class="swatch" aria-label="Add 0.5 grams of palladium"
+        style="background:linear-gradient(135deg,#eceeec,#b9c2c4 55%,#7f8a8c)"></button>
+      <div class="metal-info">
+        <div class="metal-name">PALLADIUM · Pd</div>
+        <div class="metal-role">The premium whitening agent. A modest share removes gold's yellow entirely, with no plating required.</div>
+      </div>
+      <div class="amount"><span class="val" aria-live="polite">0.0g</span>
+        <div class="btns"><button class="minus" aria-label="Remove palladium">–</button><button class="plus" aria-label="Add palladium">+</button></div>
+      </div>
+    </div>
+
+    <div class="presets" role="group" aria-label="Recipe presets">
+      <button data-preset="18y">18K Yellow · 10g</button>
+      <button data-preset="14r">14K Rose · 10g</button>
+      <button data-preset="18w">18K White · 10g</button>
+      <button data-preset="22">22K · 1 oz</button>
+      <button data-preset="clear">Empty crucible</button>
+    </div>
+    <p class="hint">Standard bar weights: 1 g · 2.5 g · 5 g · 10 g · 20 g · 1 oz (31.1 g) · 50 g · 100 g</p>
+  </div>
+
+  <div class="stage-col">
+    <div class="stage-wrap">
+      <canvas id="gl" aria-label="Three-dimensional smelting laboratory. Use the controls below to charge, melt and cast."></canvas>
+      <canvas id="pourFx" aria-hidden="true"></canvas>
+      <div class="stage-vignette"></div>
+      <div class="stage-grade"></div>
+      <div class="stage-hud">Refinery Bench · Live</div>
+      <div class="stage-hint">Drag to orbit · Scroll to zoom</div>
+      <div class="stage-msg" id="stageMsg" aria-live="polite">Charge the crucible to begin</div>
+    </div>
+
+    <div class="gauge">
+      <div class="track" role="progressbar" aria-label="Crucible temperature" aria-valuemin="21" aria-valuemax="1064" aria-valuenow="21" id="tempTrack">
+        <div class="fillbar" id="tempBar"></div>
+      </div>
+      <div class="lbl"><span>CRUCIBLE TEMPERATURE</span><span class="temp" id="tempTxt">21°C</span></div>
+    </div>
+
+    <div class="style-pick" id="stylePick" role="group" aria-label="Bar type">
+      <button class="sel" data-style="cast">Cast Bar<small>Poured into graphite, the classic ingot</small></button>
+      <button data-style="minted">Minted Bar<small>Pressed and struck, precision faces</small></button>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="fireBtn" disabled>Ignite Furnace</button>
+      <button class="btn primary" id="castBtn" style="display:none">Pour the Bar</button>
+      <button class="btn ghost" id="resetBtn" style="display:none">New Batch</button>
+    </div>
+
+    <div class="vault">
+      <h3>Vault Collection · <span id="vaultCount">0</span> bars</h3>
+      <div class="vault-row" id="vaultRow"><div class="none">Cast your first bar to begin your collection.</div></div>
+    </div>
+  </div>
+
+  <div class="panel assay-col">
+    <h2>Assay Report</h2>
+    <p class="sub">The certified figures a refinery would issue.</p>
+    <div class="empty" id="assayEmpty">No bar has been cast yet.<br>Charge, melt, and pour to receive your assay.</div>
+    <div class="assay" id="assay"></div>
+  </div>
+</div>
+
+<div class="section rv">
+  <h2>The World of Bars</h2>
+  <p class="lead">Professional dealers identify a bar in seconds: colour reveals the alloy, form reveals the process, and the stamp establishes provenance. This is that fluency, taught properly.</p>
+  <div class="gtabs" id="gtabs" role="tablist">
+    <button class="sel" data-tab="colours" role="tab">Alloy colours</button>
+    <button data-tab="origins" role="tab">Great refineries</button>
+    <button data-tab="shapes" role="tab">Forms &amp; standards</button>
+  </div>
+  <div class="gcards" id="gcards"></div>
+</div>
+
+<div class="section rv">
+  <h2>Carat Reference</h2>
+  <table>
+    <thead><tr><th>Carat</th><th>Purity</th><th>Hallmark</th><th>Where it is used</th></tr></thead>
+    <tbody>
+      <tr><td class="k">24K</td><td>99.9%</td><td>999</td><td>Investment bars and coins. Known as 足金 (zújīn, "full gold") in Chinese markets. Too soft for daily wear.</td></tr>
+      <tr><td class="k">22K</td><td>91.6%</td><td>916</td><td>The wedding standard across India, the Gulf and East Africa: rich colour with just enough alloy to endure.</td></tr>
+      <tr><td class="k">18K</td><td>75.0%</td><td>750</td><td>The home of fine jewellery. Sufficient gold for depth of colour, sufficient alloy to hold a stone for life.</td></tr>
+      <tr><td class="k">14K</td><td>58.5%</td><td>585</td><td>The everyday standard in United States retail, durable enough for rings worn daily.</td></tr>
+      <tr><td class="k">10K</td><td>41.7%</td><td>417</td><td>The legal minimum to be sold as gold in the United States.</td></tr>
+      <tr><td class="k">9K</td><td>37.5%</td><td>375</td><td>The entry standard in the United Kingdom, Ireland and Australia, hallmarked and honest about its content.</td></tr>
+    </tbody>
+  </table>
+  <div class="notes">
+    <div class="note"><h3>Why alloy at all?</h3><p>Pure gold measures 2.5 to 3 on the Mohs hardness scale. A wedding ring in 24K would deform within a year of daily wear. Alloying is not dilution; it is engineering. The copper and silver perform the structural work so the gold can perform the shining.</p></div>
+    <div class="note"><h3>Colour is a ratio, not a metal</h3><p>There is no element called rose gold. An 18K rose ring and an 18K yellow ring contain exactly the same 75 percent gold; only the composition of the remaining quarter differs. A professional never prices by colour, only by fineness and weight.</p></div>
+    <div class="note"><h3>Trust the stamp, not the word</h3><p>Carat is rounded generously in conversation; the hallmark is not. A stamp of 750 means 750 parts per thousand, tested and struck. If a piece carries no hallmark at all, value it as one standard below whatever is claimed.</p></div>
+  </div>
+</div>
+
+<footer>THE PRECIOUS INTELLIGENCE ACADEMY · SMELT LAB</footer>
+
+<script>
+(function(){
+"use strict";
+if(!window.THREE){ document.getElementById('stageMsg').textContent='3D engine failed to load. Please refresh.'; return; }
+
+/* sound hooks: silent until real audio is wired. No autoplay. */
+var SOUND={ignite:function(){},grainDrop:function(){},molten:function(){},pour:function(){},cool:function(){},stamp:function(){},click:function(){},vault:function(){}};
+
+/* ---------- alloy state ---------- */
+var state={gold:0,copper:0,silver:0,palladium:0};
+var STEP=0.5, MAXG=120;
+var BAR_SIZES=[1,2.5,5,10,20,31.1,50,100];
+var METAL={
+  gold:{c:0xc9a140}, copper:{c:0xb3663f}, silver:{c:0xd9d3c2}, palladium:{c:0xb9c2c4}
+};
+var phase='charge', barStyle='cast', temp=21;
+function total(){ return state.gold+state.copper+state.silver+state.palladium; }
+function $(id){ return document.getElementById(id); }
+function rand(a,b){ return a+Math.random()*(b-a); }
+var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- renderer / scene ---------- */
+var canvas=$('gl');
+var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true});
+renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.05;
+renderer.outputEncoding=THREE.sRGBEncoding;
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+
+var scene=new THREE.Scene();
+scene.background=new THREE.Color(0x0a090c);
+scene.fog=new THREE.Fog(0x0a090c,8,20);
+
+/* procedural studio environment for metal reflections */
+(function(){
+  var c=document.createElement('canvas'); c.width=512; c.height=256;
+  var g=c.getContext('2d');
+  var grd=g.createLinearGradient(0,0,0,256);
+  grd.addColorStop(0,'#3a3226'); grd.addColorStop(.5,'#171310'); grd.addColorStop(1,'#0a0806');
+  g.fillStyle=grd; g.fillRect(0,0,512,256);
+  /* warm key softbox */
+  var s1=g.createRadialGradient(150,70,4,150,70,90);
+  s1.addColorStop(0,'rgba(255,225,170,.95)'); s1.addColorStop(1,'rgba(255,225,170,0)');
+  g.fillStyle=s1; g.fillRect(0,0,512,256);
+  /* cool fill */
+  var s2=g.createRadialGradient(400,60,4,400,60,80);
+  s2.addColorStop(0,'rgba(150,180,220,.5)'); s2.addColorStop(1,'rgba(150,180,220,0)');
+  g.fillStyle=s2; g.fillRect(0,0,512,256);
+  /* rim strip */
+  g.fillStyle='rgba(240,212,136,.28)'; g.fillRect(0,150,512,10);
+  var tex=new THREE.CanvasTexture(c);
+  tex.mapping=THREE.EquirectangularReflectionMapping;
+  var pmrem=new THREE.PMREMGenerator(renderer);
+  scene.environment=pmrem.fromEquirectangular(tex).texture;
+  tex.dispose(); pmrem.dispose();
+})();
+
+var camera=new THREE.PerspectiveCamera(38,1,.1,60);
+
+/* ---------- custom orbit controls (no external addon needed) ---------- */
+var orbit={theta:.35, phi:1.12, dist:5.8, target:new THREE.Vector3(0,.9,0)};
+function applyCam(){
+  var sp=Math.sin(orbit.phi), cp=Math.cos(orbit.phi);
+  camera.position.set(
+    orbit.target.x+orbit.dist*sp*Math.sin(orbit.theta),
+    orbit.target.y+orbit.dist*cp,
+    orbit.target.z+orbit.dist*sp*Math.cos(orbit.theta));
+  camera.lookAt(orbit.target);
+}
+applyCam();
+var drag=null, pinch=null;
+canvas.addEventListener('pointerdown',function(e){
+  drag={x:e.clientX,y:e.clientY}; canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove',function(e){
+  if(!drag) return;
+  orbit.theta-= (e.clientX-drag.x)*.006;
+  orbit.phi = Math.min(1.45, Math.max(.35, orbit.phi-(e.clientY-drag.y)*.006));
+  drag={x:e.clientX,y:e.clientY};
+});
+canvas.addEventListener('pointerup',function(){ drag=null; });
+canvas.addEventListener('pointercancel',function(){ drag=null; });
+canvas.addEventListener('wheel',function(e){
+  e.preventDefault();
+  orbit.dist=Math.min(9,Math.max(2.4, orbit.dist*(1+e.deltaY*.001)));
+},{passive:false});
+canvas.addEventListener('touchstart',function(e){
+  if(e.touches.length===2){
+    pinch=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    drag=null;
+  }
+},{passive:true});
+canvas.addEventListener('touchmove',function(e){
+  if(e.touches.length===2 && pinch){
+    var d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    orbit.dist=Math.min(9,Math.max(2.4, orbit.dist*(pinch/d)));
+    pinch=d;
+  }
+},{passive:true});
+canvas.addEventListener('touchend',function(){ pinch=null; });
+
+/* ---------- lights ---------- */
+var key=new THREE.SpotLight(0xffd9a0,1.4); key.angle=.5; key.penumbra=.5;
+key.position.set(3.4,5.2,2.6); key.castShadow=true;
+key.shadow.mapSize.set(1024,1024); key.shadow.bias=-.0004; scene.add(key);
+var fill=new THREE.DirectionalLight(0x9fb4d8,.4); fill.position.set(-4,3,-2); scene.add(fill);
+var rim=new THREE.DirectionalLight(0xf0d488,.55); rim.position.set(-2,2.4,4.5); scene.add(rim);
+scene.add(new THREE.AmbientLight(0x2a241c,.9));
+var heatLight=new THREE.PointLight(0xff7a2f,0,6,2); heatLight.position.set(0,1.15,0); scene.add(heatLight);
+
+/* ---------- bench ---------- */
+var bench=new THREE.Mesh(new THREE.BoxGeometry(14,.3,9),
+  new THREE.MeshStandardMaterial({color:0x121014,roughness:.32,metalness:.55}));
+bench.position.y=-.15; bench.receiveShadow=true; scene.add(bench);
+var rail=new THREE.Mesh(new THREE.BoxGeometry(14,.12,.5),
+  new THREE.MeshStandardMaterial({color:0x4a3120,roughness:.6,metalness:.05}));
+rail.position.set(0,.02,4.3); scene.add(rail);
+
+/* ---------- crucible ---------- */
+var cruGroup=new THREE.Group(); scene.add(cruGroup);
+var cruPts=[];
+for(var i=0;i<=20;i++){ var t=i/20; cruPts.push(new THREE.Vector2(.28+Math.sin(t*Math.PI*.5)*.72, t*1.05)); }
+var graphite=new THREE.MeshStandardMaterial({color:0x1d1a17,roughness:.82,metalness:.18,side:THREE.DoubleSide});
+var crucible=new THREE.Mesh(new THREE.LatheGeometry(cruPts,48),graphite);
+crucible.castShadow=true; crucible.receiveShadow=true; cruGroup.add(crucible);
+var innerPts=cruPts.map(function(p){return new THREE.Vector2(p.x*.965,p.y);});
+var heatShellMat=new THREE.MeshStandardMaterial({color:0x0d0a08,roughness:.9,metalness:0,
+  emissive:new THREE.Color(0xff5a10),emissiveIntensity:0,side:THREE.BackSide});
+var heatShell=new THREE.Mesh(new THREE.LatheGeometry(innerPts,48),heatShellMat);
+cruGroup.add(heatShell);
+
+var meltMat=new THREE.MeshStandardMaterial({color:0xffc24a,roughness:.12,metalness:1,
+  emissive:new THREE.Color(0xff8c1e),emissiveIntensity:0});
+var melt=new THREE.Mesh(new THREE.CylinderGeometry(.78,.6,.16,40),meltMat);
+melt.position.y=.5; melt.scale.set(.01,.01,.01); melt.visible=false; cruGroup.add(melt);
+
+/* ---------- grain instances ---------- */
+var grainGeo=new THREE.IcosahedronGeometry(.075,0);
+var gp=grainGeo.attributes.position;
+for(var vi=0;vi<gp.count;vi++){
+  gp.setXYZ(vi, gp.getX(vi)*rand(.75,1.25), gp.getY(vi)*rand(.7,1.2), gp.getZ(vi)*rand(.75,1.25));
+}
+grainGeo.computeVertexNormals();
+var MAXI=300;
+var grains=new THREE.InstancedMesh(grainGeo,
+  new THREE.MeshStandardMaterial({roughness:.28,metalness:1}), MAXI);
+grains.castShadow=true; grains.count=0; scene.add(grains);
+var G=[]; var dummy=new THREE.Object3D();
+function heapLevel(){ return .34+Math.min(.5,G.length*.004); }
+function addGrains(metal,n){
+  for(var i=0;i<n && G.length<MAXI;i++){
+    G.push({p:new THREE.Vector3(rand(-.3,.3),rand(2.4,3.1),rand(-.3,.3)),
+      v:new THREE.Vector3(rand(-.01,.01),rand(-.02,-.005),rand(-.01,.01)),
+      rot:new THREE.Euler(rand(0,6),rand(0,6),rand(0,6)),
+      vr:rand(-.08,.08), metal:metal, melt:0, s:rand(.8,1.35)});
+  }
+  SOUND.grainDrop();
+}
+function removeGrains(metal,n){
+  for(var i=G.length-1;i>=0&&n>0;i--) if(G[i].metal===metal){ G.splice(i,1); n--; }
+}
+
+/* ---------- mold ---------- */
+var moldGroup=new THREE.Group(); moldGroup.position.set(1.7,0,.6); moldGroup.visible=false; scene.add(moldGroup);
+var moldOuter=new THREE.Mesh(new THREE.BoxGeometry(1.5,.42,.8),
+  new THREE.MeshStandardMaterial({color:0x181512,roughness:.78,metalness:.22}));
+moldOuter.position.y=.21; moldOuter.castShadow=true; moldOuter.receiveShadow=true; moldGroup.add(moldOuter);
+var cavityMesh=new THREE.Mesh(new THREE.BoxGeometry(1.14,.3,.5),
+  new THREE.MeshStandardMaterial({color:0x090705,roughness:.95}));
+cavityMesh.position.y=.3; moldGroup.add(cavityMesh);
+var moldFillMat=new THREE.MeshStandardMaterial({color:0xffc24a,roughness:.15,metalness:1,
+  emissive:new THREE.Color(0xff8c1e),emissiveIntensity:0});
+var moldFill=new THREE.Mesh(new THREE.BoxGeometry(1.1,.26,.46),moldFillMat);
+moldFill.position.y=.32; moldFill.scale.y=.01; moldFill.visible=false; moldGroup.add(moldFill);
+
+/* ---------- pour stream: white-hot core + orange halo, like a real pour ---------- */
+var streamGroup=new THREE.Group(); streamGroup.visible=false; scene.add(streamGroup);
+var streamCore=new THREE.Mesh(new THREE.CylinderGeometry(.018,.03,1,10),
+  new THREE.MeshBasicMaterial({color:0xfff6dc}));
+streamGroup.add(streamCore);
+var streamHalo=new THREE.Mesh(new THREE.CylinderGeometry(.05,.085,1,10,1,true),
+  new THREE.MeshBasicMaterial({color:0xff8a20,transparent:true,opacity:.32,
+    blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+streamGroup.add(streamHalo);
+
+/* ---------- glow sprites (fake bloom) ---------- */
+function glowTexture(){
+  var c=document.createElement('canvas'); c.width=c.height=128;
+  var g=c.getContext('2d');
+  var gr=g.createRadialGradient(64,64,2,64,64,62);
+  gr.addColorStop(0,'rgba(255,255,255,1)');
+  gr.addColorStop(.25,'rgba(255,220,160,.65)');
+  gr.addColorStop(.6,'rgba(255,140,50,.22)');
+  gr.addColorStop(1,'rgba(255,90,20,0)');
+  g.fillStyle=gr; g.fillRect(0,0,128,128);
+  return new THREE.CanvasTexture(c);
+}
+var GLOWTEX=glowTexture();
+function makeGlow(color,scale){
+  var s=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOWTEX,color:color,
+    transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0}));
+  s.scale.set(scale,scale,1); scene.add(s); return s;
+}
+var glowMelt=makeGlow(0xffa040,2.6);     // over the crucible mouth
+var glowStreamTop=makeGlow(0xffc060,1.4);
+var glowStreamHit=makeGlow(0xffb050,1.8); // impact point in the mold
+var glowMold=makeGlow(0xff9030,2.4);      // over the filling mold
+
+/* ---------- droplets, splash, steam ---------- */
+var dropGeo=new THREE.SphereGeometry(.016,6,6);
+var dropMat=new THREE.MeshBasicMaterial({color:0xffe9b0});
+var drops=[];
+function spawnDrop(p){
+  var m=new THREE.Mesh(dropGeo,dropMat);
+  m.position.copy(p);
+  m.userData.v=new THREE.Vector3(rand(-.25,.25),rand(-.1,.15),rand(-.25,.25));
+  m.userData.life=1;
+  scene.add(m); drops.push(m);
+}
+var steamTex=(function(){
+  var c=document.createElement('canvas'); c.width=c.height=128;
+  var g=c.getContext('2d');
+  var gr=g.createRadialGradient(64,64,6,64,64,60);
+  gr.addColorStop(0,'rgba(210,200,190,.5)');
+  gr.addColorStop(1,'rgba(210,200,190,0)');
+  g.fillStyle=gr; g.fillRect(0,0,128,128);
+  return new THREE.CanvasTexture(c);
+})();
+var steams=[];
+function spawnSteam(p,big){
+  var s=new THREE.Sprite(new THREE.SpriteMaterial({map:steamTex,transparent:true,
+    depthWrite:false,opacity:rand(.1,.22)}));
+  s.position.copy(p).add(new THREE.Vector3(rand(-.1,.1),0,rand(-.1,.1)));
+  var sc=big?rand(.5,.9):rand(.25,.5);
+  s.scale.set(sc,sc,1);
+  s.userData={v:new THREE.Vector3(rand(-.06,.06),rand(.3,.55),rand(-.03,.03)),life:1,grow:rand(.4,.9)};
+  scene.add(s); steams.push(s);
+}
+var sparkGeoS=new THREE.SphereGeometry(.008,4,4);
+var sparkMatS=new THREE.MeshBasicMaterial({color:0xffcf70});
+var sparksS=[];
+function spawnSparkS(p){
+  var m=new THREE.Mesh(sparkGeoS,sparkMatS);
+  m.position.copy(p);
+  m.userData={v:new THREE.Vector3(rand(-.9,.9),rand(.6,1.8),rand(-.9,.9)),life:1};
+  scene.add(m); sparksS.push(m);
+}
+
+/* ---------- fire points ---------- */
+var FIRE_N=reduced?0:150;
+var fGeo=new THREE.BufferGeometry();
+var fPos=new Float32Array(Math.max(1,FIRE_N)*3), fLife=new Float32Array(Math.max(1,FIRE_N));
+fGeo.setAttribute('position',new THREE.BufferAttribute(fPos,3));
+var fireTex=(function(){ var c=document.createElement('canvas'); c.width=c.height=64;
+  var g=c.getContext('2d'); var gr=g.createRadialGradient(32,32,2,32,32,30);
+  gr.addColorStop(0,'rgba(255,240,200,1)'); gr.addColorStop(.4,'rgba(255,150,50,.8)');
+  gr.addColorStop(1,'rgba(200,40,0,0)'); g.fillStyle=gr; g.fillRect(0,0,64,64);
+  return new THREE.CanvasTexture(c); })();
+var fireMat=new THREE.PointsMaterial({size:.5,map:fireTex,transparent:true,depthWrite:false,
+  blending:THREE.AdditiveBlending,opacity:.85,color:0xffb050});
+var fire=new THREE.Points(fGeo,fireMat); fire.visible=false; scene.add(fire);
+for(var fi=0;fi<FIRE_N;fi++) fLife[fi]=Math.random();
+
+/* ---------- finished bar ---------- */
+var barMesh=null;
+function alloyRGB(){
+  var t=total()||1, r=0,g=0,b=0, keys=Object.keys(state);
+  for(var i=0;i<keys.length;i++){
+    var c=new THREE.Color(METAL[keys[i]].c), w=state[keys[i]]/t;
+    r+=c.r*w; g+=c.g*w; b+=c.b*w;
+  }
+  return new THREE.Color(r,g,b);
+}
+function makeBarTexture(fineness,karat,weight,alloyName,serial,isCast){
+  var c=document.createElement('canvas'); c.width=1024; c.height=512;
+  var g=c.getContext('2d');
+  g.fillStyle='#d8c58e'; g.fillRect(0,0,1024,512);
+  var i;
+  if(!isCast){
+    for(i=0;i<420;i++){ g.strokeStyle='rgba(255,255,255,'+rand(.015,.05)+')';
+      g.beginPath(); var y=rand(0,512); g.moveTo(0,y); g.lineTo(1024,y+rand(-3,3)); g.stroke(); }
+  }else{
+    for(i=0;i<10;i++){ g.strokeStyle='rgba(120,90,30,'+rand(.05,.14)+')'; g.lineWidth=rand(4,14);
+      g.beginPath(); g.ellipse(512+rand(-160,160),256+rand(-90,90),rand(120,340),rand(40,110),rand(0,3),0,7); g.stroke(); }
+  }
+  g.fillStyle='rgba(70,52,14,.92)'; g.textAlign='center';
+  g.font='600 54px "Cormorant Garamond", serif';
+  g.fillText('PRECIOUS INTELLIGENCE',512,120);
+  g.font='700 30px "Space Mono", monospace';
+  g.fillText('A C A D E M Y',512,165);
+  g.font='700 130px "Space Mono", monospace';
+  g.fillText(fineness,512,305);
+  g.font='400 30px "Space Mono", monospace';
+  g.fillText('FINE '+alloyName.toUpperCase(),512,352);
+  g.font='700 34px "Space Mono", monospace';
+  g.fillText(weight+'g  ·  '+karat+'K',512,412);
+  g.font='400 26px "Space Mono", monospace';
+  g.fillText('Nº '+serial,512,462);
+  var tx=new THREE.CanvasTexture(c); tx.anisotropy=8; return tx;
+}
+function buildBar(){
+  var col=alloyRGB(), isCast=barStyle==='cast';
+  var geo=isCast ? new THREE.CylinderGeometry(.62,.52,.26,4,1) : new THREE.BoxGeometry(1.1,.16,.5);
+  var tex=makeBarTexture((castData.purity*10).toFixed(1),castData.karat.toFixed(1),
+    castData.t.toFixed(1),castData.col.name,castData.serial,isCast);
+  barMesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:col,roughness:isCast?.34:.18,metalness:1,map:tex}));
+  if(isCast){ barMesh.rotation.y=Math.PI/4; barMesh.scale.set(1.15,.9,.62); }
+  barMesh.position.copy(moldGroup.position).add(new THREE.Vector3(0,.5,0));
+  barMesh.castShadow=true; scene.add(barMesh);
+}
+
+/* ---------- UI ---------- */
+function setStage(i){
+  var steps=document.querySelectorAll('.step');
+  for(var k=0;k<steps.length;k++){ steps[k].classList.toggle('active',k===i); steps[k].classList.toggle('done',k<i); }
+}
+function msg(t){ $('stageMsg').textContent=t; }
+function renderUI(){
+  var rows=document.querySelectorAll('.canister');
+  for(var i=0;i<rows.length;i++){
+    rows[i].querySelector('.val').textContent=state[rows[i].getAttribute('data-metal')].toFixed(1)+'g';
+  }
+  $('fireBtn').disabled = total()===0 || phase!=='charge';
+}
+function pourMetal(metal,amt){
+  if(phase!=='charge') return;
+  var before=state[metal];
+  state[metal]=Math.max(0,Math.min(MAXG,+(state[metal]+amt).toFixed(1)));
+  var d=state[metal]-before;
+  if(d>0) addGrains(metal,Math.max(1,Math.round(d*2.2)));
+  if(d<0) removeGrains(metal,Math.round(-d*2.2));
+  SOUND.click(); renderUI();
+}
+Array.prototype.forEach.call(document.querySelectorAll('.canister'),function(row){
+  var m=row.getAttribute('data-metal');
+  row.querySelector('.swatch').addEventListener('click',function(){pourMetal(m,STEP);});
+  row.querySelector('.plus').addEventListener('click',function(){pourMetal(m,STEP);});
+  row.querySelector('.minus').addEventListener('click',function(){pourMetal(m,-STEP);});
+});
+var PRESETS={
+  '18y':{gold:7.5,copper:1.2,silver:1.3,palladium:0},
+  '14r':{gold:5.85,copper:3.4,silver:0.75,palladium:0},
+  '18w':{gold:7.5,copper:0.5,silver:0.5,palladium:1.5},
+  '22':{gold:28.5,copper:1.6,silver:1.0,palladium:0},
+  'clear':{gold:0,copper:0,silver:0,palladium:0}
+};
+Array.prototype.forEach.call(document.querySelectorAll('.presets button'),function(b){
+  b.addEventListener('click',function(){
+    if(phase!=='charge') doReset();
+    var p=PRESETS[b.getAttribute('data-preset')];
+    for(var k in p) state[k]=p[k];
+    G.length=0;
+    for(var m in state) if(state[m]>0) addGrains(m,Math.min(55,Math.round(state[m]*2.2)));
+    renderUI();
+    msg(b.getAttribute('data-preset')==='clear'?'Crucible emptied':'Recipe charged. Ignite when ready.');
+  });
+});
+Array.prototype.forEach.call(document.querySelectorAll('#stylePick button'),function(b){
+  b.addEventListener('click',function(){
+    barStyle=b.getAttribute('data-style'); SOUND.click();
+    Array.prototype.forEach.call(document.querySelectorAll('#stylePick button'),function(x){x.classList.toggle('sel',x===b);});
+  });
+});
+
+var castData={};
+
+/* ================= THE POUR: photographic cinematic cutaway ================= */
+var Cine=(function(){
+  var cv=$('pourFx'), ctx=cv.getContext('2d');
+  var W=460,H=540,DPR=Math.min(2,window.devicePixelRatio||1);
+  var running=false, t0=0, DUR=9.2, onDone=null, alloyCol='#c9a140';
+  var steamP=[], sparkP=[], noise=null;
+
+  function makeNoise(){
+    var c=document.createElement('canvas'); c.width=c.height=160;
+    var g=c.getContext('2d'), d=g.createImageData(160,160);
+    for(var i=0;i<d.data.length;i+=4){ var v=120+Math.random()*135|0;
+      d.data[i]=d.data[i+1]=d.data[i+2]=v; d.data[i+3]=255; }
+    g.putImageData(d,0,0); return c;
+  }
+  function fit(){
+    var w=cv.clientWidth,h=cv.clientHeight;
+    cv.width=w*DPR; cv.height=h*DPR;
+    ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
+  }
+  function glow(x,y,r,stops,comp){
+    ctx.save(); if(comp) ctx.globalCompositeOperation=comp;
+    var g=ctx.createRadialGradient(x,y,r*.02,x,y,r);
+    for(var i=0;i<stops.length;i++) g.addColorStop(stops[i][0],stops[i][1]);
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill(); ctx.restore();
+  }
+
+  function draw(now){
+    if(!running) return;
+    var T=(now-t0)/1000, p=T/DUR;
+    if(p>=1){ finish(); return; }
+    fit();
+    /* timeline */
+    var tilt   = Math.min(1, T/1.4);                       // crucible commits to the pour
+    var pourOn = T>1.2 && T<6.6;
+    var fillLv = Math.max(0, Math.min(1,(T-1.3)/5.0));     // mold fills
+    var coolLv = Math.max(0, Math.min(1,(T-6.6)/2.2));     // white -> orange -> gold
+
+    /* lens: slow push-in with a breath of drift */
+    var zoom=1.04+p*.09;
+    ctx.translate(W/2,H/2);
+    ctx.scale(zoom,zoom);
+    ctx.rotate(Math.sin(T*.4)*.004);
+    ctx.translate(-W/2 + Math.sin(T*.7)*3, -H/2 + Math.cos(T*.5)*2);
+
+    /* darkness first: the photo is 90 percent shadow */
+    ctx.fillStyle='#070403'; ctx.fillRect(-40,-40,W+80,H+80);
+    /* scarred bench, barely visible */
+    ctx.strokeStyle='rgba(255,255,255,.025)';
+    for(var i=0;i<8;i++){ ctx.beginPath();
+      ctx.moveTo((i*97)%W,(i*211)%H); ctx.lineTo((i*211)%W,(i*97)%H); ctx.stroke(); }
+
+    var lipX=185, lipY=205+tilt*14;
+    var poolX=238, poolY=402;
+
+    /* ambient furnace wash behind everything */
+    glow(210,230,300,[[0,'rgba(255,110,30,'+(0.10+tilt*.10)+')'],[1,'rgba(0,0,0,0)']],'lighter');
+
+    /* ---------- crucible: a dark cylinder carried by its own inner light ---------- */
+    ctx.save();
+    ctx.translate(150,150); ctx.rotate(-.62 - tilt*.28);
+    /* body silhouette */
+    var body=ctx.createLinearGradient(-70,0,90,0);
+    body.addColorStop(0,'#160705'); body.addColorStop(.45,'#5e1c08');
+    body.addColorStop(.75,'#b3480f'); body.addColorStop(1,'#3d1206');
+    ctx.fillStyle=body;
+    ctx.beginPath();
+    ctx.ellipse(-55,0,42,58,0,0,7); ctx.rect(-55,-58,130,116);
+    ctx.ellipse(75,0,42,58,0,0,7); ctx.fill();
+    /* mouth: white hot */
+    var mouth=ctx.createRadialGradient(75,4,3,75,0,52);
+    mouth.addColorStop(0,'#fffdf2'); mouth.addColorStop(.35,'#ffdf8a');
+    mouth.addColorStop(.7,'#ff8a20'); mouth.addColorStop(1,'#8a2604');
+    ctx.fillStyle=mouth;
+    ctx.beginPath(); ctx.ellipse(75,0,38,54,0,0,7); ctx.fill();
+    ctx.restore();
+    /* mouth bloom over the top */
+    glow(lipX+6,lipY-38,120,[[0,'rgba(255,244,210,.9)'],[.35,'rgba(255,170,60,.5)'],[1,'rgba(0,0,0,0)']],'lighter');
+
+    /* tongs silhouettes */
+    ctx.strokeStyle='#120a06'; ctx.lineWidth=9; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(228,96); ctx.lineTo(380,44); ctx.stroke();
+    ctx.strokeStyle='#1c110a'; ctx.lineWidth=6;
+    ctx.beginPath(); ctx.moveTo(238,116); ctx.lineTo(388,72); ctx.stroke();
+
+    /* ---------- graphite mold: pure silhouette with a burning heart ---------- */
+    ctx.fillStyle='#0d0806';
+    ctx.beginPath();
+    ctx.moveTo(poolX-98,poolY-34); ctx.lineTo(poolX+98,poolY-30);
+    ctx.lineTo(poolX+112,poolY+52); ctx.lineTo(poolX-112,poolY+56); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='rgba(255,150,60,'+(.14+fillLv*.25)+')'; ctx.lineWidth=1.5; ctx.stroke();
+    /* molten pool inside */
+    if(fillLv>0){
+      var hot=1-coolLv;
+      var core= coolLv<.45 ? '#fffcee' : (coolLv<.8 ? '#ffcf6e' : alloyHi());
+      var midc= coolLv<.45 ? '#ffcf6e' : (coolLv<.8 ? '#ff8a20' : alloyCol);
+      var edge= coolLv<.45 ? '#ff7a18' : (coolLv<.8 ? '#c2440d' : alloyLo());
+      var pw=86*(.35+fillLv*.65);
+      var pool=ctx.createRadialGradient(poolX-14,poolY+4,3,poolX,poolY+6,pw+30);
+      pool.addColorStop(0,core); pool.addColorStop(.5,midc); pool.addColorStop(1,edge);
+      ctx.fillStyle=pool;
+      ctx.beginPath(); ctx.ellipse(poolX,poolY+6,pw,26*(.4+fillLv*.6),0,0,7); ctx.fill();
+      /* pool bloom */
+      glow(poolX,poolY+4,150*(.5+fillLv*.5),
+        [[0,'rgba(255,236,190,'+(.75*hot+.12)+')'],[.4,'rgba(255,150,50,'+(.4*hot+.06)+')'],[1,'rgba(0,0,0,0)']],'lighter');
+      /* light spilling onto the bench */
+      glow(poolX,poolY+40,190,[[0,'rgba(255,120,40,'+(.22*hot)+')'],[1,'rgba(0,0,0,0)']],'lighter');
+    }
+
+    /* ---------- the stream: a rope of light ---------- */
+    if(pourOn){
+      var sway=Math.sin(T*13)*2.2+Math.sin(T*29)*1.1;
+      var x1=lipX+2, y1=lipY-16, x2=poolX-14+sway*.4, y2=poolY-2;
+      var cx1=x1+6+sway*.6, cy1=y1+(y2-y1)*.35;
+      ctx.save(); ctx.globalCompositeOperation='lighter';
+      /* halo */
+      ctx.strokeStyle='rgba(255,140,40,.30)'; ctx.lineWidth=15; ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.quadraticCurveTo(cx1,cy1,x2,y2); ctx.stroke();
+      ctx.strokeStyle='rgba(255,190,90,.45)'; ctx.lineWidth=8;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.quadraticCurveTo(cx1,cy1,x2,y2); ctx.stroke();
+      /* white core with lens bloom */
+      ctx.shadowColor='#ffd27a'; ctx.shadowBlur=16;
+      ctx.strokeStyle='#fffae8'; ctx.lineWidth=4.2+Math.sin(T*31)*.7;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.quadraticCurveTo(cx1,cy1,x2,y2); ctx.stroke();
+      ctx.shadowBlur=0; ctx.restore();
+      /* impact flare */
+      glow(x2,y2,54,[[0,'rgba(255,252,236,.95)'],[.4,'rgba(255,180,70,.55)'],[1,'rgba(0,0,0,0)']],'lighter');
+      /* sparks */
+      if(Math.random()<.75) sparkP.push({x:x2+rand(-4,4),y:y2,vx:rand(-45,45),vy:rand(-90,-30),l:1});
+      /* steam */
+      if(Math.random()<.4) steamP.push({x:x2+rand(-16,4),y:y2-8,vx:rand(-9,3),vy:rand(-26,-14),l:1,r:rand(9,20)});
+    }
+    if(fillLv>0&&coolLv<1&&Math.random()<.22)
+      steamP.push({x:poolX+rand(-60,60),y:poolY-6,vx:rand(-6,6),vy:rand(-18,-9),l:1,r:rand(10,26)});
+
+    /* particles */
+    var dt=1/60;
+    for(i=sparkP.length-1;i>=0;i--){ var s=sparkP[i];
+      s.x+=s.vx*dt; s.y+=s.vy*dt; s.vy+=180*dt; s.l-=dt*1.6;
+      if(s.l<=0){ sparkP.splice(i,1); continue; }
+      ctx.save(); ctx.globalCompositeOperation='lighter';
+      ctx.strokeStyle='rgba(255,208,110,'+s.l+')'; ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-s.vx*.02,s.y-s.vy*.02); ctx.stroke(); ctx.restore(); }
+    for(i=steamP.length-1;i>=0;i--){ var sm=steamP[i];
+      sm.x+=sm.vx*dt+Math.sin(T*2+i)*.3; sm.y+=sm.vy*dt; sm.l-=dt*.45; sm.r+=dt*9;
+      if(sm.l<=0){ steamP.splice(i,1); continue; }
+      var sg=ctx.createRadialGradient(sm.x,sm.y,1,sm.x,sm.y,sm.r);
+      sg.addColorStop(0,'rgba(190,170,150,'+(.12*sm.l)+')'); sg.addColorStop(1,'rgba(190,170,150,0)');
+      ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(sm.x,sm.y,sm.r,0,7); ctx.fill(); }
+
+    /* a finished bar resting bottom-right, out of focus, like the photo */
+    ctx.save(); ctx.filter='blur(1.4px)';
+    ctx.translate(382,468); ctx.rotate(.1);
+    var bg2=ctx.createLinearGradient(-52,0,52,0);
+    bg2.addColorStop(0,alloyLo()); bg2.addColorStop(.4,alloyCol); bg2.addColorStop(.62,alloyHi()); bg2.addColorStop(1,alloyLo());
+    ctx.fillStyle=bg2;
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(-52,-17,104,34,5); else ctx.rect(-52,-17,104,34);
+    ctx.fill();
+    ctx.fillStyle='rgba(255,240,200,.14)'; ctx.fillRect(-52,-17,104,7);
+    ctx.restore();
+
+    /* grade + grain + vignette */
+    ctx.save(); ctx.globalCompositeOperation='soft-light';
+    var gd=ctx.createLinearGradient(0,0,W,H);
+    gd.addColorStop(0,'rgba(255,140,50,.5)'); gd.addColorStop(1,'rgba(30,10,60,.5)');
+    ctx.fillStyle=gd; ctx.fillRect(-40,-40,W+80,H+80); ctx.restore();
+    ctx.save(); ctx.globalAlpha=.055;
+    ctx.drawImage(noise, Math.random()*40-40, Math.random()*40-40, W+80, H+80);
+    ctx.restore();
+    var vg=ctx.createRadialGradient(W/2,H/2*.94,H*.22,W/2,H/2,H*.72);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.78)');
+    ctx.fillStyle=vg; ctx.fillRect(-40,-40,W+80,H+80);
+    /* fade edges of the cut */
+    var fade= T<0.8 ? 1-T/0.8 : (T>DUR-0.9 ? (T-(DUR-0.9))/0.9 : 0);
+    if(fade>0){ ctx.fillStyle='rgba(0,0,0,'+fade+')'; ctx.fillRect(-40,-40,W+80,H+80); }
+
+    requestAnimationFrame(draw);
+  }
+  function alloyHi(){ var c=new THREE.Color(alloyCol); return '#'+c.lerp(new THREE.Color(1,1,1),.4).getHexString(); }
+  function alloyLo(){ var c=new THREE.Color(alloyCol); return '#'+c.multiplyScalar(.5).getHexString(); }
+  function finish(){
+    running=false; cv.classList.remove('on');
+    steamP.length=0; sparkP.length=0;
+    if(onDone) onDone();
+  }
+  return {
+    start:function(colorHex,done){
+      alloyCol=colorHex; onDone=done;
+      if(!noise) noise=makeNoise();
+      running=true; t0=performance.now();
+      cv.classList.add('on');
+      requestAnimationFrame(draw);
+    },
+    active:function(){ return running; }
+  };
+})();
+$('fireBtn').addEventListener('click',function(){
+  if(total()===0||phase!=='charge') return;
+  phase='heating'; setStage(1); $('fireBtn').disabled=true;
+  fire.visible=!reduced; SOUND.ignite();
+  msg('Heating to 1,064°C, the melting point of gold');
+});
+$('castBtn').addEventListener('click',function(){
+  if(phase!=='molten') return;
+  var t=total(), g=state.gold;
+  castData={t:t, karat:(g/t)*24, purity:(g/t)*100, col:colorResult(),
+    serial:'PIA-'+String(Math.floor(100000+Math.random()*899999)), style:barStyle};
+  castData.hallmark=Math.round(castData.purity*10);
+  $('castBtn').style.display='none';
+  SOUND.pour();
+  if(reduced){ finalizeCast(); return; }
+  phase='cinematic'; setStage(2);
+  msg('Pouring');
+  $('tempTxt').textContent='POURING';
+  Cine.start('#'+alloyRGB().getHexString(), finalizeCast);
+});
+function finalizeCast(){
+  /* the cutaway has done the pour; the bench resumes cooled */
+  melt.visible=false; melt.scale.set(.01,.01,.01); meltMat.emissiveIntensity=0;
+  heatShellMat.emissiveIntensity=0; heatLight.intensity=0;
+  fire.visible=false; cruGroup.rotation.z=0;
+  glowMelt.material.opacity=0;
+  moldGroup.visible=true; moldFill.visible=false;
+  renderer.toneMappingExposure=1.05;
+  phase='inspect'; setStage(3);
+  buildBar(); pushVault(); showAssay(); SOUND.stamp();
+  msg('Cast complete. Drag to inspect your bar in 360°.');
+  $('tempTxt').textContent='21°C · SOLID';
+  $('resetBtn').style.display='';
+  orbit.target.copy(barMesh.position);
+}
+function colorResult(){
+  var c=state.copper,s=state.silver,p=state.palladium,at=c+s+p;
+  if(at===0)return{name:'Pure Gold',note:'No alloy: bullion-grade 24K. Magnificent, and far too soft to set a stone or survive daily wear.'};
+  var cr=c/at,pr=p/at,sr=s/at;
+  if(pr>0.3)return{name:'White Gold',note:'Palladium removes gold\u2019s yellow entirely, producing a cool, silvery white with no plating required.'};
+  if(cr>0.55)return{name:'Rose Gold',note:'Copper dominates the alloy share, warming the metal into the characteristic pink of rose gold.'};
+  if(sr>0.6&&cr<0.25)return{name:'Green-Tinted Gold',note:'A silver-rich, copper-poor alloy shifts the colour toward the rare green gold of antique work.'};
+  return{name:'Yellow Gold',note:'A balanced copper and silver share preserves gold\u2019s natural warm yellow.'};
+}
+function doReset(){
+  phase='charge'; setStage(0); temp=21;
+  G.length=0; for(var k in state) state[k]=0;
+  melt.visible=false; melt.scale.set(.01,.01,.01); meltMat.emissiveIntensity=0;
+  heatShellMat.emissiveIntensity=0; heatLight.intensity=0;
+  fire.visible=false; streamGroup.visible=false;
+  glowMelt.material.opacity=0; glowMold.material.opacity=0;
+  glowStreamTop.material.opacity=0; glowStreamHit.material.opacity=0;
+  drops.forEach(function(d){scene.remove(d);}); drops.length=0;
+  sparksS.forEach(function(d){scene.remove(d);}); sparksS.length=0;
+  steams.forEach(function(d){scene.remove(d);}); steams.length=0;
+  renderer.toneMappingExposure=1.05;
+  orbit.dist=5.8;
+  moldGroup.visible=false; moldFill.visible=false; moldFill.scale.y=.01;
+  cruGroup.rotation.z=0;
+  if(barMesh){ scene.remove(barMesh); barMesh.geometry.dispose();
+    if(barMesh.material.map) barMesh.material.map.dispose(); barMesh.material.dispose(); barMesh=null; }
+  $('castBtn').style.display='none'; $('resetBtn').style.display='none';
+  $('assay').classList.remove('show'); $('assayEmpty').style.display='';
+  $('tempBar').style.width='0%'; $('tempTxt').textContent='21°C';
+  orbit.target.set(0,.9,0);
+  renderUI(); msg('Charge the crucible to begin');
+}
+$('resetBtn').addEventListener('click',doReset);
+
+/* vault + assay */
+var vault=[];
+function pushVault(){
+  var col=alloyRGB();
+  var hex='#'+col.getHexString();
+  var hi='#'+col.clone().lerp(new THREE.Color(1,1,1),.45).getHexString();
+  var lo='#'+col.clone().multiplyScalar(.55).getHexString();
+  vault.push({karat:castData.karat,t:castData.t,style:castData.style,serial:castData.serial,name:castData.col.name,hex:hex,hi:hi,lo:lo});
+  var row=$('vaultRow'); row.innerHTML='';
+  vault.slice().reverse().forEach(function(v){
+    var d=document.createElement('div');
+    d.className='vault-bar'+(v.style==='cast'?' cast':'');
+    d.title=v.serial+' · '+v.name+' · '+(v.style==='cast'?'Cast':'Minted');
+    d.style.background='linear-gradient(118deg, '+v.hi+' 0%, '+v.hex+' 34%, '+v.hi+' 50%, '+v.lo+' 72%, '+v.hex+' 100%)';
+    d.innerHTML='<b>'+v.karat.toFixed(1)+'K</b><span>'+v.t.toFixed(1)+'g · '+(v.style==='cast'?'CAST':'MINT')+'</span>';
+    row.appendChild(d);
+  });
+  $('vaultCount').textContent=vault.length;
+  SOUND.vault();
+}
+function showAssay(){
+  var t=castData.t;
+  var nearest=BAR_SIZES.reduce(function(b,s){return Math.abs(s-t)<Math.abs(b-t)?s:b;},BAR_SIZES[0]);
+  var diff=Math.abs(nearest-t), match=diff<=nearest*0.03;
+  var barLabel=nearest===31.1?'1 troy oz bar':nearest+'g bar';
+  var cols={gold:'#c9a140',copper:'#b3663f',silver:'#d9d3c2',palladium:'#b9c2c4'};
+  var segs='',legend='';
+  for(var m in state){ if(state[m]>0){
+    segs+='<div style="width:'+(state[m]/t*100)+'%;background:'+cols[m]+'"></div>';
+    legend+='<span><i style="background:'+cols[m]+'"></i>'+m.toUpperCase()+' '+(state[m]/t*100).toFixed(0)+'%</span>';
+  }}
+  $('assayEmpty').style.display='none';
+  var a=$('assay');
+  a.innerHTML=
+    '<div class="karat-big">'+castData.karat.toFixed(1)+'K</div>'+
+    '<div class="karat-lbl">Fine carat</div>'+
+    '<div class="hallmark">'+castData.hallmark+' HALLMARK</div>'+
+    '<div class="rows">'+
+      '<div><span>SERIAL</span><b>'+castData.serial+'</b></div>'+
+      '<div><span>BAR TYPE</span><b>'+(castData.style==='cast'?'CAST':'MINTED')+'</b></div>'+
+      '<div><span>TOTAL WEIGHT</span><b>'+t.toFixed(1)+'g</b></div>'+
+      '<div><span>PURE GOLD CONTENT</span><b>'+state.gold.toFixed(1)+'g</b></div>'+
+      '<div><span>PURITY</span><b>'+castData.purity.toFixed(1)+'%</b></div>'+
+    '</div>'+
+    '<div class="mix-bar">'+segs+'</div>'+
+    '<div class="mix-legend">'+legend+'</div>'+
+    '<div class="color-name">'+castData.col.name+'</div>'+
+    '<div class="color-note">'+castData.col.note+'</div>'+
+    '<div class="bar-status '+(match?'match':'')+'">'+(match
+      ?'✓ Clean pour. This casts a standard '+barLabel+'.'
+      :'Nearest standard bar: '+barLabel+' (off by '+diff.toFixed(1)+'g. Adjust the charge to strike it exactly.)')+'</div>';
+  a.classList.add('show');
+}
+
+/* ---------- loop ---------- */
+var clock=new THREE.Clock();
+function resize(){
+  var w=canvas.clientWidth,h=canvas.clientHeight;
+  if(canvas.width!==Math.floor(w*renderer.getPixelRatio())){
+    renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+  }
+}
+function animate(){
+  requestAnimationFrame(animate);
+  resize();
+  var dt=Math.min(.05,clock.getDelta());
+  var t=clock.elapsedTime;
+
+  var melted=0,i;
+  for(i=0;i<G.length;i++){
+    var gr=G[i];
+    if(gr.melt<1){
+      gr.v.y-=2.6*dt;
+      gr.p.add(gr.v);
+      var r=Math.sqrt(gr.p.x*gr.p.x+gr.p.z*gr.p.z);
+      var floor=heapLevel()+(r>.7?.1:0);
+      if(gr.p.y<floor){ gr.p.y=floor; gr.v.set(gr.v.x*.4,-gr.v.y*.18,gr.v.z*.4);
+        if(Math.abs(gr.v.y)<.004) gr.v.y=0; }
+      if(r>.8){ gr.p.x*=.985; gr.p.z*=.985; }
+      gr.rot.x+=gr.vr; gr.rot.z+=gr.vr*.7;
+    }
+    if(phase==='heating'&&temp>880){ gr.melt=Math.min(1,gr.melt+dt*.45); gr.p.y=Math.max(.4,gr.p.y-dt*.25); }
+    if(gr.melt>=1) melted++;
+    var s=Math.max(.001,.075*gr.s*(1-gr.melt*.85));
+    dummy.position.copy(gr.p); dummy.rotation.copy(gr.rot);
+    dummy.scale.set(s/.075*.075,s/.075*.075,s/.075*.075);
+    dummy.scale.setScalar(s);
+    dummy.updateMatrix();
+    grains.setMatrixAt(i,dummy.matrix);
+    var c=new THREE.Color(METAL[gr.metal].c);
+    if(temp>500) c.lerp(new THREE.Color(0xff8030),Math.min(.7,(temp-500)/700));
+    grains.setColorAt(i,c);
+  }
+  grains.count=G.length;
+  grains.instanceMatrix.needsUpdate=true;
+  if(grains.instanceColor) grains.instanceColor.needsUpdate=true;
+
+  if(phase==='heating'){
+    temp=Math.min(1064,temp+dt*270);
+    $('tempBar').style.width=((temp-21)/1043*100)+'%';
+    $('tempTxt').textContent=Math.round(temp)+'°C';
+    $('tempTrack').setAttribute('aria-valuenow',Math.round(temp));
+    heatShellMat.emissiveIntensity=Math.min(1.4,Math.max(0,(temp-300)/500));
+    heatLight.intensity=Math.min(2.2,Math.max(0,(temp-300)/400));
+    if(temp>880){
+      melt.visible=true;
+      var lv=Math.min(1,melted/Math.max(1,G.length)+.05);
+      var target=.2+lv*.8*Math.min(1,total()/40+.3);
+      melt.scale.x+= (target-melt.scale.x)*dt*2;
+      melt.scale.z=melt.scale.x;
+      melt.scale.y+=(Math.max(.2,lv)-melt.scale.y)*dt*2;
+      meltMat.emissiveIntensity=Math.min(1.6,meltMat.emissiveIntensity+dt*1.2);
+    }
+    if(temp>=1064&&melted>=G.length&&G.length>0){
+      G.length=0; phase='molten'; SOUND.molten();
+      $('castBtn').style.display=''; msg('Melt ready. Pour the bar.');
+      $('tempTxt').textContent='1064°C · MOLTEN';
+    }
+  }
+  if(phase==='molten'){
+    melt.position.y=.5+Math.sin(t*2.2)*.008;
+  }
+  if(phase==='tilting'){
+    cruGroup.rotation.z=Math.min(1.15,cruGroup.rotation.z+dt*.55);
+    if(cruGroup.rotation.z>=1.15){ phase='pouring'; streamGroup.visible=true; msg('Pouring'); }
+  }
+  if(phase==='pouring'){
+    var lip=new THREE.Vector3(-1.0,1.25,0).add(cruGroup.position);
+    var tgt=moldGroup.position.clone().add(new THREE.Vector3(-.2,.34+.22*moldFill.scale.y,0));
+    var mid=lip.clone().lerp(tgt,.5);
+    /* stream wobble, like a live pour */
+    var wob=Math.sin(t*22)*.012+Math.sin(t*9.7)*.008;
+    mid.x+=wob; mid.z+=Math.cos(t*17)*.008;
+    streamGroup.position.copy(mid);
+    var len=lip.distanceTo(tgt);
+    streamGroup.scale.set(1+Math.sin(t*30)*.12,len,1);
+    streamGroup.lookAt(tgt); streamGroup.rotateX(Math.PI/2);
+    /* glows */
+    glowStreamTop.position.copy(lip); glowStreamTop.material.opacity=.75+Math.sin(t*26)*.12;
+    glowStreamHit.position.copy(tgt); glowStreamHit.material.opacity=.85+Math.sin(t*31)*.1;
+    glowMold.position.copy(moldGroup.position).add(new THREE.Vector3(0,.45,0));
+    glowMold.material.opacity=.5+moldFill.scale.y*.35;
+    glowMelt.material.opacity*=(1-dt*.6);
+    /* droplets, splash, steam */
+    if(Math.random()<.5) spawnDrop(new THREE.Vector3().lerpVectors(lip,tgt,rand(.2,.9)).add(new THREE.Vector3(rand(-.03,.03),0,rand(-.03,.03))));
+    if(Math.random()<.6) spawnSparkS(tgt);
+    if(Math.random()<.3) spawnSteam(tgt,true);
+    moldFill.visible=true;
+    moldFill.scale.y=Math.min(1,moldFill.scale.y+dt*.28);
+    moldFillMat.emissiveIntensity=2.4;
+    moldFillMat.color.set(0xfff0c0);
+    melt.scale.multiplyScalar(1-dt*.3);
+    renderer.toneMappingExposure+= (1.28-renderer.toneMappingExposure)*dt*2;
+    if(moldFill.scale.y>=1){
+      phase='cooling'; streamGroup.visible=false; melt.visible=false;
+      glowStreamTop.material.opacity=0; glowStreamHit.material.opacity=0;
+      SOUND.cool(); msg('Cooling. Watch the colour fall.');
+      $('tempTxt').textContent='COOLING';
+    }
+  }
+  if(phase==='cooling'){
+    cruGroup.rotation.z=Math.max(0,cruGroup.rotation.z-dt*.6);
+    heatShellMat.emissiveIntensity*=(1-dt*.8);
+    heatLight.intensity*=(1-dt*.8);
+    fire.visible=false;
+    moldFillMat.emissiveIntensity=Math.max(0,moldFillMat.emissiveIntensity-dt*.32);
+    var cool=1-moldFillMat.emissiveIntensity/2.4;
+    /* white hot, then orange, then the alloy's own colour */
+    var hotCol=new THREE.Color(0xfff0c0).lerp(new THREE.Color(0xff8a20),Math.min(1,cool*1.8));
+    moldFillMat.color.copy(hotCol.lerp(alloyRGB(),Math.max(0,cool*1.25-.25)));
+    glowMold.material.opacity=Math.max(0,glowMold.material.opacity-dt*.35);
+    if(Math.random()<.22*(1-cool)) spawnSteam(moldGroup.position.clone().add(new THREE.Vector3(rand(-.4,.4),.45,rand(-.15,.15))),false);
+    renderer.toneMappingExposure+=(1.05-renderer.toneMappingExposure)*dt*1.5;
+    if(moldFillMat.emissiveIntensity<=.01&&cruGroup.rotation.z<=0){
+      phase='inspect'; setStage(3);
+      moldFill.visible=false; buildBar(); pushVault(); showAssay(); SOUND.stamp();
+      msg('Cast complete. Drag to inspect your bar in 360°.');
+      $('tempTxt').textContent='21°C · SOLID';
+      $('resetBtn').style.display='';
+      orbit.target.copy(barMesh.position);
+    }
+  }
+  if(phase==='inspect'&&barMesh){ barMesh.rotation.y+=dt*.25; }
+
+  if(fire.visible){
+    var power=Math.min(1,(temp-21)/800)+.3;
+    for(i=0;i<FIRE_N;i++){
+      fLife[i]-=dt*rand(.6,1.3);
+      if(fLife[i]<=0){ fLife[i]=1;
+        fPos[i*3]=rand(-.5,.5); fPos[i*3+1]=1.05; fPos[i*3+2]=rand(-.5,.5); }
+      fPos[i*3]+=Math.sin(t*3+i)*.004;
+      fPos[i*3+1]+=dt*rand(.9,1.7)*power;
+    }
+    fGeo.attributes.position.needsUpdate=true;
+    fireMat.opacity=.5+Math.sin(t*7)*.12;
+  }
+
+  /* particle updates: droplets, splash sparks, steam */
+  for(i=drops.length-1;i>=0;i--){
+    var dr=drops[i];
+    dr.userData.v.y-=4.5*dt;
+    dr.position.addScaledVector(dr.userData.v,dt);
+    dr.userData.life-=dt*1.4;
+    if(dr.position.y<.35||dr.userData.life<=0){ scene.remove(dr); drops.splice(i,1); }
+  }
+  for(i=sparksS.length-1;i>=0;i--){
+    var sp=sparksS[i];
+    sp.userData.v.y-=3.4*dt;
+    sp.position.addScaledVector(sp.userData.v,dt);
+    sp.userData.life-=dt*1.8;
+    sp.scale.setScalar(Math.max(.01,sp.userData.life));
+    if(sp.userData.life<=0){ scene.remove(sp); sparksS.splice(i,1); }
+  }
+  for(i=steams.length-1;i>=0;i--){
+    var st=steams[i];
+    st.position.addScaledVector(st.userData.v,dt);
+    st.userData.life-=dt*.5;
+    var g2=1+st.userData.grow*dt;
+    st.scale.x*=g2; st.scale.y*=g2;
+    st.material.opacity=Math.max(0,st.userData.life*.2);
+    if(st.userData.life<=0){ scene.remove(st); steams.splice(i,1); }
+  }
+
+  /* molten mouth glow + faint steam while molten */
+  if(phase==='molten'||phase==='heating'&&temp>880){
+    glowMelt.position.copy(cruGroup.position).add(new THREE.Vector3(0,1.15,0));
+    glowMelt.material.opacity=Math.min(.85,(temp-880)/184*.85)+Math.sin(t*8)*.06;
+    if(phase==='molten'&&Math.random()<.1) spawnSteam(glowMelt.position,false);
+  }
+
+  /* cinematic camera: gentle breathing when the visitor is not dragging */
+  if(!drag){
+    orbit.theta+=Math.sin(t*.23)*.0004;
+    orbit.phi+=Math.cos(t*.17)*.00018;
+  }
+  /* auto-framing: drift the eye toward the action */
+  var wantTarget=null, wantDist=null;
+  if(phase==='tilting'||phase==='pouring'){
+    wantTarget=new THREE.Vector3().lerpVectors(cruGroup.position,moldGroup.position,.55).add(new THREE.Vector3(0,.7,0));
+    wantDist=4.1;
+  }else if(phase==='inspect'&&barMesh){
+    wantTarget=barMesh.position; wantDist=3.2;
+  }
+  if(wantTarget){
+    orbit.target.lerp(wantTarget,dt*1.6);
+    orbit.dist+=(wantDist-orbit.dist)*dt*1.2;
+  }
+
+  applyCam();
+  renderer.render(scene,camera);
+}
+animate();
+
+/* ---------- gallery ---------- */
+var GAL={
+  colours:[
+    {bar:{c:['#f6dd94','#c9a140','#8a6a26'],l1:'999.9',l2:'FINE GOLD'},h:'Yellow Gold',m:'Cu + Ag balanced',
+     p:'Gold\u2019s natural colour, preserved by balancing copper against silver. The reference point against which every other shade is judged.'},
+    {bar:{c:['#f2b8a5','#c97a6d','#8c4a3e'],l1:'750',l2:'ROSE'},h:'Rose Gold',m:'Copper-dominant',
+     p:'Copper claims the majority of the alloy share and warms the metal. The greater the alloy fraction, the deeper the blush, which is why 14K rose runs pinker than 18K.'},
+    {bar:{c:['#f2f0ea','#c3c9ca','#8f9899'],l1:'750',l2:'WHITE'},h:'White Gold',m:'Palladium or nickel',
+     p:'Palladium or nickel removes the yellow. Most retail white gold is additionally rhodium-plated for brightness, a finish that wears and requires renewal.'},
+    {bar:{c:['#e3deae','#b9b26a','#7e7940'],l1:'750',l2:'GREEN'},h:'Green Gold',m:'Silver-rich, no copper',
+     p:'High silver with minimal copper lends the faint green cast prized in antique and Art Nouveau work. Rare in bullion; treasured at the bench.'},
+    {bar:{c:['#e8e6de','#c9c4b2','#96917f'],l1:'999',l2:'SILVER'},h:'Fine Silver',m:'The other white metal',
+     p:'A bullion metal in its own right, cast in the same moulds and stamped under the same fineness system. 999 silver is where most new investors begin.'},
+    {bar:{c:['#e4e8e9','#b0babc','#7f898b'],l1:'999.5',l2:'PLATINUM'},h:'Platinum',m:'Denser than gold',
+     p:'Naturally white, never plated, and denser than gold: an identical bar weighs more. Its fineness convention is 999.5 rather than 999.9.'}
+  ],
+  origins:[
+    {bar:{c:['#f6dd94','#c9a140','#8a6a26'],l1:'PERTH MINT',l2:'AUSTRALIA · 99.99'},h:'The Perth Mint',m:'Australia · est. 1899',
+     p:'Among the oldest operating mints in the world and refiner of the majority of Australian gold. Its mark commands immediate recognition across Asia.'},
+    {bar:{c:['#f2e2ac','#cfa94e','#8f6f28'],l1:'PAMP',l2:'SUISSE · 999.9'},h:'PAMP Suisse',m:'Switzerland',
+     p:'Introduced the first decorative motif ever applied to a bullion bar. The global benchmark for minted bars.'},
+    {bar:{c:['#f4dfa0','#ca9f3e','#8b6a25'],l1:'VALCAMBI',l2:'SUISSE · 999.9'},h:'Valcambi',m:'Switzerland',
+     p:'Creator of the CombiBar, a minted bar scored to divide cleanly into one-gram pieces. A study in form following how people actually trade.'},
+    {bar:{c:['#f3dc9a','#c69c3c','#876723'],l1:'RCM',l2:'CANADA · 9999'},h:'Royal Canadian Mint',m:'Canada',
+     p:'Stamps to four nines (9999) and pioneered bullion security engraving, a reminder that anti-counterfeiting is part of a bar\u2019s design.'},
+    {bar:{c:['#f2d996','#c39a3a','#836322'],l1:'RAND',l2:'SOUTH AFRICA'},h:'Rand Refinery',m:'South Africa · est. 1920',
+     p:'Has refined a substantial share of all gold ever mined, and produces the blanks for the Krugerrand, the coin that created the modern bullion market in 1967.'},
+    {bar:{c:['#f4de9e','#c89e40','#886825'],l1:'HERAEUS',l2:'GERMANY · 999.9'},h:'Heraeus',m:'Germany',
+     p:'A family firm of more than three centuries and Europe\u2019s largest precious-metals refiner. Its holographic kinebar was an early defence against counterfeit minted bars.'},
+    {bar:{c:['#f3db9a','#c59b3d','#856523'],l1:'IGR',l2:'ISTANBUL · 995+'},h:'Istanbul Gold Refinery',m:'Türkiye',
+     p:'Positioned at the meeting point of the world\u2019s largest physical gold cultures, where 22K jewellery and 995 kilobars dominate daily trade.'},
+    {bar:{c:['#f4dd9c','#c79d3f','#876724'],l1:'EMIRATES',l2:'DUBAI · 995'},h:'Emirates Gold',m:'UAE',
+     p:'Dubai, the City of Gold, is a global hub where ten-tola bars and 995-fine kilobars trade alongside Western 999.9 standards.'}
+  ],
+  shapes:[
+    {bar:{c:['#f6dd94','#c9a140','#8a6a26'],l1:'CAST',l2:'POURED · 100g',cast:true},h:'Cast Bar',m:'Molten metal, graphite mould',
+     p:'Poured precisely as in the laboratory above. Gently irregular surfaces, pour ripples, punched stamps. The lowest premium over spot, and prized for its honesty.'},
+    {bar:{c:['#f6dd94','#c9a140','#8a6a26'],l1:'MINTED',l2:'PRESSED · 100g'},h:'Minted Bar',m:'Cut from rolled sheet, then struck',
+     p:'Cut from rolled strip and struck under enormous pressure. Mirror faces, sharp detail, sealed assay packaging. A higher premium, and simpler to resell.'},
+    {bar:{c:['#f4dc98','#c59c3e','#856523'],l1:'KILOBAR',l2:'1000g · 995+',cast:true},h:'Kilobar',m:'The trading standard',
+     p:'The workhorse of Asian and Middle-Eastern trade: cast, stackable, and priced closer to spot per gram than any retail size.'},
+    {bar:{c:['#f5dc9a','#c89e40','#886825'],l1:'400 oz',l2:'GOOD DELIVERY',cast:true},h:'Good Delivery Bar',m:'~12.4 kg · vault standard',
+     p:'The great trapezoid held by central banks and bullion vaults. Minimum 995 fine under strict weight and dimension rules: the bar on which global prices settle.'}
+  ]
+};
+function renderGallery(tab){
+  var wrap=$('gcards'); wrap.innerHTML='';
+  GAL[tab].forEach(function(g,i){
+    var card=document.createElement('div'); card.className='gcard';
+    card.style.animationDelay=(i*60)+'ms';
+    card.innerHTML=
+      '<div class="gbar'+(g.bar.cast?' castshape':'')+'" style="background:linear-gradient(118deg, '+g.bar.c[0]+' 0%, '+g.bar.c[1]+' 34%, '+g.bar.c[0]+' 50%, '+g.bar.c[2]+' 72%, '+g.bar.c[1]+' 100%)">'+
+      '<b>'+g.bar.l1+'</b><span>'+g.bar.l2+'</span></div>'+
+      '<h3>'+g.h+'</h3><div class="gmeta">'+g.m+'</div><p>'+g.p+'</p>';
+    wrap.appendChild(card);
+  });
+}
+Array.prototype.forEach.call(document.querySelectorAll('#gtabs button'),function(b){
+  b.addEventListener('click',function(){
+    Array.prototype.forEach.call(document.querySelectorAll('#gtabs button'),function(x){x.classList.toggle('sel',x===b);});
+    renderGallery(b.getAttribute('data-tab'));
+  });
+});
+renderGallery('colours');
+
+if('IntersectionObserver' in window && !reduced){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });},{threshold:.12});
+  Array.prototype.forEach.call(document.querySelectorAll('.rv'),function(el){io.observe(el);});
+}else{
+  Array.prototype.forEach.call(document.querySelectorAll('.rv'),function(el){el.classList.add('in');});
+}
+renderUI();
+})();
+</script>
+</body>
+</html>
