@@ -22,7 +22,7 @@ export function normalizeGithubRepoInput(input: {
   const raw = (input?.repo ?? "").trim();
   if (!raw) throw new Error("Enter a repository as owner/name.");
   // Accept full GitHub URLs like https://github.com/owner/name(.git)
-  const urlMatch = raw.match(/github\.com[/:]([^/\s]+)\/([^/\s#?]+?)(?:\.git)?\/?$/i);
+  const urlMatch = raw.match(/github\.com[/:]([^/\s]+)\/([^/\s#?]+?)(?:\.git)?\/?(?:[?#].*)?$/i);
   const normalized = urlMatch
     ? `${urlMatch[1]}/${urlMatch[2]}`
     : raw.replace(/\.git$/i, "").replace(/^\/+|\/+$/g, "");
