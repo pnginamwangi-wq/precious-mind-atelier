@@ -29,6 +29,7 @@ import { Route as KnowledgeIndexRouteImport } from './routes/knowledge.index'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
 import { Route as VisualEditorialBlocksRouteImport } from './routes/visual/editorial-blocks'
+import { Route as LoupeRoomLevelsRouteImport } from './routes/loupe-room.levels'
 import { Route as LibrarySlugRouteImport } from './routes/library.$slug'
 import { Route as KnowledgeSearchRouteImport } from './routes/knowledge.search'
 import { Route as KnowledgePathwaysRouteImport } from './routes/knowledge.pathways'
@@ -143,6 +144,11 @@ const VisualEditorialBlocksRoute = VisualEditorialBlocksRouteImport.update({
   path: '/visual/editorial-blocks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoupeRoomLevelsRoute = LoupeRoomLevelsRouteImport.update({
+  id: '/loupe-room/levels',
+  path: '/loupe-room/levels',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibrarySlugRoute = LibrarySlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -242,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/journal/': typeof JournalIndexRoute
@@ -274,6 +281,7 @@ export interface FileRoutesByTo {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes': typeof InstitutesIndexRoute
   '/journal': typeof JournalIndexRoute
@@ -311,6 +319,7 @@ export interface FileRoutesById {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/journal/': typeof JournalIndexRoute
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/levels'
     | '/visual/editorial-blocks'
     | '/institutes/'
     | '/journal/'
@@ -380,6 +390,7 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/levels'
     | '/visual/editorial-blocks'
     | '/institutes'
     | '/journal'
@@ -416,6 +427,7 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/levels'
     | '/visual/editorial-blocks'
     | '/institutes/'
     | '/journal/'
@@ -446,6 +458,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
+  LoupeRoomLevelsRoute: typeof LoupeRoomLevelsRoute
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
   LoupeRoomIndexRoute: typeof LoupeRoomIndexRoute
@@ -592,6 +605,13 @@ declare module '@tanstack/react-router' {
       path: '/visual/editorial-blocks'
       fullPath: '/visual/editorial-blocks'
       preLoaderRoute: typeof VisualEditorialBlocksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/loupe-room/levels': {
+      id: '/loupe-room/levels'
+      path: '/loupe-room/levels'
+      fullPath: '/loupe-room/levels'
+      preLoaderRoute: typeof LoupeRoomLevelsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library/$slug': {
@@ -787,6 +807,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
+  LoupeRoomLevelsRoute: LoupeRoomLevelsRoute,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,
   LoupeRoomIndexRoute: LoupeRoomIndexRoute,
