@@ -46,13 +46,14 @@ export function AcademyMark({
       {/* Champagne wash inside the seal */}
       <circle cx="32" cy="32" r="29" fill="url(#pia-seal-fill)" />
 
-      {/* Outer hairline ring, broken at the crown for the diamond glyph */}
-      <path
-        d="M 36.4 3.3 A 29 29 0 1 1 27.6 3.3"
+      {/* Outer hairline ring */}
+      <circle
+        cx="32"
+        cy="32"
+        r="29"
         fill="none"
         stroke="currentColor"
         strokeWidth="0.9"
-        strokeLinecap="round"
         opacity="0.85"
       />
 
@@ -67,24 +68,24 @@ export function AcademyMark({
         opacity="0.55"
       />
 
-      {/* Crown diamond */}
+      {/* Diamond, sitting just above the "I" of PIA */}
       <path
-        d="M32 1.4 L34.6 4 L32 6.6 L29.4 4 Z"
+        d="M32 16.5 L35 20 L32 23.5 L29 20 Z"
         fill="url(#pia-letter-fill)"
         stroke="currentColor"
         strokeWidth="0.3"
-        opacity="0.95"
+        opacity="0.98"
       />
 
       {/* PIA monogram, serif, set as text so hinting stays crisp on retina */}
       <text
         x="32"
-        y="41.5"
+        y="43"
         textAnchor="middle"
         fontFamily='"Cormorant Garamond", "Cormorant", Georgia, serif'
         fontWeight="500"
-        fontSize="22"
-        letterSpacing="0.5"
+        fontSize="20"
+        letterSpacing="0.8"
         fill="url(#pia-letter-fill)"
       >
         PIA
