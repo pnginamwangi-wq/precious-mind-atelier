@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Loupe Room · Examination Bench · Precious Intelligence Academy</title>
+<meta name="description" content="Train your eye. Read hallmarks, identify gemstones and detect suspicious pieces under a jeweller's loupe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08070a;
+  --panel:rgba(22,19,15,.72);
+  --glass:rgba(255,255,255,.04);
+  --line:rgba(201,161,64,.18);
+  --cream:#f5eedd;
+  --body:#cfc5ab;
+  --gold:#c9a140;
+  --gold-hi:#f0d488;
+  --gold-deep:#7d5f20;
+  --focus:#f0d488;
+  --good:#9fc98e;
+  --bad:#c97a6d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:'Inter',sans-serif;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.7}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.12}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:4px}
+button{font-family:inherit}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:72vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:5rem 1.5rem 3.5rem;overflow:hidden}
+@media(max-width:760px){.hero{padding-top:7.5rem}}
+.hero-fallback{position:absolute;inset:0;
+  background:
+    radial-gradient(760px 420px at 30% 80%, rgba(201,161,64,.12), transparent 60%),
+    radial-gradient(900px 520px at 72% 18%, rgba(120,90,200,.06), transparent 55%),
+    linear-gradient(180deg,#0b0a0e,#08070a 70%)}
+.hero-fallback::after{content:'';position:absolute;inset:0;opacity:.5;
+  background:linear-gradient(115deg,transparent 42%,rgba(240,212,136,.05) 50%,transparent 58%);
+  animation:heroSheen 14s ease-in-out infinite}
+@keyframes heroSheen{0%,100%{transform:translateX(-3%)}50%{transform:translateX(3%)}}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(5,4,7,.9) 100%)}
+.hero-inner{position:relative;z-index:2;max-width:760px}
+.eyebrow{letter-spacing:.34em;font-size:.66rem;text-transform:uppercase;color:var(--gold);
+  font-family:'Space Mono',monospace;margin-bottom:1.3rem}
+.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);color:var(--gold-hi)}
+.hero h1 em{color:var(--cream);font-style:italic}
+.hero p{max-width:600px;margin:1.4rem auto 0;color:var(--body);font-size:1.05rem;line-height:1.8}
+
+.stepper{display:flex;justify-content:center;margin:3rem auto 0;max-width:600px;position:relative;z-index:2;width:100%}
+.step{flex:1;text-align:center;position:relative;padding-top:22px}
+.step::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  width:12px;height:12px;border-radius:50%;border:1.5px solid var(--gold-deep);background:var(--bg);transition:.5s}
+.step::after{content:'';position:absolute;top:11.5px;left:calc(50% + 10px);right:calc(-50% + 10px);height:1px;background:var(--gold-deep);opacity:.4}
+.step:last-child::after{display:none}
+.step span{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--body);text-transform:uppercase;transition:.5s}
+.step.active::before{background:var(--gold-hi);border-color:var(--gold-hi);box-shadow:0 0 14px rgba(240,212,136,.7)}
+.step.active span{color:var(--gold-hi)}
+.step.done::before{background:var(--gold-deep);border-color:var(--gold)}
+.step.done span{color:var(--gold)}
+
+/* ---------- layout ---------- */
+.lab{max-width:1280px;margin:0 auto;padding:3rem 1.5rem 4.5rem;display:grid;
+  grid-template-columns:300px 1fr 340px;gap:1.6rem;position:relative;z-index:3;align-items:start}
+@media(max-width:1100px){.lab{grid-template-columns:1fr 1fr}.report-col{grid-column:1/-1}}
+@media(max-width:760px){.lab{grid-template-columns:1fr}}
+.panel{background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:14px;padding:1.7rem 1.6rem;
+  box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05)}
+.panel h2{font-size:1.45rem;color:var(--gold-hi);margin-bottom:.25rem}
+.panel .sub{color:var(--body);font-size:.85rem;margin-bottom:1.3rem;line-height:1.6}
+
+/* levels */
+.level{display:flex;align-items:center;gap:.95rem;padding:.95rem .2rem;border-bottom:1px solid rgba(255,255,255,.06);
+  width:100%;background:none;border-left:none;border-right:none;border-top:none;text-align:left;cursor:pointer;
+  transition:background .2s;border-radius:6px}
+.level:hover{background:rgba(201,161,64,.05)}
+.level:last-of-type{border-bottom:none}
+.level .badge{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;color:#2a2008;
+  background:linear-gradient(160deg,var(--gold-hi),var(--gold-deep));
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.4), inset 0 -3px 5px rgba(70,50,10,.5), 0 4px 10px rgba(0,0,0,.5)}
+.level.locked .badge{background:linear-gradient(160deg,#3a332a,#221d16);color:#6b6152}
+.level .lvl-name{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em;color:var(--cream)}
+.level .lvl-desc{font-size:.74rem;color:var(--body);margin-top:2px;line-height:1.5}
+.level.locked .lvl-name,.level.locked .lvl-desc{color:#6b6152}
+.level.current{background:rgba(201,161,64,.09)}
+.level .tick{margin-left:auto;color:var(--good);font-size:.85rem;opacity:0}
+.level.done .tick{opacity:1}
+
+/* stage */
+.stage-col{display:flex;flex-direction:column;align-items:center}
+.stage-wrap{position:relative;width:100%;border-radius:16px;overflow:hidden;
+  border:1px solid var(--line);background:#0a090c;
+  box-shadow:0 40px 90px rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,255,255,.03)}
+#stage{display:block;width:100%;height:540px;touch-action:none;cursor:none}
+.stage-hud{position:absolute;top:14px;left:16px;font-family:'Space Mono',monospace;
+  font-size:.58rem;letter-spacing:.24em;color:rgba(245,238,221,.45);text-transform:uppercase;pointer-events:none;z-index:3}
+.stage-hint{position:absolute;top:14px;right:16px;font-family:'Space Mono',monospace;
+  font-size:.56rem;letter-spacing:.14em;color:rgba(245,238,221,.35);text-transform:uppercase;pointer-events:none;z-index:3}
+.stage-msg{position:absolute;bottom:14px;left:0;right:0;text-align:center;pointer-events:none;z-index:3;
+  font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--body);text-transform:uppercase}
+#certFx{position:absolute;inset:0;width:100%;height:100%;z-index:4;opacity:0;
+  pointer-events:none;transition:opacity .9s ease;background:#000}
+#certFx.on{opacity:1}
+.stage-vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:radial-gradient(115% 95% at 50% 46%, transparent 46%, rgba(0,0,0,.55) 100%)}
+
+.begin-row{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap;justify-content:center}
+.btn{padding:.95rem 1.8rem;border-radius:8px;cursor:pointer;position:relative;overflow:hidden;
+  font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  transition:transform .18s, box-shadow .25s, opacity .3s}
+.btn.primary{border:none;color:#1a1408;background:linear-gradient(180deg,var(--gold-hi),var(--gold-deep))}
+.btn.primary::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.5) 50%,transparent 62%);
+  background-size:240% 100%;background-position:130% 0;transition:background-position .6s}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,161,64,.4)}
+.btn.primary:hover::after{background-position:-40% 0}
+.btn.ghost{background:var(--glass);border:1px solid var(--gold-deep);color:var(--gold)}
+.btn.ghost:hover{background:rgba(201,161,64,.12)}
+.btn:disabled{cursor:not-allowed;transform:none;box-shadow:none;background:#241d10;color:#8f8468;border:1px solid rgba(201,161,64,.25)}
+
+/* ledger */
+.ledger{width:100%;max-width:520px;margin-top:1.5rem}
+.ledger h3{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--body);
+  text-transform:uppercase;text-align:center;margin-bottom:.7rem}
+.ledger-row{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:center;min-height:40px}
+.ledger-chip{display:flex;align-items:center;gap:.45rem;padding:.4rem .7rem;border-radius:20px;
+  border:1px solid var(--line);background:var(--glass);font-family:'Space Mono',monospace;font-size:.6rem;
+  color:var(--body);animation:fadeUp .5s ease both}
+.ledger-chip i{width:11px;height:11px;border-radius:50%;display:inline-block;
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.5), inset 0 -2px 3px rgba(0,0,0,.4)}
+.ledger-chip.right{border-color:rgba(159,201,142,.4)}
+.ledger-chip.wrong{border-color:rgba(201,122,109,.4);opacity:.75}
+.ledger .none{font-size:.7rem;color:var(--body);text-align:center;width:100%;padding-top:.4rem}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* report */
+.report-col .idle{color:var(--body);font-size:.85rem;padding:1.2rem 0;text-align:center;line-height:1.7}
+.exam{display:none}
+.exam.show{display:block;animation:fadeUp .5s ease both}
+.spec-count{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:.7rem}
+.question{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--cream);line-height:1.35;margin-bottom:1.1rem}
+.clues{margin-bottom:1.1rem}
+.clue{display:flex;justify-content:space-between;padding:.42rem .1rem;border-bottom:1px solid rgba(255,255,255,.06);
+  font-family:'Space Mono',monospace;font-size:.68rem;color:var(--body)}
+.clue b{color:var(--cream);font-weight:400;text-align:right}
+.opts{display:flex;flex-direction:column;gap:.55rem}
+.opt{padding:.8rem 1rem;border-radius:8px;border:1px solid var(--gold-deep);background:var(--glass);
+  color:var(--cream);font-size:.88rem;text-align:left;cursor:pointer;transition:.2s}
+.opt:hover{background:rgba(201,161,64,.1);transform:translateY(-1px)}
+.opt.right{border-color:var(--good);background:rgba(159,201,142,.1)}
+.opt.wrong{border-color:var(--bad);background:rgba(201,122,109,.1)}
+.opt:disabled{cursor:default;transform:none}
+.teach{margin-top:1rem;padding:.95rem 1.05rem;border-left:2px solid var(--gold);background:rgba(201,161,64,.05);
+  border-radius:0 8px 8px 0;font-size:.85rem;color:var(--body);line-height:1.7;display:none}
+.teach.show{display:block;animation:fadeUp .4s ease both}
+.next-row{margin-top:1.1rem;display:none}
+.next-row.show{display:block}
+.score-line{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line);
+  font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.12em;color:var(--body);
+  display:flex;justify-content:space-between}
+.score-line b{color:var(--gold-hi);font-weight:700}
+
+/* study gallery */
+.section{max-width:1120px;margin:0 auto;padding:0 1.5rem 5rem;position:relative;z-index:3}
+.section h2{font-size:2rem;color:var(--gold-hi);text-align:center;margin-bottom:.5rem}
+.section .lead{color:var(--body);text-align:center;max-width:640px;margin:0 auto 2.2rem;font-size:.95rem;line-height:1.75}
+.gtabs{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.gtabs button{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:22px;border:1px solid var(--gold-deep);background:transparent;color:var(--gold);cursor:pointer;transition:.2s}
+.gtabs button.sel{background:rgba(201,161,64,.14);color:var(--gold-hi);border-color:var(--gold)}
+.gcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:1.3rem}
+.gcard{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;padding:1.3rem;
+  transition:transform .25s, box-shadow .25s;animation:fadeUp .5s ease both}
+.gcard:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(0,0,0,.55)}
+.gswatch{width:100%;height:76px;border-radius:7px;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-weight:700;letter-spacing:.14em;
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.2), inset 0 -13px 20px rgba(0,0,0,.35),
+    inset 0 8px 13px rgba(255,255,255,.14), 0 12px 24px rgba(0,0,0,.5)}
+.gcard h3{font-size:1.15rem;color:var(--gold-hi);margin-bottom:.2rem}
+.gcard .gmeta{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:.6rem}
+.gcard p{font-size:.87rem;color:var(--body);line-height:1.68}
+footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.68rem;
+  letter-spacing:.1em;border-top:1px solid var(--line);font-family:'Space Mono',monospace}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01s!important}
+  .rv{opacity:1;transform:none}
+  #stage{cursor:crosshair}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-fallback" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Precious Intelligence Academy</div>
+    <h1>The Examination Bench<br><em>Train the eye — and learn its limits</em></h1>
+    <p>Every dealer's first instrument is a ten power loupe. Under it, a hallmark tells the truth, a gemstone shows its character, and a problem piece raises the right questions. Move your loupe across each specimen, read what is actually there, and test your eye level by level. One principle governs this room: a loupe raises questions; a laboratory answers them.</p>
+    <div class="stepper" role="list" aria-label="Training stages">
+      <div class="step active" role="listitem"><span>Observe</span></div>
+      <div class="step" role="listitem"><span>Examine</span></div>
+      <div class="step" role="listitem"><span>Identify</span></div>
+      <div class="step" role="listitem"><span>Review</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="lab">
+
+  <div class="panel">
+    <h2>Curriculum</h2>
+    <p class="sub">Four levels. Pass each to unlock the next. A private study exercise for your own eye — not a professional credential.</p>
+    <button class="level current" data-level="0">
+      <span class="badge">I</span>
+      <span><span class="lvl-name">READ THE FINENESS</span><br>
+      <span class="lvl-desc">Find the struck number and say what it means.</span></span>
+      <span class="tick">✓</span>
+    </button>
+    <button class="level locked" data-level="1">
+      <span class="badge">II</span>
+      <span><span class="lvl-name">NAME THE METAL</span><br>
+      <span class="lvl-desc">Marks for silver, platinum and the gold standards.</span></span>
+      <span class="tick">✓</span>
+    </button>
+    <button class="level locked" data-level="2">
+      <span class="badge">III</span>
+      <span><span class="lvl-name">NAME THE STONE</span><br>
+      <span class="lvl-desc">Colour, cut and character of the classic gems.</span></span>
+      <span class="tick">✓</span>
+    </button>
+    <button class="level locked" data-level="3">
+      <span class="badge">IV</span>
+      <span><span class="lvl-name">SPOT THE PROBLEM</span><br>
+      <span class="lvl-desc">Suspicious stamps and stones that lie.</span></span>
+      <span class="tick">✓</span>
+    </button>
+  </div>
+
+  <div class="stage-col">
+    <div class="stage-wrap">
+      <canvas id="stage" aria-label="Examination stage. Move your pointer to examine the specimen under the loupe."></canvas>
+      <canvas id="certFx" aria-hidden="true"></canvas>
+      <div class="stage-vignette"></div>
+      <div class="stage-hud">Examination Bench · 10×</div>
+      <div class="stage-hint">Move to examine</div>
+      <div class="stage-msg" id="stageMsg">Begin Level I to receive your first specimen</div>
+    </div>
+    <div class="begin-row">
+      <button class="btn primary" id="beginBtn">Begin Level I</button>
+    </div>
+    <div class="ledger">
+      <h3>Specimen Ledger · <span id="ledgerCount">0</span> examined</h3>
+      <div class="ledger-row" id="ledgerRow"><div class="none">Your examined specimens will be recorded here.</div></div>
+    </div>
+  </div>
+
+  <div class="panel report-col">
+    <h2>Examination Report</h2>
+    <p class="sub">What the loupe shows, and what you conclude.</p>
+    <div class="idle" id="reportIdle">No specimen on the bench.<br>Begin a level to start examining.</div>
+    <div class="exam" id="exam">
+      <div class="spec-count" id="specCount"></div>
+      <div class="question" id="question"></div>
+      <div class="clues" id="clues"></div>
+      <div class="opts" id="opts" role="group" aria-label="Answer options"></div>
+      <div class="teach" id="teach"></div>
+      <div class="next-row" id="nextRow"><button class="btn primary" id="nextBtn">Next specimen</button></div>
+      <div class="score-line"><span>LEVEL SCORE</span><b id="scoreTxt">0 / 0</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="section rv">
+  <h2>The Reference Cabinet</h2>
+  <p class="lead">Study before you examine. These are the marks and stones the trade reads every day, arranged the way an assay office would teach them.</p>
+  <div class="gtabs" id="gtabs" role="tablist">
+    <button class="sel" data-tab="fineness" role="tab">Fineness marks</button>
+    <button data-tab="symbols" role="tab">Assay symbols</button>
+    <button data-tab="stones" role="tab">The classic stones</button>
+  </div>
+  <div class="gcards" id="gcards"></div>
+</div>
+
+<footer>THE PRECIOUS INTELLIGENCE ACADEMY · LOUPE ROOM · EXAMINATION BENCH</footer>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var rand=function(a,b){return a+Math.random()*(b-a);};
+var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var SOUND={pick:function(){},right:function(){},wrong:function(){},stamp:function(){}};
+
+/* ================= specimen data ================= */
+/* hallmark helper: marks array of {kind:'text'|'anchor'|'rose'|'castle'|'leopard'|'crown', v} */
+function plate(metalTone, marks, wear){ return {type:'plate', tone:metalTone, marks:marks, wear:wear||0}; }
+function gem(cut, body, glow, inclusions){ return {type:'gem', cut:cut, body:body, glow:glow, inclusions:inclusions||'none'}; }
+
+var TONES={
+  yellow:['#f6dd94','#c9a140','#7d5f20'],
+  rose:['#f2b8a5','#c97a6d','#8c4a3e'],
+  white:['#f2f0ea','#c3c9ca','#8f9899'],
+  silver:['#f0ece0','#d3ccb8','#948d78'],
+  platinum:['#e9ecec','#b6c0c2','#7d8789']
+};
+
+var LEVELS=[
+{ name:'Read the Fineness', grade:'APPRENTICE EYE', specimens:[
+  {s:plate('yellow',[{kind:'text',v:'MJ'},{kind:'anchor'},{kind:'text',v:'750'}]),
+   q:'What fineness is struck on this piece?',
+   clues:[['SURFACE','Warm yellow metal'],['MARKS','Three, evenly struck']],
+   opts:['585','750','916','999'], a:1,
+   teach:'750 means 750 parts per thousand of pure gold, which is 18 carat. The number is the contract; the word "18K" in a listing is only a claim.'},
+  {s:plate('yellow',[{kind:'text',v:'AB'},{kind:'leopard'},{kind:'text',v:'375'}]),
+   q:'What fineness is struck on this piece?',
+   clues:[['SURFACE','Pale yellow metal'],['MARKS','Struck deep and clean']],
+   opts:['375','417','585','750'], a:0,
+   teach:'375 is 9 carat, the entry standard in the United Kingdom and Australia. More alloy than gold, and completely honest about it.'},
+  {s:plate('yellow',[{kind:'text',v:'SR'},{kind:'castle'},{kind:'text',v:'916'}]),
+   q:'What fineness is struck on this piece?',
+   clues:[['SURFACE','Rich, saturated yellow'],['MARKS','Three in a row']],
+   opts:['750','833','916','958'], a:2,
+   teach:'916 is 22 carat, the wedding standard across India, the Gulf and East Africa. The colour alone often gives it away before you find the stamp.'},
+  {s:plate('yellow',[{kind:'text',v:'PIA'},{kind:'rose'},{kind:'text',v:'585'}]),
+   q:'What fineness is struck on this piece?',
+   clues:[['SURFACE','Medium yellow'],['MARKS','Maker, symbol, number']],
+   opts:['417','585','750','916'], a:1,
+   teach:'585 is 14 carat, the everyday standard in United States retail. Durable enough for a ring worn daily, with a softer colour than 18 carat.'}
+]},
+{ name:'Name the Metal', grade:'JOURNEYMAN EYE', specimens:[
+  {s:plate('silver',[{kind:'text',v:'TW'},{kind:'anchor'},{kind:'text',v:'925'}]),
+   q:'Which metal does this hallmark declare?',
+   clues:[['SURFACE','Bright white, soft lustre'],['NUMBER','925']],
+   opts:['White gold','Sterling silver','Platinum','Palladium'], a:1,
+   teach:'925 is sterling silver: 92.5 percent silver hardened with copper. No gold standard uses 925, so the number settles it instantly.'},
+  {s:plate('platinum',[{kind:'text',v:'KL'},{kind:'crown'},{kind:'text',v:'950'}]),
+   q:'Which metal does this hallmark declare?',
+   clues:[['SURFACE','Cool grey white, heavy in hand'],['NUMBER','950']],
+   opts:['Sterling silver','White gold','Platinum','Fine silver'], a:2,
+   teach:'950 with a cool grey white surface is platinum. It is denser than gold, never plated, and its standard fineness convention is 950 for jewellery.'},
+  {s:plate('rose',[{kind:'text',v:'EV'},{kind:'leopard'},{kind:'text',v:'750'}]),
+   q:'This piece is 750. What explains the pink colour?',
+   clues:[['SURFACE','Warm pink metal'],['NUMBER','750']],
+   opts:['Lower gold content','Copper-rich alloy share','Rhodium plating','It is not gold'], a:1,
+   teach:'Rose gold at 750 holds exactly the same 75 percent gold as yellow 750. Copper dominating the remaining quarter is what warms the colour. Never price by colour, only by fineness and weight.'},
+  {s:plate('white',[{kind:'text',v:'HD'},{kind:'rose'},{kind:'text',v:'750'}]),
+   q:'This white piece is struck 750. What is it?',
+   clues:[['SURFACE','Bright white, mirror finish'],['NUMBER','750']],
+   opts:['Sterling silver','Platinum','18 carat white gold','Stainless steel'], a:2,
+   teach:'750 is always 18 carat gold whatever the colour. A bright white surface at 750 means white gold, usually rhodium plated for extra brilliance. Silver and platinum carry their own numbers.'}
+]},
+{ name:'Name the Stone', grade:'MASTER EYE', specimens:[
+  {s:gem('oval','#c21f3a','#ff6b7a','silk'),
+   q:'Name this stone.',
+   clues:[['COLOUR','Saturated red with a soft glow'],['UNDER LOUPE','Fine silky needles'],['HARDNESS','9']],
+   opts:['Garnet','Ruby','Red spinel','Tourmaline'], a:1,
+   teach:'Ruby: corundum coloured red by chromium. The fine rutile needles, called silk, are a classic internal signature, and hardness 9 sits just below diamond.'},
+  {s:gem('emeraldcut','#0f7a4d','#3ecf8e','garden'),
+   q:'Name this stone.',
+   clues:[['COLOUR','Deep green'],['UNDER LOUPE','A garden of natural inclusions'],['CUT','Step cut with clipped corners']],
+   opts:['Peridot','Tsavorite','Emerald','Green tourmaline'], a:2,
+   teach:'Emerald: beryl coloured by chromium and vanadium. Its inclusions are so characteristic the trade calls them the jardin, the garden, and its own step cut exists to protect its brittle corners.'},
+  {s:gem('cushion','#1a3f9e','#4a72e8','zoning'),
+   q:'Name this stone.',
+   clues:[['COLOUR','Deep velvet blue'],['UNDER LOUPE','Straight bands of colour zoning'],['HARDNESS','9']],
+   opts:['Tanzanite','Blue sapphire','Iolite','Blue topaz'], a:1,
+   teach:'Blue sapphire: the same corundum family as ruby. Straight, angular colour zoning follows the crystal’s growth and is a strong natural indicator. Tanzanite is softer and shifts colour as you turn it.'},
+  {s:gem('round','#5a2a9e','#9a5ae8','flash'),
+   q:'Name this stone.',
+   clues:[['COLOUR','Violet blue that shifts as it moves'],['UNDER LOUPE','Clean, with flashes of red-violet'],['HARDNESS','6.5']],
+   opts:['Amethyst','Blue sapphire','Tanzanite','Iolite'], a:2,
+   teach:'Tanzanite: strongly pleochroic, showing violet, blue and burgundy from different directions. Hardness of about 6.5 makes it a stone for occasions, not for every day.'}
+]},
+{ name:'Spot the Problem', grade:'PRACTISED EYE', specimens:[
+  {s:plate('yellow',[{kind:'text',v:'18K'},{kind:'text',v:'585'}],1),
+   q:'Genuine or suspicious?',
+   clues:[['MARKS','"18K" beside "585"'],['STRIKE','Slightly uneven depth']],
+   opts:['Genuine, both are gold marks','Suspicious, the marks contradict each other'], a:1,
+   teach:'18K is 750, not 585. A piece cannot be both 18 and 14 carat, so contradicting marks mean at least one of them is lying. Walk away or test.'},
+  {s:gem('round','#c21f3a','#ff6b7a','bubbles'),
+   q:'This is offered as ruby. What does the loupe say?',
+   clues:[['COLOUR','Convincing red'],['UNDER LOUPE','Small round bubbles inside'],['PRICE','Remarkably low']],
+   opts:['Natural ruby with silk','Glass imitation','Fine spinel','Heat treated ruby'], a:1,
+   teach:'Round gas bubbles are the signature of glass. Natural ruby shows silky needles and angular growth features, never neat spheres. The loupe pays for itself in one moment like this.'},
+  {s:plate('yellow',[{kind:'text',v:'GP'},{kind:'text',v:'750'}],2),
+   q:'The stamp reads 750 with the letters GP. Genuine solid gold?',
+   clues:[['MARKS','"750" beside "GP"'],['SURFACE','Colour slightly brassy at the edges']],
+   opts:['Yes, GP is a maker’s mark','No, GP means gold plated'], a:1,
+   teach:'GP, GEP and HGE all mean plated: a microscopic layer of gold over base metal. The 750 describes only the plating. Wear at edges showing a different colour underneath confirms it.'},
+  {s:plate('yellow',[{kind:'text',v:'JW'},{kind:'anchor'},{kind:'text',v:'916'}]),
+   q:'Genuine or suspicious?',
+   clues:[['MARKS','Maker, assay symbol, 916'],['STRIKE','Deep, crisp, evenly aligned']],
+   opts:['Genuine, the set is complete and consistent','Suspicious, 916 is not a real standard'], a:0,
+   teach:'A complete, consistent set: maker’s mark, assay symbol and a recognised fineness, all struck with equal depth. This is what an honest hallmark looks like. Trust it, and still weigh the piece — and remember that only an assay settles the question beyond doubt.'}
+]}];
+
+/* ================= state ================= */
+var levelIdx=0, specIdx=0, score=0, answered=false, unlocked=1, active=false;
+var ledger=[];
+
+/* ================= stage rendering ================= */
+var cv=$('stage'), ctx=cv.getContext('2d');
+var DPR=Math.min(2,window.devicePixelRatio||1);
+var W=760,H=540;
+var off=document.createElement('canvas'), octx=off.getContext('2d');
+var OS=2;         /* offscreen supersample for the loupe */
+off.width=W*OS; off.height=H*OS;
+var pointer={x:W*.5,y:H*.52,in:false};
+var noise=(function(){ var c=document.createElement('canvas'); c.width=c.height=160;
+  var g=c.getContext('2d'), d=g.createImageData(160,160);
+  for(var i=0;i<d.data.length;i+=4){ var v=120+Math.random()*135|0;
+    d.data[i]=d.data[i+1]=d.data[i+2]=v; d.data[i+3]=255; }
+  g.putImageData(d,0,0); return c; })();
+var currentSpec=null, specSeed=1;
+
+function fit(){
+  var w=cv.clientWidth,h=cv.clientHeight;
+  if(cv.width!==Math.floor(w*DPR)){ cv.width=w*DPR; cv.height=h*DPR; }
+  ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
+}
+function sr(){ specSeed=(specSeed*16807)%2147483647; return specSeed/2147483647; }
+
+/* ---- draw hallmark plate onto offscreen (photographic macro) ---- */
+function drawPlate(g,S,spec){
+  var tone=TONES[spec.tone];
+  var w=W*S,h=H*S;
+  /* metal field */
+  var grad=g.createLinearGradient(0,0,w,h*.9);
+  grad.addColorStop(0,tone[2]); grad.addColorStop(.32,tone[1]);
+  grad.addColorStop(.5,tone[0]); grad.addColorStop(.68,tone[1]); grad.addColorStop(1,tone[2]);
+  g.fillStyle=grad; g.fillRect(0,0,w,h);
+  /* brushed texture */
+  specSeed=7;
+  g.save(); g.globalAlpha=.5;
+  for(var i=0;i<260;i++){
+    g.strokeStyle='rgba(255,255,255,'+(0.01+sr()*.045)+')';
+    g.lineWidth=1*S*(.5+sr());
+    var y=sr()*h; g.beginPath(); g.moveTo(0,y); g.lineTo(w,y+(sr()-.5)*8*S); g.stroke();
+    g.strokeStyle='rgba(60,42,10,'+(0.01+sr()*.03)+')';
+    var y2=sr()*h; g.beginPath(); g.moveTo(0,y2); g.lineTo(w,y2+(sr()-.5)*8*S); g.stroke();
+  }
+  g.restore();
+  /* soft key light */
+  var kl=g.createRadialGradient(w*.34,h*.3,10,w*.34,h*.3,w*.7);
+  kl.addColorStop(0,'rgba(255,248,220,.28)'); kl.addColorStop(1,'rgba(0,0,0,0)');
+  g.fillStyle=kl; g.fillRect(0,0,w,h);
+  var sh=g.createRadialGradient(w*.5,h*1.05,10,w*.5,h*.9,w*.8);
+  sh.addColorStop(0,'rgba(40,28,8,.35)'); sh.addColorStop(1,'rgba(0,0,0,0)');
+  g.fillStyle=sh; g.fillRect(0,0,w,h);
+
+  /* the struck marks: small, legible only under the loupe */
+  var marks=spec.marks, mw=34*S, gap=14*S;
+  var totalW=marks.length*(mw+gap)-gap;
+  var x=w*.5-totalW/2, y=h*.52;
+  for(i=0;i<marks.length;i++){
+    var m=marks[i];
+    var jitter= spec.wear? (sr()-.5)*4*S : 0;
+    var rot= spec.wear===2 && i===1 ? .06 : (spec.wear? (sr()-.5)*.04 : 0);
+    g.save(); g.translate(x+mw/2, y+jitter); g.rotate(rot);
+    if(spec.wear===2 && i===0){ g.filter='blur('+(1.1*S)+'px)'; }
+    /* cartouche */
+    var cart= m.kind==='text' ? 'rrect' : 'shield';
+    g.lineWidth=1.4*S;
+    g.strokeStyle='rgba(60,42,10,.75)';
+    g.fillStyle='rgba(70,50,14,.16)';
+    g.beginPath();
+    if(cart==='rrect'){
+      if(g.roundRect) g.roundRect(-mw/2,-13*S,mw,26*S,5*S); else g.rect(-mw/2,-13*S,mw,26*S);
+    } else {
+      g.moveTo(-mw/2,-12*S); g.lineTo(mw/2,-12*S); g.lineTo(mw/2,6*S);
+      g.quadraticCurveTo(mw/2,14*S,0,16*S); g.quadraticCurveTo(-mw/2,14*S,-mw/2,6*S); g.closePath();
+    }
+    g.fill(); g.stroke();
+    /* incised content: dark with light under-edge for depth */
+    g.textAlign='center'; g.textBaseline='middle';
+    function inc(drawFn){
+      g.save(); g.translate(0,1.2*S); g.fillStyle='rgba(255,245,215,.5)'; g.strokeStyle='rgba(255,245,215,.5)'; drawFn(); g.restore();
+      g.fillStyle='rgba(45,32,8,.92)'; g.strokeStyle='rgba(45,32,8,.92)'; drawFn();
+    }
+    if(m.kind==='text'){
+      g.font='700 '+(15*S)+'px "Space Mono", monospace';
+      inc(function(){ g.fillText(m.v,0,1*S); });
+    } else if(m.kind==='anchor'){
+      inc(function(){ g.lineWidth=2*S; g.beginPath();
+        g.moveTo(0,-8*S); g.lineTo(0,7*S);
+        g.moveTo(-6*S,-4*S); g.lineTo(6*S,-4*S);
+        g.arc(0,3*S,6*S,Math.PI*.15,Math.PI*.85); g.stroke();
+        g.beginPath(); g.arc(0,-9.5*S,2*S,0,7); g.stroke(); });
+    } else if(m.kind==='rose'){
+      inc(function(){ g.lineWidth=1.6*S;
+        g.beginPath(); g.arc(0,0,3*S,0,7); g.stroke();
+        for(var p=0;p<5;p++){ var a=p/5*Math.PI*2;
+          g.beginPath(); g.ellipse(Math.cos(a)*6*S,Math.sin(a)*6*S,3.4*S,2.2*S,a,0,7); g.stroke(); } });
+    } else if(m.kind==='castle'){
+      inc(function(){ g.lineWidth=1.6*S; g.beginPath();
+        g.rect(-8*S,-3*S,16*S,10*S);
+        g.moveTo(-8*S,-3*S); g.lineTo(-8*S,-8*S); g.lineTo(-4*S,-8*S); g.lineTo(-4*S,-3*S);
+        g.moveTo(-2*S,-3*S); g.lineTo(-2*S,-8*S); g.lineTo(2*S,-8*S); g.lineTo(2*S,-3*S);
+        g.moveTo(4*S,-3*S); g.lineTo(4*S,-8*S); g.lineTo(8*S,-8*S); g.lineTo(8*S,-3*S);
+        g.stroke(); });
+    } else if(m.kind==='leopard'){
+      inc(function(){ g.lineWidth=1.6*S;
+        g.beginPath(); g.arc(0,0,7*S,0,7); g.stroke();
+        g.beginPath(); g.arc(-2.6*S,-1.5*S,1.1*S,0,7); g.fill();
+        g.beginPath(); g.arc(2.6*S,-1.5*S,1.1*S,0,7); g.fill();
+        g.beginPath(); g.moveTo(-2*S,3.4*S); g.quadraticCurveTo(0,5*S,2*S,3.4*S); g.stroke();
+        g.beginPath(); g.moveTo(-7*S,-5*S); g.lineTo(-4*S,-7.5*S); g.moveTo(7*S,-5*S); g.lineTo(4*S,-7.5*S); g.stroke(); });
+    } else if(m.kind==='crown'){
+      inc(function(){ g.lineWidth=1.6*S; g.beginPath();
+        g.moveTo(-8*S,4*S); g.lineTo(-8*S,-2*S); g.lineTo(-4*S,2*S); g.lineTo(0,-6*S);
+        g.lineTo(4*S,2*S); g.lineTo(8*S,-2*S); g.lineTo(8*S,4*S); g.closePath(); g.stroke(); });
+    }
+    g.restore();
+    x+=mw+gap;
+  }
+  /* faint scratches of an honest working surface */
+  specSeed=41;
+  g.save(); g.globalAlpha=.3;
+  for(i=0;i<12;i++){ g.strokeStyle='rgba(70,50,14,'+(0.08+sr()*.1)+')'; g.lineWidth=.7*S;
+    g.beginPath(); var sx=sr()*w, sy=sr()*h;
+    g.moveTo(sx,sy); g.lineTo(sx+(sr()-.5)*140*S, sy+(sr()-.5)*60*S); g.stroke(); }
+  g.restore();
+}
+
+/* ---- draw gemstone onto offscreen (dark field) ---- */
+function drawGem(g,S,spec){
+  var w=W*S,h=H*S,cx=w/2,cy=h*.52;
+  g.fillStyle='#0a0709'; g.fillRect(0,0,w,h);
+  /* dark field halo */
+  var halo=g.createRadialGradient(cx,cy,10,cx,cy,w*.42);
+  halo.addColorStop(0,'rgba(255,255,255,.05)'); halo.addColorStop(1,'rgba(0,0,0,0)');
+  g.fillStyle=halo; g.fillRect(0,0,w,h);
+  var R=118*S;
+  var shape=spec.cut;
+  function outline(scale){
+    g.beginPath();
+    if(shape==='round'){ g.arc(cx,cy,R*scale,0,7); }
+    else if(shape==='oval'){ g.ellipse(cx,cy,R*1.12*scale,R*.85*scale,0,0,7); }
+    else if(shape==='cushion'){
+      var r=R*scale;
+      if(g.roundRect) g.roundRect(cx-r,cy-r*.86,r*2,r*1.72,r*.45); else g.rect(cx-r,cy-r*.86,r*2,r*1.72);
+    } else { /* emerald cut */
+      var rw=R*1.2*scale, rh=R*.9*scale, c=R*.28*scale;
+      g.moveTo(cx-rw+c,cy-rh); g.lineTo(cx+rw-c,cy-rh); g.lineTo(cx+rw,cy-rh+c);
+      g.lineTo(cx+rw,cy+rh-c); g.lineTo(cx+rw-c,cy+rh); g.lineTo(cx-rw+c,cy+rh);
+      g.lineTo(cx-rw,cy+rh-c); g.lineTo(cx-rw,cy-rh+c); g.closePath();
+    }
+  }
+  /* body */
+  var body=g.createRadialGradient(cx-R*.3,cy-R*.35,R*.1,cx,cy,R*1.25);
+  body.addColorStop(0,spec.glow); body.addColorStop(.45,spec.body);
+  body.addColorStop(1,shade(spec.body,.32));
+  outline(1); g.fillStyle=body; g.fill();
+  /* facets */
+  specSeed=13;
+  var n= shape==='emeraldcut'? 4 : 10;
+  if(shape==='emeraldcut'){
+    for(var k=1;k<=3;k++){ outline(1-k*.16);
+      g.strokeStyle='rgba(255,255,255,'+(.18-k*.04)+')'; g.lineWidth=1.4*S; g.stroke(); }
+    g.save(); g.globalCompositeOperation='lighter';
+    g.fillStyle='rgba(255,255,255,.10)';
+    g.fillRect(cx-R*.9,cy-R*.62,R*.5,R*1.24);
+    g.restore();
+  } else {
+    for(var i2=0;i2<n;i2++){
+      var a1=i2/n*Math.PI*2, a2=(i2+1)/n*Math.PI*2;
+      var rx= shape==='oval'?R*1.12:R, ry= shape==='oval'?R*.85:(shape==='cushion'?R*.86:R);
+      g.beginPath();
+      g.moveTo(cx,cy);
+      g.lineTo(cx+Math.cos(a1)*rx, cy+Math.sin(a1)*ry);
+      g.lineTo(cx+Math.cos(a2)*rx, cy+Math.sin(a2)*ry);
+      g.closePath();
+      var lum=.5+.5*Math.cos(a1*2+.8);
+      g.fillStyle='rgba(255,255,255,'+(0.02+lum*.14)+')';
+      g.fill();
+    }
+    /* table */
+    g.beginPath();
+    if(shape==='round') g.arc(cx,cy,R*.5,0,7);
+    else g.ellipse(cx,cy,R*.55,R*.42,0,0,7);
+    g.fillStyle='rgba(255,255,255,.12)'; g.fill();
+  }
+  outline(1); g.strokeStyle='rgba(255,255,255,.35)'; g.lineWidth=1.6*S; g.stroke();
+  /* inclusions visible only under the loupe */
+  g.save();
+  outline(.94); g.clip();
+  if(spec.inclusions==='silk'){
+    for(i2=0;i2<26;i2++){ g.strokeStyle='rgba(255,240,240,'+(0.08+sr()*.12)+')'; g.lineWidth=.6*S;
+      var ix=cx+(sr()-.5)*R*1.4, iy=cy+(sr()-.5)*R*1.1, ang=(i2%3)*1.05+.3;
+      g.beginPath(); g.moveTo(ix,iy); g.lineTo(ix+Math.cos(ang)*16*S, iy+Math.sin(ang)*16*S); g.stroke(); }
+  } else if(spec.inclusions==='garden'){
+    for(i2=0;i2<16;i2++){ g.strokeStyle='rgba(230,255,235,'+(0.08+sr()*.1)+')'; g.lineWidth=.9*S;
+      var gx=cx+(sr()-.5)*R*1.5, gy=cy+(sr()-.5)*R*1.1;
+      g.beginPath(); g.moveTo(gx,gy);
+      g.quadraticCurveTo(gx+(sr()-.5)*24*S, gy+(sr()-.5)*24*S, gx+(sr()-.5)*36*S, gy+(sr()-.5)*36*S); g.stroke(); }
+  } else if(spec.inclusions==='zoning'){
+    for(i2=0;i2<5;i2++){ g.fillStyle='rgba(10,20,60,'+(0.10+sr()*.12)+')';
+      var zy=cy-R*.7+i2*R*.34;
+      g.save(); g.translate(cx,zy); g.rotate(.5);
+      g.fillRect(-R*1.4,0,R*2.8,8*S); g.restore(); }
+  } else if(spec.inclusions==='bubbles'){
+    for(i2=0;i2<12;i2++){ var br=(1.6+sr()*3.4)*S, bx=cx+(sr()-.5)*R*1.3, by=cy+(sr()-.5)*R;
+      g.strokeStyle='rgba(255,255,255,.5)'; g.lineWidth=.8*S;
+      g.beginPath(); g.arc(bx,by,br,0,7); g.stroke();
+      g.fillStyle='rgba(255,255,255,.18)';
+      g.beginPath(); g.arc(bx-br*.3,by-br*.3,br*.3,0,7); g.fill(); }
+  } else if(spec.inclusions==='flash'){
+    for(i2=0;i2<4;i2++){ g.fillStyle='rgba(200,60,120,'+(0.10+sr()*.12)+')';
+      g.beginPath(); g.ellipse(cx+(sr()-.5)*R, cy+(sr()-.5)*R*.8, 30*S,10*S, sr()*3,0,7); g.fill(); }
+  }
+  g.restore();
+  /* glints */
+  specSeed=29;
+  g.save(); g.globalCompositeOperation='lighter';
+  for(i2=0;i2<5;i2++){
+    var qx=cx+(sr()-.5)*R*1.3, qy=cy+(sr()-.5)*R*.9, qr=(6+sr()*14)*S;
+    var q=g.createRadialGradient(qx,qy,0,qx,qy,qr);
+    q.addColorStop(0,'rgba(255,255,255,.8)'); q.addColorStop(1,'rgba(255,255,255,0)');
+    g.fillStyle=q; g.beginPath(); g.arc(qx,qy,qr,0,7); g.fill();
+  }
+  g.restore();
+  /* floor reflection */
+  g.save(); g.globalAlpha=.12; g.translate(0, cy+R*1.05); g.scale(1,-.35); g.translate(0,-cy);
+  outline(1); g.fillStyle=spec.body; g.fill(); g.restore();
+}
+function shade(hex,f){
+  var r=parseInt(hex.slice(1,3),16)*f|0, g2=parseInt(hex.slice(3,5),16)*f|0, b=parseInt(hex.slice(5,7),16)*f|0;
+  return 'rgb('+r+','+g2+','+b+')';
+}
+
+function renderSpecimen(spec){
+  currentSpec=spec;
+  octx.setTransform(1,0,0,1,0,0);
+  octx.clearRect(0,0,off.width,off.height);
+  if(spec.type==='plate') drawPlate(octx,OS,spec);
+  else drawGem(octx,OS,spec);
+}
+
+/* ---- main stage loop: base view + brass loupe ---- */
+var t0=performance.now();
+function loop(now){
+  requestAnimationFrame(loop);
+  fit();
+  var t=(now-t0)/1000;
+  ctx.clearRect(0,0,W,H);
+  if(!currentSpec){
+    /* empty bench */
+    ctx.fillStyle='#0b0a0d'; ctx.fillRect(0,0,W,H);
+    var eg=ctx.createRadialGradient(W/2,H*.55,10,W/2,H*.55,W*.5);
+    eg.addColorStop(0,'rgba(201,161,64,.06)'); eg.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=eg; ctx.fillRect(0,0,W,H);
+  } else {
+    /* base view: soft, slightly dim; the loupe is where truth lives */
+    var breathe=reduced?0:Math.sin(t*.7)*.004;
+    ctx.save();
+    ctx.translate(W/2,H/2); ctx.scale(1+breathe,1+breathe); ctx.translate(-W/2,-H/2);
+    ctx.filter='blur(1.1px) brightness(.82)';
+    ctx.drawImage(off,0,0,off.width,off.height,0,0,W,H);
+    ctx.restore();
+    /* light sweep */
+    if(!reduced){
+      var sx=(t*40)%(W*1.8)-W*.4;
+      var sg=ctx.createLinearGradient(sx-70,0,sx+70,0);
+      sg.addColorStop(0,'rgba(255,244,210,0)'); sg.addColorStop(.5,'rgba(255,244,210,.05)'); sg.addColorStop(1,'rgba(255,244,210,0)');
+      ctx.fillStyle=sg; ctx.fillRect(0,0,W,H);
+    }
+    /* the loupe */
+    if(pointer.in||reduced){
+      var lx=pointer.x, ly=pointer.y, LR=92, MAG=2.5;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(lx,ly,LR,0,7); ctx.clip();
+      var srcW=(LR*2)/MAG*OS*(off.width/(W*OS));
+      ctx.drawImage(off,
+        lx*OS-(LR/MAG)*OS, ly*OS-(LR/MAG)*OS, (LR*2/MAG)*OS, (LR*2/MAG)*OS,
+        lx-LR, ly-LR, LR*2, LR*2);
+      /* lens character: inner shadow + edge fringe */
+      var iv=ctx.createRadialGradient(lx,ly,LR*.55,lx,ly,LR);
+      iv.addColorStop(0,'rgba(0,0,0,0)'); iv.addColorStop(1,'rgba(0,0,0,.4)');
+      ctx.fillStyle=iv; ctx.fillRect(lx-LR,ly-LR,LR*2,LR*2);
+      ctx.restore();
+      /* brass ring */
+      ctx.lineWidth=9;
+      var ring=ctx.createLinearGradient(lx-LR,ly-LR,lx+LR,ly+LR);
+      ring.addColorStop(0,'#f0d488'); ring.addColorStop(.4,'#8a6a26');
+      ring.addColorStop(.6,'#c9a140'); ring.addColorStop(1,'#5c4517');
+      ctx.strokeStyle=ring;
+      ctx.beginPath(); ctx.arc(lx,ly,LR+4,0,7); ctx.stroke();
+      ctx.lineWidth=2; ctx.strokeStyle='rgba(255,248,220,.6)';
+      ctx.beginPath(); ctx.arc(lx,ly,LR+8,0,7); ctx.stroke();
+      /* specular arc on the glass */
+      ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=5; ctx.lineCap='round';
+      ctx.beginPath(); ctx.arc(lx,ly,LR*.72,-2.4,-1.7); ctx.stroke();
+      /* handle */
+      ctx.save(); ctx.translate(lx,ly); ctx.rotate(.78);
+      var hg=ctx.createLinearGradient(0,LR,0,LR+70);
+      hg.addColorStop(0,'#8a6a26'); hg.addColorStop(1,'#241a08');
+      ctx.fillStyle=hg;
+      ctx.beginPath();
+      if(ctx.roundRect) ctx.roundRect(-8,LR+6,16,66,8); else ctx.rect(-8,LR+6,16,66);
+      ctx.fill(); ctx.restore();
+      /* soft cast shadow */
+      ctx.save(); ctx.globalAlpha=.28;
+      var shg=ctx.createRadialGradient(lx+14,ly+20,LR*.7,lx+14,ly+20,LR*1.4);
+      shg.addColorStop(0,'rgba(0,0,0,0)'); shg.addColorStop(.85,'rgba(0,0,0,.5)'); shg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.restore();
+    }
+  }
+  /* grain */
+  ctx.save(); ctx.globalAlpha=.05;
+  ctx.drawImage(noise, (Math.random()*20)|0, (Math.random()*20)|0, W, H);
+  ctx.restore();
+}
+requestAnimationFrame(loop);
+
+cv.addEventListener('pointermove',function(e){
+  var r=cv.getBoundingClientRect();
+  pointer.x=(e.clientX-r.left)/r.width*W;
+  pointer.y=(e.clientY-r.top)/r.height*H;
+  pointer.in=true;
+});
+cv.addEventListener('pointerleave',function(){ pointer.in=false; });
+cv.addEventListener('pointerdown',function(e){
+  var r=cv.getBoundingClientRect();
+  pointer.x=(e.clientX-r.left)/r.width*W;
+  pointer.y=(e.clientY-r.top)/r.height*H;
+  pointer.in=true;
+});
+
+/* ================= exam flow ================= */
+function setStage(i){
+  var steps=document.querySelectorAll('.step');
+  for(var k=0;k<steps.length;k++){ steps[k].classList.toggle('active',k===i); steps[k].classList.toggle('done',k<i); }
+}
+function msg(t){ $('stageMsg').textContent=t; }
+
+function startLevel(idx){
+  levelIdx=idx; specIdx=0; score=0; active=true;
+  document.querySelectorAll('.level').forEach(function(el,i){
+    el.classList.toggle('current',i===idx);
+  });
+  $('beginBtn').style.display='none';
+  $('reportIdle').style.display='none';
+  $('exam').classList.add('show');
+  setStage(1);
+  showSpecimen();
+}
+function showSpecimen(){
+  answered=false;
+  var L=LEVELS[levelIdx], sp=L.specimens[specIdx];
+  specSeed=(levelIdx+1)*97+(specIdx+1)*31;
+  renderSpecimen(sp.s);
+  $('specCount').textContent='LEVEL '+['I','II','III','IV'][levelIdx]+' · SPECIMEN '+(specIdx+1)+' OF '+L.specimens.length;
+  $('question').textContent=sp.q;
+  var clues=''; sp.clues.forEach(function(c){ clues+='<div class="clue"><span>'+c[0]+'</span><b>'+c[1]+'</b></div>'; });
+  $('clues').innerHTML=clues;
+  var opts=$('opts'); opts.innerHTML='';
+  sp.opts.forEach(function(o,i){
+    var b=document.createElement('button'); b.className='opt'; b.textContent=o;
+    b.addEventListener('click',function(){ answer(i,b); });
+    opts.appendChild(b);
+  });
+  $('teach').classList.remove('show');
+  $('nextRow').classList.remove('show');
+  $('scoreTxt').textContent=score+' / '+L.specimens.length;
+  msg('Specimen '+(specIdx+1)+' on the bench. Take your time under the loupe.');
+  setStage(1);
+}
+function answer(i,btn){
+  if(answered) return; answered=true;
+  setStage(2);
+  var L=LEVELS[levelIdx], sp=L.specimens[specIdx];
+  var right=i===sp.a;
+  if(right){ score++; SOUND.right(); } else SOUND.wrong();
+  var buttons=$('opts').children;
+  for(var k=0;k<buttons.length;k++){
+    buttons[k].disabled=true;
+    if(k===sp.a) buttons[k].classList.add('right');
+  }
+  if(!right) btn.classList.add('wrong');
+  $('teach').textContent=sp.teach; $('teach').classList.add('show');
+  $('nextRow').classList.add('show');
+  $('nextBtn').textContent= specIdx<L.specimens.length-1 ? 'Next specimen' : 'Complete the level';
+  $('scoreTxt').textContent=score+' / '+L.specimens.length;
+  /* ledger */
+  var chipColor = sp.s.type==='gem' ? sp.s.body : TONES[sp.s.tone][1];
+  ledger.push({label: sp.opts[sp.a], color: chipColor, right: right});
+  var row=$('ledgerRow'); row.innerHTML='';
+  ledger.slice().reverse().forEach(function(c){
+    var d=document.createElement('div');
+    d.className='ledger-chip '+(c.right?'right':'wrong');
+    d.innerHTML='<i style="background:'+c.color+'"></i>'+c.label+(c.right?' ✓':' ✗');
+    row.appendChild(d);
+  });
+  $('ledgerCount').textContent=ledger.length;
+}
+$('nextBtn').addEventListener('click',function(){
+  var L=LEVELS[levelIdx];
+  if(specIdx<L.specimens.length-1){ specIdx++; showSpecimen(); }
+  else certify();
+});
+
+/* level select */
+document.querySelectorAll('.level').forEach(function(el){
+  el.addEventListener('click',function(){
+    var idx=+el.getAttribute('data-level');
+    if(idx>=unlocked) return;
+    startLevel(idx);
+  });
+});
+$('beginBtn').addEventListener('click',function(){ startLevel(0); });
+
+/* ================= level record cinematic ================= */
+function certify(){
+  active=false; setStage(3);
+  var L=LEVELS[levelIdx];
+  var passed=score>=Math.ceil(L.specimens.length*.75);
+  if(reduced){ afterCert(passed); return; }
+  runCertCine(L,passed,function(){ afterCert(passed); });
+}
+function afterCert(passed){
+  var L=LEVELS[levelIdx];
+  var lvEls=document.querySelectorAll('.level');
+  if(passed){
+    lvEls[levelIdx].classList.add('done');
+    if(levelIdx+1<LEVELS.length && unlocked<levelIdx+2){
+      unlocked=levelIdx+2;
+      lvEls[levelIdx+1].classList.remove('locked');
+    }
+    msg(levelIdx+1<LEVELS.length ? 'Level passed. Level '+['II','III','IV'][levelIdx]+' is open.' : 'A practised eye. The cabinet is yours.');
+  } else {
+    msg('Not this time. Study the cabinet and examine again.');
+  }
+  $('exam').classList.remove('show');
+  $('reportIdle').style.display='';
+  $('reportIdle').innerHTML= passed
+    ? 'You scored <b style="color:var(--gold-hi)">'+score+' of '+L.specimens.length+'</b>.<br>'+L.grade+' awarded.'+(levelIdx+1<LEVELS.length?'<br>Select the next level in the curriculum.':'<br>Your study record is complete. A study grade for your own eye — not a professional credential.')
+    : 'You scored <b style="color:var(--gold-hi)">'+score+' of '+L.specimens.length+'</b>. Three of four are needed.<br>Select the level again to re-examine.';
+  currentSpec=null;
+  setStage(passed&&levelIdx===3?3:0);
+  $('beginBtn').style.display='';
+  $('beginBtn').textContent= passed ? (levelIdx+1<LEVELS.length?'Begin Level '+['II','III','IV'][levelIdx]:'Examine again for a clean sheet') : 'Retry Level '+['I','II','III','IV'][levelIdx];
+  $('beginBtn').onclick=null;
+  $('beginBtn').addEventListener('click',certBtnRoute,{once:true});
+}
+function certBtnRoute(){
+  var L=LEVELS[levelIdx];
+  var passed=$('reportIdle').textContent.indexOf('awarded')>-1;
+  if(passed&&levelIdx+1<LEVELS.length) startLevel(levelIdx+1);
+  else startLevel(levelIdx);
+}
+
+/* the stamping cutaway, same photographic technique as the pour */
+function runCertCine(L,passed,done){
+  var cvf=$('certFx'), g=cvf.getContext('2d');
+  var CW=760,CH=540,DPRc=Math.min(2,window.devicePixelRatio||1);
+  var start=performance.now(), DUR=5.6;
+  cvf.classList.add('on'); SOUND.stamp();
+  function frame(now){
+    var T=(now-start)/1000, p=T/DUR;
+    if(p>=1){ cvf.classList.remove('on'); done(); return; }
+    var w=cvf.clientWidth,h=cvf.clientHeight;
+    if(cvf.width!==w*DPRc){ cvf.width=w*DPRc; cvf.height=h*DPRc; }
+    g.setTransform(cvf.width/CW,0,0,cvf.height/CH,0,0);
+    g.fillStyle='#070403'; g.fillRect(0,0,CW,CH);
+    /* desk light pool */
+    var dg=g.createRadialGradient(CW/2,CH*.5,10,CW/2,CH*.5,CW*.55);
+    dg.addColorStop(0,'rgba(255,220,160,.14)'); dg.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=dg; g.fillRect(0,0,CW,CH);
+    /* record card slides up */
+    var slide=Math.min(1,T/1.1); slide=1-Math.pow(1-slide,3);
+    var cy=CH*.5+(1-slide)*90;
+    g.save(); g.translate(CW/2,cy); g.rotate(-.015);
+    g.shadowColor='rgba(0,0,0,.7)'; g.shadowBlur=34; g.shadowOffsetY=18;
+    g.fillStyle='#efe6cf';
+    g.fillRect(-210,-140,420,280);
+    g.shadowBlur=0; g.shadowOffsetY=0;
+    g.strokeStyle='rgba(125,95,32,.6)'; g.lineWidth=2; g.strokeRect(-196,-126,392,252);
+    g.strokeStyle='rgba(125,95,32,.3)'; g.lineWidth=1; g.strokeRect(-190,-120,380,240);
+    g.fillStyle='#5a4413'; g.textAlign='center';
+    g.font='600 21px "Cormorant Garamond", serif';
+    g.fillText('PRECIOUS INTELLIGENCE ACADEMY',0,-86);
+    g.font='400 11px "Space Mono", monospace';
+    g.fillText('THE LOUPE ROOM · RECORD OF EXAMINATION',0,-62);
+    g.font='500 34px "Cormorant Garamond", serif';
+    g.fillText(passed?L.grade:'EXAMINATION RECORD',0,-8);
+    g.font='400 12px "Space Mono", monospace';
+    g.fillText('SCORE '+score+' OF '+L.specimens.length+'  ·  '+L.name.toUpperCase(),0,26);
+    g.font='400 10px "Space Mono", monospace';
+    g.fillText(passed?'A STUDY RECORD, NOT A PROFESSIONAL CREDENTIAL':'RE-EXAMINATION INVITED',0,52);
+    /* the stamp lands */
+    var st=Math.max(0,Math.min(1,(T-2.1)/.35));
+    if(T>1.9){
+      var sc= st<1 ? 2.2-1.2*st : 1+Math.max(0,.08-((T-2.45)*.4));
+      g.save(); g.translate(118,72); g.rotate(-.2); g.scale(sc,sc);
+      g.globalAlpha= st<1 ? st : 1;
+      g.strokeStyle= passed?'rgba(140,44,32,.85)':'rgba(90,68,19,.7)';
+      g.lineWidth=3;
+      g.beginPath(); g.arc(0,0,42,0,7); g.stroke();
+      g.lineWidth=1.4; g.beginPath(); g.arc(0,0,34,0,7); g.stroke();
+      g.fillStyle=g.strokeStyle;
+      g.font='700 13px "Space Mono", monospace'; g.textAlign='center';
+      g.fillText(passed?'PIA':'···',0,-4);
+      g.font='400 8px "Space Mono", monospace';
+      g.fillText(passed?'PASSED':'RECORDED',0,10);
+      g.restore();
+      if(st>0&&st<1){ /* impact flash */
+        g.save(); g.globalCompositeOperation='lighter';
+        var fl=g.createRadialGradient(118,72,2,118,72,120*(1-st)+30);
+        fl.addColorStop(0,'rgba(255,240,200,'+(0.5*(1-st))+')'); fl.addColorStop(1,'rgba(0,0,0,0)');
+        g.fillStyle=fl; g.beginPath(); g.arc(118,72,160,0,7); g.fill(); g.restore();
+      }
+    }
+    g.restore();
+    /* grain + vignette + cut fades */
+    g.save(); g.globalAlpha=.06;
+    g.drawImage(noise, Math.random()*20, Math.random()*20, CW, CH); g.restore();
+    var vg=g.createRadialGradient(CW/2,CH/2,CH*.25,CW/2,CH/2,CH*.75);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.72)');
+    g.fillStyle=vg; g.fillRect(0,0,CW,CH);
+    var fade= T<.7 ? 1-T/.7 : (T>DUR-.8 ? (T-(DUR-.8))/.8 : 0);
+    if(fade>0){ g.fillStyle='rgba(0,0,0,'+fade+')'; g.fillRect(0,0,CW,CH); }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ================= reference cabinet ================= */
+var GAL={
+  fineness:[
+    {sw:{bg:TONES.yellow,txt:'999'},h:'999 · 24 carat',m:'Investment standard',
+     p:'Effectively pure gold. Bars, coins and 足金 jewellery in Chinese markets. Too soft to hold a stone, which is why it belongs in the vault rather than on the hand.'},
+    {sw:{bg:TONES.yellow,txt:'916'},h:'916 · 22 carat',m:'The wedding standard',
+     p:'The colour of tradition across India, the Gulf and East Africa. Enough alloy to survive a lifetime of ceremonies, and no more.'},
+    {sw:{bg:TONES.yellow,txt:'750'},h:'750 · 18 carat',m:'The fine jewellery standard',
+     p:'Three quarters gold. Deep colour, dependable strength, and the mark most fine houses build their reputation on.'},
+    {sw:{bg:TONES.yellow,txt:'585'},h:'585 · 14 carat',m:'The everyday standard',
+     p:'The default in United States retail. A working alloy for rings that will meet door handles and gym bars daily.'},
+    {sw:{bg:TONES.silver,txt:'925'},h:'925 · Sterling',m:'Silver, not gold',
+     p:'92.5 percent silver hardened with copper. No gold standard uses this number, so 925 identifies the metal on its own.'},
+    {sw:{bg:TONES.platinum,txt:'950'},h:'950 · Platinum',m:'The heavy white metal',
+     p:'Denser than gold and naturally white. If a white piece marked 950 feels unexpectedly heavy for its size, the mark is telling the truth.'}
+  ],
+  symbols:[
+    {sw:{bg:TONES.yellow,txt:'⚓'},h:'The Anchor',m:'Birmingham Assay Office',
+     p:'Struck in Birmingham since 1773. An assay symbol means an independent office tested the metal, not the maker who profits from the claim.'},
+    {sw:{bg:TONES.yellow,txt:'🏰'},h:'The Castle',m:'Edinburgh Assay Office',
+     p:'Edinburgh’s three-towered castle has marked Scottish work for centuries. Assay symbols travel: recognising them lets you read a piece’s passport.'},
+    {sw:{bg:TONES.yellow,txt:'🌹'},h:'The Rose',m:'Sheffield Assay Office',
+     p:'Sheffield marks gold with a rose. Together with the maker’s initials and the fineness number, it completes the three-part set an honest hallmark carries.'},
+    {sw:{bg:TONES.yellow,txt:'GP'},h:'GP · GEP · HGE',m:'Warning letters',
+     p:'Gold plated, gold electroplated, heavy gold electroplate. A fineness number beside these letters describes only a microscopic surface layer. Price accordingly.'}
+  ],
+  stones:[
+    {sw:{bg:['#ff6b7a','#c21f3a','#7a1024'],txt:'9'},h:'Ruby',m:'Corundum · chromium red',
+     p:'Hardness 9, silky rutile needles inside, and a red that seems lit from within. Round bubbles instead of silk mean glass.'},
+    {sw:{bg:['#3ecf8e','#0f7a4d','#07422a'],txt:'7.5'},h:'Emerald',m:'Beryl · the garden within',
+     p:'Expect inclusions: the jardin is part of the stone’s identity. A flawless bright green emerald at a friendly price deserves deep suspicion.'},
+    {sw:{bg:['#4a72e8','#1a3f9e','#0c2158'],txt:'9'},h:'Sapphire',m:'Corundum · velvet blue',
+     p:'Ruby’s blue sibling. Straight, angular colour zoning under the loupe follows natural crystal growth and is a reassuring sight.'},
+    {sw:{bg:['#9a5ae8','#5a2a9e','#2e1256'],txt:'6.5'},h:'Tanzanite',m:'Zoisite · one hill on Earth',
+     p:'Found commercially in a single area of Tanzania. Strongly pleochroic: tilt it and violet turns blue turns burgundy. Softer than sapphire, so set it kindly.'}
+  ]
+};
+function renderGallery(tab){
+  var wrap=$('gcards'); wrap.innerHTML='';
+  GAL[tab].forEach(function(gc,i){
+    var card=document.createElement('div'); card.className='gcard';
+    card.style.animationDelay=(i*60)+'ms';
+    var bg=gc.sw.bg;
+    card.innerHTML=
+      '<div class="gswatch" style="color:rgba(30,20,5,.8);background:linear-gradient(130deg,'+bg[0]+' 0%,'+bg[1]+' 45%,'+bg[0]+' 60%,'+bg[2]+' 100%)"><span style="font-size:1.3rem">'+gc.sw.txt+'</span></div>'+
+      '<h3>'+gc.h+'</h3><div class="gmeta">'+gc.m+'</div><p>'+gc.p+'</p>';
+    wrap.appendChild(card);
+  });
+}
+document.querySelectorAll('#gtabs button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('#gtabs button').forEach(function(x){x.classList.toggle('sel',x===b);});
+    renderGallery(b.getAttribute('data-tab'));
+  });
+});
+renderGallery('fineness');
+
+if('IntersectionObserver' in window && !reduced){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });},{threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+}else{
+  document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});
+}
+})();
+</script>
+</body>
+</html>

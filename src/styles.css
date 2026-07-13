@@ -9,6 +9,13 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Space Grotesk", ui-monospace, monospace;
 
+  /*
+   * Phase 2A readability: minimum body weight is 400.
+   * `font-light` is remapped at the token level so no body copy
+   * anywhere in the app can render below regular weight.
+   */
+  --font-weight-light: 400;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -42,19 +49,31 @@
   --color-platinum: var(--platinum);
   --color-obsidian: var(--obsidian);
   --color-charcoal: var(--charcoal);
+  --color-graphite: var(--graphite);
+  --color-surface: var(--surface);
 }
 
 :root {
   --radius: 0.25rem;
 
-  /* Luxury palette */
-  --obsidian: oklch(0.08 0.005 260);
-  --charcoal: oklch(0.14 0.006 260);
-  --gold: oklch(0.75 0.11 82);
-  --gold-soft: oklch(0.68 0.09 82);
-  --champagne: oklch(0.86 0.07 85);
-  --ivory: oklch(0.97 0.008 85);
-  --platinum: oklch(0.88 0.005 260);
+  /*
+   * Phase 2A luxury palette — warm near-black surfaces, parchment text,
+   * champagne gold accents. Every text/background pairing below meets
+   * WCAG AA on the surfaces it is designed for.
+   */
+  --obsidian: #080706; /* page background */
+  --bg-secondary: #11100d; /* secondary background */
+  --charcoal: #171510; /* raised panel */
+  --graphite: #1d1b18; /* graphite panel / hover surface */
+  --surface: var(--bg-secondary);
+
+  --ivory: #f8f2df; /* primary text */
+  --platinum: #e3d8bc; /* secondary text (warm parchment) */
+  --parchment-muted: #c7b998; /* muted text — smallest permitted text only */
+
+  --gold: #d4b15d; /* champagne gold — primary accent */
+  --champagne: #f2d889; /* bright gold — highlights, hovers */
+  --gold-soft: #b3924a; /* deep gold — gradients, subdued accents */
 
   --background: var(--obsidian);
   --foreground: var(--ivory);
@@ -63,17 +82,17 @@
   --popover: var(--charcoal);
   --popover-foreground: var(--ivory);
   --primary: var(--gold);
-  --primary-foreground: oklch(0.1 0.005 260);
-  --secondary: oklch(0.18 0.006 260);
+  --primary-foreground: #0a0906;
+  --secondary: var(--graphite);
   --secondary-foreground: var(--ivory);
-  --muted: oklch(0.18 0.006 260);
+  --muted: var(--graphite);
   --muted-foreground: var(--platinum);
   --accent: var(--champagne);
-  --accent-foreground: oklch(0.1 0.005 260);
+  --accent-foreground: #0a0906;
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: var(--ivory);
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 12%);
+  --border: rgba(242, 216, 137, 0.22);
+  --input: rgba(242, 216, 137, 0.28);
   --ring: var(--gold);
 }
 
@@ -99,6 +118,12 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    /* Phase 2A readability floor: 17px body, regular weight, generous leading */
+    font-size: 1.0625rem;
+    font-weight: 400;
+    line-height: 1.7;
+    /* Phase 2A mobile pass: prevent stray horizontal scroll without breaking sticky */
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4, .font-display {
@@ -107,9 +132,15 @@
     letter-spacing: -0.02em;
   }
 
+  /* Mono is reserved for technical data: karat, fineness, weights, serials, assay */
   .font-numeric {
     font-family: var(--font-mono);
     font-feature-settings: "tnum", "ss01";
+  }
+
+  /* Comfortable reading measure for long-form prose (55–75ch) */
+  .measure {
+    max-width: 68ch;
   }
 
   ::selection {
@@ -153,6 +184,26 @@
 
 @utility float-slow {
   animation: float-slow 8s ease-in-out infinite;
+}
+
+/*
+ * Media overlay scrims (Phase 2A).
+ * Guarantee AA-contrast text over any photograph or video frame.
+ * Used by <MediaOverlay>; also applicable directly to hero figures.
+ */
+@utility scrim-hero {
+  background: linear-gradient(
+    to right,
+    rgba(8, 7, 6, 0.88) 0%,
+    rgba(8, 7, 6, 0.62) 42%,
+    rgba(8, 7, 6, 0.28) 70%,
+    rgba(8, 7, 6, 0.45) 100%
+  ),
+  linear-gradient(to top, rgba(8, 7, 6, 0.85) 0%, transparent 45%);
+}
+
+@utility scrim-card {
+  background: linear-gradient(to top, rgba(8, 7, 6, 0.92) 0%, rgba(8, 7, 6, 0.35) 55%, rgba(8, 7, 6, 0.15) 100%);
 }
 
 /*

@@ -36,6 +36,7 @@ button{font-family:inherit}
 
 .hero{position:relative;min-height:82vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;text-align:center;padding:5rem 1.5rem 4rem;overflow:hidden}
+@media(max-width:760px){.hero{padding-top:7.5rem}}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-fallback{position:absolute;inset:0;
   background:
@@ -152,7 +153,10 @@ button{font-family:inherit}
 .btn.primary:hover::after{background-position:-40% 0}
 .btn.ghost{background:var(--glass);border:1px solid var(--gold-deep);color:var(--gold)}
 .btn.ghost:hover{background:rgba(201,161,64,.12)}
-.btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.btn:disabled{cursor:not-allowed;transform:none;box-shadow:none}
+.btn.primary:disabled{background:#241d10;color:#c7b998;border:1px solid rgba(201,161,64,.35)}
+.btn.primary:disabled::after{display:none}
+.btn.ghost:disabled{opacity:.6}
 
 .vault{width:100%;max-width:480px;margin-top:1.5rem}
 .vault h3{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--body);
@@ -212,10 +216,12 @@ button{font-family:inherit}
   text-transform:uppercase;margin-bottom:.6rem}
 .gcard p{font-size:.87rem;color:var(--body);line-height:1.68}
 
-table{width:100%;border-collapse:collapse;font-family:'Space Mono',monospace;font-size:.8rem}
+table{width:100%;border-collapse:collapse;font-family:'Inter',sans-serif;font-size:.85rem;line-height:1.6}
 th,td{padding:.8rem .6rem;text-align:left;border-bottom:1px solid var(--line)}
-th{color:var(--gold);font-weight:400;letter-spacing:.06em;text-transform:uppercase;font-size:.64rem}
-td{color:var(--body)} td.k{color:var(--cream)}
+th{font-family:'Space Mono',monospace;color:var(--gold);font-weight:400;letter-spacing:.06em;text-transform:uppercase;font-size:.64rem}
+td{color:var(--body)}
+td:nth-child(-n+3){font-family:'Space Mono',monospace;font-size:.78rem;white-space:nowrap}
+td.k{color:var(--cream)}
 tbody tr:hover{background:rgba(201,161,64,.05)}
 tbody tr:hover td.k{color:var(--gold-hi)}
 .notes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
@@ -356,7 +362,7 @@ footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.6
 
   <div class="panel assay-col">
     <h2>Assay Report</h2>
-    <p class="sub">The certified figures a refinery would issue.</p>
+    <p class="sub">The figures a refinery's fire assay would report. A teaching simulation — never a substitute for laboratory assay of a real bar.</p>
     <div class="empty" id="assayEmpty">No bar has been cast yet.<br>Charge, melt, and pour to receive your assay.</div>
     <div class="assay" id="assay"></div>
   </div>
@@ -375,6 +381,7 @@ footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.6
 
 <div class="section rv">
   <h2>Carat Reference</h2>
+  <p class="lead">Karat counts gold in parts of twenty-four; fineness counts it in parts per thousand. They are the same measurement in two languages — 18K and 750 describe one and the same bar.</p>
   <table>
     <thead><tr><th>Carat</th><th>Purity</th><th>Hallmark</th><th>Where it is used</th></tr></thead>
     <tbody>
