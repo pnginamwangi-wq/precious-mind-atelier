@@ -14,6 +14,7 @@ export * from "./knowledge-check";
 export * from "./newsletter-signup";
 export * from "./bookmark-button";
 export * from "./reading-progress";
+export * from "./media-overlay";
 
 
 
