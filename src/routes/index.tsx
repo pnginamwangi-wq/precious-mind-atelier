@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Info } from "lucide-react";
 
 
@@ -117,17 +117,9 @@ function Hero() {
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pt-32"
       aria-label="The Precious Intelligence Academy"
     >
-      {/* Grand Hall backdrop */}
+      {/* Grand Hall cinematic sequence, cross-fading through four stills */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <MediaOverlay
-          poster={GRAND_HALL.interiorDolly.poster}
-          mobile={GRAND_HALL.interiorDolly.mobile}
-          alt={GRAND_HALL.interiorDolly.alt}
-          loading="eager"
-          fetchPriority="high"
-          scrim="scrim-hero"
-          kenBurns
-        />
+        <HeroSequence />
       </motion.div>
 
       {/* Base atmosphere */}
@@ -189,6 +181,44 @@ function Hero() {
         <div className="mx-auto mb-3 h-10 w-px bg-gradient-to-b from-transparent to-gold" />
       </motion.div>
     </section>
+  );
+}
+
+/* Cinematic hero sequence: four Grand Hall stills cross-fade every ~7s. */
+function HeroSequence() {
+  const reduced = useReducedMotion();
+  const frames = [
+    GRAND_HALL.interiorDolly,
+    GRAND_HALL.exteriorApproach,
+    GRAND_HALL.ambienceLoop,
+    GRAND_HALL.campusModelOrbit,
+  ];
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (reduced) return;
+    const t = window.setInterval(() => setI((n: number) => (n + 1) % frames.length), 7000);
+    return () => window.clearInterval(t);
+  }, [reduced, frames.length]);
+  return (
+    <>
+      {frames.map((f, idx) => (
+        <div
+          key={f.poster}
+          className="absolute inset-0 transition-opacity duration-[1800ms] ease-in-out"
+          style={{ opacity: idx === i ? 1 : 0 }}
+        >
+          <MediaOverlay
+            poster={f.poster}
+            mobile={f.mobile}
+            alt={idx === 0 ? f.alt : ""}
+            loading={idx === 0 ? "eager" : "lazy"}
+            fetchPriority={idx === 0 ? "high" : "auto"}
+            scrim="scrim-hero"
+            kenBurns
+          />
+        </div>
+      ))}
+    </>
   );
 }
 
