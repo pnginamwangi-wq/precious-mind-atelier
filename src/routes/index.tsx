@@ -184,6 +184,49 @@ function Hero() {
   );
 }
 
+/* Cinematic hero sequence: four Grand Hall stills cross-fade every ~7s. */
+function HeroSequence() {
+  const reduced = useReducedMotion();
+  const frames = [
+    GRAND_HALL.interiorDolly,
+    GRAND_HALL.exteriorApproach,
+    GRAND_HALL.ambienceLoop,
+    GRAND_HALL.campusModelOrbit,
+  ];
+  const [i, setI] = (function useState() {
+    // inline safe useState import via React
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const R = require("react") as typeof import("react");
+    return R.useState(0);
+  })();
+  useEffect(() => {
+    if (reduced) return;
+    const t = window.setInterval(() => setI((n: number) => (n + 1) % frames.length), 7000);
+    return () => window.clearInterval(t);
+  }, [reduced, frames.length]);
+  return (
+    <>
+      {frames.map((f, idx) => (
+        <div
+          key={f.poster}
+          className="absolute inset-0 transition-opacity duration-[1800ms] ease-in-out"
+          style={{ opacity: idx === i ? 1 : 0 }}
+        >
+          <MediaOverlay
+            poster={f.poster}
+            mobile={f.mobile}
+            alt={idx === 0 ? f.alt : ""}
+            loading={idx === 0 ? "eager" : "lazy"}
+            fetchPriority={idx === 0 ? "high" : "auto"}
+            scrim="scrim-hero"
+            kenBurns
+          />
+        </div>
+      ))}
+    </>
+  );
+}
+
 
 
 function ParticleField() {
