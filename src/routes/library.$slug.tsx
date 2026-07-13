@@ -5,8 +5,10 @@ import { MobileTabs } from "@/components/luxury/mobile-tabs";
 import {
   Container,
   Eyebrow,
+  GRAND_HALL,
   Hairline,
   KnowledgeCheck,
+  MediaOverlay,
   Section,
   SectionHeader,
   luxury,
