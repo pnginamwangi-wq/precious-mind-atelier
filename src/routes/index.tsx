@@ -421,8 +421,16 @@ function KnowledgeHubPreview() {
     { to: "/smelt-lab", label: "The Smelt Lab", body: "Blend metals in a virtual crucible and watch karat, colour, and hallmark emerge." },
   ] as const;
   return (
-    <Section>
-      <Container>
+    <Section className="relative overflow-hidden">
+      <MediaOverlay
+        poster={GRAND_HALL.ambienceLoop.poster}
+        mobile={GRAND_HALL.ambienceLoop.mobile}
+        alt=""
+        loading="lazy"
+        scrim="scrim-card"
+      />
+      <Container className="relative z-10">
+
         <div className="grid gap-16 md:grid-cols-12 md:items-end">
           <div className="md:col-span-5">
             <Eyebrow>IV. Knowledge Hub</Eyebrow>
