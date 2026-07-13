@@ -99,25 +99,16 @@ function Home() {
 }
 
 /* ============================================================
-   1. HERO — cinematic canvas + material sequence
+   1. HERO, the Grand Hall
    ============================================================ */
 
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const reduced = useReducedMotion();
   const y = useTransform(scrollYProgress, [0, 1], [0, 160]);
   const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    if (reduced) return;
-    const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % MATERIALS.length);
-    }, 4200);
-    return () => window.clearInterval(id);
-  }, [reduced]);
 
   return (
     <section
@@ -125,39 +116,21 @@ function Hero() {
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pt-32"
       aria-label="The Precious Intelligence Academy"
     >
+      {/* Grand Hall backdrop */}
+      <motion.div style={{ y, scale }} className="absolute inset-0">
+        <MediaOverlay
+          poster={GRAND_HALL.interiorDolly.poster}
+          mobile={GRAND_HALL.interiorDolly.mobile}
+          alt={GRAND_HALL.interiorDolly.alt}
+          loading="eager"
+          fetchPriority="high"
+          scrim="scrim-hero"
+        />
+      </motion.div>
+
       {/* Base atmosphere */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(212,175,55,0.10),transparent_60%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(88,120,180,0.08),transparent_55%)]" />
-
-      {/* Cinematic material sequence */}
-      <motion.div style={{ y, scale, opacity }} className="absolute inset-0">
-        {MATERIALS.map((m, i) => (
-          <motion.div
-            key={m.key}
-            initial={false}
-            animate={{
-              opacity: i === index ? 1 : 0,
-              scale: i === index ? 1 : 1.05,
-            }}
-            transition={{ duration: 2.2, ease: luxury.ease }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div className="relative h-[86vh] w-[86vh] max-h-[820px] max-w-[820px]">
-              <div className={`absolute inset-0 rounded-full ${m.glow} blur-[120px]`} />
-              <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${m.tint} blur-2xl`} />
-              <img
-                src={m.img}
-                alt=""
-                aria-hidden
-                width={1536}
-                height={1536}
-                className="float-slow relative h-full w-full object-contain"
-                style={{ filter: "contrast(1.05) saturate(1.05)" }}
-              />
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
 
       {/* Particle field */}
       {!reduced && <ParticleField />}
@@ -201,31 +174,6 @@ function Hero() {
             <Link to="/knowledge">Enter the Knowledge Hub</Link>
           </LuxButton>
         </motion.div>
-
-        {/* Live material label */}
-        <motion.div variants={fadeUp} className="mt-16 flex items-center justify-center gap-3">
-          <span className="h-px w-6 bg-gold/50" />
-          <div className="min-w-[220px] text-left">
-            <motion.p
-              key={MATERIALS[index].key}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="text-[11px] uppercase tracking-[0.28em] text-gold"
-            >
-              Now in view · {MATERIALS[index].label}
-            </motion.p>
-            <motion.p
-              key={MATERIALS[index].key + "-o"}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.1 }}
-              className="mt-1 text-[11px] font-light tracking-wide text-platinum/60"
-            >
-              {MATERIALS[index].origin}
-            </motion.p>
-          </div>
-        </motion.div>
       </motion.div>
 
       {/* Scroll cue */}
@@ -237,11 +185,12 @@ function Hero() {
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center"
       >
         <div className="mx-auto mb-3 h-10 w-px bg-gradient-to-b from-transparent to-gold" />
-        
       </motion.div>
     </section>
   );
 }
+
+
 
 function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
