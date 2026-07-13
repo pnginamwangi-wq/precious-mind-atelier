@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 
-const wingSchema = z.enum(["study", "bench"]).catch("study");
+const wingSchema = z.enum(["study", "bench", "levels"]).catch("study");
 
 const searchSchema = z.object({
   wing: wingSchema.optional(),
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/loupe-room")({
   component: LoupeRoomPage,
 });
 
-type Wing = "study" | "bench";
+type Wing = "study" | "bench" | "levels";
 
 const WINGS: {
   id: Wing;
@@ -62,6 +62,15 @@ const WINGS: {
     description:
       "Training bench where you read hallmarks, identify stones and detect suspicious pieces.",
   },
+  {
+    id: "levels",
+    label: "Level Training",
+    sub: "Progressive mastery ladder",
+    src: "/loupe-room-levels.html",
+    title: "The Loupe Room, Level Training",
+    description:
+      "Progressive levels ladder: earn your loupe, unlock harder examinations and prove your eye.",
+  },
 ];
 
 function LoupeRoomPage() {
@@ -73,6 +82,7 @@ function LoupeRoomPage() {
   const tabRefs = useRef<Record<Wing, HTMLButtonElement | null>>({
     study: null,
     bench: null,
+    levels: null,
   });
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const previousWing = useRef<Wing>(current);
