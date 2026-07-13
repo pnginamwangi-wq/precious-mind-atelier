@@ -44,6 +44,16 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
+      {
+        property: "og:image",
+        content: "/__l5e/assets-v1/dd3d60ed-3aae-4bbc-a06c-3d4742c3f58f/og-academy.jpg",
+      },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        name: "twitter:image",
+        content: "/__l5e/assets-v1/dd3d60ed-3aae-4bbc-a06c-3d4742c3f58f/og-academy.jpg",
+      },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),

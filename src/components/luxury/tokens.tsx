@@ -49,14 +49,12 @@ export function Hairline({ className }: { className?: string }) {
   return <div className={cn(luxury.hairline, className)} />;
 }
 
+import { AcademyMark } from "./logo";
+
+/**
+ * Backwards-compatible alias for the Academy monogram seal. New code should
+ * import `AcademyMark` (or `AcademyLockup`) from `@/components/luxury` directly.
+ */
 export function GoldMark({ className }: { className?: string }) {
-  return (
-    <div className={cn("relative h-9 w-9", className)}>
-      <div className="absolute inset-0 rotate-45 border border-gold/60" />
-      <div className="absolute inset-[6px] rotate-45 bg-gradient-to-br from-champagne via-gold to-gold-soft" />
-      <div className="absolute inset-0 flex items-center justify-center font-display text-[13px] text-obsidian">
-        P
-      </div>
-    </div>
-  );
+  return <AcademyMark className={className} decorative />;
 }
