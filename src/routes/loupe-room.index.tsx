@@ -11,7 +11,7 @@ const searchSchema = z.object({
   wing: wingSchema.optional(),
 });
 
-export const Route = createFileRoute("/loupe-room")({
+export const Route = createFileRoute("/loupe-room/")({
   validateSearch: (search) => searchSchema.parse(search),
   head: () => ({
     meta: [
