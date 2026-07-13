@@ -61,13 +61,24 @@ function InstitutesIndex() {
     <>
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
-        <Section className="pt-40">
-          <SectionHeader
-            as="h1"
-            eyebrow="The Institutes"
-            title="Eight disciplines. One faculty."
-            intro="Each Institute is a self contained programme, taught by practitioners of the discipline. Enter the one you are drawn to."
+        <Section className="relative overflow-hidden pt-40">
+          <MediaOverlay
+            poster={GRAND_HALL.exteriorApproach.poster}
+            mobile={GRAND_HALL.exteriorApproach.mobile}
+            alt=""
+            loading="eager"
+            fetchPriority="high"
+            scrim="scrim-hero"
           />
+          <div className="relative z-10">
+            <SectionHeader
+              as="h1"
+              eyebrow="The Institutes"
+              title="Eight disciplines. One faculty."
+              intro="Each Institute is a self contained programme, taught by practitioners of the discipline. Enter the one you are drawn to."
+            />
+          </div>
+
 
           <Container className="mt-16">
             <div className="grid gap-px bg-white/5 md:grid-cols-2">
