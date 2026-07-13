@@ -72,24 +72,8 @@ const INSTITUTES = [
 
 /* ---------- Hero material sequence ---------- */
 
-type HeroMaterial = {
-  key: string;
-  label: string;
-  origin: string;
-  img: string;
-  tint: string;
-  glow: string;
-};
+/* ---------- Hero ---------- */
 
-const MATERIALS: HeroMaterial[] = [
-  { key: "opal",     label: "Black Opal",           origin: "Lightning Ridge",     img: heroOpal,    tint: "from-[#0b3b5c]/40 via-[#2a0b5c]/25 to-transparent", glow: "bg-[#3ac9ff]/25" },
-  { key: "gold",     label: "Molten Gold",          origin: "999.9 fine",          img: heroGold,    tint: "from-[#6b3d0d]/50 via-[#f2b23a]/25 to-transparent", glow: "bg-[#f4c25a]/35" },
-  { key: "bullion",  label: "Gold Bullion",         origin: "LBMA cast, 1 kg",     img: heroGold,    tint: "from-[#3a2a0a]/60 via-[#c48a2c]/25 to-transparent", glow: "bg-[#d9a441]/30" },
-  { key: "diamond",  label: "Round Brilliant",      origin: "D flawless",          img: heroDiamond, tint: "from-[#0a1a3a]/45 via-[#a8c8ff]/20 to-transparent", glow: "bg-[#c8dcff]/30" },
-  { key: "watch",    label: "Tourbillon",           origin: "Geneva, mechanical",  img: heroWatch,   tint: "from-[#1a1a1a]/50 via-[#8a6a3a]/25 to-transparent", glow: "bg-[#e8c67a]/25" },
-  { key: "jewel",    label: "Finished Jewellery",   origin: "South Sea, cultured", img: heroPearl,   tint: "from-[#2a1a2a]/45 via-[#e8d8c0]/20 to-transparent", glow: "bg-[#f0e6d2]/25" },
-  { key: "academy",  label: "The Precious Intelligence Academy", origin: "Master the Extraordinary", img: heroOpal, tint: "from-obsidian/70 via-gold/10 to-transparent", glow: "bg-gold/25" },
-];
 
 function Home() {
   return (
