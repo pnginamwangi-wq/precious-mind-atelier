@@ -5,8 +5,10 @@ import { MobileTabs } from "@/components/luxury/mobile-tabs";
 import {
   Container,
   Eyebrow,
+  GRAND_HALL,
   Hairline,
   KnowledgeCheck,
+  MediaOverlay,
   Section,
   SectionHeader,
   luxury,
@@ -108,8 +110,15 @@ function LibraryItemPage() {
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         {/* Hero */}
-        <Section className="pt-40">
-          <Container>
+        <Section className="relative overflow-hidden pt-40">
+          <MediaOverlay
+            poster={GRAND_HALL.plinthStatic.poster}
+            mobile={GRAND_HALL.plinthStatic.mobile}
+            alt=""
+            loading="lazy"
+            scrim="scrim-hero"
+          />
+          <Container className="relative z-10">
             <nav aria-label="Breadcrumb" className="text-[11px] uppercase tracking-[0.24em] text-platinum/60">
               <Link to="/library" className="hover:text-gold">The Library</Link>
             </nav>
@@ -119,6 +128,7 @@ function LibraryItemPage() {
             <Hairline className="mt-12 w-16" />
           </Container>
         </Section>
+
 
         {/* Overview */}
         <Section>

@@ -1,13 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Info } from "lucide-react";
 
-import heroOpal from "@/assets/hero-opal.jpg";
-import heroGold from "@/assets/hero-gold.jpg";
-import heroDiamond from "@/assets/hero-diamond.jpg";
-import heroWatch from "@/assets/hero-watch.jpg";
-import heroPearl from "@/assets/hero-pearl.jpg";
 
 import {
   Container,
@@ -16,6 +11,8 @@ import {
   Hairline,
   Header,
   LuxButton,
+  MediaOverlay,
+  GRAND_HALL,
   MobileTabs,
   Reveal,
   Section,
@@ -75,24 +72,8 @@ const INSTITUTES = [
 
 /* ---------- Hero material sequence ---------- */
 
-type HeroMaterial = {
-  key: string;
-  label: string;
-  origin: string;
-  img: string;
-  tint: string;
-  glow: string;
-};
+/* ---------- Hero ---------- */
 
-const MATERIALS: HeroMaterial[] = [
-  { key: "opal",     label: "Black Opal",           origin: "Lightning Ridge",     img: heroOpal,    tint: "from-[#0b3b5c]/40 via-[#2a0b5c]/25 to-transparent", glow: "bg-[#3ac9ff]/25" },
-  { key: "gold",     label: "Molten Gold",          origin: "999.9 fine",          img: heroGold,    tint: "from-[#6b3d0d]/50 via-[#f2b23a]/25 to-transparent", glow: "bg-[#f4c25a]/35" },
-  { key: "bullion",  label: "Gold Bullion",         origin: "LBMA cast, 1 kg",     img: heroGold,    tint: "from-[#3a2a0a]/60 via-[#c48a2c]/25 to-transparent", glow: "bg-[#d9a441]/30" },
-  { key: "diamond",  label: "Round Brilliant",      origin: "D flawless",          img: heroDiamond, tint: "from-[#0a1a3a]/45 via-[#a8c8ff]/20 to-transparent", glow: "bg-[#c8dcff]/30" },
-  { key: "watch",    label: "Tourbillon",           origin: "Geneva, mechanical",  img: heroWatch,   tint: "from-[#1a1a1a]/50 via-[#8a6a3a]/25 to-transparent", glow: "bg-[#e8c67a]/25" },
-  { key: "jewel",    label: "Finished Jewellery",   origin: "South Sea, cultured", img: heroPearl,   tint: "from-[#2a1a2a]/45 via-[#e8d8c0]/20 to-transparent", glow: "bg-[#f0e6d2]/25" },
-  { key: "academy",  label: "The Precious Intelligence Academy", origin: "Master the Extraordinary", img: heroOpal, tint: "from-obsidian/70 via-gold/10 to-transparent", glow: "bg-gold/25" },
-];
 
 function Home() {
   return (
@@ -118,25 +99,16 @@ function Home() {
 }
 
 /* ============================================================
-   1. HERO — cinematic canvas + material sequence
+   1. HERO, the Grand Hall
    ============================================================ */
 
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const reduced = useReducedMotion();
   const y = useTransform(scrollYProgress, [0, 1], [0, 160]);
   const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    if (reduced) return;
-    const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % MATERIALS.length);
-    }, 4200);
-    return () => window.clearInterval(id);
-  }, [reduced]);
 
   return (
     <section
@@ -144,39 +116,21 @@ function Hero() {
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pt-32"
       aria-label="The Precious Intelligence Academy"
     >
+      {/* Grand Hall backdrop */}
+      <motion.div style={{ y, scale }} className="absolute inset-0">
+        <MediaOverlay
+          poster={GRAND_HALL.interiorDolly.poster}
+          mobile={GRAND_HALL.interiorDolly.mobile}
+          alt={GRAND_HALL.interiorDolly.alt}
+          loading="eager"
+          fetchPriority="high"
+          scrim="scrim-hero"
+        />
+      </motion.div>
+
       {/* Base atmosphere */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(212,175,55,0.10),transparent_60%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(88,120,180,0.08),transparent_55%)]" />
-
-      {/* Cinematic material sequence */}
-      <motion.div style={{ y, scale, opacity }} className="absolute inset-0">
-        {MATERIALS.map((m, i) => (
-          <motion.div
-            key={m.key}
-            initial={false}
-            animate={{
-              opacity: i === index ? 1 : 0,
-              scale: i === index ? 1 : 1.05,
-            }}
-            transition={{ duration: 2.2, ease: luxury.ease }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div className="relative h-[86vh] w-[86vh] max-h-[820px] max-w-[820px]">
-              <div className={`absolute inset-0 rounded-full ${m.glow} blur-[120px]`} />
-              <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${m.tint} blur-2xl`} />
-              <img
-                src={m.img}
-                alt=""
-                aria-hidden
-                width={1536}
-                height={1536}
-                className="float-slow relative h-full w-full object-contain"
-                style={{ filter: "contrast(1.05) saturate(1.05)" }}
-              />
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
 
       {/* Particle field */}
       {!reduced && <ParticleField />}
@@ -220,31 +174,6 @@ function Hero() {
             <Link to="/knowledge">Enter the Knowledge Hub</Link>
           </LuxButton>
         </motion.div>
-
-        {/* Live material label */}
-        <motion.div variants={fadeUp} className="mt-16 flex items-center justify-center gap-3">
-          <span className="h-px w-6 bg-gold/50" />
-          <div className="min-w-[220px] text-left">
-            <motion.p
-              key={MATERIALS[index].key}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="text-[11px] uppercase tracking-[0.28em] text-gold"
-            >
-              Now in view · {MATERIALS[index].label}
-            </motion.p>
-            <motion.p
-              key={MATERIALS[index].key + "-o"}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.1 }}
-              className="mt-1 text-[11px] font-light tracking-wide text-platinum/60"
-            >
-              {MATERIALS[index].origin}
-            </motion.p>
-          </div>
-        </motion.div>
       </motion.div>
 
       {/* Scroll cue */}
@@ -256,11 +185,12 @@ function Hero() {
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center"
       >
         <div className="mx-auto mb-3 h-10 w-px bg-gradient-to-b from-transparent to-gold" />
-        
       </motion.div>
     </section>
   );
 }
+
+
 
 function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -491,8 +421,16 @@ function KnowledgeHubPreview() {
     { to: "/smelt-lab", label: "The Smelt Lab", body: "Blend metals in a virtual crucible and watch karat, colour, and hallmark emerge." },
   ] as const;
   return (
-    <Section>
-      <Container>
+    <Section className="relative overflow-hidden">
+      <MediaOverlay
+        poster={GRAND_HALL.ambienceLoop.poster}
+        mobile={GRAND_HALL.ambienceLoop.mobile}
+        alt=""
+        loading="lazy"
+        scrim="scrim-card"
+      />
+      <Container className="relative z-10">
+
         <div className="grid gap-16 md:grid-cols-12 md:items-end">
           <div className="md:col-span-5">
             <Eyebrow>IV. Knowledge Hub</Eyebrow>
