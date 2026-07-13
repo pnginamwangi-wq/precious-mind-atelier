@@ -187,6 +187,22 @@
 }
 
 /*
+ * Ken Burns slow zoom for cinematic stills. Paired with <MediaOverlay
+ * kenBurns />. The transform is subtle: 22 seconds, 1.0 to 1.08, gentle
+ * drift so it reads as breath, not motion.
+ */
+@keyframes ken-burns {
+  0% { transform: scale(1) translate3d(0, 0, 0); }
+  50% { transform: scale(1.06) translate3d(-1.2%, -0.8%, 0); }
+  100% { transform: scale(1.08) translate3d(0.6%, 0.4%, 0); }
+}
+
+@utility animate-ken-burns {
+  animation: ken-burns 22s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+/*
  * Media overlay scrims (Phase 2A).
  * Guarantee AA-contrast text over any photograph or video frame.
  * Used by <MediaOverlay>; also applicable directly to hero figures.
