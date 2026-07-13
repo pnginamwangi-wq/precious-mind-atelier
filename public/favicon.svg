@@ -13,7 +13,7 @@
   <rect width="64" height="64" rx="10" fill="url(#bg)"/>
   <circle cx="32" cy="32" r="26" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.9"/>
   <circle cx="32" cy="32" r="22.5" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.55"/>
-  <path d="M32 4.5 L35 8 L32 11.5 L29 8 Z" fill="url(#gold)"/>
-  <text x="32" y="41.5" text-anchor="middle" font-family="Georgia, 'Cormorant Garamond', serif" font-weight="500" font-size="22" letter-spacing="0.6" fill="url(#gold)">PIA</text>
+  <path d="M32 16.5 L35 20 L32 23.5 L29 20 Z" fill="url(#gold)" stroke="#c9a84c" stroke-width="0.3"/>
+  <text x="32" y="43" text-anchor="middle" font-family="Georgia, 'Cormorant Garamond', serif" font-weight="500" font-size="20" letter-spacing="0.8" fill="url(#gold)">PIA</text>
   <line x1="22" y1="46" x2="42" y2="46" stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
 </svg>
