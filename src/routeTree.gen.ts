@@ -18,6 +18,7 @@ import { Route as LibraryRouteImport } from './routes/library'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as GovernanceRouteImport } from './routes/governance'
+import { Route as GithubSyncRouteImport } from './routes/github-sync'
 import { Route as EditorialExampleRouteImport } from './routes/editorial-example'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -85,6 +86,11 @@ const JournalRoute = JournalRouteImport.update({
 const GovernanceRoute = GovernanceRouteImport.update({
   id: '/governance',
   path: '/governance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GithubSyncRoute = GithubSyncRouteImport.update({
+  id: '/github-sync',
+  path: '/github-sync',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EditorialExampleRoute = EditorialExampleRouteImport.update({
@@ -210,6 +216,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
+  '/github-sync': typeof GithubSyncRoute
   '/governance': typeof GovernanceRoute
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
+  '/github-sync': typeof GithubSyncRoute
   '/governance': typeof GovernanceRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
@@ -275,6 +283,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
+  '/github-sync': typeof GithubSyncRoute
   '/governance': typeof GovernanceRoute
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
@@ -310,6 +319,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/editorial-example'
+    | '/github-sync'
     | '/governance'
     | '/journal'
     | '/knowledge'
@@ -343,6 +353,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/editorial-example'
+    | '/github-sync'
     | '/governance'
     | '/mcp'
     | '/privacy'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/editorial-example'
+    | '/github-sync'
     | '/governance'
     | '/journal'
     | '/knowledge'
@@ -409,6 +421,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   EditorialExampleRoute: typeof EditorialExampleRoute
+  GithubSyncRoute: typeof GithubSyncRoute
   GovernanceRoute: typeof GovernanceRoute
   JournalRoute: typeof JournalRouteWithChildren
   KnowledgeRoute: typeof KnowledgeRouteWithChildren
@@ -489,6 +502,13 @@ declare module '@tanstack/react-router' {
       path: '/governance'
       fullPath: '/governance'
       preLoaderRoute: typeof GovernanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/github-sync': {
+      id: '/github-sync'
+      path: '/github-sync'
+      fullPath: '/github-sync'
+      preLoaderRoute: typeof GithubSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/editorial-example': {
@@ -733,6 +753,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   EditorialExampleRoute: EditorialExampleRoute,
+  GithubSyncRoute: GithubSyncRoute,
   GovernanceRoute: GovernanceRoute,
   JournalRoute: JournalRouteWithChildren,
   KnowledgeRoute: KnowledgeRouteWithChildren,
