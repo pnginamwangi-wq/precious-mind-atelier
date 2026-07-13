@@ -419,6 +419,7 @@ function KnowledgeHubPreview() {
     { to: "/knowledge/compare", label: "Comparisons", body: "The pairs the trade often conflates, set side by side and explained." },
     { to: "/knowledge/pathways", label: "Learning Paths", body: "Curated reading sequences, timed to a single considered session." },
     { to: "/smelt-lab", label: "The Smelt Lab", body: "Blend metals in a virtual crucible and watch karat, colour, and hallmark emerge." },
+    { to: "/loupe-room", label: "The Loupe Room", body: "Eight guided examinations and a bench where you read hallmarks, identify stones, and detect the suspicious." },
   ] as const;
   return (
     <Section className="relative overflow-hidden">

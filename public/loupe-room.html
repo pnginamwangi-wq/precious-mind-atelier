@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Loupe Room · Precious Intelligence Academy</title>
+<meta name="description" content="Eight guided gemstone examination pathways. Learn what a ten-power loupe can show you — and what only a laboratory can prove.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08070a;
+  --panel:rgba(22,19,15,.72);
+  --glass:rgba(255,255,255,.04);
+  --line:rgba(201,161,64,.18);
+  --cream:#f5eedd;
+  --body:#cfc5ab;
+  --gold:#c9a140;
+  --gold-hi:#f0d488;
+  --gold-deep:#7d5f20;
+  --focus:#f0d488;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'Inter',sans-serif;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  line-height:1.7;
+}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.12}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:4px}
+button{font-family:inherit}
+
+.hero{position:relative;min-height:72vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:5rem 1.5rem 3.5rem;overflow:hidden}
+@media(max-width:760px){.hero{padding-top:7.5rem}}
+.hero-fallback{position:absolute;inset:0;
+  background:
+    radial-gradient(900px 480px at 30% 80%, rgba(80,140,120,.10), transparent 60%),
+    radial-gradient(1100px 600px at 70% 20%, rgba(201,161,64,.10), transparent 55%),
+    linear-gradient(180deg,#0b0a0e, #08070a 70%);}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(5,4,7,.9) 100%)}
+.hero-inner{position:relative;z-index:2;max-width:760px}
+.eyebrow{letter-spacing:.34em;font-size:.66rem;text-transform:uppercase;color:var(--gold);
+  font-family:'Space Mono',monospace;margin-bottom:1.3rem}
+.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);color:var(--gold-hi)}
+.hero h1 em{color:var(--cream);font-style:italic}
+.hero p{max-width:620px;margin:1.4rem auto 0;color:var(--body);font-size:1.05rem;line-height:1.8}
+
+.principle{position:relative;z-index:2;max-width:640px;margin:2.4rem auto 0;
+  border:1px solid var(--line);border-radius:12px;padding:1rem 1.4rem;background:var(--panel);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.principle p{font-size:.88rem;color:var(--cream);margin:0;line-height:1.65}
+.principle b{color:var(--gold-hi);font-weight:600}
+
+.room{max-width:1240px;margin:0 auto;padding:2.5rem 1.5rem 4.5rem;position:relative;z-index:3}
+
+.tray{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:2rem}
+.tray button{display:flex;align-items:center;gap:.55rem;
+  font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.55rem .95rem .55rem .6rem;border-radius:24px;border:1px solid var(--gold-deep);
+  background:transparent;color:var(--body);cursor:pointer;transition:.2s}
+.tray button:hover{background:rgba(201,161,64,.12);color:var(--gold-hi);transform:translateY(-1px)}
+.tray button.sel{background:rgba(201,161,64,.16);color:var(--gold-hi);border-color:var(--gold)}
+.tray button.done::after{content:'✓';color:var(--gold);margin-left:.15rem}
+.gem-dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;
+  box-shadow:inset 0 -4px 7px rgba(0,0,0,.55), inset 0 3px 5px rgba(255,255,255,.35), 0 2px 6px rgba(0,0,0,.5)}
+
+.bench{display:grid;grid-template-columns:380px 1fr;gap:1.6rem;align-items:start}
+@media(max-width:900px){.bench{grid-template-columns:1fr}}
+
+.panel{background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:14px;padding:1.7rem 1.6rem;
+  box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05)}
+
+.specimen{text-align:center}
+.stone-stage{position:relative;width:210px;height:210px;margin:0 auto 1.4rem}
+.stone{position:absolute;inset:24px;border-radius:50%;
+  box-shadow:inset 0 -26px 40px rgba(0,0,0,.6), inset 0 16px 26px rgba(255,255,255,.28), 0 22px 46px rgba(0,0,0,.6);
+  transition:background .5s}
+.stone::after{content:'';position:absolute;left:18%;top:12%;width:30%;height:18%;
+  border-radius:50%;background:rgba(255,255,255,.35);filter:blur(4px);transform:rotate(-24deg)}
+.loupe-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--gold-deep);opacity:.55}
+.loupe-ring::before{content:'';position:absolute;inset:10px;border-radius:50%;border:1px solid var(--line)}
+.loupe-ring::after{content:'10×';position:absolute;top:-8px;right:6px;background:var(--bg);
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--gold);padding:0 .35rem}
+.specimen h2{font-size:1.9rem;color:var(--gold-hi)}
+.species{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:.3rem}
+.spec-rows{margin-top:1.15rem;font-family:'Space Mono',monospace;font-size:.72rem;text-align:left}
+.spec-rows div{display:flex;justify-content:space-between;padding:.48rem .2rem;border-bottom:1px solid rgba(255,255,255,.06);color:var(--body)}
+.spec-rows div:last-child{border-bottom:none}
+.spec-rows b{color:var(--cream);font-weight:400}
+.eye-note{margin-top:1.1rem;font-size:.84rem;color:var(--body);line-height:1.7;text-align:left}
+
+.stations{min-width:0}
+.station-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.station-tabs button{flex:1;min-width:130px;padding:.65rem .5rem;border-radius:10px;cursor:pointer;
+  border:1px solid var(--gold-deep);background:var(--glass);color:var(--body);
+  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;transition:.2s;line-height:1.5}
+.station-tabs button.sel{border-color:var(--gold-hi);color:var(--gold-hi);background:rgba(201,161,64,.12)}
+.station h3{font-size:1.5rem;color:var(--gold-hi);margin-bottom:.7rem}
+.station p{font-size:.92rem;color:var(--body);line-height:1.75;margin-bottom:.85rem}
+.station p b{color:var(--cream);font-weight:600}
+.obs{margin:1.1rem 0 0;display:grid;gap:.55rem}
+.obs label{display:flex;gap:.7rem;align-items:flex-start;padding:.75rem .9rem;border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;cursor:pointer;transition:border-color .2s, background .2s}
+.obs label:hover{border-color:var(--line)}
+.obs input{margin-top:.3rem;accent-color:var(--gold);flex-shrink:0}
+.obs span{font-size:.85rem;color:var(--body);line-height:1.6}
+.obs input:checked ~ span{color:var(--cream)}
+.limit{margin-top:1.3rem;border-left:2px solid var(--gold);padding:.85rem 1.1rem;background:rgba(201,161,64,.06);border-radius:0 9px 9px 0}
+.limit .lbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.limit p{font-size:.86rem;color:var(--cream);margin:0;line-height:1.65}
+.station-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;gap:1rem;flex-wrap:wrap}
+.snav-btn{padding:.8rem 1.5rem;border-radius:8px;cursor:pointer;
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;transition:.2s}
+.snav-btn.primary{border:none;color:#1a1408;background:linear-gradient(180deg,var(--gold-hi),var(--gold-deep));font-weight:700}
+.snav-btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,161,64,.4)}
+.snav-btn.ghost{background:var(--glass);border:1px solid var(--gold-deep);color:var(--gold)}
+.snav-btn.ghost:hover{background:rgba(201,161,64,.12)}
+.snav-btn:disabled{cursor:not-allowed;transform:none;box-shadow:none;background:#241d10;color:#8f8468;border:1px solid rgba(201,161,64,.25)}
+.progress{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;color:var(--body);text-transform:uppercase}
+.progress b{color:var(--gold-hi);font-weight:400}
+
+.section{max-width:1120px;margin:0 auto;padding:0 1.5rem 5rem;position:relative;z-index:3}
+.section h2{font-size:2rem;color:var(--gold-hi);text-align:center;margin-bottom:.5rem}
+.section .lead{color:var(--body);text-align:center;max-width:660px;margin:0 auto 2.2rem;font-size:.95rem;line-height:1.75}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:1rem}
+@media(max-width:780px){.notes{grid-template-columns:1fr}}
+.note{border-left:2px solid var(--gold);padding-left:1.1rem;transition:transform .25s, border-color .25s}
+.note:hover{transform:translateX(4px);border-color:var(--gold-hi)}
+.note h3{font-size:1.16rem;color:var(--gold-hi);margin-bottom:.45rem}
+.note p{font-size:.88rem;color:var(--body);line-height:1.72}
+
+footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.68rem;
+  letter-spacing:.1em;border-top:1px solid var(--line);font-family:'Space Mono',monospace}
+
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01s!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-fallback" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Precious Intelligence Academy</div>
+    <h1>The Loupe Room<br><em>Learn to see like the trade</em></h1>
+    <p>Eight guided examination pathways, one for each of the great gem materials. Each pathway teaches what the unaided eye can suggest, what a ten-power loupe can reveal, and — most importantly — where honest observation ends and laboratory work begins.</p>
+    <div class="principle">
+      <p><b>The Loupe Room principle.</b> A loupe raises questions; a laboratory answers them. Nothing you observe here, or at any bench, proves that a stone is natural, untreated, or what its seller claims. Visual inspection narrows possibilities — it never certifies.</p>
+    </div>
+  </div>
+</section>
+
+<div class="room">
+  <div class="tray" id="tray" role="tablist" aria-label="Gemstone pathways"></div>
+
+  <div class="bench">
+    <div class="panel specimen">
+      <div class="stone-stage" aria-hidden="true">
+        <div class="loupe-ring"></div>
+        <div class="stone" id="stoneVis"></div>
+      </div>
+      <h2 id="stoneName">Diamond</h2>
+      <div class="species" id="stoneSpecies"></div>
+      <div class="spec-rows" id="specRows"></div>
+      <p class="eye-note" id="eyeNote"></p>
+    </div>
+
+    <div class="panel stations">
+      <div class="station-tabs" id="stationTabs" role="tablist" aria-label="Examination stations"></div>
+      <div class="station" id="stationBody" aria-live="polite"></div>
+      <div class="station-nav">
+        <button class="snav-btn ghost" id="prevBtn">Previous station</button>
+        <span class="progress" id="progress"></span>
+        <button class="snav-btn primary" id="nextBtn">Next station</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section rv">
+  <h2>How to hold a loupe</h2>
+  <p class="lead">Bring the loupe to your eye, not the stone to the loupe. Rest the hand holding the loupe against your cheek, bring the stone up in the other hand until it comes into focus about an inch away, and brace both elbows. Stillness, not eyesight, is what separates a clean observation from a guess.</p>
+  <div class="notes">
+    <div class="note"><h3>Ten power, by convention</h3><p>The trade grades clarity at ten-power magnification because it is the internationally agreed reference, not because more power is unavailable. What cannot be seen at 10× does not exist for grading purposes — and what can be seen at 10× still requires interpretation before it means anything.</p></div>
+    <div class="note"><h3>Inclusions are evidence, not flaws</h3><p>An inclusion is a record of how and where a crystal grew. Silk in a sapphire, a three-phase inclusion in an emerald, a string of octahedra in a spinel — these are the fingerprints that make a stone individual, and often the very features a laboratory uses to assess origin and treatment.</p></div>
+    <div class="note"><h3>Know when to stop</h3><p>The most professional sentence in gemmology is "this needs a laboratory." Synthetics, diffusion treatments, fracture fillings, and lab-grown diamonds can all pass a loupe examination. The loupe's job is to tell you which questions to ask — the laboratory's job is to answer them.</p></div>
+  </div>
+</div>
+
+<footer>THE PRECIOUS INTELLIGENCE ACADEMY · LOUPE ROOM</footer>
+
+<script>
+(function(){
+"use strict";
+
+var GEMS=[
+ {
+  id:"diamond", name:"Diamond", species:"Carbon · Cubic system",
+  grad:"radial-gradient(circle at 34% 30%, #ffffff, #dfe6ee 45%, #9aa6b5 78%, #5d6773)",
+  spec:[["MOHS HARDNESS","10"],["REFRACTIVE INDEX","2.42 · singly refractive"],["SPECIFIC GRAVITY","3.52"],["LUSTRE","Adamantine"]],
+  eye:"Face up, look for the sharpness of light return — brightness, fire, and scintillation — and whether the stone looks lively or glassy. Adamantine lustre is difficult to imitate, but the eye alone cannot rank it reliably.",
+  loupe:{
+    intro:"At ten power, a diamond rewards patience. Work from the table to the girdle, tilting slowly under a single light source.",
+    obs:[
+      "Facet junctions: knife-sharp edges where facets meet. Hardness 10 keeps junctions crisp for decades; softer simulants round off with wear.",
+      "Inclusions: pinpoint crystals, clouds, and feathers. Match what you see against the plot on the stone's laboratory report — the inclusion pattern is the stone's fingerprint.",
+      "The girdle: look for naturals (small remnants of the original crystal surface), bearding, and any laser inscription of a report number.",
+      "Doubling check: through the crown, back facet junctions should appear single. Visible doubling suggests a doubly refractive imitation such as moissanite."
+    ],
+    limit:"A loupe cannot separate a natural diamond from a laboratory-grown one. They are the same material with the same optics; the difference lies in growth features only instruments can read. Any natural-versus-grown question goes to a laboratory, full stop."
+  },
+  interpret:"If junctions are crisp, doubling is absent, and the inclusion pattern matches the report plot, the loupe supports — but does not prove — that the stone is the one described. Discrepancies mean the conversation stops until a laboratory resolves them.",
+  refer:"Origin of growth (natural or laboratory), HPHT colour treatment, and fracture filling are laboratory questions, resolved with spectroscopy and fluorescence imaging. An unverified stone is priced as unverified."
+ },
+ {
+  id:"ruby", name:"Ruby", species:"Corundum · Coloured by chromium",
+  grad:"radial-gradient(circle at 34% 30%, #ff8f8f, #d8283f 45%, #8f1024 78%, #4d0813)",
+  spec:[["MOHS HARDNESS","9"],["REFRACTIVE INDEX","1.76–1.77"],["SPECIFIC GRAVITY","4.00"],["LUSTRE","Vitreous to sub-adamantine"]],
+  eye:"Judge saturation and evenness of red face up. Trade terms like \"pigeon blood\" are descriptions, not grades — two dealers can honestly disagree about the same stone.",
+  loupe:{
+    intro:"Corundum is generous to the loupe. Its inclusions are legible and often beautiful.",
+    obs:[
+      "Silk: fine rutile needles intersecting at sixty degrees. Intact silk is a strong hint the stone has not been heated to high temperature.",
+      "Fingerprints: healed fractures resembling their namesake, common in natural corundum.",
+      "Colour zoning: straight, angular bands following the crystal's growth. Curved bands suggest flame-fusion synthetic growth.",
+      "Filled fractures: a blue-orange flash rolling across a fissure, or flattened gas bubbles, indicates lead-glass filling — a heavily treated, fragile product that must be disclosed."
+    ],
+    limit:"Standard heat treatment often leaves no trace a loupe can catch, and fine synthetics may show nothing conclusive at ten power. Neither treatment status nor natural origin can be settled visually."
+  },
+  interpret:"Intact silk, angular zoning, and natural fingerprints build a case for an unheated natural ruby — a case, not a verdict. A flash effect anywhere ends the negotiation until the filling is characterised.",
+  refer:"Heat treatment, lead-glass filling, and geographic origin are resolved by laboratory spectroscopy and trace-element chemistry. Origin premiums, such as for Burmese stones, rest on a laboratory opinion — buy the stone, not the postcode."
+ },
+ {
+  id:"sapphire", name:"Sapphire", species:"Corundum · Coloured by iron and titanium",
+  grad:"radial-gradient(circle at 34% 30%, #8fb4ff, #2851d8 45%, #10248f 78%, #08134d)",
+  spec:[["MOHS HARDNESS","9"],["REFRACTIVE INDEX","1.76–1.77"],["SPECIFIC GRAVITY","4.00"],["LUSTRE","Vitreous"]],
+  eye:"Look for velvety saturation and how colour holds in low light. Many sapphires go inky or grey off-axis; the finest hold their blue.",
+  loupe:{
+    intro:"Everything learned on ruby applies here — same mineral, different chromophores.",
+    obs:[
+      "Hexagonal colour zoning: straight bands meeting at 120°, a signature of natural corundum growth.",
+      "Silk and its condition: dissolved or dot-like silk suggests heating; intact silk suggests the stone escaped the furnace.",
+      "Curved striae: fine curved growth lines, best seen with diffused light, point to flame-fusion synthetic origin.",
+      "Surface-reaching colour: colour concentrated along facet junctions and fissures can indicate diffusion treatment."
+    ],
+    limit:"Beryllium diffusion can colour a stone through its entire body and leave nothing for a loupe to find. The Kashmir and Ceylon origin premiums are laboratory opinions built on inclusion suites and chemistry — never an eye judgement."
+  },
+  interpret:"Angular zoning plus healthy silk supports natural, possibly unheated corundum. Anything suggesting diffusion or synthetic growth suspends the stone's identity until tested.",
+  refer:"Advanced chemistry (such as trace-element analysis) separates diffusion-treated, heated, and unheated stones and grounds any origin opinion. For important sapphires, two laboratory reports are not paranoia; they are practice."
+ },
+ {
+  id:"emerald", name:"Emerald", species:"Beryl · Coloured by chromium or vanadium",
+  grad:"radial-gradient(circle at 34% 30%, #9fffce, #17a35e 45%, #0b6b3c 78%, #05361e)",
+  spec:[["MOHS HARDNESS","7.5–8"],["REFRACTIVE INDEX","1.57–1.58"],["SPECIFIC GRAVITY","2.72"],["LUSTRE","Vitreous"]],
+  eye:"Emerald is judged by colour first and forgiven its clarity. A visible garden of inclusions — the jardin — is accepted here as it never would be in diamond.",
+  loupe:{
+    intro:"The loupe's chief work in emerald is not admiring the jardin but finding what has been done to the fissures.",
+    obs:[
+      "The jardin: wisps, veils, and crystals that give each stone its character and help distinguish natural from flux-grown synthetic.",
+      "Three-phase inclusions: a cavity holding liquid, a gas bubble, and a salt crystal together — classically associated with Colombian material.",
+      "Filler flash: surface-reaching fissures showing a blue or orange flash as the stone tilts betray resin or oil filling.",
+      "Assembly check: side-on, look for a join line — soudé composites put a green cement layer between colourless pieces."
+    ],
+    limit:"Nearly all emeralds are fissure-filled to some degree; the loupe cannot measure how much, or whether the filler is traditional cedar oil or modern resin. The distinction matters for care, durability, and price, and only a laboratory can make it."
+  },
+  interpret:"A convincing jardin with quiet fissures suggests a stone whose beauty is its own. Any flash effect converts the question from \"how beautiful\" to \"how treated\" — and reprices accordingly.",
+  refer:"Laboratories grade filler quantity (minor, moderate, significant) and identify the substance by spectroscopy. An emerald's report should be recent: fillers age, and yesterday's grade is not today's."
+ },
+ {
+  id:"spinel", name:"Spinel", species:"Magnesium aluminium oxide · Cubic system",
+  grad:"radial-gradient(circle at 34% 30%, #ffa8c0, #e0355f 45%, #97173c 78%, #4d0a1f)",
+  spec:[["MOHS HARDNESS","8"],["REFRACTIVE INDEX","1.72 · singly refractive"],["SPECIFIC GRAVITY","3.60"],["LUSTRE","Vitreous"]],
+  eye:"History's great impostor: the Black Prince's Ruby in the British Imperial State Crown is a spinel. Fine red spinel can stand beside ruby and hold its own.",
+  loupe:{
+    intro:"Spinel is singly refractive and often remarkably clean — its loupe signature is subtle by nature.",
+    obs:[
+      "Strings of pearls: rows of tiny octahedral crystals, spinel's most charming and diagnostic inclusion.",
+      "No doubling: back facets appear single through the crown, consistent with a singly refractive stone.",
+      "Evenness of colour: natural spinel rarely shows the strong zoning corundum does.",
+      "Curved striae or scattered gas bubbles suggest flame-fusion synthetic spinel — abundant in mid-century jewellery as a birthstone imitation."
+    ],
+    limit:"A clean, well-cut spinel offers the loupe almost nothing to argue with — which is exactly why identity should rest on the refractometer and laboratory, not on confidence."
+  },
+  interpret:"Octahedral inclusions and single refraction support natural spinel; sterile perfection in an older setting should raise the synthetic question rather than settle it.",
+  refer:"A refractometer reading near 1.72 with no birefringence separates spinel from corundum in seconds; laboratory spectroscopy separates natural from synthetic. Both tests are routine and inexpensive relative to the price of being wrong."
+ },
+ {
+  id:"opal", name:"Opal", species:"Hydrated amorphous silica",
+  grad:"radial-gradient(circle at 30% 28%, #ffffff, #cfe8ff 30%, #ffb8e0 50%, #9fe8c8 68%, #3d4a66 92%)",
+  spec:[["MOHS HARDNESS","5.5–6.5"],["REFRACTIVE INDEX","1.45"],["SPECIFIC GRAVITY","2.15"],["WATER CONTENT","3–10%"]],
+  eye:"Judge play-of-colour: the pattern, the range of hues, and the body tone behind them. Black opal's dark body makes the colour burn; white opal glows more softly.",
+  loupe:{
+    intro:"With opal, the loupe's most important angle is the one settings try to hide: the side.",
+    obs:[
+      "Pattern character: natural play-of-colour drifts irregularly. A too-regular, columnar \"lizard skin\" or \"chicken wire\" pattern suggests synthetic opal.",
+      "The side view: a straight, dead-flat line where colour meets dark backing betrays a doublet; a second line under a clear dome betrays a triplet.",
+      "Crazing: fine surface cracks from dehydration — a durability and value question visible at ten power.",
+      "Potch and matrix: natural inclusions of colourless opal or host rock are consistent with solid natural material."
+    ],
+    limit:"A well-made doublet in a bezel setting can defeat the loupe entirely, because the tell-tale join is covered by metal. An opal that cannot be examined from the side cannot be verified as solid by eye — price it as if it were assembled until proven otherwise."
+  },
+  interpret:"Irregular pattern, visible potch lines, and an uninterrupted side profile support solid natural opal. Any suggestion of layering converts the piece from gem to assembled product.",
+  refer:"Laboratories confirm solid versus assembled construction and natural versus synthetic origin by magnification and structural analysis. For high-value black opal, provenance from the seller is a courtesy; a report is evidence."
+ },
+ {
+  id:"pearl", name:"Pearl", species:"Calcium carbonate nacre · Organic",
+  grad:"radial-gradient(circle at 34% 30%, #fffdf5, #f2e8d8 45%, #cbb9a4 78%, #8f7f6d)",
+  spec:[["MOHS HARDNESS","2.5–4.5"],["SPECIFIC GRAVITY","2.60–2.85"],["LUSTRE","Pearly · orient"],["STRUCTURE","Concentric nacre layers"]],
+  eye:"Lustre first: hold the pearl and look for depth of reflection, as if lit from within. Then surface, shape, and — in a strand — the discipline of the matching.",
+  loupe:{
+    intro:"Pearls ask the loupe different questions: not inclusions, but surface and structure.",
+    obs:[
+      "Surface texture: nacre under ten power shows a fine, fingerprint-like ridged texture. A glassy, sprayed-smooth surface suggests an imitation.",
+      "The drill hole: the most honest place on a pearl. Look for the boundary between nacre and a bead nucleus, and gauge nacre thickness.",
+      "Blemishes: natural surface characteristics are expected; their absence across an entire strand is itself suspicious.",
+      "Peeling or chipping near drill holes warns of thin nacre on a bead-nucleated cultured pearl."
+    ],
+    limit:"No loupe can separate a natural pearl from a cultured one — the difference is internal structure. That verdict belongs to X-radiography in a laboratory, and with natural pearls commanding many multiples of cultured prices, no other evidence is acceptable."
+  },
+  interpret:"Ridged texture, honest blemishes, and healthy nacre at the drill hole support a quality cultured pearl. Any claim of \"natural\" without an X-ray report is a story, not a fact.",
+  refer:"Laboratory X-radiography reveals internal growth structure and settles natural versus cultured definitively. For saltwater versus freshwater and treatment questions, the same report answers all three."
+ },
+ {
+  id:"jade", name:"Jade", species:"Jadeite jadeite · distinguished from nephrite",
+  grad:"radial-gradient(circle at 34% 30%, #baf5cf, #3fae6e 45%, #1d7346 78%, #0c3d24)",
+  spec:[["MOHS HARDNESS","6.5–7 (jadeite)"],["REFRACTIVE INDEX","1.66 (spot)"],["SPECIFIC GRAVITY","3.33"],["TOUGHNESS","Exceptional"]],
+  eye:"Jade is judged by translucence, evenness of colour, and texture — the finest \"imperial\" jadeite has a green so fine it appears lit from within. Nephrite, the other true jade, is oilier in lustre and its own tradition entirely.",
+  loupe:{
+    intro:"The loupe's task in jade is to read the surface and hunt for the marks of treatment.",
+    obs:[
+      "Granular texture: jadeite's interlocking crystals give a faintly dimpled, orange-peel surface under magnification.",
+      "Dye concentrations: colour pooling in fracture lines and between grains betrays dyed material.",
+      "Acid-bleach crazing: a fine web of surface cracks suggests bleaching and polymer impregnation — so-called B-jade.",
+      "Doublet check on cabochons: inspect the base and girdle for join lines and hollow-back construction."
+    ],
+    limit:"Polymer impregnation can be invisible at ten power, and skilled dyeing can defeat the eye. The A-jade, B-jade, C-jade classification that governs price is a laboratory determination, made by spectroscopy, not by looking."
+  },
+  interpret:"Natural texture, colour that respects the stone's structure, and no crazing support untreated material — but in jade, more than any other material here, the market runs on laboratory certificates rather than eyes.",
+  refer:"Infrared spectroscopy detects polymer impregnation definitively; a laboratory report stating \"no indications of impregnation\" (A-jade) is the standard basis for fine jadeite prices. Untested jade trades at untested prices."
+ }
+];
+
+var STATIONS=["The Unaided Eye","Under the Loupe · 10×","Interpretation","Refer to the Laboratory"];
+var cur=0, station=0;
+var visited={};
+function $(id){return document.getElementById(id)}
+
+/* tray */
+var tray=$('tray');
+GEMS.forEach(function(g,i){
+  var b=document.createElement('button');
+  b.setAttribute('role','tab');
+  b.innerHTML='<span class="gem-dot" style="background:'+g.grad+'"></span>'+g.name;
+  b.addEventListener('click',function(){ cur=i; station=0; render(); });
+  tray.appendChild(b);
+});
+
+/* station tabs */
+var tabs=$('stationTabs');
+STATIONS.forEach(function(s,i){
+  var b=document.createElement('button');
+  b.setAttribute('role','tab');
+  b.textContent=s;
+  b.addEventListener('click',function(){ station=i; render(); });
+  tabs.appendChild(b);
+});
+
+function stationHTML(g){
+  if(station===0){
+    return '<h3>The Unaided Eye</h3>'+
+      '<p>'+g.eye+'</p>'+
+      '<p>Before any magnification, form a first impression and hold it loosely. The eye establishes <b>what kind of quality conversation</b> this stone belongs in; it settles nothing about identity, origin, or treatment.</p>';
+  }
+  if(station===1){
+    var list=g.loupe.obs.map(function(o,i){
+      return '<label><input type="checkbox" data-gem="'+g.id+'" data-obs="'+i+'"><span>'+o+'</span></label>';
+    }).join('');
+    return '<h3>Under the Loupe · 10×</h3><p>'+g.loupe.intro+'</p>'+
+      '<div class="obs" role="group" aria-label="Observation checklist">'+list+'</div>'+
+      '<div class="limit"><div class="lbl">The honest limit</div><p>'+g.loupe.limit+'</p></div>';
+  }
+  if(station===2){
+    return '<h3>Interpretation</h3><p>'+g.interpret+'</p>'+
+      '<p>Interpretation is the discipline of weighing observations <b>without exceeding them</b>. Each feature you noted shifts probability; none of them, alone or together, constitutes proof.</p>';
+  }
+  return '<h3>Refer to the Laboratory</h3><p>'+g.refer+'</p>'+
+    '<p>This station is the destination of every pathway in this room. A director\'s credibility rests not on what they can spot, but on knowing precisely when to say: <b>this needs a laboratory.</b></p>';
+}
+
+function render(){
+  var g=GEMS[cur];
+  visited[g.id]=visited[g.id]||{};
+  visited[g.id][station]=true;
+
+  /* tray state */
+  Array.prototype.forEach.call(tray.children,function(b,i){
+    b.classList.toggle('sel',i===cur);
+    var gg=GEMS[i], v=visited[gg.id]||{};
+    b.classList.toggle('done', !!(v[0]&&v[1]&&v[2]&&v[3]));
+    b.setAttribute('aria-selected', i===cur ? 'true':'false');
+  });
+  /* tabs state */
+  Array.prototype.forEach.call(tabs.children,function(b,i){
+    b.classList.toggle('sel',i===station);
+    b.setAttribute('aria-selected', i===station ? 'true':'false');
+  });
+
+  /* specimen */
+  $('stoneVis').style.background=g.grad;
+  $('stoneName').textContent=g.name;
+  $('stoneSpecies').textContent=g.species;
+  $('specRows').innerHTML=g.spec.map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('');
+  $('eyeNote').textContent=station===0? '' : 'Specimen rendering is illustrative. Every judgement in this room is about method, not about this image.';
+
+  /* station */
+  $('stationBody').innerHTML=stationHTML(g);
+
+  /* nav */
+  $('prevBtn').disabled=(station===0);
+  $('nextBtn').textContent = station<3 ? 'Next station' : (cur<GEMS.length-1 ? 'Next stone: '+GEMS[cur+1].name : 'Pathways complete');
+  $('nextBtn').disabled = (station===3 && cur===GEMS.length-1 && allDone());
+  var done=GEMS.filter(function(gg){var v=visited[gg.id]||{};return v[0]&&v[1]&&v[2]&&v[3]}).length;
+  $('progress').innerHTML='Pathways studied <b>'+done+' / 8</b>';
+}
+function allDone(){
+  return GEMS.every(function(gg){var v=visited[gg.id]||{};return v[0]&&v[1]&&v[2]&&v[3]});
+}
+$('prevBtn').addEventListener('click',function(){ if(station>0){station--; render();} });
+$('nextBtn').addEventListener('click',function(){
+  if(station<3){ station++; }
+  else if(cur<GEMS.length-1){ cur++; station=0; }
+  render();
+  document.querySelector('.bench').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+render();
+
+/* reveal on scroll */
+var io=('IntersectionObserver' in window)? new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12}) : null;
+document.querySelectorAll('.rv').forEach(function(el){ io? io.observe(el) : el.classList.add('in'); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+  "registryVersion": 1,
+  "updated": "2026-07-14",
+  "namingPattern": "pia-[room]-[subject]-[shot]-[orientation]-[version]",
+  "mediaRoot": "public/media/{room}/{asset-id}/",
+  "assets": [
+    {
+      "filename": "loupe-room.html",
+      "room": "louperoom",
+      "subject": "study-pathways-interactive",
+      "type": "html-interactive",
+      "orientation": "responsive",
+      "loop": null,
+      "status": "live",
+      "route": "/loupe-room",
+      "component": "iframe wing: Study Pathways",
+      "loadingPriority": "eager",
+      "fallback": null,
+      "scientificReview": "done",
+      "rightsReview": "done"
+    },
+    {
+      "filename": "loupe-room-training.html",
+      "room": "louperoom",
+      "subject": "examination-bench-game",
+      "type": "html-interactive",
+      "orientation": "responsive",
+      "loop": null,
+      "status": "live",
+      "route": "/loupe-room",
+      "component": "iframe wing: Examination Bench",
+      "loadingPriority": "lazy",
+      "fallback": "loupe-room.html",
+      "scientificReview": "done",
+      "rightsReview": "done"
+    },
+    {
+      "filename": "smelt-lab.html",
+      "room": "smeltlab",
+      "subject": "alloy-melt-cast-assay-interactive",
+      "type": "html-interactive",
+      "orientation": "responsive",
+      "loop": null,
+      "status": "live",
+      "route": "/smelt-lab",
+      "component": "iframe",
+      "loadingPriority": "eager",
+      "fallback": null,
+      "scientificReview": "done",
+      "rightsReview": "done"
+    }
+  ],
+  "batch1": {
+    "room": "grandhall",
+    "generated": "2026-07-14",
+    "model": "nano_banana_2",
+    "resolution": "2752x1536",
+    "location": "public/media/grandhall/",
+    "lovableCommits": ["a4e377c30f35a573325772ae0a58b8258d1b96ac", "5d11f342e82edcd2c4064834afb41992b2d37b0e"],
+    "files": [
+      { "id": "pia-grandhall-exterior-approach-desktop-v01", "jobId": "fb64ed01-ab16-44fb-af98-ad08be02bc0d", "poster": "pia-grandhall-exterior-approach-desktop-v01-poster.webp", "mobile": "pia-grandhall-exterior-approach-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "id": "pia-grandhall-interior-dolly-desktop-v01", "jobId": "62ba0560-6030-42cb-aecd-cd9b0b155709", "poster": "pia-grandhall-interior-dolly-desktop-v01-poster.webp", "mobile": "pia-grandhall-interior-dolly-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "id": "pia-grandhall-campus-model-orbit-desktop-v01", "jobId": "f49ce225-882b-4779-a8e4-681eaff1290d", "poster": "pia-grandhall-campus-model-orbit-desktop-v01-poster.webp", "mobile": "pia-grandhall-campus-model-orbit-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "id": "pia-grandhall-ambience-loop-desktop-v01", "jobId": "3f8a47cb-b9a4-4080-ba70-4223b8507420", "poster": "pia-grandhall-ambience-loop-desktop-v01-poster.webp", "mobile": "pia-grandhall-ambience-loop-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "id": "pia-grandhall-plinth-static-desktop-v01", "jobId": "19fdbe83-7e71-4a6e-b2c7-bfe545485311", "poster": "pia-grandhall-plinth-static-desktop-v01-poster.webp", "mobile": "pia-grandhall-plinth-static-desktop-v01-mobile.webp", "status": "generated-owner-review" }
+    ],
+    "videoLoops": "not generated - insufficient credits (free plan)"
+  },
+  "plannedBatches": [
+    { "batch": 1, "room": "grandhall", "status": "posters-generated-loops-pending" },
+    { "batch": 2, "room": "atelier", "status": "queued" },
+    { "batch": 3, "room": "diamondtheatre", "status": "queued" },
+    { "batch": 4, "room": "mint", "status": "queued" },
+    { "batch": 5, "room": "library", "status": "queued" },
+    { "batch": 6, "room": "legends", "status": "queued" },
+    { "batch": 7, "room": "gemmuseum", "status": "queued" },
+    { "batch": 8, "room": "metals", "status": "queued" },
+    { "batch": 9, "room": "variants", "status": "queued" }
+  ]
+}
