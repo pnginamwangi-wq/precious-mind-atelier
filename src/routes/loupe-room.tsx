@@ -34,7 +34,7 @@ export const Route = createFileRoute("/loupe-room")({
   component: LoupeRoomPage,
 });
 
-type Wing = "study" | "bench";
+type Wing = "study" | "bench" | "levels";
 
 const WINGS: {
   id: Wing;
@@ -61,6 +61,15 @@ const WINGS: {
     title: "The Loupe Room, Examination Bench",
     description:
       "Training bench where you read hallmarks, identify stones and detect suspicious pieces.",
+  },
+  {
+    id: "levels",
+    label: "Level Training",
+    sub: "Progressive mastery ladder",
+    src: "/loupe-room-levels.html",
+    title: "The Loupe Room, Level Training",
+    description:
+      "Progressive levels ladder: earn your loupe, unlock harder examinations and prove your eye.",
   },
 ];
 
