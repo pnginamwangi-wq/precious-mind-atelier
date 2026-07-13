@@ -193,12 +193,7 @@ function HeroSequence() {
     GRAND_HALL.ambienceLoop,
     GRAND_HALL.campusModelOrbit,
   ];
-  const [i, setI] = (function useState() {
-    // inline safe useState import via React
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const R = require("react") as typeof import("react");
-    return R.useState(0);
-  })();
+  const [i, setI] = useState(0);
   useEffect(() => {
     if (reduced) return;
     const t = window.setInterval(() => setI((n: number) => (n + 1) % frames.length), 7000);
