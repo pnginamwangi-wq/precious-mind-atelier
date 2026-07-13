@@ -13,6 +13,7 @@ import {
   LuxButton,
   MediaOverlay,
   GRAND_HALL,
+  ATELIER,
   MobileTabs,
   Reveal,
   Section,
@@ -125,6 +126,7 @@ function Hero() {
           loading="eager"
           fetchPriority="high"
           scrim="scrim-hero"
+          kenBurns
         />
       </motion.div>
 
@@ -548,8 +550,15 @@ function JournalLatest() {
 function FeaturedCollection() {
   const items = LIBRARY.slice(0, 4);
   return (
-    <Section>
-      <Container>
+    <Section className="relative overflow-hidden">
+      <MediaOverlay
+        poster={ATELIER.benchGoldenHour.poster}
+        alt=""
+        loading="lazy"
+        scrim="scrim-card"
+        kenBurns
+      />
+      <Container className="relative z-10">
         <SectionHeader
           index="VI"
           eyebrow="The Library"
