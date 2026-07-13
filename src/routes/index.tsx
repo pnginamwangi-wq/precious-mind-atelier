@@ -117,17 +117,9 @@ function Hero() {
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pt-32"
       aria-label="The Precious Intelligence Academy"
     >
-      {/* Grand Hall backdrop */}
+      {/* Grand Hall cinematic sequence, cross-fading through four stills */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <MediaOverlay
-          poster={GRAND_HALL.interiorDolly.poster}
-          mobile={GRAND_HALL.interiorDolly.mobile}
-          alt={GRAND_HALL.interiorDolly.alt}
-          loading="eager"
-          fetchPriority="high"
-          scrim="scrim-hero"
-          kenBurns
-        />
+        <HeroSequence />
       </motion.div>
 
       {/* Base atmosphere */}
