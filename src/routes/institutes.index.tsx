@@ -77,10 +77,9 @@ function InstitutesIndex() {
               title="Eight disciplines. One faculty."
               intro="Each Institute is a self contained programme, taught by practitioners of the discipline. Enter the one you are drawn to."
             />
-          </div>
 
+            <Container className="mt-16">
 
-          <Container className="mt-16">
             <div className="grid gap-px bg-white/5 md:grid-cols-2">
               {INSTITUTES.map((it) => (
                 <motion.article key={it.slug} variants={fadeUp} className="bg-obsidian">
