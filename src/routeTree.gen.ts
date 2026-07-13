@@ -14,6 +14,7 @@ import { Route as SmeltLabRouteImport } from './routes/smelt-lab'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as LoupeRoomRouteImport } from './routes/loupe-room'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as JournalRouteImport } from './routes/journal'
@@ -66,6 +67,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoupeRoomRoute = LoupeRoomRouteImport.update({
+  id: '/loupe-room',
+  path: '/loupe-room',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibraryRoute = LibraryRouteImport.update({
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/library': typeof LibraryRouteWithChildren
+  '/loupe-room': typeof LoupeRoomRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -252,6 +259,7 @@ export interface FileRoutesByTo {
   '/editorial-example': typeof EditorialExampleRoute
   '/github-sync': typeof GithubSyncRoute
   '/governance': typeof GovernanceRoute
+  '/loupe-room': typeof LoupeRoomRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -288,6 +296,7 @@ export interface FileRoutesById {
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/library': typeof LibraryRouteWithChildren
+  '/loupe-room': typeof LoupeRoomRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -324,6 +333,7 @@ export interface FileRouteTypes {
     | '/journal'
     | '/knowledge'
     | '/library'
+    | '/loupe-room'
     | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
@@ -355,6 +365,7 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/github-sync'
     | '/governance'
+    | '/loupe-room'
     | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
@@ -390,6 +401,7 @@ export interface FileRouteTypes {
     | '/journal'
     | '/knowledge'
     | '/library'
+    | '/loupe-room'
     | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
@@ -426,6 +438,7 @@ export interface RootRouteChildren {
   JournalRoute: typeof JournalRouteWithChildren
   KnowledgeRoute: typeof KnowledgeRouteWithChildren
   LibraryRoute: typeof LibraryRouteWithChildren
+  LoupeRoomRoute: typeof LoupeRoomRoute
   McpRoute: typeof McpRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -474,6 +487,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/loupe-room': {
+      id: '/loupe-room'
+      path: '/loupe-room'
+      fullPath: '/loupe-room'
+      preLoaderRoute: typeof LoupeRoomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library': {
@@ -758,6 +778,7 @@ const rootRouteChildren: RootRouteChildren = {
   JournalRoute: JournalRouteWithChildren,
   KnowledgeRoute: KnowledgeRouteWithChildren,
   LibraryRoute: LibraryRouteWithChildren,
+  LoupeRoomRoute: LoupeRoomRoute,
   McpRoute: McpRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
