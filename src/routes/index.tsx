@@ -1,13 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Info } from "lucide-react";
 
-import heroOpal from "@/assets/hero-opal.jpg";
-import heroGold from "@/assets/hero-gold.jpg";
-import heroDiamond from "@/assets/hero-diamond.jpg";
-import heroWatch from "@/assets/hero-watch.jpg";
-import heroPearl from "@/assets/hero-pearl.jpg";
 
 import {
   Container,
