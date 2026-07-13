@@ -246,7 +246,7 @@ function Hero() {
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center"
       >
         <div className="mx-auto mb-3 h-10 w-px bg-gradient-to-b from-transparent to-gold" />
-        <Eyebrow muted>Scroll</Eyebrow>
+        
       </motion.div>
     </section>
   );
