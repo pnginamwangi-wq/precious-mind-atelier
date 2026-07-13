@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 import { cn } from "@/lib/utils";
@@ -58,6 +58,8 @@ const WINGS: {
   },
 ];
 
+const FOCUS_KEY = "smelt-lab:last-focus";
+
 function SmeltLabPage() {
   const { wing } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
@@ -67,6 +69,7 @@ function SmeltLabPage() {
   const tabRefs = useRef<Record<Wing, HTMLButtonElement | null>>({ classic: null, immersive: null });
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prev = useRef<Wing>(current);
+  const [announcement, setAnnouncement] = useState("");
 
   const setWing = useCallback(
     (next: Wing) => {
@@ -76,9 +79,11 @@ function SmeltLabPage() {
     [current, navigate],
   );
 
+  // Announce wing change + focus iframe.
   useEffect(() => {
     if (prev.current === current) return;
     prev.current = current;
+    setAnnouncement(`Loaded ${active.label}. ${active.description}`);
     const frame = iframeRef.current;
     if (!frame) return;
     const focus = () => {
@@ -90,7 +95,28 @@ function SmeltLabPage() {
     };
     if (frame.contentDocument?.readyState === "complete") focus();
     else frame.addEventListener("load", focus, { once: true });
-  }, [current]);
+  }, [current, active.label, active.description]);
+
+  // Focus restoration: restore focus target from prior visit, save on unmount.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = window.sessionStorage.getItem(FOCUS_KEY);
+    if (saved === "iframe") {
+      iframeRef.current?.focus({ preventScroll: true });
+    } else if (saved === "tab") {
+      tabRefs.current[current]?.focus({ preventScroll: true });
+    }
+    const onFocusIn = (e: FocusEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (!t) return;
+      if (t === iframeRef.current) window.sessionStorage.setItem(FOCUS_KEY, "iframe");
+      else if (t.getAttribute("role") === "tab") window.sessionStorage.setItem(FOCUS_KEY, "tab");
+    };
+    document.addEventListener("focusin", onFocusIn);
+    return () => document.removeEventListener("focusin", onFocusIn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   const onTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     const i = WINGS.findIndex((w) => w.id === current);
