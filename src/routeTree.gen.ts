@@ -29,7 +29,9 @@ import { Route as KnowledgeIndexRouteImport } from './routes/knowledge.index'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
 import { Route as VisualEditorialBlocksRouteImport } from './routes/visual/editorial-blocks'
+import { Route as LoupeRoomStudyRouteImport } from './routes/loupe-room.study'
 import { Route as LoupeRoomLevelsRouteImport } from './routes/loupe-room.levels'
+import { Route as LoupeRoomBenchRouteImport } from './routes/loupe-room.bench'
 import { Route as LibrarySlugRouteImport } from './routes/library.$slug'
 import { Route as KnowledgeSearchRouteImport } from './routes/knowledge.search'
 import { Route as KnowledgePathwaysRouteImport } from './routes/knowledge.pathways'
@@ -144,9 +146,19 @@ const VisualEditorialBlocksRoute = VisualEditorialBlocksRouteImport.update({
   path: '/visual/editorial-blocks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoupeRoomStudyRoute = LoupeRoomStudyRouteImport.update({
+  id: '/loupe-room/study',
+  path: '/loupe-room/study',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoupeRoomLevelsRoute = LoupeRoomLevelsRouteImport.update({
   id: '/loupe-room/levels',
   path: '/loupe-room/levels',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoupeRoomBenchRoute = LoupeRoomBenchRouteImport.update({
+  id: '/loupe-room/bench',
+  path: '/loupe-room/bench',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibrarySlugRoute = LibrarySlugRouteImport.update({
@@ -248,7 +260,9 @@ export interface FileRoutesByFullPath {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/bench': typeof LoupeRoomBenchRoute
   '/loupe-room/levels': typeof LoupeRoomLevelsRoute
+  '/loupe-room/study': typeof LoupeRoomStudyRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/journal/': typeof JournalIndexRoute
@@ -281,7 +295,9 @@ export interface FileRoutesByTo {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/bench': typeof LoupeRoomBenchRoute
   '/loupe-room/levels': typeof LoupeRoomLevelsRoute
+  '/loupe-room/study': typeof LoupeRoomStudyRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes': typeof InstitutesIndexRoute
   '/journal': typeof JournalIndexRoute
@@ -319,7 +335,9 @@ export interface FileRoutesById {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/bench': typeof LoupeRoomBenchRoute
   '/loupe-room/levels': typeof LoupeRoomLevelsRoute
+  '/loupe-room/study': typeof LoupeRoomStudyRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/journal/': typeof JournalIndexRoute
@@ -357,7 +375,9 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/bench'
     | '/loupe-room/levels'
+    | '/loupe-room/study'
     | '/visual/editorial-blocks'
     | '/institutes/'
     | '/journal/'
@@ -390,7 +410,9 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/bench'
     | '/loupe-room/levels'
+    | '/loupe-room/study'
     | '/visual/editorial-blocks'
     | '/institutes'
     | '/journal'
@@ -427,7 +449,9 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/bench'
     | '/loupe-room/levels'
+    | '/loupe-room/study'
     | '/visual/editorial-blocks'
     | '/institutes/'
     | '/journal/'
@@ -458,7 +482,9 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
+  LoupeRoomBenchRoute: typeof LoupeRoomBenchRoute
   LoupeRoomLevelsRoute: typeof LoupeRoomLevelsRoute
+  LoupeRoomStudyRoute: typeof LoupeRoomStudyRoute
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
   LoupeRoomIndexRoute: typeof LoupeRoomIndexRoute
@@ -607,11 +633,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VisualEditorialBlocksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/loupe-room/study': {
+      id: '/loupe-room/study'
+      path: '/loupe-room/study'
+      fullPath: '/loupe-room/study'
+      preLoaderRoute: typeof LoupeRoomStudyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/loupe-room/levels': {
       id: '/loupe-room/levels'
       path: '/loupe-room/levels'
       fullPath: '/loupe-room/levels'
       preLoaderRoute: typeof LoupeRoomLevelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/loupe-room/bench': {
+      id: '/loupe-room/bench'
+      path: '/loupe-room/bench'
+      fullPath: '/loupe-room/bench'
+      preLoaderRoute: typeof LoupeRoomBenchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library/$slug': {
@@ -807,7 +847,9 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
+  LoupeRoomBenchRoute: LoupeRoomBenchRoute,
   LoupeRoomLevelsRoute: LoupeRoomLevelsRoute,
+  LoupeRoomStudyRoute: LoupeRoomStudyRoute,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,
   LoupeRoomIndexRoute: LoupeRoomIndexRoute,
