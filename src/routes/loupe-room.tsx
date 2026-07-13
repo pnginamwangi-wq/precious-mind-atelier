@@ -82,6 +82,7 @@ function LoupeRoomPage() {
   const tabRefs = useRef<Record<Wing, HTMLButtonElement | null>>({
     study: null,
     bench: null,
+    levels: null,
   });
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const previousWing = useRef<Wing>(current);
