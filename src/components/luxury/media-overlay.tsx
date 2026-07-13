@@ -29,10 +29,8 @@ export interface MediaOverlayProps {
 }
 
 const SCRIM_CLASSES: Record<ScrimVariant, string> = {
-  "scrim-hero":
-    "bg-[radial-gradient(ellipse_at_center,rgba(10,10,12,0.55)_0%,rgba(10,10,12,0.85)_75%,rgba(10,10,12,0.95)_100%)]",
-  "scrim-card":
-    "bg-[linear-gradient(180deg,rgba(10,10,12,0.75)_0%,rgba(10,10,12,0.9)_100%)]",
+  "scrim-hero": "scrim-hero",
+  "scrim-card": "scrim-card",
   none: "",
 };
 
