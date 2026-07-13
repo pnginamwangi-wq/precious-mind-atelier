@@ -17,10 +17,21 @@ export type GithubSyncStatus = {
 
 export const getGithubSyncStatus = createServerFn({ method: "GET" })
   .inputValidator((input: { repo: string; branch?: string }) => {
-    if (!input?.repo || !/^[^/\s]+\/[^/\s]+$/.test(input.repo)) {
-      throw new Error("Repo must be in the form owner/name");
+    const raw = (input?.repo ?? "").trim();
+    if (!raw) throw new Error("Enter a repository as owner/name.");
+    // Accept full GitHub URLs like https://github.com/owner/name(.git)
+    const urlMatch = raw.match(/github\.com[/:]([^/\s]+)\/([^/\s#?]+?)(?:\.git)?\/?$/i);
+    const normalized = urlMatch ? `${urlMatch[1]}/${urlMatch[2]}` : raw.replace(/\.git$/i, "").replace(/^\/+|\/+$/g, "");
+    if (!/^[^/\s]+\/[^/\s]+$/.test(normalized)) {
+      throw new Error(`Repo must be in the form owner/name (got "${raw}")`);
     }
-    return { repo: input.repo, branch: input.branch?.trim() || undefined };
+    let branch = input.branch?.trim() || undefined;
+    if (branch) {
+      const bMatch = branch.match(/github\.com\/[^/]+\/[^/]+\/tree\/([^/?#]+)/i);
+      if (bMatch) branch = bMatch[1];
+      else if (/^https?:\/\//i.test(branch)) branch = undefined;
+    }
+    return { repo: normalized, branch };
   })
   .handler(async ({ data }): Promise<GithubSyncStatus> => {
     const lovableKey = process.env.LOVABLE_API_KEY;
