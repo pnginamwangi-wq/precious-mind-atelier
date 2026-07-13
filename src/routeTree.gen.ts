@@ -14,7 +14,6 @@ import { Route as SmeltLabRouteImport } from './routes/smelt-lab'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as McpRouteImport } from './routes/mcp'
-import { Route as LoupeRoomRouteImport } from './routes/loupe-room'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as JournalRouteImport } from './routes/journal'
@@ -24,11 +23,13 @@ import { Route as EditorialExampleRouteImport } from './routes/editorial-example
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LoupeRoomIndexRouteImport } from './routes/loupe-room.index'
 import { Route as LibraryIndexRouteImport } from './routes/library.index'
 import { Route as KnowledgeIndexRouteImport } from './routes/knowledge.index'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
 import { Route as VisualEditorialBlocksRouteImport } from './routes/visual/editorial-blocks'
+import { Route as LoupeRoomLevelsRouteImport } from './routes/loupe-room.levels'
 import { Route as LibrarySlugRouteImport } from './routes/library.$slug'
 import { Route as KnowledgeSearchRouteImport } from './routes/knowledge.search'
 import { Route as KnowledgePathwaysRouteImport } from './routes/knowledge.pathways'
@@ -67,11 +68,6 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoupeRoomRoute = LoupeRoomRouteImport.update({
-  id: '/loupe-room',
-  path: '/loupe-room',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibraryRoute = LibraryRouteImport.update({
@@ -118,6 +114,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoupeRoomIndexRoute = LoupeRoomIndexRouteImport.update({
+  id: '/loupe-room/',
+  path: '/loupe-room/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryIndexRoute = LibraryIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -141,6 +142,11 @@ const InstitutesIndexRoute = InstitutesIndexRouteImport.update({
 const VisualEditorialBlocksRoute = VisualEditorialBlocksRouteImport.update({
   id: '/visual/editorial-blocks',
   path: '/visual/editorial-blocks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoupeRoomLevelsRoute = LoupeRoomLevelsRouteImport.update({
+  id: '/loupe-room/levels',
+  path: '/loupe-room/levels',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibrarySlugRoute = LibrarySlugRouteImport.update({
@@ -227,7 +233,6 @@ export interface FileRoutesByFullPath {
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/library': typeof LibraryRouteWithChildren
-  '/loupe-room': typeof LoupeRoomRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -243,11 +248,13 @@ export interface FileRoutesByFullPath {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/journal/': typeof JournalIndexRoute
   '/knowledge/': typeof KnowledgeIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/loupe-room/': typeof LoupeRoomIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/journal/category/$category': typeof JournalCategoryCategoryRoute
   '/journal/tag/$tag': typeof JournalTagTagRoute
@@ -259,7 +266,6 @@ export interface FileRoutesByTo {
   '/editorial-example': typeof EditorialExampleRoute
   '/github-sync': typeof GithubSyncRoute
   '/governance': typeof GovernanceRoute
-  '/loupe-room': typeof LoupeRoomRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -275,11 +281,13 @@ export interface FileRoutesByTo {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes': typeof InstitutesIndexRoute
   '/journal': typeof JournalIndexRoute
   '/knowledge': typeof KnowledgeIndexRoute
   '/library': typeof LibraryIndexRoute
+  '/loupe-room': typeof LoupeRoomIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/journal/category/$category': typeof JournalCategoryCategoryRoute
   '/journal/tag/$tag': typeof JournalTagTagRoute
@@ -296,7 +304,6 @@ export interface FileRoutesById {
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/library': typeof LibraryRouteWithChildren
-  '/loupe-room': typeof LoupeRoomRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -312,11 +319,13 @@ export interface FileRoutesById {
   '/knowledge/pathways': typeof KnowledgePathwaysRoute
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
+  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
   '/journal/': typeof JournalIndexRoute
   '/knowledge/': typeof KnowledgeIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/loupe-room/': typeof LoupeRoomIndexRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/journal/category/$category': typeof JournalCategoryCategoryRoute
   '/journal/tag/$tag': typeof JournalTagTagRoute
@@ -333,7 +342,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/knowledge'
     | '/library'
-    | '/loupe-room'
     | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
@@ -349,11 +357,13 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/levels'
     | '/visual/editorial-blocks'
     | '/institutes/'
     | '/journal/'
     | '/knowledge/'
     | '/library/'
+    | '/loupe-room/'
     | '/.mcp/invoke-tool/$tool'
     | '/journal/category/$category'
     | '/journal/tag/$tag'
@@ -365,7 +375,6 @@ export interface FileRouteTypes {
     | '/editorial-example'
     | '/github-sync'
     | '/governance'
-    | '/loupe-room'
     | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
@@ -381,11 +390,13 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/levels'
     | '/visual/editorial-blocks'
     | '/institutes'
     | '/journal'
     | '/knowledge'
     | '/library'
+    | '/loupe-room'
     | '/.mcp/invoke-tool/$tool'
     | '/journal/category/$category'
     | '/journal/tag/$tag'
@@ -401,7 +412,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/knowledge'
     | '/library'
-    | '/loupe-room'
     | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
@@ -417,11 +427,13 @@ export interface FileRouteTypes {
     | '/knowledge/pathways'
     | '/knowledge/search'
     | '/library/$slug'
+    | '/loupe-room/levels'
     | '/visual/editorial-blocks'
     | '/institutes/'
     | '/journal/'
     | '/knowledge/'
     | '/library/'
+    | '/loupe-room/'
     | '/.mcp/invoke-tool/$tool'
     | '/journal/category/$category'
     | '/journal/tag/$tag'
@@ -438,7 +450,6 @@ export interface RootRouteChildren {
   JournalRoute: typeof JournalRouteWithChildren
   KnowledgeRoute: typeof KnowledgeRouteWithChildren
   LibraryRoute: typeof LibraryRouteWithChildren
-  LoupeRoomRoute: typeof LoupeRoomRoute
   McpRoute: typeof McpRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -447,8 +458,10 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
+  LoupeRoomLevelsRoute: typeof LoupeRoomLevelsRoute
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
+  LoupeRoomIndexRoute: typeof LoupeRoomIndexRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 
@@ -487,13 +500,6 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/loupe-room': {
-      id: '/loupe-room'
-      path: '/loupe-room'
-      fullPath: '/loupe-room'
-      preLoaderRoute: typeof LoupeRoomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library': {
@@ -559,6 +565,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/loupe-room/': {
+      id: '/loupe-room/'
+      path: '/loupe-room'
+      fullPath: '/loupe-room/'
+      preLoaderRoute: typeof LoupeRoomIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/library/': {
       id: '/library/'
       path: '/'
@@ -592,6 +605,13 @@ declare module '@tanstack/react-router' {
       path: '/visual/editorial-blocks'
       fullPath: '/visual/editorial-blocks'
       preLoaderRoute: typeof VisualEditorialBlocksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/loupe-room/levels': {
+      id: '/loupe-room/levels'
+      path: '/loupe-room/levels'
+      fullPath: '/loupe-room/levels'
+      preLoaderRoute: typeof LoupeRoomLevelsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library/$slug': {
@@ -778,7 +798,6 @@ const rootRouteChildren: RootRouteChildren = {
   JournalRoute: JournalRouteWithChildren,
   KnowledgeRoute: KnowledgeRouteWithChildren,
   LibraryRoute: LibraryRouteWithChildren,
-  LoupeRoomRoute: LoupeRoomRoute,
   McpRoute: McpRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -788,8 +807,10 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
+  LoupeRoomLevelsRoute: LoupeRoomLevelsRoute,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,
+  LoupeRoomIndexRoute: LoupeRoomIndexRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
 export const routeTree = rootRouteImport

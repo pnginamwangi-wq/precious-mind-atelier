@@ -1,43 +1,13 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
-import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 
-const wingSchema = z.enum(["study", "bench", "levels"]).catch("study");
+export type LoupeWing = "study" | "bench" | "levels";
 
-const searchSchema = z.object({
-  wing: wingSchema.optional(),
-});
-
-export const Route = createFileRoute("/loupe-room")({
-  validateSearch: (search) => searchSchema.parse(search),
-  head: () => ({
-    meta: [
-      { title: "The Loupe Room, Precious Intelligence Academy" },
-      {
-        name: "description",
-        content:
-          "Train your eye at the Academy's Loupe Room. Eight guided gemstone examination pathways, plus the Examination Bench where you read hallmarks, identify stones and detect suspicious pieces under a jeweller's loupe.",
-      },
-      { property: "og:title", content: "The Loupe Room, Precious Intelligence Academy" },
-      {
-        property: "og:description",
-        content:
-          "Guided gemstone examination pathways and an interactive examination bench for hallmarks and stones.",
-      },
-      { property: "og:type", content: "website" },
-    ],
-    links: [{ rel: "canonical", href: "/loupe-room" }],
-  }),
-  component: LoupeRoomPage,
-});
-
-type Wing = "study" | "bench" | "levels";
-
-const WINGS: {
-  id: Wing;
+export const LOUPE_WINGS: {
+  id: LoupeWing;
   label: string;
   sub: string;
   src: string;
@@ -73,36 +43,34 @@ const WINGS: {
   },
 ];
 
-function LoupeRoomPage() {
-  const { wing } = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
-  const current: Wing = wing ?? "study";
-  const active = WINGS.find((w) => w.id === current) ?? WINGS[0];
+export function LoupeRoomView({
+  wing,
+  onWingChange,
+}: {
+  wing: LoupeWing;
+  onWingChange: (next: LoupeWing) => void;
+}) {
+  const active = LOUPE_WINGS.find((w) => w.id === wing) ?? LOUPE_WINGS[0];
 
-  const tabRefs = useRef<Record<Wing, HTMLButtonElement | null>>({
+  const tabRefs = useRef<Record<LoupeWing, HTMLButtonElement | null>>({
     study: null,
     bench: null,
     levels: null,
   });
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const previousWing = useRef<Wing>(current);
+  const previousWing = useRef<LoupeWing>(wing);
 
   const setWing = useCallback(
-    (next: Wing) => {
-      if (next === current) return;
-      void navigate({
-        search: { wing: next },
-        replace: true,
-      });
+    (next: LoupeWing) => {
+      if (next === wing) return;
+      onWingChange(next);
     },
-    [current, navigate],
+    [wing, onWingChange],
   );
 
-  // Move focus into the newly mounted iframe when the wing changes,
-  // so keyboard users land inside the interactive without an extra Tab.
   useEffect(() => {
-    if (previousWing.current === current) return;
-    previousWing.current = current;
+    if (previousWing.current === wing) return;
+    previousWing.current = wing;
     const frame = iframeRef.current;
     if (!frame) return;
     const focus = () => {
@@ -117,24 +85,24 @@ function LoupeRoomPage() {
     } else {
       frame.addEventListener("load", focus, { once: true });
     }
-  }, [current]);
+  }, [wing]);
 
   const onTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    const currentIndex = WINGS.findIndex((w) => w.id === current);
+    const currentIndex = LOUPE_WINGS.findIndex((w) => w.id === wing);
     let nextIndex = currentIndex;
     if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      nextIndex = (currentIndex + 1) % WINGS.length;
+      nextIndex = (currentIndex + 1) % LOUPE_WINGS.length;
     } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      nextIndex = (currentIndex - 1 + WINGS.length) % WINGS.length;
+      nextIndex = (currentIndex - 1 + LOUPE_WINGS.length) % LOUPE_WINGS.length;
     } else if (event.key === "Home") {
       nextIndex = 0;
     } else if (event.key === "End") {
-      nextIndex = WINGS.length - 1;
+      nextIndex = LOUPE_WINGS.length - 1;
     } else {
       return;
     }
     event.preventDefault();
-    const nextWing = WINGS[nextIndex].id;
+    const nextWing = LOUPE_WINGS[nextIndex].id;
     tabRefs.current[nextWing]?.focus();
     setWing(nextWing);
   };
@@ -156,13 +124,9 @@ function LoupeRoomPage() {
           <ArrowLeft aria-hidden className="h-3.5 w-3.5" />
           Academy
         </Link>
-        <div
-          role="tablist"
-          aria-label="Loupe Room wings"
-          className="flex items-center gap-1"
-        >
-          {WINGS.map((w) => {
-            const activeWing = w.id === current;
+        <div role="tablist" aria-label="Loupe Room wings" className="flex items-center gap-1">
+          {LOUPE_WINGS.map((w) => {
+            const activeWing = w.id === wing;
             return (
               <button
                 key={w.id}
@@ -177,6 +141,7 @@ function LoupeRoomPage() {
                 tabIndex={activeWing ? 0 : -1}
                 onClick={() => setWing(w.id)}
                 onKeyDown={onTabKeyDown}
+                data-testid={`loupe-tab-${w.id}`}
                 className={cn(
                   "px-3 py-1.5 text-left text-[11px] uppercase tracking-[0.24em] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold",
                   activeWing
@@ -203,6 +168,8 @@ function LoupeRoomPage() {
         role="tabpanel"
         aria-labelledby={`loupe-tab-${active.id}`}
         tabIndex={0}
+        data-testid="loupe-room-frame"
+        data-wing={active.id}
         className="h-full w-full flex-1 border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold"
         allow="fullscreen"
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads allow-pointer-lock"

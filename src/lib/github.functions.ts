@@ -15,24 +15,32 @@ export type GithubSyncStatus = {
   fetchedAt: string;
 };
 
+export function normalizeGithubRepoInput(input: {
+  repo: string;
+  branch?: string;
+}): { repo: string; branch: string | undefined } {
+  const raw = (input?.repo ?? "").trim();
+  if (!raw) throw new Error("Enter a repository as owner/name.");
+  // Accept full GitHub URLs like https://github.com/owner/name(.git)
+  const urlMatch = raw.match(/github\.com[/:]([^/\s]+)\/([^/\s#?]+?)(?:\.git)?\/?(?:[?#].*)?$/i);
+  const normalized = urlMatch
+    ? `${urlMatch[1]}/${urlMatch[2]}`
+    : raw.replace(/\.git$/i, "").replace(/^\/+|\/+$/g, "");
+  if (!/^[^/\s]+\/[^/\s]+$/.test(normalized)) {
+    throw new Error(`Repo must be in the form owner/name (got "${raw}")`);
+  }
+  let branch = input.branch?.trim() || undefined;
+  if (branch) {
+    const bMatch = branch.match(/github\.com\/[^/]+\/[^/]+\/tree\/([^/?#]+)/i);
+    if (bMatch) branch = bMatch[1];
+    else if (/^https?:\/\//i.test(branch)) branch = undefined;
+  }
+  return { repo: normalized, branch };
+}
+
 export const getGithubSyncStatus = createServerFn({ method: "GET" })
-  .inputValidator((input: { repo: string; branch?: string }) => {
-    const raw = (input?.repo ?? "").trim();
-    if (!raw) throw new Error("Enter a repository as owner/name.");
-    // Accept full GitHub URLs like https://github.com/owner/name(.git)
-    const urlMatch = raw.match(/github\.com[/:]([^/\s]+)\/([^/\s#?]+?)(?:\.git)?\/?$/i);
-    const normalized = urlMatch ? `${urlMatch[1]}/${urlMatch[2]}` : raw.replace(/\.git$/i, "").replace(/^\/+|\/+$/g, "");
-    if (!/^[^/\s]+\/[^/\s]+$/.test(normalized)) {
-      throw new Error(`Repo must be in the form owner/name (got "${raw}")`);
-    }
-    let branch = input.branch?.trim() || undefined;
-    if (branch) {
-      const bMatch = branch.match(/github\.com\/[^/]+\/[^/]+\/tree\/([^/?#]+)/i);
-      if (bMatch) branch = bMatch[1];
-      else if (/^https?:\/\//i.test(branch)) branch = undefined;
-    }
-    return { repo: normalized, branch };
-  })
+  .inputValidator((input: { repo: string; branch?: string }) => normalizeGithubRepoInput(input))
+
   .handler(async ({ data }): Promise<GithubSyncStatus> => {
     const lovableKey = process.env.LOVABLE_API_KEY;
     const githubKey = process.env.GITHUB_API_KEY;
