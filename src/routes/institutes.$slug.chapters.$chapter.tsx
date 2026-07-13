@@ -167,7 +167,6 @@ function ChapterLesson({ content }: { content: ChapterContent }) {
             index={content.chapter}
             eyebrow="The chapter"
             title="Settle in with the lesson."
-            intro="Written in the Academy's own voice, this is a lesson to be read at the pace of a good letter. Take your time with it. The reflections and short knowledge check that follow are best done in the same sitting, while the ideas are still warm."
           />
           <div className="mt-14 grid gap-16 md:grid-cols-12 md:gap-20">
             <div className="md:col-span-8 md:col-start-3">
