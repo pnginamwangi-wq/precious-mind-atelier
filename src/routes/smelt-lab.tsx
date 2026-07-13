@@ -134,6 +134,15 @@ function SmeltLabPage() {
 
   return (
     <div className="fixed inset-0 z-40 flex flex-col bg-obsidian">
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+        data-testid="smelt-lab-live"
+      >
+        {announcement}
+      </div>
       <a
         href="#smelt-lab-frame"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-gold focus:px-3 focus:py-2 focus:text-[11px] focus:uppercase focus:tracking-[0.24em] focus:text-obsidian"
