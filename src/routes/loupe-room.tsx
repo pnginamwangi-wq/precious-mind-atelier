@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 
-const wingSchema = z.enum(["study", "bench"]).catch("study");
+const wingSchema = z.enum(["study", "bench", "levels"]).catch("study");
 
 const searchSchema = z.object({
   wing: wingSchema.optional(),
