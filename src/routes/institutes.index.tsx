@@ -7,6 +7,8 @@ import { MobileTabs } from "@/components/luxury/mobile-tabs";
 import {
   Container,
   Eyebrow,
+  GRAND_HALL,
+  MediaOverlay,
   Section,
   SectionHeader,
   fadeUp,
