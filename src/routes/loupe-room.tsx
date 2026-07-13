@@ -81,7 +81,7 @@ function LoupeRoomPage() {
     (next: Wing) => {
       if (next === current) return;
       void navigate({
-        search: (prev) => ({ ...prev, wing: next }),
+        search: { wing: next },
         replace: true,
       });
     },
