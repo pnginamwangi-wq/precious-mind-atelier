@@ -13,6 +13,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SmeltLabRouteImport } from './routes/smelt-lab'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as JournalRouteImport } from './routes/journal'
@@ -34,8 +35,11 @@ import { Route as KnowledgeCompareRouteImport } from './routes/knowledge.compare
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as InstitutesSlugRouteImport } from './routes/institutes.$slug'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as JournalTagTagRouteImport } from './routes/journal.tag.$tag'
 import { Route as JournalCategoryCategoryRouteImport } from './routes/journal.category.$category'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as InstitutesSlugChaptersChapterRouteImport } from './routes/institutes.$slug.chapters.$chapter'
 
 const TermsRoute = TermsRouteImport.update({
@@ -56,6 +60,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibraryRoute = LibraryRouteImport.update({
@@ -162,6 +171,18 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const JournalTagTagRoute = JournalTagTagRouteImport.update({
   id: '/tag/$tag',
   path: '/tag/$tag',
@@ -172,6 +193,12 @@ const JournalCategoryCategoryRoute = JournalCategoryCategoryRouteImport.update({
   path: '/category/$category',
   getParentRoute: () => JournalRoute,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const InstitutesSlugChaptersChapterRoute =
   InstitutesSlugChaptersChapterRouteImport.update({
     id: '/chapters/$chapter',
@@ -187,10 +214,13 @@ export interface FileRoutesByFullPath {
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/library': typeof LibraryRouteWithChildren
+  '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/smelt-lab': typeof SmeltLabRoute
   '/terms': typeof TermsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/journal/$slug': typeof JournalSlugRoute
@@ -204,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/journal/': typeof JournalIndexRoute
   '/knowledge/': typeof KnowledgeIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/journal/category/$category': typeof JournalCategoryCategoryRoute
   '/journal/tag/$tag': typeof JournalTagTagRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
@@ -213,10 +244,13 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/editorial-example': typeof EditorialExampleRoute
   '/governance': typeof GovernanceRoute
+  '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/smelt-lab': typeof SmeltLabRoute
   '/terms': typeof TermsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/journal/$slug': typeof JournalSlugRoute
@@ -230,6 +264,7 @@ export interface FileRoutesByTo {
   '/journal': typeof JournalIndexRoute
   '/knowledge': typeof KnowledgeIndexRoute
   '/library': typeof LibraryIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/journal/category/$category': typeof JournalCategoryCategoryRoute
   '/journal/tag/$tag': typeof JournalTagTagRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
@@ -244,10 +279,13 @@ export interface FileRoutesById {
   '/journal': typeof JournalRouteWithChildren
   '/knowledge': typeof KnowledgeRouteWithChildren
   '/library': typeof LibraryRouteWithChildren
+  '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/smelt-lab': typeof SmeltLabRoute
   '/terms': typeof TermsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/institutes/$slug': typeof InstitutesSlugRouteWithChildren
   '/journal/$slug': typeof JournalSlugRoute
@@ -261,6 +299,7 @@ export interface FileRoutesById {
   '/journal/': typeof JournalIndexRoute
   '/knowledge/': typeof KnowledgeIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/journal/category/$category': typeof JournalCategoryCategoryRoute
   '/journal/tag/$tag': typeof JournalTagTagRoute
   '/institutes/$slug/chapters/$chapter': typeof InstitutesSlugChaptersChapterRoute
@@ -275,10 +314,13 @@ export interface FileRouteTypes {
     | '/journal'
     | '/knowledge'
     | '/library'
+    | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
     | '/smelt-lab'
     | '/terms'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/profile'
     | '/institutes/$slug'
     | '/journal/$slug'
@@ -292,6 +334,7 @@ export interface FileRouteTypes {
     | '/journal/'
     | '/knowledge/'
     | '/library/'
+    | '/.mcp/invoke-tool/$tool'
     | '/journal/category/$category'
     | '/journal/tag/$tag'
     | '/institutes/$slug/chapters/$chapter'
@@ -301,10 +344,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/editorial-example'
     | '/governance'
+    | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
     | '/smelt-lab'
     | '/terms'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/profile'
     | '/institutes/$slug'
     | '/journal/$slug'
@@ -318,6 +364,7 @@ export interface FileRouteTypes {
     | '/journal'
     | '/knowledge'
     | '/library'
+    | '/.mcp/invoke-tool/$tool'
     | '/journal/category/$category'
     | '/journal/tag/$tag'
     | '/institutes/$slug/chapters/$chapter'
@@ -331,10 +378,13 @@ export interface FileRouteTypes {
     | '/journal'
     | '/knowledge'
     | '/library'
+    | '/mcp'
     | '/privacy'
     | '/sitemap.xml'
     | '/smelt-lab'
     | '/terms'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/_authenticated/profile'
     | '/institutes/$slug'
     | '/journal/$slug'
@@ -348,6 +398,7 @@ export interface FileRouteTypes {
     | '/journal/'
     | '/knowledge/'
     | '/library/'
+    | '/.mcp/invoke-tool/$tool'
     | '/journal/category/$category'
     | '/journal/tag/$tag'
     | '/institutes/$slug/chapters/$chapter'
@@ -362,13 +413,17 @@ export interface RootRouteChildren {
   JournalRoute: typeof JournalRouteWithChildren
   KnowledgeRoute: typeof KnowledgeRouteWithChildren
   LibraryRoute: typeof LibraryRouteWithChildren
+  McpRoute: typeof McpRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SmeltLabRoute: typeof SmeltLabRoute
   TermsRoute: typeof TermsRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -399,6 +454,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library': {
@@ -548,6 +610,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journal/tag/$tag': {
       id: '/journal/tag/$tag'
       path: '/tag/$tag'
@@ -561,6 +637,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/journal/category/$category'
       preLoaderRoute: typeof JournalCategoryCategoryRouteImport
       parentRoute: typeof JournalRoute
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/institutes/$slug/chapters/$chapter': {
       id: '/institutes/$slug/chapters/$chapter'
@@ -654,13 +737,18 @@ const rootRouteChildren: RootRouteChildren = {
   JournalRoute: JournalRouteWithChildren,
   KnowledgeRoute: KnowledgeRouteWithChildren,
   LibraryRoute: LibraryRouteWithChildren,
+  McpRoute: McpRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SmeltLabRoute: SmeltLabRoute,
   TermsRoute: TermsRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
