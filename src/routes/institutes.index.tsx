@@ -126,7 +126,8 @@ function InstitutesIndex() {
                 </motion.article>
               ))}
             </div>
-          </Container>
+            </Container>
+          </div>
         </Section>
       </main>
       <Footer />
