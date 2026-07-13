@@ -244,28 +244,38 @@ function GovernancePage() {
     <>
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
-        <Section className="pt-40">
-          <SectionHeader
-            as="h1"
-            eyebrow="Governance and Ethical Charter"
-            title={
-              <>
-                Legal, ethical, and{" "}
-                <em className="gold-gradient-text not-italic">compliance</em>{" "}
-                requirements.
-              </>
-            }
-            intro="The principles that govern the design, writing, and teaching of The Precious Intelligence Academy. Independence, transparency, and educational integrity, stated plainly and applied consistently."
+        <Section className="relative overflow-hidden pt-40">
+          <MediaOverlay
+            poster={GRAND_HALL.campusModelOrbit.poster}
+            mobile={GRAND_HALL.campusModelOrbit.mobile}
+            alt=""
+            loading="lazy"
+            scrim="scrim-card"
           />
+          <div className="relative z-10">
+            <SectionHeader
+              as="h1"
+              eyebrow="Governance and Ethical Charter"
+              title={
+                <>
+                  Legal, ethical, and{" "}
+                  <em className="gold-gradient-text not-italic">compliance</em>{" "}
+                  requirements.
+                </>
+              }
+              intro="The principles that govern the design, writing, and teaching of The Precious Intelligence Academy. Independence, transparency, and educational integrity, stated plainly and applied consistently."
+            />
 
-          <Container narrow>
-            <Reveal>
-              <div className={cn(luxury.bodyMuted, "border-l border-gold/40 pl-6 italic")}>
-                Every page is written to reinforce credibility through careful language, thoughtful design, and clear communication.
-              </div>
-            </Reveal>
-          </Container>
+            <Container narrow>
+              <Reveal>
+                <div className={cn(luxury.bodyMuted, "border-l border-gold/40 pl-6 italic")}>
+                  Every page is written to reinforce credibility through careful language, thoughtful design, and clear communication.
+                </div>
+              </Reveal>
+            </Container>
+          </div>
         </Section>
+
 
         <Section className="pt-0">
           <Container narrow>
