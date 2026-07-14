@@ -62,19 +62,35 @@
       { "id": "pia-grandhall-interior-dolly-desktop-v01", "jobId": "62ba0560-6030-42cb-aecd-cd9b0b155709", "poster": "pia-grandhall-interior-dolly-desktop-v01-poster.webp", "mobile": "pia-grandhall-interior-dolly-desktop-v01-mobile.webp", "status": "generated-owner-review" },
       { "id": "pia-grandhall-campus-model-orbit-desktop-v01", "jobId": "f49ce225-882b-4779-a8e4-681eaff1290d", "poster": "pia-grandhall-campus-model-orbit-desktop-v01-poster.webp", "mobile": "pia-grandhall-campus-model-orbit-desktop-v01-mobile.webp", "status": "generated-owner-review" },
       { "id": "pia-grandhall-ambience-loop-desktop-v01", "jobId": "3f8a47cb-b9a4-4080-ba70-4223b8507420", "poster": "pia-grandhall-ambience-loop-desktop-v01-poster.webp", "mobile": "pia-grandhall-ambience-loop-desktop-v01-mobile.webp", "status": "generated-owner-review" },
-      { "id": "pia-grandhall-plinth-static-desktop-v01", "jobId": "19fdbe83-7e71-4a6e-b2c7-bfe545485311", "poster": "pia-grandhall-plinth-static-desktop-v01-poster.webp", "mobile": "pia-grandhall-plinth-static-desktop-v01-mobile.webp", "status": "generated-owner-review" }
+      { "id": "pia-grandhall-plinth-static-desktop-v01", "jobId": "19fdbe83-7e71-4a6e-b2c7-bfe545485311", "poster": "pia-grandhall-plinth-static-desktop-v01-poster.webp", "mobile": "pia-grandhall-plinth-static-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "id": "pia-grandhall-interior-dolly-desktop-v02", "jobId": "e9aa5eb0-4d80-430d-86ef-13dc572ac3b4", "model": "nano_banana_2", "poster": "pia-grandhall-interior-dolly-desktop-v02-poster.webp", "mobile": "pia-grandhall-interior-dolly-desktop-v02-mobile.webp", "status": "generated-owner-review" },
+      { "id": "pia-grandhall-ambience-loop-desktop-v01.mp4", "jobId": "68898a1d-4216-42bc-9bdf-9809381e6118", "model": "kling3_0_turbo", "file": "pia-grandhall-ambience-loop-desktop-v01.mp4", "resolution": "1280x720", "duration": "5s", "status": "generated-owner-review" }
     ],
-    "videoLoops": "not generated - insufficient credits (free plan)"
+    "videoLoops": "grandhall ambience loop generated (kling3_0_turbo, 5s, muted, h264 re-encode)"
+  },
+  "batch2to8": {
+    "generated": "2026-07-14",
+    "model": "nano_banana_flash",
+    "resolution": "2752x1536",
+    "files": [
+      { "batch": 2, "room": "atelier", "id": "pia-atelier-workbench-rows-desktop-v01", "jobId": "4712feee-c3d7-431d-9c95-0de5bca98922", "poster": "pia-atelier-workbench-rows-desktop-v01-poster.webp", "mobile": "pia-atelier-workbench-rows-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "batch": 3, "room": "diamondtheatre", "id": "pia-diamondtheatre-examination-stage-desktop-v01", "jobId": "a6eab6ee-2091-4303-a5d2-04518b5e21fb", "poster": "pia-diamondtheatre-examination-stage-desktop-v01-poster.webp", "mobile": "pia-diamondtheatre-examination-stage-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "batch": 4, "room": "mint", "id": "pia-mint-coining-press-desktop-v01", "jobId": "411561af-7bfd-4dcf-97ab-d840b1a1f998", "poster": "pia-mint-coining-press-desktop-v01-poster.webp", "mobile": "pia-mint-coining-press-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "batch": 5, "room": "library", "id": "pia-library-reading-room-desktop-v01", "jobId": "a9d0a44c-6c79-4cca-8d80-50c4f8768e89", "poster": "pia-library-reading-room-desktop-v01-poster.webp", "mobile": "pia-library-reading-room-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "batch": 6, "room": "legends", "id": "pia-legends-hall-of-honour-desktop-v01", "jobId": "1308735d-a55e-4156-9fe4-1f720d36144d", "poster": "pia-legends-hall-of-honour-desktop-v01-poster.webp", "mobile": "pia-legends-hall-of-honour-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "batch": 7, "room": "gemmuseum", "id": "pia-gemmuseum-vitrine-gallery-desktop-v01", "jobId": "ca50fb33-9e2a-4a00-a190-295a84f330ce", "poster": "pia-gemmuseum-vitrine-gallery-desktop-v01-poster.webp", "mobile": "pia-gemmuseum-vitrine-gallery-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "batch": 8, "room": "metals", "id": "pia-metals-bullion-vault-desktop-v01", "jobId": "49bd46a3-8dbc-4e17-a675-8d2dac43f80e", "poster": "pia-metals-bullion-vault-desktop-v01-poster.webp", "mobile": "pia-metals-bullion-vault-desktop-v01-mobile.webp", "status": "generated-owner-review" }
+    ]
   },
   "plannedBatches": [
-    { "batch": 1, "room": "grandhall", "status": "posters-generated-loops-pending" },
-    { "batch": 2, "room": "atelier", "status": "queued" },
-    { "batch": 3, "room": "diamondtheatre", "status": "queued" },
-    { "batch": 4, "room": "mint", "status": "queued" },
-    { "batch": 5, "room": "library", "status": "queued" },
-    { "batch": 6, "room": "legends", "status": "queued" },
-    { "batch": 7, "room": "gemmuseum", "status": "queued" },
-    { "batch": 8, "room": "metals", "status": "queued" },
+    { "batch": 1, "room": "grandhall", "status": "posters-and-ambience-loop-generated" },
+    { "batch": 2, "room": "atelier", "status": "generated-owner-review" },
+    { "batch": 3, "room": "diamondtheatre", "status": "generated-owner-review" },
+    { "batch": 4, "room": "mint", "status": "generated-owner-review" },
+    { "batch": 5, "room": "library", "status": "generated-owner-review" },
+    { "batch": 6, "room": "legends", "status": "generated-owner-review" },
+    { "batch": 7, "room": "gemmuseum", "status": "generated-owner-review" },
+    { "batch": 8, "room": "metals", "status": "generated-owner-review" },
     { "batch": 9, "room": "variants", "status": "queued" }
   ]
 }
