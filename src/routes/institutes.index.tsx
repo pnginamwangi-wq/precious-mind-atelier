@@ -12,7 +12,6 @@ import {
   Section,
   SectionHeader,
   fadeUp,
-  luxury,
 } from "@/components/luxury";
 import { INSTITUTES } from "@/data/institutes";
 
