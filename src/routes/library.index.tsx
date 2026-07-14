@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/luxury/header";
 import { Footer } from "@/components/luxury/footer";
 import { MobileTabs } from "@/components/luxury/mobile-tabs";
-import { Container, Eyebrow, Section, SectionHeader, luxury } from "@/components/luxury";
+import { Container, Eyebrow, LIBRARY_ROOM, MediaOverlay, Section, SectionHeader, luxury } from "@/components/luxury";
 import { LIBRARY } from "@/data/library";
 
 export const Route = createFileRoute("/library/")({
