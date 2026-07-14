@@ -471,6 +471,13 @@ $('nextBtn').addEventListener('click',function(){
 
 render();
 
+/* Lazy-warm the remaining gemstone images on idle so subsequent selections are instant. */
+var warmRest=function(){
+  GEMS.forEach(function(g,i){ if(i===0) return; var im=new Image(); im.decoding='async'; im.src=g.img; });
+};
+if('requestIdleCallback' in window){ requestIdleCallback(warmRest, {timeout:2500}); }
+else { setTimeout(warmRest, 1200); }
+
 /* reveal on scroll */
 var io=('IntersectionObserver' in window)? new IntersectionObserver(function(es){
   es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
