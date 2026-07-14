@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 type Case = {
   url: string;
-  active: "study" | "bench" | "levels";
+  active: "study" | "bench" | "hallmark-karat-lab";
   expectedUrl?: RegExp;
 };
 
@@ -10,11 +10,11 @@ const CASES: Case[] = [
   { url: "/loupe-room", active: "study", expectedUrl: /\/loupe-room(\?|$)/ },
   { url: "/loupe-room/study", active: "study" },
   { url: "/loupe-room/bench", active: "bench" },
-  { url: "/loupe-room/levels", active: "levels" },
+  { url: "/loupe-room/hallmark-karat-lab", active: "hallmark-karat-lab" },
   // Query-parameter deep links on the index route
   { url: "/loupe-room?wing=study", active: "study" },
   { url: "/loupe-room?wing=bench", active: "bench" },
-  { url: "/loupe-room?wing=levels", active: "levels" },
+  { url: "/loupe-room?wing=hallmark-karat-lab", active: "hallmark-karat-lab" },
 ];
 
 for (const c of CASES) {
@@ -24,7 +24,7 @@ for (const c of CASES) {
       await expect(page).toHaveURL(c.expectedUrl);
     }
 
-    const wings = ["study", "bench", "levels"] as const;
+    const wings = ["study", "bench", "hallmark-karat-lab"] as const;
     for (const w of wings) {
       await expect(page.getByTestId(`loupe-tab-${w}`)).toHaveAttribute(
         "aria-selected",

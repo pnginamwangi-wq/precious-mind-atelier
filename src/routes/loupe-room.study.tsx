@@ -32,8 +32,8 @@ function LoupeRoomStudyPage() {
 
   const onWingChange = (next: LoupeWing) => {
     if (next === "study") return;
-    if (next === "certification") {
-      void navigate({ to: "/loupe-room/certification", replace: true });
+    if (next === "hallmark-karat-lab") {
+      void navigate({ to: "/loupe-room/hallmark-karat-lab", replace: true });
       return;
     }
     if (next === "bench") {

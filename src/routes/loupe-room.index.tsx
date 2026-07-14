@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { LoupeRoomView, type LoupeWing } from "@/components/luxury/loupe-room-view";
 
-const wingSchema = z.enum(["study", "bench", "certification"]).catch("study");
+const wingSchema = z.enum(["study", "bench", "hallmark-karat-lab"]).catch("study");
 
 const searchSchema = z.object({
   wing: wingSchema.optional(),
@@ -38,8 +38,8 @@ function LoupeRoomIndexPage() {
   const current: LoupeWing = wing ?? "study";
 
   const onWingChange = (next: LoupeWing) => {
-    if (next === "certification") {
-      void navigate({ to: "/loupe-room/certification", replace: true });
+    if (next === "hallmark-karat-lab") {
+      void navigate({ to: "/loupe-room/hallmark-karat-lab", replace: true });
       return;
     }
     void navigate({

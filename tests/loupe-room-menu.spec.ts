@@ -4,7 +4,7 @@ const WINGS: { path: string; src: string }[] = [
   { path: "/loupe-room", src: "/loupe-room.html" },
   { path: "/loupe-room/study", src: "/loupe-room.html" },
   { path: "/loupe-room/bench", src: "/loupe-room-training.html" },
-  { path: "/loupe-room/levels", src: "/loupe-room-levels.html" },
+  { path: "/loupe-room/hallmark-karat-lab", src: "/loupe-room-hallmark-karat-lab.html" },
 ];
 
 test("Loupe Room appears in the primary header nav and links to /loupe-room", async ({ page }) => {

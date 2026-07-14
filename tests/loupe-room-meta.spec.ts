@@ -31,11 +31,11 @@ const WINGS: WingMeta[] = [
     ogDescriptionRe: /examination bench/i,
   },
   {
-    path: "/loupe-room/levels",
-    canonical: "/loupe-room/levels",
-    titleRe: /Loupe Room, Level Training/i,
-    ogTitleRe: /Level Training/i,
-    ogDescriptionRe: /mastery ladder|progressive levels/i,
+    path: "/loupe-room/hallmark-karat-lab",
+    canonical: "/loupe-room/hallmark-karat-lab",
+    titleRe: /Loupe Room, The Hallmark & Karat Lab/i,
+    ogTitleRe: /Hallmark & Karat Lab/i,
+    ogDescriptionRe: /hallmarks, karat standards/i,
   },
 ];
 
