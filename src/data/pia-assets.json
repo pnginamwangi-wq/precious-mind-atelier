@@ -79,7 +79,8 @@
       { "batch": 5, "room": "library", "id": "pia-library-reading-room-desktop-v01", "jobId": "a9d0a44c-6c79-4cca-8d80-50c4f8768e89", "poster": "pia-library-reading-room-desktop-v01-poster.webp", "mobile": "pia-library-reading-room-desktop-v01-mobile.webp", "status": "generated-owner-review" },
       { "batch": 6, "room": "legends", "id": "pia-legends-hall-of-honour-desktop-v01", "jobId": "1308735d-a55e-4156-9fe4-1f720d36144d", "poster": "pia-legends-hall-of-honour-desktop-v01-poster.webp", "mobile": "pia-legends-hall-of-honour-desktop-v01-mobile.webp", "status": "generated-owner-review" },
       { "batch": 7, "room": "gemmuseum", "id": "pia-gemmuseum-vitrine-gallery-desktop-v01", "jobId": "ca50fb33-9e2a-4a00-a190-295a84f330ce", "poster": "pia-gemmuseum-vitrine-gallery-desktop-v01-poster.webp", "mobile": "pia-gemmuseum-vitrine-gallery-desktop-v01-mobile.webp", "status": "generated-owner-review" },
-      { "batch": 8, "room": "metals", "id": "pia-metals-bullion-vault-desktop-v01", "jobId": "49bd46a3-8dbc-4e17-a675-8d2dac43f80e", "poster": "pia-metals-bullion-vault-desktop-v01-poster.webp", "mobile": "pia-metals-bullion-vault-desktop-v01-mobile.webp", "status": "generated-owner-review" }
+      { "batch": 8, "room": "metals", "id": "pia-metals-bullion-vault-desktop-v01", "jobId": "49bd46a3-8dbc-4e17-a675-8d2dac43f80e", "poster": "pia-metals-bullion-vault-desktop-v01-poster.webp", "mobile": "pia-metals-bullion-vault-desktop-v01-mobile.webp", "status": "generated-owner-review" },
+      { "batch": 8, "room": "metals", "id": "pia-metals-bullion-vault-loop-desktop-v01.mp4", "jobId": "2dbe3837-7b93-467d-a2bb-104060360615", "model": "kling3_0_turbo", "file": "pia-metals-bullion-vault-loop-desktop-v01.mp4", "resolution": "1280x720", "duration": "5s", "status": "generated-owner-review" }
     ]
   },
   "plannedBatches": [
