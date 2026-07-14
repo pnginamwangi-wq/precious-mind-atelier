@@ -240,7 +240,7 @@ function ChapterHero({
         className="absolute inset-0 bg-cover bg-center opacity-25"
         style={{ backgroundImage: `url(${institute.hero})` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-obsidian/60 via-obsidian/85 to-obsidian" />
+      <div aria-hidden className="on-media absolute inset-0 scrim-card" />
       <Container className="relative">
         <Reveal>
           <Link

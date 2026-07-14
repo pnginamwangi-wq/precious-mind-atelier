@@ -105,7 +105,7 @@ export function Figure({ src, alt, aspect = "square", caption, className }: Figu
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/60 via-transparent to-transparent" />
+        <div aria-hidden className="on-media pointer-events-none absolute inset-0 scrim-bottom" />
       </div>
       {caption ? (
         <figcaption className={cn("mt-4 text-[13px] font-light tracking-wide text-platinum/70")}>
