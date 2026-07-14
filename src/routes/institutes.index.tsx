@@ -65,6 +65,7 @@ function InstitutesIndex() {
           <MediaOverlay
             poster={METALS_VAULT.bullionVault.poster}
             mobile={METALS_VAULT.bullionVault.mobile}
+            video={METALS_VAULT.bullionVaultLoopVideo}
             alt=""
             loading="lazy"
             fetchPriority="auto"
