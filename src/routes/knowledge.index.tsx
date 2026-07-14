@@ -82,14 +82,14 @@ function KnowledgeIndex() {
             loading="lazy"
             scrim="scrim-card"
           />
-          <div className="relative z-10">
+          <Container className="relative z-10">
             <SectionHeader
               as="h1"
               eyebrow="Knowledge Hub"
               title="Consult the shared vocabulary"
               intro="A single place to look up terms, follow curated sequences across the Institutes, or compare products the trade often conflates."
             />
-          </div>
+          </Container>
 
 
           <Container className="mt-16">
