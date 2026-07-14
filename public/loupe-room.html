@@ -367,7 +367,7 @@ var tray=$('tray');
 GEMS.forEach(function(g,i){
   var b=document.createElement('button');
   b.setAttribute('role','tab');
-  b.innerHTML='<span class="gem-dot" style="background:'+g.grad+'"></span>'+g.name;
+  b.innerHTML='<span class="gem-dot" style="background-image:url('+g.img+');background-color:#0a0a0c"></span>'+g.name;
   b.addEventListener('click',function(){ cur=i; station=0; render(); });
   tray.appendChild(b);
 });
