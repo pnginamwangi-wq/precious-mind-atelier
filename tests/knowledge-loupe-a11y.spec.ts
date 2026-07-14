@@ -214,7 +214,17 @@ test.describe("MediaOverlay respects prefers-reduced-motion", () => {
     page,
   }) => {
     await page.goto("/loupe-room", { waitUntil: "domcontentloaded" });
+    // Re-assert reduced-motion emulation after navigation so it also
+    // propagates to the same-origin iframe's media-query evaluation.
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.evaluate(() => document.fonts.ready);
+    // Wait for the iframe to finish loading before we sample styles.
+    await page.waitForFunction(() => {
+      const iframe = document.querySelector<HTMLIFrameElement>(
+        'iframe[data-testid="loupe-room-frame"]',
+      );
+      return !!iframe && iframe.contentDocument?.readyState === "complete";
+    });
 
     // Outer shell MediaOverlay.
     const shellReport = await page.evaluate(() => {
