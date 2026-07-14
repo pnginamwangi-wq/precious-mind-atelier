@@ -106,11 +106,11 @@ function InstitutesIndex() {
                           <span className="h-px w-10 bg-gold/60" />
                           <Eyebrow>Institute</Eyebrow>
                         </div>
-                        <h2 className="mt-4 font-display text-3xl leading-tight text-ivory md:text-4xl">
+                        <h2 className="mt-4 font-display text-3xl font-semibold leading-tight text-ivory md:text-4xl">
                           {it.name}
                         </h2>
-                        <p className={`mt-3 ${luxury.bodySmall}`}>{it.tag}</p>
-                        <p className="mt-5 max-w-xl text-[13px] font-light leading-relaxed text-platinum/70">
+                        <p className="mt-3 text-[13px] uppercase tracking-[0.24em] text-platinum">{it.tag}</p>
+                        <p className="mt-5 max-w-xl text-base leading-relaxed text-platinum">
                           {it.intro}
                         </p>
                         <div className="mt-6 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-gold">
