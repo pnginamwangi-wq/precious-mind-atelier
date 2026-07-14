@@ -423,7 +423,9 @@ function render(){
   });
 
   /* specimen */
-  $('stoneVis').style.background=g.grad;
+  $('stoneVis').style.backgroundImage='url('+g.img+')';
+  $('stoneVis').setAttribute('role','img');
+  $('stoneVis').setAttribute('aria-label','Photorealistic render of a '+g.name+' specimen');
   $('stoneName').textContent=g.name;
   $('stoneSpecies').textContent=g.species;
   $('specRows').innerHTML=g.spec.map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('');
