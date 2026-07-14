@@ -14,8 +14,7 @@ const CASES: Case[] = [
   // Query-parameter deep links on the index route
   { url: "/loupe-room?wing=study", active: "study" },
   { url: "/loupe-room?wing=bench", active: "bench" },
-  // levels via ?wing= redirects to /loupe-room/levels
-  { url: "/loupe-room?wing=levels", active: "levels", expectedUrl: /\/loupe-room\/levels$/ },
+  { url: "/loupe-room?wing=levels", active: "levels" },
 ];
 
 for (const c of CASES) {

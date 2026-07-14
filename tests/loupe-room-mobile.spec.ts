@@ -10,10 +10,13 @@ test.describe("Loupe Room on mobile viewport", () => {
     await expect(page.getByTestId("loupe-room-frame")).toBeVisible();
   });
 
-  test("bottom mobile navigation is present on mobile", async ({ page }) => {
+  test("the Loupe Room fills the mobile viewport as an immersive overlay", async ({ page }) => {
     await page.goto("/loupe-room");
-    const mobileNav = page.getByRole("navigation", { name: "Mobile navigation" });
-    await expect(mobileNav).toBeVisible();
+    const overlay = page.locator('div.fixed.inset-0').filter({ has: page.getByTestId("loupe-room-frame") });
+    const box = await overlay.first().boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.width).toBeGreaterThanOrEqual(389);
+    expect(box!.height).toBeGreaterThanOrEqual(600);
   });
 
   test("no floating widget obscures the wing tab controls", async ({ page }) => {
@@ -21,8 +24,6 @@ test.describe("Loupe Room on mobile viewport", () => {
     const benchTab = page.getByTestId("loupe-tab-bench");
     await expect(benchTab).toBeVisible();
 
-    // The centre of the tab must be reachable, i.e. no floating AI button,
-    // toast, or overlay is sitting on top of the wing controls.
     const box = await benchTab.boundingBox();
     expect(box).not.toBeNull();
     const { x, y, width, height } = box!;
@@ -38,15 +39,34 @@ test.describe("Loupe Room on mobile viewport", () => {
     expect(topElHandlesTab).toBe(true);
   });
 
-  test("mobile bottom nav does not overlap the wing tablist", async ({ page }) => {
+  test("no bottom-anchored floating widget covers the wing controls", async ({ page }) => {
     await page.goto("/loupe-room");
     const tablist = page.getByRole("tablist", { name: "Loupe Room wings" });
-    const nav = page.getByRole("navigation", { name: "Mobile navigation" });
-    const tablistBox = await tablist.boundingBox();
-    const navBox = await nav.boundingBox();
-    expect(tablistBox).not.toBeNull();
-    expect(navBox).not.toBeNull();
-    // Tablist sits above the bottom nav, not behind it.
-    expect(tablistBox!.y + tablistBox!.height).toBeLessThanOrEqual(navBox!.y + 1);
+    const tabBox = await tablist.boundingBox();
+    expect(tabBox).not.toBeNull();
+
+    // Scan all fixed-position elements. Any element pinned to the bottom of the
+    // viewport (a mobile bottom nav or a floating AI button) must sit below the
+    // wing controls, not on top of them.
+    const overlapping = await page.evaluate((topOfTabs: number) => {
+      const results: { tag: string; top: number; bottom: number }[] = [];
+      for (const el of Array.from(document.querySelectorAll<HTMLElement>("body *"))) {
+        const style = getComputedStyle(el);
+        if (style.position !== "fixed") continue;
+        if (style.visibility === "hidden" || style.display === "none") continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) continue;
+        // Bottom-anchored: within 24px of the viewport bottom.
+        const bottomAnchored = window.innerHeight - rect.bottom < 24;
+        if (!bottomAnchored) continue;
+        // Ignore the immersive overlay itself, which is inset-0 (top === 0).
+        if (rect.top <= 0) continue;
+        if (rect.top < topOfTabs + 40) {
+          results.push({ tag: el.tagName, top: rect.top, bottom: rect.bottom });
+        }
+      }
+      return results;
+    }, tabBox!.y);
+    expect(overlapping).toEqual([]);
   });
 });
