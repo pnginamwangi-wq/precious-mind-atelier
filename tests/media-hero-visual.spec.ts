@@ -49,7 +49,12 @@ for (const bp of BREAKPOINTS) {
         await page.goto(route.path, { waitUntil: "domcontentloaded" });
         await page.evaluate(() => document.fonts.ready);
 
-        const hero = page.locator("section:has(.on-media)").first();
+        // Locate the first element that directly wraps a MediaOverlay.
+        await page.evaluate(() => {
+          const first = document.querySelector(".on-media")?.parentElement;
+          if (first) first.setAttribute("data-media-hero", "");
+        });
+        const hero = page.locator("[data-media-hero]").first();
         await expect(hero).toBeVisible();
         await hero.scrollIntoViewIfNeeded();
 
