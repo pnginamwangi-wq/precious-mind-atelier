@@ -8,6 +8,8 @@ import {
   Container,
   Eyebrow,
   Hairline,
+  LEGENDS,
+  MediaOverlay,
   NewsletterSignup,
   Section,
   SectionHeader,
