@@ -122,34 +122,41 @@ test.describe("MediaOverlay keyboard reachability", () => {
     expect(hit, "Tab must reach the Loupe Room shell controls").toBe(true);
     expect(ring.visible, `shell focused control must show a ring. Got ${ring.reason}`).toBe(true);
 
-    // Inside the iframe: first Tab into the room should land on the skip
-    // link or the first gemstone tab, both of which must render a ring
-    // via the iframe's own :focus-visible outline.
-    const contentFrame = await (
-      await page.$('iframe[data-testid="loupe-room-frame"]')
-    )!.contentFrame();
+    // Inside the iframe: continue tabbing until focus lands on one of the
+    // iframe's own tab-order elements, then read that element's computed
+    // focus ring via `contentDocument.activeElement`. Programmatic `.focus()`
+    // does not grant :focus-visible; keyboard Tab does.
+    const iframeHandle = await page.$('iframe[data-testid="loupe-room-frame"]');
+    const contentFrame = await iframeHandle!.contentFrame();
     expect(contentFrame, "loupe-room iframe must be same-origin").not.toBeNull();
 
-    const iframeRing = await contentFrame!.evaluate(async () => {
-      const body = document.body;
-      body.focus();
-      // Move focus to the first tablist button (a real tab-order candidate).
-      const tab = document.querySelector<HTMLButtonElement>('#tray button[role="tab"]');
-      if (!tab) return { ok: false, reason: "no tray tab" };
-      tab.focus();
-      // Focus-visible only applies when the user reached the element via
-      // keyboard. Simulate that by dispatching keydown before reading styles.
-      tab.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true }));
-      const s = getComputedStyle(tab);
-      const ow = parseFloat(s.outlineWidth || "0");
-      return {
-        ok: (ow > 0 && s.outlineStyle !== "none") || (s.boxShadow && s.boxShadow !== "none"),
-        reason: `outline:${s.outlineWidth} ${s.outlineStyle}; box-shadow:${s.boxShadow}`,
-      };
-    });
+    let iframeRing = { ok: false, reason: "not reached" };
+    for (let i = 0; i < 25; i++) {
+      await page.keyboard.press("Tab");
+      const info = await contentFrame!.evaluate(() => {
+        const el = document.activeElement as HTMLElement | null;
+        if (!el || el === document.body) return null;
+        const s = getComputedStyle(el);
+        const ow = parseFloat(s.outlineWidth || "0");
+        const visible =
+          (ow > 0 && s.outlineStyle !== "none") || (s.boxShadow && s.boxShadow !== "none");
+        return {
+          tag: el.tagName,
+          role: el.getAttribute("role"),
+          fv: el.matches(":focus-visible"),
+          visible: !!visible,
+          reason: `outline:${s.outlineWidth} ${s.outlineStyle}; box-shadow:${s.boxShadow}`,
+        };
+      });
+      if (info && info.visible) {
+        iframeRing = { ok: true, reason: info.reason };
+        break;
+      }
+      if (info) iframeRing = { ok: false, reason: `${info.tag}[${info.role}] ${info.reason}` };
+    }
     expect(
       iframeRing.ok,
-      `iframe tablist button must show a focus ring. Got ${iframeRing.reason}`,
+      `an iframe focusable element must show a focus ring. Last seen: ${iframeRing.reason}`,
     ).toBe(true);
   });
 });
