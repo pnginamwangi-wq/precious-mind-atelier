@@ -273,10 +273,13 @@
   );
 }
 
-/* Solid dark panel behind text: absolute fallback for the busiest media. */
+/* Solid dark panel behind text: absolute fallback for the busiest media.
+ * Matches the TextPanel spec so both surfaces read as one system. */
 @utility scrim-panel {
-  background: rgba(5, 5, 4, 0.72);
-  backdrop-filter: blur(4px) saturate(120%);
+  background: rgba(9, 8, 6, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(242, 216, 137, 0.24);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 /* Full flat cover, used when media is atmosphere only. */
