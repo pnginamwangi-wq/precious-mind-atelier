@@ -246,4 +246,5 @@ export const METALS_VAULT = {
     mobile: `${MV_BASE}/pia-metals-bullion-vault-desktop-v01-mobile.webp`,
     alt: "The bullion vault of the Institute of Precious Metals, stacked ingots receding into low light.",
   },
+  bullionVaultLoopVideo: `${MV_BASE}/pia-metals-bullion-vault-loop-desktop-v01.mp4`,
 } as const;
