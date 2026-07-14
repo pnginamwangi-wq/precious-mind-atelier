@@ -126,7 +126,7 @@ export function MediaOverlay({
   );
 }
 
-/* ---------- Grand Hall asset map (Fable 5 Batch 1) ---------- */
+/* ---------- Grand Hall asset map (Fable 5 Batch 1 + v02) ---------- */
 
 const GH_BASE = "/media/grandhall";
 
@@ -134,6 +134,11 @@ export const GRAND_HALL = {
   interiorDolly: {
     poster: `${GH_BASE}/pia-grandhall-interior-dolly-desktop-v01-poster.webp`,
     mobile: `${GH_BASE}/pia-grandhall-interior-dolly-desktop-v01-mobile.webp`,
+    alt: "The Grand Hall of the Academy, viewed along its monumental axis.",
+  },
+  interiorDollyV2: {
+    poster: `${GH_BASE}/pia-grandhall-interior-dolly-desktop-v02-poster.webp`,
+    mobile: `${GH_BASE}/pia-grandhall-interior-dolly-desktop-v02-mobile.webp`,
     alt: "The Grand Hall of the Academy, viewed along its monumental axis.",
   },
   exteriorApproach: {
@@ -151,6 +156,7 @@ export const GRAND_HALL = {
     mobile: `${GH_BASE}/pia-grandhall-ambience-loop-desktop-v01-mobile.webp`,
     alt: "Sunlight and dust in the Grand Hall skylight.",
   },
+  ambienceLoopVideo: `${GH_BASE}/pia-grandhall-ambience-loop-desktop-v01.mp4`,
   plinthStatic: {
     poster: `${GH_BASE}/pia-grandhall-plinth-static-desktop-v01-poster.webp`,
     mobile: `${GH_BASE}/pia-grandhall-plinth-static-desktop-v01-mobile.webp`,
@@ -158,11 +164,86 @@ export const GRAND_HALL = {
   },
 } as const;
 
-/* ---------- Atelier asset map (Batch 2, in progress) ---------- */
+/* ---------- Atelier (Batch 2) ---------- */
+
+const AT_BASE = "/media/atelier";
 
 export const ATELIER = {
   benchGoldenHour: {
-    poster: "/__l5e/assets-v1/53c528ea-4b15-4e56-b02e-bf14c452ab80/pia-atelier-bench-desktop-v01.jpg",
-    alt: "A jeweller's workbench at golden hour, brass tools and a set diamond ring under a task lamp.",
+    poster: `${AT_BASE}/pia-atelier-workbench-rows-desktop-v01-poster.webp`,
+    mobile: `${AT_BASE}/pia-atelier-workbench-rows-desktop-v01-mobile.webp`,
+    alt: "The Academy's atelier at golden hour, rows of jewellers' workbenches lit by task lamps.",
+  },
+} as const;
+
+/* ---------- Diamond Theatre (Batch 3) ---------- */
+
+const DT_BASE = "/media/diamondtheatre";
+
+export const DIAMOND_THEATRE = {
+  examinationStage: {
+    poster: `${DT_BASE}/pia-diamondtheatre-examination-stage-desktop-v01-poster.webp`,
+    mobile: `${DT_BASE}/pia-diamondtheatre-examination-stage-desktop-v01-mobile.webp`,
+    alt: "The examination stage of the Diamond Theatre, a lone loupe waiting under focused light.",
+  },
+} as const;
+
+/* ---------- The Mint (Batch 4) ---------- */
+
+const MT_BASE = "/media/mint";
+
+export const MINT = {
+  coiningPress: {
+    poster: `${MT_BASE}/pia-mint-coining-press-desktop-v01-poster.webp`,
+    mobile: `${MT_BASE}/pia-mint-coining-press-desktop-v01-mobile.webp`,
+    alt: "A coining press in the Mint, dies aligned above a fresh planchet.",
+  },
+} as const;
+
+/* ---------- The Library reading room (Batch 5) ---------- */
+
+const LR_BASE = "/media/library";
+
+export const LIBRARY_ROOM = {
+  readingRoom: {
+    poster: `${LR_BASE}/pia-library-reading-room-desktop-v01-poster.webp`,
+    mobile: `${LR_BASE}/pia-library-reading-room-desktop-v01-mobile.webp`,
+    alt: "The Academy's Library reading room, long tables and standing lamps beneath vaulted stacks.",
+  },
+} as const;
+
+/* ---------- Legends, Hall of Honour (Batch 6) ---------- */
+
+const LG_BASE = "/media/legends";
+
+export const LEGENDS = {
+  hallOfHonour: {
+    poster: `${LG_BASE}/pia-legends-hall-of-honour-desktop-v01-poster.webp`,
+    mobile: `${LG_BASE}/pia-legends-hall-of-honour-desktop-v01-mobile.webp`,
+    alt: "The Hall of Honour, portraits of masters ranged along a marble colonnade.",
+  },
+} as const;
+
+/* ---------- Gem Museum vitrine gallery (Batch 7) ---------- */
+
+const GM_BASE = "/media/gemmuseum";
+
+export const GEM_MUSEUM = {
+  vitrineGallery: {
+    poster: `${GM_BASE}/pia-gemmuseum-vitrine-gallery-desktop-v01-poster.webp`,
+    mobile: `${GM_BASE}/pia-gemmuseum-vitrine-gallery-desktop-v01-mobile.webp`,
+    alt: "The vitrine gallery of the Gem Museum, illuminated cases lining a hushed corridor.",
+  },
+} as const;
+
+/* ---------- Metals bullion vault (Batch 8) ---------- */
+
+const MV_BASE = "/media/metals";
+
+export const METALS_VAULT = {
+  bullionVault: {
+    poster: `${MV_BASE}/pia-metals-bullion-vault-desktop-v01-poster.webp`,
+    mobile: `${MV_BASE}/pia-metals-bullion-vault-desktop-v01-mobile.webp`,
+    alt: "The bullion vault of the Institute of Precious Metals, stacked ingots receding into low light.",
   },
 } as const;

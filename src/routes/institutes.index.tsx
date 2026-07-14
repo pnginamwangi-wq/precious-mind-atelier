@@ -7,7 +7,7 @@ import { MobileTabs } from "@/components/luxury/mobile-tabs";
 import {
   Container,
   Eyebrow,
-  GRAND_HALL,
+  METALS_VAULT,
   MediaOverlay,
   Section,
   SectionHeader,
@@ -63,11 +63,11 @@ function InstitutesIndex() {
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
         <Section className="relative overflow-hidden pt-40">
           <MediaOverlay
-            poster={GRAND_HALL.exteriorApproach.poster}
-            mobile={GRAND_HALL.exteriorApproach.mobile}
+            poster={METALS_VAULT.bullionVault.poster}
+            mobile={METALS_VAULT.bullionVault.mobile}
             alt=""
-            loading="eager"
-            fetchPriority="high"
+            loading="lazy"
+            fetchPriority="auto"
             scrim="scrim-hero"
           />
           <div className="relative z-10">

@@ -210,6 +210,7 @@ function HeroSequence() {
           <MediaOverlay
             poster={f.poster}
             mobile={f.mobile}
+            video={idx === 0 ? GRAND_HALL.ambienceLoopVideo : undefined}
             alt={idx === 0 ? f.alt : ""}
             loading={idx === 0 ? "eager" : "lazy"}
             fetchPriority={idx === 0 ? "high" : "auto"}
