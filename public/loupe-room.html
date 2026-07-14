@@ -424,10 +424,25 @@ function render(){
     b.setAttribute('aria-selected', i===station ? 'true':'false');
   });
 
-  /* specimen */
-  $('stoneVis').style.backgroundImage='url('+g.img+')';
-  $('stoneVis').setAttribute('role','img');
-  $('stoneVis').setAttribute('aria-label','Photorealistic render of a '+g.name+' specimen');
+  /* specimen: preload the active gemstone before swapping so the stage never flashes a placeholder */
+  var stoneEl=$('stoneVis');
+  var currentGemImg=g.img;
+  stoneEl.setAttribute('role','img');
+  stoneEl.setAttribute('aria-label','Photorealistic render of a '+g.name+' specimen');
+  var pre=new Image();
+  pre.decoding='async';
+  pre.src=g.img;
+  var applyBg=function(){
+    if(currentGemImg!==g.img) return; /* stale swap, newer selection won */
+    stoneEl.style.backgroundImage='url('+g.img+')';
+  };
+  if(pre.complete){
+    applyBg();
+  } else {
+    /* keep the previous stone visible until the new one is decoded */
+    if(pre.decode){ pre.decode().then(applyBg, applyBg); }
+    else { pre.addEventListener('load', applyBg, {once:true}); pre.addEventListener('error', applyBg, {once:true}); }
+  }
   $('stoneName').textContent=g.name;
   $('stoneSpecies').textContent=g.species;
   $('specRows').innerHTML=g.spec.map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('');
