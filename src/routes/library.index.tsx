@@ -49,6 +49,7 @@ function LibraryIndex() {
           </Container>
         </Section>
         <Section className="pt-16">
+          <Container>
             <ul className="grid gap-px bg-white/5 md:grid-cols-2 lg:grid-cols-3">
               {LIBRARY.map((it, i) => (
                 <li key={it.slug} className="bg-obsidian">
