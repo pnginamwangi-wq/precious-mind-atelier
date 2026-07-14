@@ -75,6 +75,7 @@ export function MediaOverlay({
   loading = "lazy",
   fetchPriority,
   scrim = "none",
+  blur = false,
   kenBurns = false,
   className,
   decorative,
