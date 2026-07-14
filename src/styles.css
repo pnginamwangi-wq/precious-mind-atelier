@@ -203,23 +203,146 @@
 }
 
 /*
- * Media overlay scrims (Phase 2A).
- * Guarantee AA-contrast text over any photograph or video frame.
- * Used by <MediaOverlay>; also applicable directly to hero figures.
+ * Media overlay scrims (Phase 2A, hardened in Phase 2B).
+ *
+ * Guarantee AA-contrast text over any photograph, cinematic loop, or 3D
+ * frame, in both darkest-case and brightest-case moments. Each utility
+ * is intensified on mobile where text spans more of the media. Applied
+ * by <MediaOverlay scrim="..."/> and available directly for custom
+ * hero figures.
  */
+
+/* Left-anchored hero: strong left column, fades right; extra bottom pass. */
 @utility scrim-hero {
-  background: linear-gradient(
-    to right,
-    rgba(8, 7, 6, 0.88) 0%,
-    rgba(8, 7, 6, 0.62) 42%,
-    rgba(8, 7, 6, 0.28) 70%,
-    rgba(8, 7, 6, 0.45) 100%
-  ),
-  linear-gradient(to top, rgba(8, 7, 6, 0.85) 0%, transparent 45%);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 4, 0.94) 0%,
+      rgba(5, 5, 4, 0.84) 35%,
+      rgba(5, 5, 4, 0.38) 68%,
+      rgba(5, 5, 4, 0.12) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(5, 5, 4, 0.88) 0%,
+      rgba(5, 5, 4, 0.2) 50%,
+      transparent 80%
+    );
 }
 
+/* Bottom-anchored cards / article heroes. */
 @utility scrim-card {
-  background: linear-gradient(to top, rgba(8, 7, 6, 0.92) 0%, rgba(8, 7, 6, 0.35) 55%, rgba(8, 7, 6, 0.15) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(5, 5, 4, 0.92) 0%,
+    rgba(5, 5, 4, 0.72) 40%,
+    rgba(5, 5, 4, 0.15) 75%,
+    rgba(5, 5, 4, 0) 100%
+  );
+}
+
+/* Simple bottom fade, for image tiles without a hard text block. */
+@utility scrim-bottom {
+  background: linear-gradient(
+    0deg,
+    rgba(5, 5, 4, 0.85) 0%,
+    rgba(5, 5, 4, 0.45) 45%,
+    rgba(5, 5, 4, 0) 85%
+  );
+}
+
+/* Left fade, for right-facing composition (mirror of scrim-hero). */
+@utility scrim-left {
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 4, 0.9) 0%,
+    rgba(5, 5, 4, 0.55) 45%,
+    rgba(5, 5, 4, 0.1) 100%
+  );
+}
+
+/* Radial darkening centred behind the text block (bright metals, gems). */
+@utility scrim-radial {
+  background: radial-gradient(
+    ellipse 70% 90% at 30% 55%,
+    rgba(5, 5, 4, 0.82) 0%,
+    rgba(5, 5, 4, 0.55) 45%,
+    rgba(5, 5, 4, 0.15) 80%,
+    rgba(5, 5, 4, 0) 100%
+  );
+}
+
+/* Solid dark panel behind text: absolute fallback for the busiest media. */
+@utility scrim-panel {
+  background: rgba(5, 5, 4, 0.72);
+  backdrop-filter: blur(4px) saturate(120%);
+}
+
+/* Full flat cover, used when media is atmosphere only. */
+@utility scrim-full {
+  background: rgba(5, 5, 4, 0.62);
+}
+
+/* Mobile: intensify every scrim so text stays readable across the frame. */
+@media (max-width: 640px) {
+  .scrim-hero {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(5, 5, 4, 0.72) 0%,
+        rgba(5, 5, 4, 0.5) 30%,
+        rgba(5, 5, 4, 0.85) 75%,
+        rgba(5, 5, 4, 0.96) 100%
+      );
+  }
+  .scrim-card {
+    background: linear-gradient(
+      0deg,
+      rgba(5, 5, 4, 0.95) 0%,
+      rgba(5, 5, 4, 0.82) 50%,
+      rgba(5, 5, 4, 0.35) 85%,
+      rgba(5, 5, 4, 0.05) 100%
+    );
+  }
+  .scrim-left,
+  .scrim-radial {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 5, 4, 0.6) 0%,
+      rgba(5, 5, 4, 0.45) 45%,
+      rgba(5, 5, 4, 0.8) 100%
+    );
+  }
+  .scrim-bottom {
+    background: linear-gradient(
+      0deg,
+      rgba(5, 5, 4, 0.92) 0%,
+      rgba(5, 5, 4, 0.55) 55%,
+      rgba(5, 5, 4, 0) 100%
+    );
+  }
+  .scrim-full {
+    background: rgba(5, 5, 4, 0.72);
+  }
+}
+
+/*
+ * Text protection over media.
+ *
+ * MediaOverlay marks its wrapper with class `on-media` and a `data-scrim`
+ * attribute when a scrim is active. Any heading, paragraph, or list item
+ * inside the same positioned parent (Section / hero container / card)
+ * gets a soft text-shadow as a second line of defence, on top of the
+ * gradient scrim. Small captions and eyebrows also get it so gold accents
+ * stay legible over bright metal or gemstone frames. `.text-on-media`
+ * exists for one-off uses outside a MediaOverlay context.
+ */
+@utility text-on-media {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+:where(section, header, article, div, figure):has(> .on-media) :is(h1, h2, h3, h4, p, li, span, a) {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /*

@@ -10,7 +10,15 @@ import { cn } from "@/lib/utils";
  * top of the poster once it can play through. Respects prefers-reduced-motion.
  */
 
-export type ScrimVariant = "scrim-hero" | "scrim-card" | "none";
+export type ScrimVariant =
+  | "scrim-hero"
+  | "scrim-card"
+  | "scrim-bottom"
+  | "scrim-left"
+  | "scrim-radial"
+  | "scrim-panel"
+  | "scrim-full"
+  | "none";
 
 export interface MediaOverlayProps {
   /** Desktop poster (16:9 or wider), WebP/JPG. */
@@ -26,6 +34,8 @@ export interface MediaOverlayProps {
   fetchPriority?: "high" | "auto" | "low";
   /** Scrim overlay preset. */
   scrim?: ScrimVariant;
+  /** Optional backdrop blur behind text (applied to scrim layer). */
+  blur?: boolean;
   /** Slow Ken Burns zoom for stills. Disabled by reduced motion. */
   kenBurns?: boolean;
   className?: string;
@@ -36,6 +46,11 @@ export interface MediaOverlayProps {
 const SCRIM_CLASSES: Record<ScrimVariant, string> = {
   "scrim-hero": "scrim-hero",
   "scrim-card": "scrim-card",
+  "scrim-bottom": "scrim-bottom",
+  "scrim-left": "scrim-left",
+  "scrim-radial": "scrim-radial",
+  "scrim-panel": "scrim-panel",
+  "scrim-full": "scrim-full",
   none: "",
 };
 
@@ -60,6 +75,7 @@ export function MediaOverlay({
   loading = "lazy",
   fetchPriority,
   scrim = "none",
+  blur = false,
   kenBurns = false,
   className,
   decorative,
@@ -80,8 +96,17 @@ export function MediaOverlay({
 
   const zoom = kenBurns && !reduced;
 
+  const hasScrim = scrim !== "none";
+
   return (
-    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
+    <div
+      data-scrim={hasScrim ? scrim : undefined}
+      className={cn(
+        "pointer-events-none absolute inset-0 overflow-hidden",
+        hasScrim && "on-media",
+        className,
+      )}
+    >
       <picture>
         {mobile ? (
           <source media="(max-width: 640px)" srcSet={mobile} />
@@ -119,8 +144,15 @@ export function MediaOverlay({
           )}
         />
       ) : null}
-      {scrim !== "none" ? (
-        <div aria-hidden className={cn("absolute inset-0", SCRIM_CLASSES[scrim])} />
+      {hasScrim ? (
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0",
+            SCRIM_CLASSES[scrim],
+            blur && "backdrop-blur-sm",
+          )}
+        />
       ) : null}
     </div>
   );
