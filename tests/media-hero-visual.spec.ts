@@ -25,17 +25,19 @@ const BREAKPOINTS = [
 
 for (const bp of BREAKPOINTS) {
   test.describe(`media hero snapshots @ ${bp.name}`, () => {
-    test.use({ viewport: { width: bp.width, height: bp.height } });
+    test.use({
+      viewport: { width: bp.width, height: bp.height },
+      reducedMotion: "reduce",
+    });
 
     test.beforeEach(async ({ page }) => {
       // Freeze animation, Ken Burns, and video playback so pixels are stable.
       await page.addStyleTag({
         content: `
           *, *::before, *::after {
-            animation-duration: 0s !important;
-            animation-delay: 0s !important;
-            transition-duration: 0s !important;
-            transition-delay: 0s !important;
+            animation: none !important;
+            transition: none !important;
+            transform: none !important;
             caret-color: transparent !important;
           }
           video { visibility: hidden !important; }
