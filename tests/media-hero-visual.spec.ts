@@ -46,7 +46,7 @@ for (const bp of BREAKPOINTS) {
 
     for (const route of ROUTES) {
       test(`${route.name}`, async ({ page }) => {
-        await page.goto(route.path, { waitUntil: "networkidle" });
+        await page.goto(route.path, { waitUntil: "domcontentloaded" });
         await page.evaluate(() => document.fonts.ready);
 
         const hero = page.locator("section:has(.on-media)").first();
