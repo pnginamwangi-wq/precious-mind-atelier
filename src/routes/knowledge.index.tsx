@@ -5,6 +5,8 @@ import { MobileTabs } from "@/components/luxury/mobile-tabs";
 import {
   Container,
   Eyebrow,
+  GEM_MUSEUM,
+  MediaOverlay,
   Section,
   SectionHeader,
   luxury,
