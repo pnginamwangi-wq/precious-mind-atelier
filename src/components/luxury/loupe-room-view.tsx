@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
+import { DIAMOND_THEATRE, MediaOverlay } from "./media-overlay";
 
 export type LoupeWing = "study" | "bench" | "levels";
 
