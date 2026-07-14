@@ -252,7 +252,7 @@ function GovernancePage() {
             loading="lazy"
             scrim="scrim-card"
           />
-          <div className="relative z-10">
+          <Container className="relative z-10">
             <SectionHeader
               as="h1"
               eyebrow="Governance and Ethical Charter"
@@ -265,6 +265,8 @@ function GovernancePage() {
               }
               intro="The principles that govern the design, writing, and teaching of The Precious Intelligence Academy. Independence, transparency, and educational integrity, stated plainly and applied consistently."
             />
+          </Container>
+          <div className="relative z-10">
 
             <Container narrow>
               <Reveal>
