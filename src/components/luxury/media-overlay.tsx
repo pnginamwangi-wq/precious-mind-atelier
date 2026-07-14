@@ -96,8 +96,17 @@ export function MediaOverlay({
 
   const zoom = kenBurns && !reduced;
 
+  const hasScrim = scrim !== "none";
+
   return (
-    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
+    <div
+      data-scrim={hasScrim ? scrim : undefined}
+      className={cn(
+        "pointer-events-none absolute inset-0 overflow-hidden",
+        hasScrim && "on-media",
+        className,
+      )}
+    >
       <picture>
         {mobile ? (
           <source media="(max-width: 640px)" srcSet={mobile} />
@@ -135,8 +144,15 @@ export function MediaOverlay({
           )}
         />
       ) : null}
-      {scrim !== "none" ? (
-        <div aria-hidden className={cn("absolute inset-0", SCRIM_CLASSES[scrim])} />
+      {hasScrim ? (
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0",
+            SCRIM_CLASSES[scrim],
+            blur && "backdrop-blur-sm",
+          )}
+        />
       ) : null}
     </div>
   );
