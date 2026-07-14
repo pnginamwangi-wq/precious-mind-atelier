@@ -150,7 +150,14 @@ function SmeltLabPage() {
       >
         Skip to interactive
       </a>
-      <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-obsidian/80 px-4 py-3 backdrop-blur-md">
+      <div className="relative flex items-center justify-between gap-3 overflow-hidden border-b border-white/10 bg-obsidian/80 px-4 py-3 backdrop-blur-md">
+        <MediaOverlay
+          poster={MINT.coiningPress.poster}
+          mobile={MINT.coiningPress.mobile}
+          alt=""
+          loading="lazy"
+          scrim="scrim-card"
+        />
         <Link
           to="/"
           aria-label="Return to the Academy home page"
