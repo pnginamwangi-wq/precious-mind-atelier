@@ -70,13 +70,16 @@ function InstitutesIndex() {
             fetchPriority="auto"
             scrim="scrim-hero"
           />
-          <div className="relative z-10">
+          <Container className="relative z-10">
             <SectionHeader
               as="h1"
               eyebrow="The Institutes"
               title="Eight disciplines. One faculty."
               intro="Each Institute is a self contained programme, taught by practitioners of the discipline. Enter the one you are drawn to."
             />
+          </Container>
+          <div className="relative z-10">
+
 
             <Container className="mt-16">
 
