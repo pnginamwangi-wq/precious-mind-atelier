@@ -74,25 +74,27 @@ function KnowledgeIndex() {
     <>
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
-        <Section className="relative overflow-hidden pt-40">
-          <MediaOverlay
-            poster={GEM_MUSEUM.vitrineGallery.poster}
-            mobile={GEM_MUSEUM.vitrineGallery.mobile}
-            alt=""
-            loading="lazy"
-            scrim="scrim-card"
-          />
-          <Container className="relative z-10">
-            <SectionHeader
-              as="h1"
-              eyebrow="Knowledge Hub"
-              title="Consult the shared vocabulary"
-              intro="A single place to look up terms, follow curated sequences across the Institutes, or compare products the trade often conflates."
+        <Section className="pt-40">
+          <div className="relative overflow-hidden py-24 md:py-32">
+            <MediaOverlay
+              poster={GEM_MUSEUM.vitrineGallery.poster}
+              mobile={GEM_MUSEUM.vitrineGallery.mobile}
+              alt=""
+              loading="eager"
+              fetchPriority="high"
+              scrim="scrim-hero"
             />
-          </Container>
+            <Container className="relative z-10">
+              <SectionHeader
+                as="h1"
+                eyebrow="Knowledge Hub"
+                title="Consult the shared vocabulary"
+                intro="A single place to look up terms, follow curated sequences across the Institutes, or compare products the trade often conflates."
+              />
+            </Container>
+          </div>
 
-
-          <Container className="mt-16">
+          <Container className="mt-16 relative z-10">
             <ul className="grid gap-px bg-white/5 md:grid-cols-2">
               {cards.map((c) => {
                 const Icon = c.icon;
