@@ -7,10 +7,7 @@ import { MobileTabs } from "@/components/luxury/mobile-tabs";
 import {
   Container,
   Eyebrow,
-  METALS_VAULT,
-  MediaOverlay,
   Section,
-  SectionHeader,
   fadeUp,
 } from "@/components/luxury";
 import { INSTITUTES } from "@/data/institutes";
@@ -60,75 +57,94 @@ function InstitutesIndex() {
     <>
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
-        <Section className="relative overflow-hidden pt-40">
-          <MediaOverlay
-            poster={METALS_VAULT.bullionVault.poster}
-            mobile={METALS_VAULT.bullionVault.mobile}
-            video={METALS_VAULT.bullionVaultLoopVideo}
-            alt=""
-            loading="lazy"
-            fetchPriority="auto"
-            scrim="scrim-hero"
-          />
-          <Container className="relative z-10">
-            <SectionHeader
-              as="h1"
-              eyebrow="The Institutes"
-              title="Eight disciplines. One faculty."
-              intro="Each Institute is a self contained programme, taught by practitioners of the discipline. Enter the one you are drawn to."
-            />
+        {/* Editorial masthead: text only, no busy overlay */}
+        <Section className="pt-40 pb-16 md:pt-48 md:pb-24">
+          <Container>
+            <div className="grid gap-12 md:grid-cols-12">
+              <div className="md:col-span-4">
+                <Eyebrow>The Institutes</Eyebrow>
+                <p className="mt-6 font-numeric text-[11px] tracking-[0.32em] text-gold">
+                  I — VIII
+                </p>
+              </div>
+              <div className="md:col-span-8">
+                <h1 className="font-display text-4xl font-semibold leading-[1.05] text-ivory md:text-6xl">
+                  Eight disciplines.
+                  <br />
+                  <span className="text-platinum">One faculty.</span>
+                </h1>
+                <p className="mt-8 max-w-xl text-base leading-relaxed text-platinum md:text-lg">
+                  Each Institute is a self contained programme, taught by practitioners of the discipline. Enter the one you are drawn to.
+                </p>
+              </div>
+            </div>
           </Container>
-          <div className="relative z-10">
+        </Section>
 
-
-            <Container className="mt-16">
-
-            <div className="grid gap-px bg-white/5 md:grid-cols-2">
+        {/* Editorial index: consistent aligned rows */}
+        <Section className="pb-32">
+          <Container>
+            <div className="border-t border-white/10">
               {INSTITUTES.map((it) => (
-                <motion.article key={it.slug} variants={fadeUp} className="bg-obsidian">
+                <motion.div key={it.slug} variants={fadeUp}>
                   <Link
                     to="/institutes/$slug"
                     params={{ slug: it.slug }}
-                    className="group block"
                     aria-label={`Enter the ${it.name} Institute`}
+                    className="group block border-b border-white/10 py-8 transition-colors duration-500 hover:bg-white/[0.02] md:py-10"
                   >
-                    <div className="relative aspect-[16/10] min-h-[220px] overflow-hidden">
-                      <MediaOverlay
-                        poster={it.hero}
-                        alt=""
-                        loading="lazy"
-                        scrim="scrim-card"
-                        className="transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
-                      />
-                      <div className="absolute inset-x-0 bottom-0 p-8 md:p-10">
-                        <div className="flex items-center gap-4">
-                          <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">
-                            {it.n}
-                          </span>
-                          <span className="h-px w-10 bg-gold/60" />
-                          <Eyebrow>Institute</Eyebrow>
+                    <div className="grid items-start gap-6 md:grid-cols-12 md:gap-8">
+                      {/* Numeral */}
+                      <div className="md:col-span-1">
+                        <span className="font-numeric text-xs tracking-[0.3em] text-gold">
+                          {it.n}
+                        </span>
+                      </div>
+
+                      {/* Thumbnail */}
+                      <div className="md:col-span-2">
+                        <div className="relative aspect-square w-20 overflow-hidden md:w-full">
+                          <img
+                            src={it.hero}
+                            alt=""
+                            loading="lazy"
+                            className="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-[1200ms] ease-out group-hover:grayscale-0 group-hover:scale-[1.04]"
+                          />
+                          <div className="absolute inset-0 bg-obsidian/40 transition-opacity duration-700 group-hover:opacity-0" />
                         </div>
-                        <h2 className="mt-4 font-display text-3xl font-semibold leading-tight text-ivory md:text-4xl">
+                      </div>
+
+                      {/* Title + tag */}
+                      <div className="md:col-span-4">
+                        <h2 className="font-display text-2xl font-semibold leading-tight text-ivory transition-colors duration-500 group-hover:text-gold md:text-3xl">
                           {it.name}
                         </h2>
-                        <p className="mt-3 text-[13px] uppercase tracking-[0.24em] text-platinum">{it.tag}</p>
-                        <p className="mt-5 max-w-xl text-base leading-relaxed text-platinum">
+                        <p className="mt-2 text-[11px] uppercase tracking-[0.24em] text-platinum/80">
+                          {it.tag}
+                        </p>
+                      </div>
+
+                      {/* Intro */}
+                      <div className="md:col-span-4">
+                        <p className="text-sm leading-relaxed text-platinum md:text-[15px]">
                           {it.intro}
                         </p>
-                        <div className="mt-6 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-gold">
-                          Enter the Institute
+                      </div>
+
+                      {/* Enter */}
+                      <div className="md:col-span-1 md:text-right">
+                        <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-gold">
                           <span className="transition-transform duration-500 group-hover:translate-x-1">
                             →
                           </span>
-                        </div>
+                        </span>
                       </div>
                     </div>
                   </Link>
-                </motion.article>
+                </motion.div>
               ))}
             </div>
-            </Container>
-          </div>
+          </Container>
         </Section>
       </main>
       <Footer />
