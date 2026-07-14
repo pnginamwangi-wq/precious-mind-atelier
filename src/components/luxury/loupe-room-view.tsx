@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { DIAMOND_THEATRE, MediaOverlay } from "./media-overlay";
 
-export type LoupeWing = "study" | "bench" | "levels";
+export type LoupeWing = "study" | "bench" | "hallmark-karat-lab";
 
 export const LOUPE_WINGS: {
   id: LoupeWing;
@@ -34,13 +34,13 @@ export const LOUPE_WINGS: {
       "Training bench where you read hallmarks, identify stones and detect suspicious pieces.",
   },
   {
-    id: "levels",
-    label: "Level Training",
-    sub: "Progressive mastery ladder",
-    src: "/loupe-room-levels.html",
-    title: "The Loupe Room, Level Training",
+    id: "hallmark-karat-lab",
+    label: "Hallmark & Karat Lab",
+    sub: "Read the mark, identify the metal",
+    src: "/loupe-room-hallmark-karat-lab.html",
+    title: "The Loupe Room, The Hallmark & Karat Lab",
     description:
-      "Progressive levels ladder: earn your loupe, unlock harder examinations and prove your eye.",
+      "Train your eye to recognise hallmarks, karat standards, metal fineness, gemstones and common jewellery issues through interactive visual challenges.",
   },
 ];
 
@@ -56,7 +56,7 @@ export function LoupeRoomView({
   const tabRefs = useRef<Record<LoupeWing, HTMLButtonElement | null>>({
     study: null,
     bench: null,
-    levels: null,
+    "hallmark-karat-lab": null,
   });
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const previousWing = useRef<LoupeWing>(wing);

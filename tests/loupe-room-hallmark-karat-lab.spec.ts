@@ -1,56 +1,56 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Loupe Room, Level Training wing", () => {
-  test("levels tab appears in tablist with correct ARIA", async ({ page }) => {
+test.describe("Loupe Room, The Hallmark & Karat Lab wing", () => {
+  test("lab tab appears in tablist with correct ARIA", async ({ page }) => {
     await page.goto("/loupe-room");
     const tablist = page.getByRole("tablist", { name: "Loupe Room wings" });
     await expect(tablist).toBeVisible();
 
-    const levelsTab = page.getByTestId("loupe-tab-levels");
-    await expect(levelsTab).toHaveAttribute("role", "tab");
-    await expect(levelsTab).toHaveAttribute("aria-controls", "loupe-room-frame");
-    await expect(levelsTab).toContainText(/Level Training/i);
+    const labTab = page.getByTestId("loupe-tab-hallmark-karat-lab");
+    await expect(labTab).toHaveAttribute("role", "tab");
+    await expect(labTab).toHaveAttribute("aria-controls", "loupe-room-frame");
+    await expect(labTab).toContainText(/Hallmark & Karat Lab/i);
 
     // Study is the default active tab
     await expect(page.getByTestId("loupe-tab-study")).toHaveAttribute(
       "aria-selected",
       "true",
     );
-    await expect(levelsTab).toHaveAttribute("aria-selected", "false");
+    await expect(labTab).toHaveAttribute("aria-selected", "false");
   });
 
-  test("?wing=levels deep-links to the levels iframe (search variant)", async ({ page }) => {
-    await page.goto("/loupe-room?wing=levels");
+  test("?wing=hallmark-karat-lab deep-links to the lab iframe (search variant)", async ({ page }) => {
+    await page.goto("/loupe-room?wing=hallmark-karat-lab");
 
-    // The index route redirects levels to /loupe-room/levels
-    await expect(page).toHaveURL(/\/loupe-room\/levels$/);
+    // The index route redirects the lab to /loupe-room/hallmark-karat-lab
+    await expect(page).toHaveURL(/\/loupe-room\/hallmark-karat-lab$/);
 
     const frame = page.getByTestId("loupe-room-frame");
-    await expect(frame).toHaveAttribute("data-wing", "levels");
-    await expect(frame).toHaveAttribute("src", "/loupe-room-levels.html");
+    await expect(frame).toHaveAttribute("data-wing", "hallmark-karat-lab");
+    await expect(frame).toHaveAttribute("src", "/loupe-room-hallmark-karat-lab.html");
     await expect(frame).toHaveAttribute(
       "aria-labelledby",
-      "loupe-tab-levels",
+      "loupe-tab-hallmark-karat-lab",
     );
-    await expect(page.getByTestId("loupe-tab-levels")).toHaveAttribute(
+    await expect(page.getByTestId("loupe-tab-hallmark-karat-lab")).toHaveAttribute(
       "aria-selected",
       "true",
     );
   });
 
-  test("/loupe-room/levels loads the dedicated route directly", async ({ page }) => {
-    await page.goto("/loupe-room/levels");
-    await expect(page).toHaveTitle(/Level Training/i);
+  test("/loupe-room/hallmark-karat-lab loads the dedicated route directly", async ({ page }) => {
+    await page.goto("/loupe-room/hallmark-karat-lab");
+    await expect(page).toHaveTitle(/Hallmark & Karat Lab/i);
 
     const frame = page.getByTestId("loupe-room-frame");
-    await expect(frame).toHaveAttribute("data-wing", "levels");
-    await expect(page.getByTestId("loupe-tab-levels")).toHaveAttribute(
+    await expect(frame).toHaveAttribute("data-wing", "hallmark-karat-lab");
+    await expect(page.getByTestId("loupe-tab-hallmark-karat-lab")).toHaveAttribute(
       "aria-selected",
       "true",
     );
   });
 
-  test("keyboard: Arrow keys move between tabs from study to levels", async ({ page }) => {
+  test("keyboard: Arrow keys move between tabs from study to the lab", async ({ page }) => {
     await page.goto("/loupe-room");
     const studyTab = page.getByTestId("loupe-tab-study");
     await studyTab.focus();
@@ -64,38 +64,38 @@ test.describe("Loupe Room, Level Training wing", () => {
     );
 
     await page.keyboard.press("ArrowRight");
-    // Selecting levels routes to /loupe-room/levels
-    await expect(page).toHaveURL(/\/loupe-room\/levels$/);
-    await expect(page.getByTestId("loupe-tab-levels")).toHaveAttribute(
+    // Selecting the lab routes to /loupe-room/hallmark-karat-lab
+    await expect(page).toHaveURL(/\/loupe-room\/hallmark-karat-lab$/);
+    await expect(page.getByTestId("loupe-tab-hallmark-karat-lab")).toHaveAttribute(
       "aria-selected",
       "true",
     );
   });
 
-  test("keyboard: End key jumps to the last tab (levels)", async ({ page }) => {
+  test("keyboard: End key jumps to the last tab (the lab)", async ({ page }) => {
     await page.goto("/loupe-room");
     await page.getByTestId("loupe-tab-study").focus();
     await page.keyboard.press("End");
-    await expect(page).toHaveURL(/\/loupe-room\/levels$/);
-    await expect(page.getByTestId("loupe-tab-levels")).toHaveAttribute(
+    await expect(page).toHaveURL(/\/loupe-room\/hallmark-karat-lab$/);
+    await expect(page.getByTestId("loupe-tab-hallmark-karat-lab")).toHaveAttribute(
       "aria-selected",
       "true",
     );
   });
 
   test("keyboard: Home key returns to the first tab (study)", async ({ page }) => {
-    await page.goto("/loupe-room/levels");
-    await page.getByTestId("loupe-tab-levels").focus();
+    await page.goto("/loupe-room/hallmark-karat-lab");
+    await page.getByTestId("loupe-tab-hallmark-karat-lab").focus();
     await page.keyboard.press("Home");
     await expect(page.getByTestId("loupe-tab-study")).toBeFocused();
     // Study lives on /loupe-room
     await expect(page).toHaveURL(/\/loupe-room(\?|$)/);
   });
 
-  test("clicking the levels tab moves focus into the iframe", async ({ page }) => {
+  test("clicking the lab tab moves focus into the iframe", async ({ page }) => {
     await page.goto("/loupe-room");
-    await page.getByTestId("loupe-tab-levels").click();
-    await expect(page).toHaveURL(/\/loupe-room\/levels$/);
+    await page.getByTestId("loupe-tab-hallmark-karat-lab").click();
+    await expect(page).toHaveURL(/\/loupe-room\/hallmark-karat-lab$/);
 
     const frame = page.getByTestId("loupe-room-frame");
     // Wait for iframe load, then verify our focus effect targeted it.
@@ -111,19 +111,19 @@ test.describe("Loupe Room, Level Training wing", () => {
   test("skip-to-interactive link is keyboard reachable and targets the iframe", async ({
     page,
   }) => {
-    await page.goto("/loupe-room/levels");
+    await page.goto("/loupe-room/hallmark-karat-lab");
     const skip = page.getByRole("link", { name: /Skip to interactive/i });
     await skip.focus();
     await expect(skip).toBeFocused();
     await expect(skip).toHaveAttribute("href", "#loupe-room-frame");
   });
 
-  test("iframe has hardened sandbox attributes on the levels wing", async ({ page }) => {
-    await page.goto("/loupe-room/levels");
+  test("iframe has hardened sandbox attributes on the lab wing", async ({ page }) => {
+    await page.goto("/loupe-room/hallmark-karat-lab");
     const frame = page.getByTestId("loupe-room-frame");
     await expect(frame).toHaveAttribute("sandbox", /allow-scripts/);
     await expect(frame).toHaveAttribute("sandbox", /allow-same-origin/);
     await expect(frame).toHaveAttribute("referrerpolicy", "same-origin");
-    await expect(frame).toHaveAttribute("title", /Level Training/i);
+    await expect(frame).toHaveAttribute("title", /Hallmark & Karat Lab/i);
   });
 });

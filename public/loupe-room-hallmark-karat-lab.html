@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Loupe Room · Precious Intelligence Academy</title>
-<meta name="description" content="Train your eye. Read hallmarks, identify gemstones and detect suspicious pieces under a jeweller's loupe.">
+<title>The Loupe Room · The Hallmark &amp; Karat Lab · Precious Intelligence Academy</title>
+<meta name="description" content="Train your eye to recognise hallmarks, karat standards, metal fineness, gemstones and common jewellery issues through interactive visual challenges.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -49,6 +49,7 @@ button{font-family:inherit}
 .hero h1{font-size:clamp(2.6rem,7vw,4.8rem);color:var(--gold-hi)}
 .hero h1 em{color:var(--cream);font-style:italic}
 .hero p{max-width:600px;margin:1.4rem auto 0;color:var(--body);font-size:1.05rem;line-height:1.8}
+@media(max-width:760px){.hero{padding-top:7.5rem}}
 
 .stepper{display:flex;justify-content:center;margin:3rem auto 0;max-width:600px;position:relative;z-index:2;width:100%}
 .step{flex:1;text-align:center;position:relative;padding-top:22px}
@@ -108,6 +109,10 @@ button{font-family:inherit}
 #certFx.on{opacity:1}
 .stage-vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
   background:radial-gradient(115% 95% at 50% 46%, transparent 46%, rgba(0,0,0,.55) 100%)}
+.stage-grid{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.1;
+  background-image:linear-gradient(rgba(195,201,202,.4) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(195,201,202,.4) 1px,transparent 1px);
+  background-size:48px 48px;mix-blend-mode:screen}
 
 .begin-row{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap;justify-content:center}
 .btn{padding:.95rem 1.8rem;border-radius:8px;cursor:pointer;position:relative;overflow:hidden;
@@ -121,7 +126,7 @@ button{font-family:inherit}
 .btn.primary:hover::after{background-position:-40% 0}
 .btn.ghost{background:var(--glass);border:1px solid var(--gold-deep);color:var(--gold)}
 .btn.ghost:hover{background:rgba(201,161,64,.12)}
-.btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.btn:disabled{cursor:not-allowed;transform:none;box-shadow:none;background:#241d10;color:#8f8468;border:1px solid rgba(201,161,64,.25)}
 
 /* ledger */
 .ledger{width:100%;max-width:520px;margin-top:1.5rem}
@@ -204,13 +209,13 @@ footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.6
   <div class="hero-vignette" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="eyebrow">Precious Intelligence Academy</div>
-    <h1>The Loupe Room<br><em>Train the eye that cannot be fooled</em></h1>
-    <p>Every dealer's first instrument is a ten power loupe. Under it, a hallmark tells the truth, a gemstone shows its character, and a fake gives itself away. Move your loupe across each specimen, read what is actually there, and certify your eye level by level.</p>
+    <h1>The Hallmark &amp; Karat Lab<br><em>Read the mark. Identify the metal. Understand the standard.</em></h1>
+    <p>Every dealer's first instrument is a ten power loupe. Under it, a hallmark tells the truth, a gemstone shows its character, and a fake gives itself away. Move your loupe across each specimen, read what is actually there, and build your trained eye challenge by challenge.</p>
     <div class="stepper" role="list" aria-label="Training stages">
       <div class="step active" role="listitem"><span>Observe</span></div>
       <div class="step" role="listitem"><span>Examine</span></div>
       <div class="step" role="listitem"><span>Identify</span></div>
-      <div class="step" role="listitem"><span>Certify</span></div>
+      <div class="step" role="listitem"><span>Record</span></div>
     </div>
   </div>
 </section>
@@ -219,29 +224,29 @@ footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.6
 
   <div class="panel">
     <h2>Curriculum</h2>
-    <p class="sub">Four levels. Pass each to unlock the next. Your eye earns its certificate at the end.</p>
+    <p class="sub">Four challenges. Pass each to advance to the next stage. Complete all four to record your learning progress.</p>
     <button class="level current" data-level="0">
       <span class="badge">I</span>
-      <span><span class="lvl-name">READ THE FINENESS</span><br>
-      <span class="lvl-desc">Find the struck number and say what it means.</span></span>
+      <span><span class="lvl-name">READ THE HALLMARK</span><br>
+      <span class="lvl-desc">Identify fineness marks, purity stamps and recognised precious-metal markings.</span></span>
       <span class="tick">✓</span>
     </button>
     <button class="level locked" data-level="1">
       <span class="badge">II</span>
-      <span><span class="lvl-name">NAME THE METAL</span><br>
-      <span class="lvl-desc">Marks for silver, platinum and the gold standards.</span></span>
+      <span><span class="lvl-name">IDENTIFY THE METAL</span><br>
+      <span class="lvl-desc">Distinguish gold, silver, platinum and common metal variations.</span></span>
       <span class="tick">✓</span>
     </button>
     <button class="level locked" data-level="2">
       <span class="badge">III</span>
-      <span><span class="lvl-name">NAME THE STONE</span><br>
-      <span class="lvl-desc">Colour, cut and character of the classic gems.</span></span>
+      <span><span class="lvl-name">RECOGNISE THE STONE</span><br>
+      <span class="lvl-desc">Identify gemstones through visual characteristics and basic inspection clues.</span></span>
       <span class="tick">✓</span>
     </button>
     <button class="level locked" data-level="3">
       <span class="badge">IV</span>
-      <span><span class="lvl-name">SPOT THE PROBLEM</span><br>
-      <span class="lvl-desc">Suspicious stamps and stones that lie.</span></span>
+      <span><span class="lvl-name">INSPECT THE PIECE</span><br>
+      <span class="lvl-desc">Spot condition issues, damage, misleading markings and warning signs.</span></span>
       <span class="tick">✓</span>
     </button>
   </div>
@@ -250,8 +255,9 @@ footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.6
     <div class="stage-wrap">
       <canvas id="stage" aria-label="Examination stage. Move your pointer to examine the specimen under the loupe."></canvas>
       <canvas id="certFx" aria-hidden="true"></canvas>
+      <div class="stage-grid" aria-hidden="true"></div>
       <div class="stage-vignette"></div>
-      <div class="stage-hud">Examination Bench · 10×</div>
+      <div class="stage-hud">Inspection Bench · 10×</div>
       <div class="stage-hint">Move to examine</div>
       <div class="stage-msg" id="stageMsg">Begin Level I to receive your first specimen</div>
     </div>
@@ -291,7 +297,7 @@ footer{text-align:center;padding:2rem 1.5rem 3rem;color:var(--body);font-size:.6
   <div class="gcards" id="gcards"></div>
 </div>
 
-<footer>THE PRECIOUS INTELLIGENCE ACADEMY · LOUPE ROOM</footer>
+<footer>THE PRECIOUS INTELLIGENCE ACADEMY · LOUPE ROOM · THE HALLMARK &amp; KARAT LAB</footer>
 
 <script>
 (function(){
@@ -315,7 +321,7 @@ var TONES={
 };
 
 var LEVELS=[
-{ name:'Read the Fineness', grade:'APPRENTICE EYE', specimens:[
+{ name:'Read the Hallmark', grade:'APPRENTICE EYE', specimens:[
   {s:plate('yellow',[{kind:'text',v:'MJ'},{kind:'anchor'},{kind:'text',v:'750'}]),
    q:'What fineness is struck on this piece?',
    clues:[['SURFACE','Warm yellow metal'],['MARKS','Three, evenly struck']],
@@ -337,7 +343,7 @@ var LEVELS=[
    opts:['417','585','750','916'], a:1,
    teach:'585 is 14 carat, the everyday standard in United States retail. Durable enough for a ring worn daily, with a softer colour than 18 carat.'}
 ]},
-{ name:'Name the Metal', grade:'JOURNEYMAN EYE', specimens:[
+{ name:'Identify the Metal', grade:'JOURNEYMAN EYE', specimens:[
   {s:plate('silver',[{kind:'text',v:'TW'},{kind:'anchor'},{kind:'text',v:'925'}]),
    q:'Which metal does this hallmark declare?',
    clues:[['SURFACE','Bright white, soft lustre'],['NUMBER','925']],
@@ -359,7 +365,7 @@ var LEVELS=[
    opts:['Sterling silver','Platinum','18 carat white gold','Stainless steel'], a:2,
    teach:'750 is always 18 carat gold whatever the colour. A bright white surface at 750 means white gold, usually rhodium plated for extra brilliance. Silver and platinum carry their own numbers.'}
 ]},
-{ name:'Name the Stone', grade:'MASTER EYE', specimens:[
+{ name:'Recognise the Stone', grade:'MASTER EYE', specimens:[
   {s:gem('oval','#c21f3a','#ff6b7a','silk'),
    q:'Name this stone.',
    clues:[['COLOUR','Saturated red with a soft glow'],['UNDER LOUPE','Fine silky needles'],['HARDNESS','9']],
@@ -381,7 +387,7 @@ var LEVELS=[
    opts:['Amethyst','Blue sapphire','Tanzanite','Iolite'], a:2,
    teach:'Tanzanite: strongly pleochroic, showing violet, blue and burgundy from different directions. Hardness of about 6.5 makes it a stone for occasions, not for every day.'}
 ]},
-{ name:'Spot the Problem', grade:'CERTIFIED EYE', specimens:[
+{ name:'Inspect the Piece', grade:'TRAINED EYE', specimens:[
   {s:plate('yellow',[{kind:'text',v:'18K'},{kind:'text',v:'585'}],1),
    q:'Genuine or suspicious?',
    clues:[['MARKS','"18K" beside "585"'],['STRIKE','Slightly uneven depth']],
@@ -789,7 +795,7 @@ function answer(i,btn){
   if(!right) btn.classList.add('wrong');
   $('teach').textContent=sp.teach; $('teach').classList.add('show');
   $('nextRow').classList.add('show');
-  $('nextBtn').textContent= specIdx<L.specimens.length-1 ? 'Next specimen' : 'Receive your certificate';
+  $('nextBtn').textContent= specIdx<L.specimens.length-1 ? 'Next specimen' : 'Complete the challenge';
   $('scoreTxt').textContent=score+' / '+L.specimens.length;
   /* ledger */
   var chipColor = sp.s.type==='gem' ? sp.s.body : TONES[sp.s.tone][1];
@@ -817,9 +823,9 @@ document.querySelectorAll('.level').forEach(function(el){
     startLevel(idx);
   });
 });
-$('beginBtn').addEventListener('click',function(){ startLevel(0); });
+$('beginBtn').onclick=function(){ startLevel(0); };
 
-/* ================= certificate cinematic ================= */
+/* ================= completion record cinematic ================= */
 function certify(){
   active=false; setStage(3);
   var L=LEVELS[levelIdx];
@@ -836,25 +842,27 @@ function afterCert(passed){
       unlocked=levelIdx+2;
       lvEls[levelIdx+1].classList.remove('locked');
     }
-    msg(levelIdx+1<LEVELS.length ? 'Certified. Level '+['II','III','IV'][levelIdx]+' is open.' : 'Certified Eye. The cabinet is yours.');
+    msg(levelIdx+1<LEVELS.length ? 'Challenge passed. Level '+['II','III','IV'][levelIdx]+' is open.' : 'Lab complete. The cabinet is yours.');
   } else {
     msg('Not this time. Study the cabinet and examine again.');
   }
   $('exam').classList.remove('show');
   $('reportIdle').style.display='';
   $('reportIdle').innerHTML= passed
-    ? 'You scored <b style="color:var(--gold-hi)">'+score+' of '+L.specimens.length+'</b>.<br>'+L.grade+' awarded.'+(levelIdx+1<LEVELS.length?'<br>Select the next level in the curriculum.':'<br>Your eye is certified.')
+    ? 'You scored <b style="color:var(--gold-hi)">'+score+' of '+L.specimens.length+'</b>.<br>'+L.grade+' earned.'+(levelIdx+1<LEVELS.length
+        ? '<br>Advance to the next stage in the curriculum.'
+        : '<br><br>You have completed the four visual inspection challenges and demonstrated progress in hallmark recognition, metal identification, gemstone observation and jewellery inspection.'
+          +'<br><br><span style="font-size:.72rem;opacity:.75">This completion record recognises progress within The Precious Intelligence Academy. It is not an accredited qualification, professional licence or formal valuation credential.</span>')
     : 'You scored <b style="color:var(--gold-hi)">'+score+' of '+L.specimens.length+'</b>. Three of four are needed.<br>Select the level again to re-examine.';
   currentSpec=null;
   setStage(passed&&levelIdx===3?3:0);
   $('beginBtn').style.display='';
   $('beginBtn').textContent= passed ? (levelIdx+1<LEVELS.length?'Begin Level '+['II','III','IV'][levelIdx]:'Examine again for a clean sheet') : 'Retry Level '+['I','II','III','IV'][levelIdx];
-  $('beginBtn').onclick=null;
-  $('beginBtn').addEventListener('click',certBtnRoute,{once:true});
+  $('beginBtn').onclick=certBtnRoute;
 }
 function certBtnRoute(){
   var L=LEVELS[levelIdx];
-  var passed=$('reportIdle').textContent.indexOf('awarded')>-1;
+  var passed=$('reportIdle').textContent.indexOf('earned')>-1;
   if(passed&&levelIdx+1<LEVELS.length) startLevel(levelIdx+1);
   else startLevel(levelIdx);
 }
@@ -876,7 +884,7 @@ function runCertCine(L,passed,done){
     var dg=g.createRadialGradient(CW/2,CH*.5,10,CW/2,CH*.5,CW*.55);
     dg.addColorStop(0,'rgba(255,220,160,.14)'); dg.addColorStop(1,'rgba(0,0,0,0)');
     g.fillStyle=dg; g.fillRect(0,0,CW,CH);
-    /* certificate slides up */
+    /* completion record slides up */
     var slide=Math.min(1,T/1.1); slide=1-Math.pow(1-slide,3);
     var cy=CH*.5+(1-slide)*90;
     g.save(); g.translate(CW/2,cy); g.rotate(-.015);
@@ -890,13 +898,17 @@ function runCertCine(L,passed,done){
     g.font='600 21px "Cormorant Garamond", serif';
     g.fillText('PRECIOUS INTELLIGENCE ACADEMY',0,-86);
     g.font='400 11px "Space Mono", monospace';
-    g.fillText('THE LOUPE ROOM · CERTIFICATE OF EXAMINATION',0,-62);
+    g.fillText('HALLMARK & KARAT LAB · COMPLETION RECORD',0,-62);
     g.font='500 34px "Cormorant Garamond", serif';
-    g.fillText(passed?L.grade:'EXAMINATION RECORD',0,-8);
+    g.fillText(passed?L.grade:'INSPECTION RECORD',0,-8);
     g.font='400 12px "Space Mono", monospace';
     g.fillText('SCORE '+score+' OF '+L.specimens.length+'  ·  '+L.name.toUpperCase(),0,26);
     g.font='400 10px "Space Mono", monospace';
     g.fillText(passed?'THE BEARER HAS READ WHAT IS ACTUALLY THERE':'RE-EXAMINATION INVITED',0,52);
+    g.fillStyle='rgba(90,68,19,.75)';
+    g.font='400 6.5px "Space Mono", monospace';
+    g.fillText('THIS COMPLETION RECORD RECOGNISES PROGRESS WITHIN THE PRECIOUS INTELLIGENCE ACADEMY.',0,96);
+    g.fillText('IT IS NOT AN ACCREDITED QUALIFICATION, PROFESSIONAL LICENCE OR FORMAL VALUATION CREDENTIAL.',0,108);
     /* the stamp lands */
     var st=Math.max(0,Math.min(1,(T-2.1)/.35));
     if(T>1.9){
@@ -911,7 +923,7 @@ function runCertCine(L,passed,done){
       g.font='700 13px "Space Mono", monospace'; g.textAlign='center';
       g.fillText(passed?'PIA':'···',0,-4);
       g.font='400 8px "Space Mono", monospace';
-      g.fillText(passed?'CERTIFIED':'RECORDED',0,10);
+      g.fillText(passed?'COMPLETE':'RECORDED',0,10);
       g.restore();
       if(st>0&&st<1){ /* impact flash */
         g.save(); g.globalCompositeOperation='lighter';
