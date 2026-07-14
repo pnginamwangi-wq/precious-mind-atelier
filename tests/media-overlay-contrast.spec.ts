@@ -19,7 +19,6 @@ const ROUTES = [
   { name: "library", path: "/library" },
   { name: "journal", path: "/journal" },
   { name: "knowledge", path: "/knowledge" },
-  { name: "loupe-room", path: "/loupe-room" },
   { name: "smelt-lab", path: "/smelt-lab" },
   { name: "institutes", path: "/institutes" },
 ] as const;
