@@ -91,15 +91,13 @@ function InstitutesIndex() {
                     aria-label={`Enter the ${it.name} Institute`}
                   >
                     <div className="relative aspect-[16/10] min-h-[220px] overflow-hidden">
-                      <img
-                        src={it.hero}
+                      <MediaOverlay
+                        poster={it.hero}
                         alt=""
                         loading="lazy"
-                        width={1920}
-                        height={1080}
-                        className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
+                        scrim="scrim-card"
+                        className="transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-8 md:p-10">
                         <div className="flex items-center gap-4">
                           <span className="font-numeric text-[11px] tracking-[0.3em] text-gold">
