@@ -20,6 +20,8 @@ const ALLOWED_WARNINGS: RegExp[] = [
   // both allow-scripts and allow-same-origin so the wing HTML can talk
   // to sessionStorage. Browsers log this as a generic warning.
   /iframe which has both allow-scripts and allow-same-origin/i,
+  // Headless Chromium WebGL driver perf notices from the /smelt-lab 3D scene.
+  /WebGL.*GL Driver Message/i,
 ];
 
 const ALLOWED_ERRORS: RegExp[] = [
