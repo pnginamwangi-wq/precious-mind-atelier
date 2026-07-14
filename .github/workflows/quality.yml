@@ -58,6 +58,9 @@ jobs:
       - name: Axe contrast scan
         run: bunx playwright test tests/media-overlay-contrast.spec.ts --reporter=line
 
+      - name: Axe contrast scan (Knowledge + Loupe Room)
+        run: bunx playwright test tests/knowledge-loupe-contrast.spec.ts --reporter=line
+
       - name: Console-clean scan
         run: bunx playwright test tests/console-clean.spec.ts --reporter=line
 
