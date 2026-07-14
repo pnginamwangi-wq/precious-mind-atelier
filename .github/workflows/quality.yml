@@ -67,6 +67,9 @@ jobs:
       - name: Editorial visual regression
         run: bunx playwright test tests/editorial-visual.spec.ts --reporter=line
 
+      - name: Visual regression (Knowledge + Loupe Room readability)
+        run: bunx playwright test tests/loupe-and-knowledge-visual.spec.ts --reporter=line
+
       - name: Upload Playwright artefacts on failure
         if: failure()
         uses: actions/upload-artifact@v4
