@@ -16,6 +16,10 @@ const ALLOWED_WARNINGS: RegExp[] = [
   // renders. Not caused by app code and not user visible.
   /data-tsd-source/i,
   /A tree hydrated but some attributes of the server rendered HTML didn't match/i,
+  // Sandboxed iframes on /smelt-lab and /loupe-room legitimately need
+  // both allow-scripts and allow-same-origin so the wing HTML can talk
+  // to sessionStorage. Browsers log this as a generic warning.
+  /iframe which has both allow-scripts and allow-same-origin/i,
 ];
 
 const ALLOWED_ERRORS: RegExp[] = [
