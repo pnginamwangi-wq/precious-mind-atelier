@@ -10,7 +10,15 @@ import { cn } from "@/lib/utils";
  * top of the poster once it can play through. Respects prefers-reduced-motion.
  */
 
-export type ScrimVariant = "scrim-hero" | "scrim-card" | "none";
+export type ScrimVariant =
+  | "scrim-hero"
+  | "scrim-card"
+  | "scrim-bottom"
+  | "scrim-left"
+  | "scrim-radial"
+  | "scrim-panel"
+  | "scrim-full"
+  | "none";
 
 export interface MediaOverlayProps {
   /** Desktop poster (16:9 or wider), WebP/JPG. */
@@ -26,6 +34,8 @@ export interface MediaOverlayProps {
   fetchPriority?: "high" | "auto" | "low";
   /** Scrim overlay preset. */
   scrim?: ScrimVariant;
+  /** Optional backdrop blur behind text (applied to scrim layer). */
+  blur?: boolean;
   /** Slow Ken Burns zoom for stills. Disabled by reduced motion. */
   kenBurns?: boolean;
   className?: string;
@@ -36,6 +46,11 @@ export interface MediaOverlayProps {
 const SCRIM_CLASSES: Record<ScrimVariant, string> = {
   "scrim-hero": "scrim-hero",
   "scrim-card": "scrim-card",
+  "scrim-bottom": "scrim-bottom",
+  "scrim-left": "scrim-left",
+  "scrim-radial": "scrim-radial",
+  "scrim-panel": "scrim-panel",
+  "scrim-full": "scrim-full",
   none: "",
 };
 
