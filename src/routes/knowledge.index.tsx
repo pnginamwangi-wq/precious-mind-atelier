@@ -74,13 +74,23 @@ function KnowledgeIndex() {
     <>
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
-        <Section className="pt-40">
-          <SectionHeader
-            as="h1"
-            eyebrow="Knowledge Hub"
-            title="Consult the shared vocabulary"
-            intro="A single place to look up terms, follow curated sequences across the Institutes, or compare products the trade often conflates."
+        <Section className="relative overflow-hidden pt-40">
+          <MediaOverlay
+            poster={GEM_MUSEUM.vitrineGallery.poster}
+            mobile={GEM_MUSEUM.vitrineGallery.mobile}
+            alt=""
+            loading="lazy"
+            scrim="scrim-card"
           />
+          <div className="relative z-10">
+            <SectionHeader
+              as="h1"
+              eyebrow="Knowledge Hub"
+              title="Consult the shared vocabulary"
+              intro="A single place to look up terms, follow curated sequences across the Institutes, or compare products the trade often conflates."
+            />
+          </div>
+
 
           <Container className="mt-16">
             <ul className="grid gap-px bg-white/5 md:grid-cols-2">
