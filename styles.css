@@ -1,0 +1,224 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Cormorant Garamond", "Canela", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Grotesk", ui-monospace, monospace;
+
+  /*
+   * Phase 2A readability: minimum body weight is 400.
+   * `font-light` is remapped at the token level so no body copy
+   * anywhere in the app can render below regular weight.
+   */
+  --font-weight-light: 400;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-champagne: var(--champagne);
+  --color-ivory: var(--ivory);
+  --color-platinum: var(--platinum);
+  --color-obsidian: var(--obsidian);
+  --color-charcoal: var(--charcoal);
+  --color-graphite: var(--graphite);
+  --color-surface: var(--surface);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /*
+   * Phase 2A luxury palette — warm near-black surfaces, parchment text,
+   * champagne gold accents. Every text/background pairing below meets
+   * WCAG AA on the surfaces it is designed for.
+   */
+  --obsidian: #080706; /* page background */
+  --bg-secondary: #11100d; /* secondary background */
+  --charcoal: #171510; /* raised panel */
+  --graphite: #1d1b18; /* graphite panel / hover surface */
+  --surface: var(--bg-secondary);
+
+  --ivory: #f8f2df; /* primary text */
+  --platinum: #e3d8bc; /* secondary text (warm parchment) */
+  --parchment-muted: #c7b998; /* muted text — smallest permitted text only */
+
+  --gold: #d4b15d; /* champagne gold — primary accent */
+  --champagne: #f2d889; /* bright gold — highlights, hovers */
+  --gold-soft: #b3924a; /* deep gold — gradients, subdued accents */
+
+  --background: var(--obsidian);
+  --foreground: var(--ivory);
+  --card: var(--charcoal);
+  --card-foreground: var(--ivory);
+  --popover: var(--charcoal);
+  --popover-foreground: var(--ivory);
+  --primary: var(--gold);
+  --primary-foreground: #0a0906;
+  --secondary: var(--graphite);
+  --secondary-foreground: var(--ivory);
+  --muted: var(--graphite);
+  --muted-foreground: var(--platinum);
+  --accent: var(--champagne);
+  --accent-foreground: #0a0906;
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: var(--ivory);
+  --border: rgba(242, 216, 137, 0.22);
+  --input: rgba(242, 216, 137, 0.28);
+  --ring: var(--gold);
+}
+
+.dark {
+  --background: var(--obsidian);
+  --foreground: var(--ivory);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    /* Phase 2A readability floor: 17px body, regular weight, generous leading */
+    font-size: 1.0625rem;
+    font-weight: 400;
+    line-height: 1.7;
+    /* Phase 2A mobile pass: prevent stray horizontal scroll without breaking sticky */
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  /* Mono is reserved for technical data: karat, fineness, weights, serials, assay */
+  .font-numeric {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum", "ss01";
+  }
+
+  /* Comfortable reading measure for long-form prose (55–75ch) */
+  .measure {
+    max-width: 68ch;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--gold) 40%, transparent);
+    color: var(--ivory);
+  }
+}
+
+@utility gold-gradient-text {
+  background: linear-gradient(135deg, var(--champagne) 0%, var(--gold) 50%, var(--gold-soft) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 60%, transparent), transparent);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@utility shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--gold) 30%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@utility float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+/*
+ * Media overlay scrims (Phase 2A).
+ * Guarantee AA-contrast text over any photograph or video frame.
+ * Used by <MediaOverlay>; also applicable directly to hero figures.
+ */
+@utility scrim-hero {
+  background: linear-gradient(
+    to right,
+    rgba(8, 7, 6, 0.88) 0%,
+    rgba(8, 7, 6, 0.62) 42%,
+    rgba(8, 7, 6, 0.28) 70%,
+    rgba(8, 7, 6, 0.45) 100%
+  ),
+  linear-gradient(to top, rgba(8, 7, 6, 0.85) 0%, transparent 45%);
+}
+
+@utility scrim-card {
+  background: linear-gradient(to top, rgba(8, 7, 6, 0.92) 0%, rgba(8, 7, 6, 0.35) 55%, rgba(8, 7, 6, 0.15) 100%);
+}
+
+/*
+ * Reduced motion.
+ * Users who set prefers-reduced-motion in their OS get near-instant CSS
+ * animations and transitions across the site. Framer Motion respects the
+ * same signal via <MotionConfig reducedMotion="user"> in the root layout.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
