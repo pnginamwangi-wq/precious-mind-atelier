@@ -30,7 +30,7 @@ import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as InstitutesIndexRouteImport } from './routes/institutes.index'
 import { Route as VisualEditorialBlocksRouteImport } from './routes/visual/editorial-blocks'
 import { Route as LoupeRoomStudyRouteImport } from './routes/loupe-room.study'
-import { Route as LoupeRoomLevelsRouteImport } from './routes/loupe-room.levels'
+import { Route as LoupeRoomCertificationRouteImport } from './routes/loupe-room.certification'
 import { Route as LoupeRoomBenchRouteImport } from './routes/loupe-room.bench'
 import { Route as LibrarySlugRouteImport } from './routes/library.$slug'
 import { Route as KnowledgeSearchRouteImport } from './routes/knowledge.search'
@@ -151,9 +151,9 @@ const LoupeRoomStudyRoute = LoupeRoomStudyRouteImport.update({
   path: '/loupe-room/study',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoupeRoomLevelsRoute = LoupeRoomLevelsRouteImport.update({
-  id: '/loupe-room/levels',
-  path: '/loupe-room/levels',
+const LoupeRoomCertificationRoute = LoupeRoomCertificationRouteImport.update({
+  id: '/loupe-room/certification',
+  path: '/loupe-room/certification',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoupeRoomBenchRoute = LoupeRoomBenchRouteImport.update({
@@ -261,7 +261,7 @@ export interface FileRoutesByFullPath {
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
   '/loupe-room/bench': typeof LoupeRoomBenchRoute
-  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
+  '/loupe-room/certification': typeof LoupeRoomCertificationRoute
   '/loupe-room/study': typeof LoupeRoomStudyRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
@@ -296,7 +296,7 @@ export interface FileRoutesByTo {
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
   '/loupe-room/bench': typeof LoupeRoomBenchRoute
-  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
+  '/loupe-room/certification': typeof LoupeRoomCertificationRoute
   '/loupe-room/study': typeof LoupeRoomStudyRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes': typeof InstitutesIndexRoute
@@ -336,7 +336,7 @@ export interface FileRoutesById {
   '/knowledge/search': typeof KnowledgeSearchRoute
   '/library/$slug': typeof LibrarySlugRoute
   '/loupe-room/bench': typeof LoupeRoomBenchRoute
-  '/loupe-room/levels': typeof LoupeRoomLevelsRoute
+  '/loupe-room/certification': typeof LoupeRoomCertificationRoute
   '/loupe-room/study': typeof LoupeRoomStudyRoute
   '/visual/editorial-blocks': typeof VisualEditorialBlocksRoute
   '/institutes/': typeof InstitutesIndexRoute
@@ -376,7 +376,7 @@ export interface FileRouteTypes {
     | '/knowledge/search'
     | '/library/$slug'
     | '/loupe-room/bench'
-    | '/loupe-room/levels'
+    | '/loupe-room/certification'
     | '/loupe-room/study'
     | '/visual/editorial-blocks'
     | '/institutes/'
@@ -411,7 +411,7 @@ export interface FileRouteTypes {
     | '/knowledge/search'
     | '/library/$slug'
     | '/loupe-room/bench'
-    | '/loupe-room/levels'
+    | '/loupe-room/certification'
     | '/loupe-room/study'
     | '/visual/editorial-blocks'
     | '/institutes'
@@ -450,7 +450,7 @@ export interface FileRouteTypes {
     | '/knowledge/search'
     | '/library/$slug'
     | '/loupe-room/bench'
-    | '/loupe-room/levels'
+    | '/loupe-room/certification'
     | '/loupe-room/study'
     | '/visual/editorial-blocks'
     | '/institutes/'
@@ -483,7 +483,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   InstitutesSlugRoute: typeof InstitutesSlugRouteWithChildren
   LoupeRoomBenchRoute: typeof LoupeRoomBenchRoute
-  LoupeRoomLevelsRoute: typeof LoupeRoomLevelsRoute
+  LoupeRoomCertificationRoute: typeof LoupeRoomCertificationRoute
   LoupeRoomStudyRoute: typeof LoupeRoomStudyRoute
   VisualEditorialBlocksRoute: typeof VisualEditorialBlocksRoute
   InstitutesIndexRoute: typeof InstitutesIndexRoute
@@ -640,11 +640,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoupeRoomStudyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/loupe-room/levels': {
-      id: '/loupe-room/levels'
-      path: '/loupe-room/levels'
-      fullPath: '/loupe-room/levels'
-      preLoaderRoute: typeof LoupeRoomLevelsRouteImport
+    '/loupe-room/certification': {
+      id: '/loupe-room/certification'
+      path: '/loupe-room/certification'
+      fullPath: '/loupe-room/certification'
+      preLoaderRoute: typeof LoupeRoomCertificationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/loupe-room/bench': {
@@ -848,7 +848,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   InstitutesSlugRoute: InstitutesSlugRouteWithChildren,
   LoupeRoomBenchRoute: LoupeRoomBenchRoute,
-  LoupeRoomLevelsRoute: LoupeRoomLevelsRoute,
+  LoupeRoomCertificationRoute: LoupeRoomCertificationRoute,
   LoupeRoomStudyRoute: LoupeRoomStudyRoute,
   VisualEditorialBlocksRoute: VisualEditorialBlocksRoute,
   InstitutesIndexRoute: InstitutesIndexRoute,

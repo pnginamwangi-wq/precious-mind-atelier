@@ -32,8 +32,8 @@ function LoupeRoomStudyPage() {
 
   const onWingChange = (next: LoupeWing) => {
     if (next === "study") return;
-    if (next === "levels") {
-      void navigate({ to: "/loupe-room/levels", replace: true });
+    if (next === "certification") {
+      void navigate({ to: "/loupe-room/certification", replace: true });
       return;
     }
     if (next === "bench") {
