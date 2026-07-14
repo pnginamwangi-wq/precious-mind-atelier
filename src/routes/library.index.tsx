@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/luxury/header";
 import { Footer } from "@/components/luxury/footer";
 import { MobileTabs } from "@/components/luxury/mobile-tabs";
-import { Container, Eyebrow, LIBRARY_ROOM, MediaOverlay, Section, SectionHeader, luxury } from "@/components/luxury";
+import { Container, Eyebrow, LIBRARY_ROOM, MediaOverlay, Section, TextPanel, luxury } from "@/components/luxury";
 import { LIBRARY } from "@/data/library";
 
 export const Route = createFileRoute("/library/")({
@@ -27,24 +27,29 @@ function LibraryIndex() {
     <>
       <Header />
       <main className="bg-obsidian text-ivory">
-        <Section className="relative overflow-hidden pt-40">
+        <Section className="relative overflow-hidden pt-40 pb-24 min-h-[540px] md:min-h-[640px]">
           <MediaOverlay
             poster={LIBRARY_ROOM.readingRoom.poster}
             mobile={LIBRARY_ROOM.readingRoom.mobile}
             alt=""
-            loading="lazy"
-            scrim="scrim-card"
+            loading="eager"
+            fetchPriority="high"
+            scrim="scrim-hero"
           />
-          <div className="relative z-10">
-            <SectionHeader
-              as="h1"
-              eyebrow="The Library"
-              title="Reference pages for the objects"
-              intro="The pieces that recur across the Academy's curriculum, each with the specifications, value factors, care notes, and sales guidance a professional needs at hand."
-            />
-          </div>
-
-          <Container className="mt-16">
+          <Container className="relative z-10 flex min-h-[400px] items-end md:min-h-[520px]">
+            <TextPanel padding="lg" className="w-full">
+              <Eyebrow>The Library</Eyebrow>
+              <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.1] text-ivory md:text-5xl">
+                Reference pages for the objects
+              </h1>
+              <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-platinum md:text-[17px]">
+                The pieces that recur across the Academy's curriculum, each with the specifications, value factors, care notes, and sales guidance a professional needs at hand.
+              </p>
+            </TextPanel>
+          </Container>
+        </Section>
+        <Section className="pt-16">
+          <Container>
             <ul className="grid gap-px bg-white/5 md:grid-cols-2 lg:grid-cols-3">
               {LIBRARY.map((it, i) => (
                 <li key={it.slug} className="bg-obsidian">
