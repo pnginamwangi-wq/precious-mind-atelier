@@ -76,14 +76,14 @@ function JournalIndex() {
             loading="lazy"
             scrim="scrim-card"
           />
-          <div className="relative z-10">
+          <Container className="relative z-10">
             <SectionHeader
               as="h1"
               eyebrow="The Journal"
               title="Weekly, from The Academy Desk"
               intro="Editorial writing on the disciplines that recur across the Academy. Craft, provenance, history, and the small practices that separate a professional from a beginner."
             />
-          </div>
+          </Container>
 
           {/* Search */}
           <Container className="mt-14">
