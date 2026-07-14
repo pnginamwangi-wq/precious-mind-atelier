@@ -34,7 +34,7 @@ for (const vp of VIEWPORTS) {
 
     for (const route of ROUTES) {
       test(`${route.name} scrim text meets WCAG AA`, async ({ page }) => {
-        await page.goto(route.path, { waitUntil: "networkidle" });
+        await page.goto(route.path, { waitUntil: "domcontentloaded" });
         await page.evaluate(() => document.fonts.ready);
 
         // Only scan sections that contain a MediaOverlay wrapper.
