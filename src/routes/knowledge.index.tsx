@@ -83,6 +83,8 @@ function KnowledgeIndex() {
               loading="eager"
               fetchPriority="high"
               scrim="scrim-hero"
+              kenBurns
+
             />
             <Container className="relative z-10">
               <SectionHeader
