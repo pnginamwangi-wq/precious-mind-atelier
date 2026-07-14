@@ -19,3 +19,4 @@ export * from "./media-overlay";
 
 
 
+export * from "./text-panel";
