@@ -25,45 +25,99 @@ const ROUTES = [
 
 const VIEWPORTS = [
   { name: "desktop", width: 1440, height: 1800 },
-  { name: "mobile", width: 390, height: 1600 },
+  { name: "mobile-portrait", width: 390, height: 844 },
+  { name: "mobile-landscape", width: 844, height: 390 },
+] as const;
+
+// Extra scan modes: poster-fallback (video hidden), hover on interactive
+// cards, and reduced-motion. Each runs against every route + viewport so
+// no state slips past AA.
+const MODES = [
+  { name: "default", setup: async () => {} },
+  {
+    name: "poster-fallback",
+    setup: async (page) => {
+      await page.addStyleTag({ content: "video { display: none !important; }" });
+    },
+  },
+  {
+    name: "hover",
+    setup: async (page) => {
+      // Force :hover state on the first card link inside any media hero.
+      await page.evaluate(() => {
+        const target = document.querySelector(
+          "[data-media-hero-scan] a, [data-media-hero-scan] button",
+        );
+        (target as HTMLElement | null)?.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+      });
+    },
+  },
 ] as const;
 
 for (const vp of VIEWPORTS) {
   test.describe(`MediaOverlay contrast @ ${vp.name}`, () => {
-    test.use({ viewport: { width: vp.width, height: vp.height } });
+    test.use({
+      viewport: { width: vp.width, height: vp.height },
+    });
 
     for (const route of ROUTES) {
-      test(`${route.name} scrim text meets WCAG AA`, async ({ page }) => {
-        await page.goto(route.path, { waitUntil: "domcontentloaded" });
-        await page.evaluate(() => document.fonts.ready);
+      for (const mode of MODES) {
+        test(`${route.name} [${mode.name}] scrim text meets WCAG AA`, async ({ page }) => {
+          await page.goto(route.path, { waitUntil: "domcontentloaded" });
+          await page.evaluate(() => document.fonts.ready);
 
-        // Tag every direct parent of an .on-media overlay so axe can
-        // include just those hero/room containers, regardless of tag.
-        const containerCount = await page.evaluate(() => {
-          const overlays = Array.from(document.querySelectorAll(".on-media"));
-          const parents = new Set<Element>();
-          for (const el of overlays) {
-            if (el.parentElement) parents.add(el.parentElement);
-          }
-          let i = 0;
-          for (const p of parents) {
-            p.setAttribute("data-media-hero-scan", String(i++));
-          }
-          return parents.size;
+          const containerCount = await page.evaluate(() => {
+            const overlays = Array.from(document.querySelectorAll(".on-media"));
+            const parents = new Set<Element>();
+            for (const el of overlays) {
+              if (el.parentElement) parents.add(el.parentElement);
+            }
+            let i = 0;
+            for (const p of parents) {
+              p.setAttribute("data-media-hero-scan", String(i++));
+            }
+            return parents.size;
+          });
+          expect(containerCount, "route should render at least one media hero").toBeGreaterThan(0);
+
+          await mode.setup(page);
+
+          const results = await new AxeBuilder({ page })
+            .include("[data-media-hero-scan]")
+            .withRules(["color-contrast"])
+            .analyze();
+
+          const violations = results.violations.filter((v) => v.id === "color-contrast");
+          expect(
+            violations,
+            `axe color-contrast violations on ${route.path} [${mode.name}]:\n${JSON.stringify(violations, null, 2)}`,
+          ).toEqual([]);
         });
-        expect(containerCount, "route should render at least one media hero").toBeGreaterThan(0);
-
-        const results = await new AxeBuilder({ page })
-          .include("[data-media-hero-scan]")
-          .withRules(["color-contrast"])
-          .analyze();
-
-        const violations = results.violations.filter((v) => v.id === "color-contrast");
-        expect(
-          violations,
-          `axe color-contrast violations on ${route.path}:\n${JSON.stringify(violations, null, 2)}`,
-        ).toEqual([]);
-      });
+      }
     }
   });
 }
+
+// Reduced-motion pass: animations off, video paused.
+test.describe("MediaOverlay contrast @ reduced-motion", () => {
+  test.use({ viewport: { width: 1440, height: 1800 }, reducedMotion: "reduce" });
+  for (const route of ROUTES) {
+    test(`${route.name} scrim text meets WCAG AA (reduced-motion)`, async ({ page }) => {
+      await page.goto(route.path, { waitUntil: "domcontentloaded" });
+      await page.evaluate(() => document.fonts.ready);
+      await page.evaluate(() => {
+        const overlays = Array.from(document.querySelectorAll(".on-media"));
+        let i = 0;
+        for (const el of overlays) {
+          el.parentElement?.setAttribute("data-media-hero-scan", String(i++));
+        }
+      });
+      const results = await new AxeBuilder({ page })
+        .include("[data-media-hero-scan]")
+        .withRules(["color-contrast"])
+        .analyze();
+      const violations = results.violations.filter((v) => v.id === "color-contrast");
+      expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+    });
+  }
+});
