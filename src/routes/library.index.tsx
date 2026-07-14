@@ -27,13 +27,22 @@ function LibraryIndex() {
     <>
       <Header />
       <main className="bg-obsidian text-ivory">
-        <Section className="pt-40">
-          <SectionHeader
-            as="h1"
-            eyebrow="The Library"
-            title="Reference pages for the objects"
-            intro="The pieces that recur across the Academy's curriculum, each with the specifications, value factors, care notes, and sales guidance a professional needs at hand."
+        <Section className="relative overflow-hidden pt-40">
+          <MediaOverlay
+            poster={LIBRARY_ROOM.readingRoom.poster}
+            mobile={LIBRARY_ROOM.readingRoom.mobile}
+            alt=""
+            loading="lazy"
+            scrim="scrim-card"
           />
+          <div className="relative z-10">
+            <SectionHeader
+              as="h1"
+              eyebrow="The Library"
+              title="Reference pages for the objects"
+              intro="The pieces that recur across the Academy's curriculum, each with the specifications, value factors, care notes, and sales guidance a professional needs at hand."
+            />
+          </div>
 
           <Container className="mt-16">
             <ul className="grid gap-px bg-white/5 md:grid-cols-2 lg:grid-cols-3">
