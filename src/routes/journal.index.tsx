@@ -68,13 +68,22 @@ function JournalIndex() {
     <>
       <Header />
       <main id="main" tabIndex={-1} className="bg-obsidian text-ivory outline-none">
-        <Section className="pt-40">
-          <SectionHeader
-            as="h1"
-            eyebrow="The Journal"
-            title="Weekly, from The Academy Desk"
-            intro="Editorial writing on the disciplines that recur across the Academy. Craft, provenance, history, and the small practices that separate a professional from a beginner."
+        <Section className="relative overflow-hidden pt-40">
+          <MediaOverlay
+            poster={LEGENDS.hallOfHonour.poster}
+            mobile={LEGENDS.hallOfHonour.mobile}
+            alt=""
+            loading="lazy"
+            scrim="scrim-card"
           />
+          <div className="relative z-10">
+            <SectionHeader
+              as="h1"
+              eyebrow="The Journal"
+              title="Weekly, from The Academy Desk"
+              intro="Editorial writing on the disciplines that recur across the Academy. Craft, provenance, history, and the small practices that separate a professional from a beginner."
+            />
+          </div>
 
           {/* Search */}
           <Container className="mt-14">
