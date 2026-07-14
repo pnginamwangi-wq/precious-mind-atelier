@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 import { cn } from "@/lib/utils";
+import { MINT, MediaOverlay } from "@/components/luxury";
 
 const wingSchema = z.enum(["classic", "immersive"]).catch("classic");
 const searchSchema = z.object({ wing: wingSchema.optional() });
