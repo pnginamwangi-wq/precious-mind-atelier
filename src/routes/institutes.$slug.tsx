@@ -210,8 +210,7 @@ function InstituteHero({ institute }: { institute: Institute }) {
           className="h-full w-full object-cover"
         />
       </motion.div>
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-obsidian/60 via-obsidian/30 to-obsidian" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(11,11,11,0.9)_90%)]" />
+      <div aria-hidden className="on-media scrim-hero pointer-events-none absolute inset-0" />
 
       <motion.div
         data-testid="hero-overlay"
