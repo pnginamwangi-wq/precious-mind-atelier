@@ -37,12 +37,24 @@ for (const vp of VIEWPORTS) {
         await page.goto(route.path, { waitUntil: "domcontentloaded" });
         await page.evaluate(() => document.fonts.ready);
 
-        // Only scan sections that contain a MediaOverlay wrapper.
-        const heroCount = await page.locator("section:has(.on-media)").count();
-        expect(heroCount, "route should render at least one media hero").toBeGreaterThan(0);
+        // Tag every direct parent of an .on-media overlay so axe can
+        // include just those hero/room containers, regardless of tag.
+        const containerCount = await page.evaluate(() => {
+          const overlays = Array.from(document.querySelectorAll(".on-media"));
+          const parents = new Set<Element>();
+          for (const el of overlays) {
+            if (el.parentElement) parents.add(el.parentElement);
+          }
+          let i = 0;
+          for (const p of parents) {
+            p.setAttribute("data-media-hero-scan", String(i++));
+          }
+          return parents.size;
+        });
+        expect(containerCount, "route should render at least one media hero").toBeGreaterThan(0);
 
         const results = await new AxeBuilder({ page })
-          .include("section:has(.on-media)")
+          .include("[data-media-hero-scan]")
           .withRules(["color-contrast"])
           .analyze();
 
